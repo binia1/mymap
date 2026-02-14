@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>효빈광역시 전자지도 (v3.4 역간거리 자동계산)</title>
+    <title>효빈광역시 전자지도 (v3.9 이미지 캡처)</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     
     <script src="hyobin_data.js"></script>
     <script src="hyobin_subway.js"></script>
@@ -53,6 +54,8 @@
         .map-btn:hover { background: #eee; }
         .active-btn { background: #333 !important; color: white !important; border-color: white !important; }
         #clear-btn { border-color: red; color: red; }
+        #unit-btn { border-color: #009900; color: #009900; }
+        #capture-btn { border-color: #881188; color: #881188; } /* 캡처 버튼 색상 */
 
         /* 지하철 선택 박스 */
         .subway-select {
@@ -77,6 +80,22 @@
         .color-option:last-child { border-bottom: none; }
         .color-option:hover { background: #f0f0f0; }
         .color-preview-small { width: 16px; height: 16px; border-radius: 3px; border: 1px solid #ccc; }
+
+        /* 노선 필터 박스 (노선도 모드 전용) */
+        .subway-filter-box {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #333; border-radius: 8px;
+            padding: 10px;
+            margin-top: 5px;
+            display: none; /* 기본 숨김 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            max-width: 220px;
+        }
+        .filter-title { font-weight: bold; font-size: 13px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        .filter-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+        .filter-item { font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .filter-color-dot { width: 10px; height: 10px; border-radius: 2px; }
+
 
         /* 모달창 */
         .modal-overlay {
@@ -140,11 +159,18 @@
         }
         .area-result-badge:hover { background-color: #eaffea; }
 
-        /* [NEW] 역간 거리 자동표시 뱃지 */
+        /* 역간 거리 자동표시 뱃지 */
         .auto-dist-badge {
             background: #fff; border: 1px solid #666; color: #555;
             font-size: 10px; font-weight: bold; padding: 1px 3px;
             border-radius: 3px; white-space: nowrap; opacity: 0.9;
+        }
+
+        /* 구역 면적 정보 뱃지 */
+        .area-info-badge {
+            background: rgba(255, 255, 255, 0.85); border: 1px solid #555; color: #000;
+            font-size: 10px; font-weight: bold; padding: 1px 4px;
+            border-radius: 3px; white-space: nowrap; pointer-events: none;
         }
     </style>
 </head>
@@ -159,7 +185,10 @@
     <div class="btn-group">
         <button id="draw-btn" class="map-btn" onclick="toggleDrawMode()">📏 선 그리기</button>
         <button id="area-btn" class="map-btn" onclick="toggleAreaMode()">📐 면적 측정</button>
+        <button id="unit-btn" class="map-btn" onclick="toggleUnit()">🔄 단위: km²</button>
         <button id="auto-dist-btn" class="map-btn" onclick="toggleAutoDistance()">📏 역간 거리(자동)</button>
+        <button id="auto-area-btn" class="map-btn" onclick="toggleDistrictArea()">📊 구역별 면적</button>
+        <button id="capture-btn" class="map-btn" onclick="downloadMapImage()">📸 지도 캡처</button>
         <button id="station-btn" class="map-btn" onclick="toggleStationMode()">🚉 역 추가</button>
         <button id="save-btn" class="map-btn" onclick="saveData()">💾 저장(JSON)</button>
         <button id="load-btn" class="map-btn" onclick="document.getElementById('file-input').click()">📂 열기</button>
@@ -169,6 +198,15 @@
     
     <input type="file" id="file-input" style="display: none;" accept=".json" onchange="loadData(this)">
     
+    <div id="subway-filter-box" class="subway-filter-box">
+        <div class="filter-title">
+            🚇 노선별 보기 
+            <button onclick="toggleAllSubwayFilters(true)" style="font-size:10px; cursor:pointer;">모두선택</button>
+            <button onclick="toggleAllSubwayFilters(false)" style="font-size:10px; cursor:pointer;">해제</button>
+        </div>
+        <div id="subway-filter-list" class="filter-list"></div>
+    </div>
+
     <select id="subway-select" class="subway-select" onchange="selectSubwayLine(this.value)">
         <option value="">🚇 도시철도 노선 선택...</option>
         <option value="1">🟦 1호선 (파랑)</option>
@@ -251,9 +289,12 @@
     var isDrawingMode = false;      
     var isStationMode = false;
     var isAreaMode = false;
-    var isAutoDistMode = false; // [NEW] 역간거리 자동 모드
+    var isAutoDistMode = false; 
+    var isDistrictAreaMode = false; 
+    var useKmUnit = true; 
+    
     var searchablePolygons = []; 
-    var tempClickLatLng = null;     
+    var tempClickLatLng = null;      
 
     var regionColors = [
         { name: "효빈시(대표)", code: "#7777aa" },
@@ -316,13 +357,21 @@
         label.appendChild(radio); label.appendChild(box); label.appendChild(text); paletteContainer.appendChild(label);
     });
 
-    var lineContainer = document.getElementById('station-lines-container');
+    // 노선 필터 목록 생성
+    var filterContainer = document.getElementById('subway-filter-list');
     for (const [key, val] of Object.entries(subwayLines)) {
         var label = document.createElement('label'); label.className = 'line-checkbox-label';
         var checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.value = key; checkbox.name = 'stationLine';
         var colorBox = document.createElement('div'); colorBox.className = 'line-color-box'; colorBox.style.backgroundColor = val.color;
         label.appendChild(checkbox); label.appendChild(colorBox); label.appendChild(document.createTextNode(val.name));
-        lineContainer.appendChild(label);
+        document.getElementById('station-lines-container').appendChild(label);
+
+        var filterItem = document.createElement('label'); filterItem.className = 'filter-item';
+        var fChk = document.createElement('input'); fChk.type = 'checkbox'; fChk.value = key; fChk.checked = true; fChk.name = 'subwayFilter';
+        fChk.onchange = applySubwayFilter; 
+        var fDot = document.createElement('div'); fDot.className = 'filter-color-dot'; fDot.style.backgroundColor = val.color;
+        filterItem.appendChild(fChk); filterItem.appendChild(fDot); filterItem.appendChild(document.createTextNode(val.name));
+        filterContainer.appendChild(filterItem);
     }
 
     function togglePaletteList() {
@@ -383,9 +432,99 @@
             resetAreaMode();
         }
     }
+
+    function toggleUnit() {
+        useKmUnit = !useKmUnit;
+        var btn = document.getElementById('unit-btn');
+        btn.innerHTML = useKmUnit ? "🔄 단위: km²" : "🔄 단위: m²";
+        if (isDistrictAreaMode) {
+            updateDistrictAreaLabels();
+        }
+    }
+
+    function formatArea(area) {
+        if (useKmUnit) {
+            return (area / 1000000).toFixed(2) + "km²";
+        } else {
+            return Math.round(area).toLocaleString() + "m²";
+        }
+    }
     
     // =========================================================
-    // ★ [NEW] 역간 거리 자동 계산 및 표시
+    // 구역별 면적 자동 계산 (레이어 연동)
+    // =========================================================
+    var districtAreaLabels = [];
+
+    function toggleDistrictArea() {
+        var btn = document.getElementById('auto-area-btn');
+        isDistrictAreaMode = !isDistrictAreaMode;
+
+        if (isDistrictAreaMode) {
+            btn.classList.add('active-btn');
+            updateDistrictAreaLabels();
+            alert("켜진 레이어(행정동/법정동 등)의 면적만 표시합니다.");
+        } else {
+            btn.classList.remove('active-btn');
+            clearDistrictAreaLabels();
+        }
+    }
+
+    function clearDistrictAreaLabels() {
+        districtAreaLabels.forEach(lbl => map.removeLayer(lbl));
+        districtAreaLabels = [];
+    }
+
+    function updateDistrictAreaLabels() {
+        clearDistrictAreaLabels();
+        if (!isDistrictAreaMode) return;
+
+        var showGugun = map.hasLayer(guGunLayer);
+        var showAdmin = map.hasLayer(adminLayer);
+        var showLegal = map.hasLayer(legalLayer);
+        var showDev   = map.hasLayer(devLayer);
+
+        if (!showGugun && !showAdmin && !showLegal && !showDev) return;
+
+        searchablePolygons.forEach(function(poly) {
+            var isVisible = false;
+            if (poly.type === 'gugun' && showGugun) isVisible = true;
+            else if (poly.type === 'admin' && showAdmin) isVisible = true;
+            else if (poly.type === 'legal' && showLegal) isVisible = true;
+            else if (poly.type === 'dev' && showDev) isVisible = true;
+
+            if (isVisible) {
+                var area = calculatePolygonArea(poly.points);
+                var areaStr = formatArea(area);
+                var center = L.polygon(poly.points).getBounds().getCenter();
+
+                var label = L.marker(center, {
+                    icon: L.divIcon({
+                        className: 'area-info-wrap',
+                        html: `<div class="area-info-badge">${areaStr}</div>`,
+                        iconSize: null,
+                        iconAnchor: [15, 0] 
+                    }),
+                    interactive: false
+                }).addTo(map);
+
+                districtAreaLabels.push(label);
+            }
+        });
+    }
+
+    function calculatePolygonArea(points) {
+        var areaSum = 0;
+        for (var i = 0; i < points.length; i++) {
+            var p1 = points[i];
+            var p2 = points[(i + 1) % points.length];
+            areaSum += (p1[1] * p2[0] - p2[1] * p1[0]);
+        }
+        return Math.abs(areaSum) / 2.0;
+    }
+
+
+    // =========================================================
+    // 역간 거리 자동 계산 및 표시
     // =========================================================
     var autoDistanceLabels = [];
 
@@ -395,9 +534,9 @@
 
         if (isAutoDistMode) {
             btn.classList.add('active-btn');
-            // 거리 계산 시작
             if (typeof subwayData !== 'undefined' && subwayData.lines) {
                 calculateAndShowDistances();
+                if(isSubwayMode) applySubwayFilter();
             } else {
                 alert("지하철 데이터가 없습니다.");
                 isAutoDistMode = false;
@@ -405,56 +544,44 @@
             }
         } else {
             btn.classList.remove('active-btn');
-            // 라벨 모두 삭제
             autoDistanceLabels.forEach(lbl => map.removeLayer(lbl));
             autoDistanceLabels = [];
         }
     }
 
     function calculateAndShowDistances() {
-        // 모든 지하철 역 가져오기
         var stations = allLandmarks.filter(m => m.type === 'subway');
         var linesData = subwayData.lines;
 
         linesData.forEach(line => {
-            // 1. 이 노선에 속한 역들 찾기
             var lineKey = Object.keys(subwayLines).find(key => subwayLines[key].name === line.name);
-            // 만약 이름이 정확히 안맞으면(예: 1호선 vs 1), 유연하게 매칭
             if (!lineKey) {
                 lineKey = Object.keys(subwayLines).find(key => line.name.includes(subwayLines[key].name) || subwayLines[key].name.includes(line.name));
             }
-            if (!lineKey) return; // 매칭 실패시 패스
+            if (!lineKey) return; 
 
             var lineStations = stations.filter(s => s.lines.includes(lineKey));
             if (lineStations.length < 2) return;
 
-            // 2. 선로(Polyline) 좌표 보정 적용
             var linePoints = line.points.map(p => [p[0] + adjustY, p[1]]);
 
-            // 3. 각 역을 선로상 가장 가까운 점의 인덱스로 매핑
             lineStations.forEach(st => {
                 st._lineIndex = findClosestPointIndex([st.lat, st.lng], linePoints);
             });
 
-            // 4. 인덱스 순서대로 정렬 (역 순서 파악)
             lineStations.sort((a, b) => a._lineIndex - b._lineIndex);
 
-            // 5. 인접한 역 사이의 거리 계산 및 표시
             for (var i = 0; i < lineStations.length - 1; i++) {
                 var st1 = lineStations[i];
                 var st2 = lineStations[i+1];
                 
-                // 선로를 따라가는 거리 계산
                 var dist = calculatePathDistance(linePoints, st1._lineIndex, st2._lineIndex);
                 
                 if (dist > 0) {
                     var distStr = (dist >= 1000) ? (dist/1000).toFixed(1) + "km" : Math.round(dist) + "m";
-                    
-                    // 중간 지점 찾기 (선로상 중간 인덱스)
                     var midIdx = Math.floor((st1._lineIndex + st2._lineIndex) / 2);
                     var midPoint = linePoints[midIdx];
 
-                    // 라벨 생성
                     var label = L.marker(midPoint, {
                         icon: L.divIcon({
                             className: 'auto-dist-wrap',
@@ -462,8 +589,10 @@
                             iconSize: null,
                             iconAnchor: [15, 0]
                         }),
-                        interactive: false // 클릭 방해 안되게
+                        interactive: false 
                     }).addTo(map);
+                    
+                    label.relatedLineId = lineKey;
                     autoDistanceLabels.push(label);
                 }
             }
@@ -471,7 +600,6 @@
         alert("모든 노선의 역간 거리를 계산하여 표시했습니다.");
     }
 
-    // 선로(점들)에서 특정 좌표와 가장 가까운 점의 인덱스 찾기
     function findClosestPointIndex(latlng, points) {
         var minDest = Infinity;
         var index = -1;
@@ -485,7 +613,6 @@
         return index;
     }
 
-    // 선로 점들의 인덱스 사이 누적 거리 계산
     function calculatePathDistance(points, idx1, idx2) {
         var dist = 0;
         var start = Math.min(idx1, idx2);
@@ -668,7 +795,7 @@
         processedDefaultLandmarks = defaultLandmarksData.map(function(m) {
             return {
                 name: m.name,
-                lat: m.lat + adjustY, // 여기서 보정!
+                lat: m.lat + adjustY, 
                 lng: m.lng,
                 color: m.color,
                 type: m.type
@@ -688,9 +815,14 @@
         if (subwayData.lines) {
             subwayData.lines.forEach(function(line) {
                 var correctedPoints = line.points.map(p => [p[0] + adjustY, p[1]]);
-                L.polyline(correctedPoints, { color: line.color, weight: 5, opacity: 0.8 })
-                .bindTooltip(line.name, { sticky: true })
-                .addTo(subwayLineLayer);
+                // [NEW] lineKey 찾아서 레이어에 심기 (필터링용)
+                var lineKey = Object.keys(subwayLines).find(key => subwayLines[key].name === line.name) || "";
+                if (!lineKey) lineKey = Object.keys(subwayLines).find(key => line.name.includes(subwayLines[key].name) || subwayLines[key].name.includes(line.name));
+                
+                var poly = L.polyline(correctedPoints, { color: line.color, weight: 5, opacity: 0.8 });
+                poly.bindTooltip(line.name, { sticky: true });
+                poly.lineCode = lineKey; // ID 저장
+                poly.addTo(subwayLineLayer);
             });
         }
     }
@@ -726,6 +858,10 @@
             marker = L.marker([item.lat, item.lng], {
                 icon: L.divIcon({ className: 'custom-station', html: iconHtml, iconSize: [width, 14], iconAnchor: [width/2, 7] })
             });
+
+            // [NEW] Marker 객체에 노선 정보 심기 (필터링용)
+            marker.lineCodes = lines;
+
         } else {
             marker = L.marker([item.lat, item.lng], { icon: createCustomIcon(item.color, size) });
         }
@@ -766,6 +902,7 @@
     // =========================================================
     var isDrawing = false; var drawPoints = []; var drawPolyline = null; var tempLine = null;
     var currentDrawMarkers = []; 
+    var areaPoints = []; var areaPolygon = null; var tempAreaLine = null;
     
     var myLines = JSON.parse(localStorage.getItem('hyobin_lines')) || [];
     myLines.forEach(lineData => { addLineToMap(lineData); });
@@ -973,13 +1110,7 @@
                 areaSum += (p1[1] * p2[0] - p2[1] * p1[0]); 
             }
             var finalArea = Math.abs(areaSum) / 2.0;
-            
-            var areaStr = "";
-            if (finalArea >= 1000000) {
-                areaStr = (finalArea / 1000000).toFixed(2) + " km²";
-            } else {
-                areaStr = Math.round(finalArea).toLocaleString() + " m²";
-            }
+            var areaStr = formatArea(finalArea); // 설정된 단위 사용
 
             var center = L.polygon(areaPoints).getBounds().getCenter();
             var resultMarker = L.marker(center, {
@@ -1001,6 +1132,8 @@
                 map.removeLayer(this);
                 if (this.linkedPolygon) map.removeLayer(this.linkedPolygon);
             });
+
+            areaPolygon = null; 
 
             resetAreaMode(); 
             return;
@@ -1092,6 +1225,35 @@
         alert("검색 결과를 찾을 수 없습니다.");
     }
 
+    function downloadMapImage() {
+        var btn = document.getElementById('capture-btn');
+        var originalText = btn.innerHTML;
+        btn.innerHTML = "📸 찰칵!...";
+
+        var controls = document.querySelector('.leaflet-control-container');
+        if(controls) controls.style.display = 'none';
+
+        html2canvas(document.getElementById('map'), {
+            allowTaint: true,
+            useCORS: true, 
+            logging: false,
+            scale: 2 
+        }).then(function(canvas) {
+            var link = document.createElement('a');
+            link.download = 'hyobin_map_capture.png';
+            link.href = canvas.toDataURL();
+            link.click();
+
+            if(controls) controls.style.display = 'block';
+            btn.innerHTML = originalText;
+            alert("지도 이미지가 다운로드되었습니다!");
+        }).catch(function(err) {
+            alert("캡처 중 오류가 발생했습니다: " + err);
+            if(controls) controls.style.display = 'block';
+            btn.innerHTML = originalText;
+        });
+    }
+
     function saveData() {
         if (myLandmarks.length === 0 && myLines.length === 0) { alert("저장할 데이터가 없습니다."); return; }
         
@@ -1156,11 +1318,13 @@
         var btn = document.getElementById('mode-btn');
         var mapDiv = document.getElementById('map');
         var backgroundLayers = [imageLayerGroup, guGunLayer, adminLayer, legalLayer, devLayer];
+        var filterBox = document.getElementById('subway-filter-box');
 
         if (isSubwayMode) {
             btn.innerHTML = "🗺️ 지도 모드"; 
             btn.classList.add('active-btn');
             mapDiv.style.backgroundColor = '#ffffff'; 
+            filterBox.style.display = 'block'; 
 
             savedLayerState = [];
             backgroundLayers.forEach(layer => {
@@ -1172,19 +1336,69 @@
 
             if (!map.hasLayer(subwayLineLayer)) map.addLayer(subwayLineLayer);
             if (!map.hasLayer(subwayStationLayer)) map.addLayer(subwayStationLayer);
-            alert("노선도만 깔끔하게 보여줍니다.");
+            alert("노선도만 깔끔하게 보여줍니다. (좌측 하단에서 노선별 필터링 가능)");
+            applySubwayFilter(); 
 
         } else {
             btn.innerHTML = "🚇 노선도 모드";
             btn.classList.remove('active-btn');
             mapDiv.style.backgroundColor = '#aaddff'; 
+            filterBox.style.display = 'none'; 
 
             savedLayerState.forEach(layer => {
                 if (!map.hasLayer(layer)) map.addLayer(layer);
             });
             if (!map.hasLayer(imageLayerGroup)) map.addLayer(imageLayerGroup);
+            
+            subwayLineLayer.eachLayer(layer => map.addLayer(layer));
+            subwayStationLayer.eachLayer(layer => map.addLayer(layer));
         }
     }
+
+    function toggleAllSubwayFilters(isChecked) {
+        var checkboxes = document.querySelectorAll('input[name="subwayFilter"]');
+        checkboxes.forEach(cb => cb.checked = isChecked);
+        applySubwayFilter();
+    }
+
+    function applySubwayFilter() {
+        if (!isSubwayMode) return;
+
+        var checkedLines = [];
+        document.querySelectorAll('input[name="subwayFilter"]:checked').forEach(cb => checkedLines.push(cb.value));
+
+        subwayLineLayer.eachLayer(function(layer) {
+            if (checkedLines.includes(layer.lineCode)) {
+                if (!map.hasLayer(layer)) map.addLayer(layer);
+            } else {
+                if (map.hasLayer(layer)) map.removeLayer(layer);
+            }
+        });
+
+        subwayStationLayer.eachLayer(function(marker) {
+            var stationLines = marker.lineCodes || [];
+            var isVisible = stationLines.some(code => checkedLines.includes(code));
+            
+            if (isVisible) {
+                if (!map.hasLayer(marker)) map.addLayer(marker);
+            } else {
+                if (map.hasLayer(marker)) map.removeLayer(marker);
+            }
+        });
+
+        if (isAutoDistMode) {
+            autoDistanceLabels.forEach(function(lbl) {
+                if (checkedLines.includes(lbl.relatedLineId)) {
+                    if (!map.hasLayer(lbl)) map.addLayer(lbl);
+                } else {
+                    if (map.hasLayer(lbl)) map.removeLayer(lbl);
+                }
+            });
+        }
+    }
+
+    map.on('overlayadd', function() { if(isDistrictAreaMode) updateDistrictAreaLabels(); });
+    map.on('overlayremove', function() { if(isDistrictAreaMode) updateDistrictAreaLabels(); });
 </script>
 </body>
 </html>
