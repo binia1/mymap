@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>효빈광역시 전자지도 (v4.0 반경 측정 추가)</title>
+    <title>효빈광역시 전자지도 (v4.2 데이터 통합 다운로드 & 면적보정)</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -56,7 +56,8 @@
         #clear-btn { border-color: red; color: red; }
         #unit-btn { border-color: #009900; color: #009900; }
         #capture-btn { border-color: #881188; color: #881188; }
-        #radius-btn { border-color: #FF007F; color: #FF007F; } /* [NEW] 반경 버튼 스타일 */
+        #radius-btn { border-color: #FF007F; color: #FF007F; }
+        #csv-btn { border-color: #008080; color: #008080; } 
 
         /* 지하철 선택 박스 */
         .subway-select {
@@ -185,8 +186,9 @@
     <div class="btn-group">
         <button id="draw-btn" class="map-btn" onclick="toggleDrawMode()">📏 선 그리기</button>
         <button id="area-btn" class="map-btn" onclick="toggleAreaMode()">📐 면적 측정</button>
-        <button id="radius-btn" class="map-btn" onclick="toggleRadiusMode()">⭕ 반경 측정</button> <button id="unit-btn" class="map-btn" onclick="toggleUnit()">🔄 단위: km²</button>
-        <button id="auto-dist-btn" class="map-btn" onclick="toggleAutoDistance()">📏 역간 거리(자동)</button>
+        <button id="radius-btn" class="map-btn" onclick="toggleRadiusMode()">⭕ 반경 측정</button>
+        <button id="unit-btn" class="map-btn" onclick="toggleUnit()">🔄 단위: km²</button>
+        <button id="csv-btn" class="map-btn" onclick="downloadAllDataCSV()">💾 데이터 저장(CSV)</button> <button id="auto-dist-btn" class="map-btn" onclick="toggleAutoDistance()">📏 역간 거리(자동)</button>
         <button id="auto-area-btn" class="map-btn" onclick="toggleDistrictArea()">📊 구역별 면적</button>
         <button id="capture-btn" class="map-btn" onclick="downloadMapImage()">📸 지도 캡처</button>
         <button id="station-btn" class="map-btn" onclick="toggleStationMode()">🚉 역 추가</button>
@@ -289,12 +291,14 @@
     var isDrawingMode = false;      
     var isStationMode = false;
     var isAreaMode = false;
-    var isRadiusMode = false; // [NEW] 반경 모드 변수
+    var isRadiusMode = false; 
     var isAutoDistMode = false; 
     var isDistrictAreaMode = false; 
     var useKmUnit = true; 
     
-    // [NEW] 반경 관련 변수
+    // 면적 데이터 저장용 배열
+    var measuredAreas = [];
+
     var tempRadiusCircle = null;
     var radiusCenter = null;
 
@@ -442,7 +446,6 @@
         }
     }
 
-    // [NEW] 반경 측정 모드 토글
     function toggleRadiusMode() {
         isDrawingMode = false; isStationMode = false; isAreaMode = false;
         document.getElementById('draw-btn').classList.remove('active-btn');
@@ -477,6 +480,17 @@
         }
     }
 
+    // [NEW] 면적 계산 보정 로직 (중구 유지, 나머지 1.41배)
+    function getWeightedArea(points, name) {
+        var rawArea = calculatePolygonArea(points);
+        // 이름에 '중구'가 포함되면 그대로, 아니면 1.37배
+        if (name && name.indexOf("중구") !== -1) {
+            return rawArea;
+        }
+        return rawArea * 1.41;
+    }
+
+    // 포맷팅 (보정된 area 값을 받아서 표시)
     function formatArea(area) {
         if (useKmUnit) {
             return (area / 1000000).toFixed(2) + "km²";
@@ -485,7 +499,6 @@
         }
     }
 
-    // 거리 포맷 (미터/킬로미터)
     function formatDistanceStr(dist) {
         if (dist >= 1000) {
             return (dist / 1000).toFixed(2) + "km";
@@ -493,6 +506,52 @@
         return Math.round(dist) + "m";
     }
     
+    // =========================================================
+    // ★ [NEW] 모든 데이터(행정구역 + 측정) CSV 다운로드
+    // =========================================================
+    function downloadAllDataCSV() {
+        if (measuredAreas.length === 0 && searchablePolygons.length === 0) {
+            alert("저장할 데이터가 없습니다.");
+            return;
+        }
+
+        // BOM 추가 (엑셀 한글 깨짐 방지)
+        var csvContent = "\uFEFF";
+        csvContent += "구분,이름/ID,면적(m²),면적(km²),비고\n";
+
+        // 1. 행정구역 데이터
+        searchablePolygons.forEach(function(poly) {
+            var area = getWeightedArea(poly.points, poly.name); // 1.41배 적용 확인
+            var m2 = Math.round(area);
+            var km2 = (area / 1000000).toFixed(4);
+            var typeName = (poly.type === 'gugun') ? "구/군" : 
+                           (poly.type === 'admin') ? "행정동" :
+                           (poly.type === 'legal') ? "법정동" : "기타";
+            
+            csvContent += `${typeName},${poly.name},${m2},${km2},행정구역 데이터\n`;
+        });
+
+        // 2. 직접 측정한 데이터
+        measuredAreas.forEach(function(item, index) {
+            // 직접 측정도 1.41배 적용 (중구가 아니라고 가정)
+            var area = item.area * 1.41; 
+            var m2 = Math.round(area);
+            var km2 = (area / 1000000).toFixed(4);
+            var time = new Date(item.id).toLocaleTimeString();
+            csvContent += `직접측정,측정영역 ${index + 1},${m2},${km2},${time}\n`;
+        });
+
+        var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        var link = document.createElement("a");
+        var url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "hyobin_area_data.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     // =========================================================
     // 구역별 면적 자동 계산 (레이어 연동)
     // =========================================================
@@ -536,7 +595,8 @@
             else if (poly.type === 'dev' && showDev) isVisible = true;
 
             if (isVisible) {
-                var area = calculatePolygonArea(poly.points);
+                // [NEW] 보정된 면적 함수 사용
+                var area = getWeightedArea(poly.points, poly.name);
                 var areaStr = formatArea(area);
                 var center = L.polygon(poly.points).getBounds().getCenter();
 
@@ -555,6 +615,7 @@
         });
     }
 
+    // 기본 면적 계산 (신발끈 공식)
     function calculatePolygonArea(points) {
         var areaSum = 0;
         for (var i = 0; i < points.length; i++) {
@@ -1198,7 +1259,15 @@
                 areaSum += (p1[1] * p2[0] - p2[1] * p1[0]); 
             }
             var finalArea = Math.abs(areaSum) / 2.0;
-            var areaStr = formatArea(finalArea); // 설정된 단위 사용
+            
+            // [NEW] 측정된 면적도 1.41배 보정 적용 (중구가 아니라고 가정)
+            var adjustedArea = finalArea * 1.41;
+            var areaStr = formatArea(adjustedArea); 
+
+            // 데이터 저장 (원본은 finalArea지만, 표시/저장 시 1.41배 적용)
+            var areaId = Date.now();
+            var areaObj = { id: areaId, points: areaPoints, area: finalArea }; // 원본 저장, 나중에 보정
+            measuredAreas.push(areaObj);
 
             var center = L.polygon(areaPoints).getBounds().getCenter();
             var resultMarker = L.marker(center, {
@@ -1210,15 +1279,19 @@
                 })
             }).addTo(map);
 
+            resultMarker.areaId = areaId; 
+
             resultMarker.on('dblclick', function() {
                 map.removeLayer(resultMarker);
                 map.removeLayer(areaPolygon);
+                measuredAreas = measuredAreas.filter(a => a.id !== this.areaId); 
             });
 
             resultMarker.linkedPolygon = areaPolygon;
             resultMarker.on('dblclick', function(e) {
                 map.removeLayer(this);
                 if (this.linkedPolygon) map.removeLayer(this.linkedPolygon);
+                measuredAreas = measuredAreas.filter(a => a.id !== this.areaId); 
             });
 
             areaPolygon = null; 
@@ -1227,7 +1300,6 @@
             return;
         }
 
-        // [NEW] 반경 모드 취소
         if (isRadiusMode) {
             if (tempRadiusCircle) map.removeLayer(tempRadiusCircle);
             tempRadiusCircle = null;
