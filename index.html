@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>효빈광역시 전자지도 (v3.9 이미지 캡처)</title>
+    <title>효빈광역시 전자지도 (v4.0 반경 측정 추가)</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -55,7 +55,8 @@
         .active-btn { background: #333 !important; color: white !important; border-color: white !important; }
         #clear-btn { border-color: red; color: red; }
         #unit-btn { border-color: #009900; color: #009900; }
-        #capture-btn { border-color: #881188; color: #881188; } /* 캡처 버튼 색상 */
+        #capture-btn { border-color: #881188; color: #881188; }
+        #radius-btn { border-color: #FF007F; color: #FF007F; } /* [NEW] 반경 버튼 스타일 */
 
         /* 지하철 선택 박스 */
         .subway-select {
@@ -81,13 +82,13 @@
         .color-option:hover { background: #f0f0f0; }
         .color-preview-small { width: 16px; height: 16px; border-radius: 3px; border: 1px solid #ccc; }
 
-        /* 노선 필터 박스 (노선도 모드 전용) */
+        /* 노선 필터 박스 */
         .subway-filter-box {
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid #333; border-radius: 8px;
             padding: 10px;
             margin-top: 5px;
-            display: none; /* 기본 숨김 */
+            display: none; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             max-width: 220px;
         }
@@ -95,7 +96,6 @@
         .filter-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
         .filter-item { font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
         .filter-color-dot { width: 10px; height: 10px; border-radius: 2px; }
-
 
         /* 모달창 */
         .modal-overlay {
@@ -185,7 +185,7 @@
     <div class="btn-group">
         <button id="draw-btn" class="map-btn" onclick="toggleDrawMode()">📏 선 그리기</button>
         <button id="area-btn" class="map-btn" onclick="toggleAreaMode()">📐 면적 측정</button>
-        <button id="unit-btn" class="map-btn" onclick="toggleUnit()">🔄 단위: km²</button>
+        <button id="radius-btn" class="map-btn" onclick="toggleRadiusMode()">⭕ 반경 측정</button> <button id="unit-btn" class="map-btn" onclick="toggleUnit()">🔄 단위: km²</button>
         <button id="auto-dist-btn" class="map-btn" onclick="toggleAutoDistance()">📏 역간 거리(자동)</button>
         <button id="auto-area-btn" class="map-btn" onclick="toggleDistrictArea()">📊 구역별 면적</button>
         <button id="capture-btn" class="map-btn" onclick="downloadMapImage()">📸 지도 캡처</button>
@@ -289,10 +289,15 @@
     var isDrawingMode = false;      
     var isStationMode = false;
     var isAreaMode = false;
+    var isRadiusMode = false; // [NEW] 반경 모드 변수
     var isAutoDistMode = false; 
     var isDistrictAreaMode = false; 
     var useKmUnit = true; 
     
+    // [NEW] 반경 관련 변수
+    var tempRadiusCircle = null;
+    var radiusCenter = null;
+
     var searchablePolygons = []; 
     var tempClickLatLng = null;      
 
@@ -389,8 +394,10 @@
         
         isStationMode = false;
         isAreaMode = false;
+        isRadiusMode = false;
         document.getElementById('station-btn').classList.remove('active-btn');
         document.getElementById('area-btn').classList.remove('active-btn');
+        document.getElementById('radius-btn').classList.remove('active-btn');
         document.getElementById('map').style.cursor = "default";
 
         if (!isDrawingMode) toggleDrawMode();
@@ -398,9 +405,10 @@
     }
 
     function toggleDrawMode() {
-        isStationMode = false; isAreaMode = false;
+        isStationMode = false; isAreaMode = false; isRadiusMode = false;
         document.getElementById('station-btn').classList.remove('active-btn');
         document.getElementById('area-btn').classList.remove('active-btn');
+        document.getElementById('radius-btn').classList.remove('active-btn');
 
         isDrawingMode = !isDrawingMode; 
         var btn = document.getElementById("draw-btn");
@@ -416,9 +424,10 @@
     }
 
     function toggleAreaMode() {
-        isDrawingMode = false; isStationMode = false;
+        isDrawingMode = false; isStationMode = false; isRadiusMode = false;
         document.getElementById('draw-btn').classList.remove('active-btn');
         document.getElementById('station-btn').classList.remove('active-btn');
+        document.getElementById('radius-btn').classList.remove('active-btn');
         resetDrawMode(); 
 
         isAreaMode = !isAreaMode;
@@ -430,6 +439,32 @@
             areaPoints = [];
         } else {
             resetAreaMode();
+        }
+    }
+
+    // [NEW] 반경 측정 모드 토글
+    function toggleRadiusMode() {
+        isDrawingMode = false; isStationMode = false; isAreaMode = false;
+        document.getElementById('draw-btn').classList.remove('active-btn');
+        document.getElementById('station-btn').classList.remove('active-btn');
+        document.getElementById('area-btn').classList.remove('active-btn');
+        resetDrawMode(); resetAreaMode();
+
+        isRadiusMode = !isRadiusMode;
+        var btn = document.getElementById("radius-btn");
+        if (isRadiusMode) {
+            btn.classList.add("active-btn");
+            btn.innerHTML = "⭕ 중심점 클릭";
+            document.getElementById("map").style.cursor = "crosshair";
+            radiusCenter = null;
+            tempRadiusCircle = null;
+        } else {
+            btn.classList.remove("active-btn");
+            btn.innerHTML = "⭕ 반경 측정";
+            document.getElementById("map").style.cursor = "default";
+            if (tempRadiusCircle) map.removeLayer(tempRadiusCircle);
+            tempRadiusCircle = null;
+            radiusCenter = null;
         }
     }
 
@@ -448,6 +483,14 @@
         } else {
             return Math.round(area).toLocaleString() + "m²";
         }
+    }
+
+    // 거리 포맷 (미터/킬로미터)
+    function formatDistanceStr(dist) {
+        if (dist >= 1000) {
+            return (dist / 1000).toFixed(2) + "km";
+        }
+        return Math.round(dist) + "m";
     }
     
     // =========================================================
@@ -625,7 +668,8 @@
 
 
     function toggleStationMode() {
-        resetDrawMode(); resetAreaMode();
+        resetDrawMode(); resetAreaMode(); isRadiusMode = false;
+        document.getElementById('radius-btn').classList.remove('active-btn');
         isStationMode = !isStationMode;
         var btn = document.getElementById("station-btn");
         if (isStationMode) {
@@ -1002,6 +1046,41 @@
             return;
         }
 
+        // [NEW] 반경 측정 모드
+        if (isRadiusMode) {
+            if (!radiusCenter) {
+                // 첫 클릭: 중심점 설정
+                radiusCenter = e.latlng;
+                tempRadiusCircle = L.circle(radiusCenter, { 
+                    radius: 0, 
+                    color: "#FF007F", 
+                    fillColor: "#FF007F", 
+                    fillOpacity: 0.2,
+                    weight: 2
+                }).addTo(map);
+            } else {
+                // 두번째 클릭: 확정
+                var dist = map.distance(radiusCenter, e.latlng);
+                tempRadiusCircle.setRadius(dist);
+                tempRadiusCircle.bindTooltip("반경: " + formatDistanceStr(dist), { 
+                    permanent: true, 
+                    direction: 'center', 
+                    className: 'dist-tooltip' 
+                }).openTooltip();
+
+                // 삭제 이벤트 등록 (더블 클릭)
+                tempRadiusCircle.on('dblclick', function(ev) {
+                    L.DomEvent.stopPropagation(ev);
+                    map.removeLayer(this);
+                });
+
+                // 초기화 (다음 반경을 위해)
+                radiusCenter = null; 
+                tempRadiusCircle = null;
+            }
+            return;
+        }
+
         if (isStationMode) {
             tempClickLatLng = { lat: Math.round(e.latlng.lat), lng: Math.round(e.latlng.lng) };
             openStationModal();
@@ -1052,6 +1131,15 @@
             var lastPoint = areaPoints[areaPoints.length - 1];
             if (tempAreaLine) map.removeLayer(tempAreaLine);
             tempAreaLine = L.polyline([lastPoint, e.latlng], { color: "#009900", dashArray: '5, 5', weight: 2 }).addTo(map);
+        }
+
+        // [NEW] 반경 그리기 중 미리보기
+        if (isRadiusMode && radiusCenter && tempRadiusCircle) {
+            var dist = map.distance(radiusCenter, e.latlng);
+            tempRadiusCircle.setRadius(dist);
+            // 툴팁 업데이트는 setRadius로 자동 갱신되지 않으므로 새로 바인딩하거나 내용을 바꿔야 함.
+            // 여기선 간단하게 팝업이나 툴팁을 임시로 띄움
+            tempRadiusCircle.bindTooltip("반경: " + formatDistanceStr(dist), {direction: 'center', className:'dist-tooltip'}).openTooltip();
         }
     });
 
@@ -1136,6 +1224,14 @@
             areaPolygon = null; 
 
             resetAreaMode(); 
+            return;
+        }
+
+        // [NEW] 반경 모드 취소
+        if (isRadiusMode) {
+            if (tempRadiusCircle) map.removeLayer(tempRadiusCircle);
+            tempRadiusCircle = null;
+            radiusCenter = null;
             return;
         }
 
@@ -1230,25 +1326,35 @@
         var originalText = btn.innerHTML;
         btn.innerHTML = "📸 찰칵!...";
 
+        // 캡처 시 컨트롤 패널 숨기기
         var controls = document.querySelector('.leaflet-control-container');
         if(controls) controls.style.display = 'none';
 
+        // [수정된 부분] 캡처 옵션 강화
         html2canvas(document.getElementById('map'), {
-            allowTaint: true,
-            useCORS: true, 
-            logging: false,
-            scale: 2 
+            allowTaint: true,   // 타 도메인 이미지 허용
+            useCORS: true,      // CORS 사용 (서버 필수)
+            logging: true,      // 로그로 에러 확인
+            scale: 2,           // 고화질
+            ignoreElements: (element) => {
+                // 혹시라도 캡처를 방해하는 요소를 제외하려면 여기에 추가
+                return false;
+            }
         }).then(function(canvas) {
+            // 이미지 다운로드 로직
             var link = document.createElement('a');
             link.download = 'hyobin_map_capture.png';
-            link.href = canvas.toDataURL();
+            link.href = canvas.toDataURL("image/png");
             link.click();
 
+            // 복구
             if(controls) controls.style.display = 'block';
             btn.innerHTML = originalText;
             alert("지도 이미지가 다운로드되었습니다!");
         }).catch(function(err) {
-            alert("캡처 중 오류가 발생했습니다: " + err);
+            console.error(err); // F12 콘솔에서 정확한 에러 확인 가능
+            alert("캡처 실패! (서버 환경에서 실행했는지 확인하세요)\n에러: " + err);
+            
             if(controls) controls.style.display = 'block';
             btn.innerHTML = originalText;
         });
