@@ -320,7 +320,9 @@
         { name: "기도군(덕빈)", code: "#01B7ED" },
         { name: "천주시(덕빈)", code: "#8B4993" },
         { name: "약산시(덕빈)", code: "#F8C8C4" },
-        { name: "덕현군(덕빈)", code: "#FF5800" }
+        { name: "덕현군(덕빈)", code: "#FF5800" },
+        { name: "치원군(덕빈)", code: "#aa7799" },
+        { name: "낭원군(덕빈)", code: "#485EC6" }
     ];
 
     function getColorByName(name) {
@@ -480,16 +482,33 @@
         }
     }
 
-    // [NEW] 면적 계산 보정 로직 (중구 유지, 나머지 1.41배)
+// [수정됨] 이름 확인 + 위치 자동 감지 로직 (중구 1.1배, 나머지 1.395배)
     function getWeightedArea(points, name) {
         var rawArea = calculatePolygonArea(points);
-        // 이름에 '중구'가 포함되면 그대로, 아니면 1.37배
+        
+        // 1. 이름에 '중구'가 직접 들어간 경우 (예: "중구", "중구청") -> 1.1배
         if (name && name.indexOf("중구") !== -1) {
-            return rawArea;
+            return rawArea * 1.05; 
         }
-        return rawArea * 1.41;
-    }
 
+        // 2. [핵심 기능] 이름에 중구가 없어도, 위치가 '중구' 땅 안이면 1.05배 적용
+        // 전체 구역 목록에서 '중구'라는 구(gugun) 폴리곤을 찾음
+        var jungGuPoly = searchablePolygons.find(p => p.name === "중구" && p.type === 'gugun');
+        
+        if (jungGuPoly) {
+            // 현재 측정하려는 구역의 중심점(Center)을 구함
+            var bounds = L.polygon(points).getBounds();
+            var center = bounds.getCenter();
+
+            // 중심점이 '중구' 폴리곤 안에 들어있다면 -> 중구 소속으로 판정
+            if (isPointInPolygon(center.lat, center.lng, jungGuPoly.points)) {
+                return rawArea * 1.05;
+            }
+        }
+
+        // 3. 이름도 중구가 아니고, 위치도 중구 밖이면 -> 1.395배
+        return rawArea * 1.395;
+    }
     // 포맷팅 (보정된 area 값을 받아서 표시)
     function formatArea(area) {
         if (useKmUnit) {
@@ -521,7 +540,7 @@
 
         // 1. 행정구역 데이터
         searchablePolygons.forEach(function(poly) {
-            var area = getWeightedArea(poly.points, poly.name); // 1.41배 적용 확인
+            var area = getWeightedArea(poly.points, poly.name); // 1.395배 적용 확인
             var m2 = Math.round(area);
             var km2 = (area / 1000000).toFixed(4);
             var typeName = (poly.type === 'gugun') ? "구/군" : 
@@ -533,8 +552,8 @@
 
         // 2. 직접 측정한 데이터
         measuredAreas.forEach(function(item, index) {
-            // 직접 측정도 1.41배 적용 (중구가 아니라고 가정)
-            var area = item.area * 1.41; 
+            // 직접 측정도 1.395배 적용 (중구가 아니라고 가정)
+            var area = item.area * 1.395; 
             var m2 = Math.round(area);
             var km2 = (area / 1000000).toFixed(4);
             var time = new Date(item.id).toLocaleTimeString();
@@ -855,7 +874,7 @@
             if (d.type === "legal") { targetLayer = legalLayer; layerType = "legal"; } 
             else if (d.type === "admin") { targetLayer = adminLayer; layerType = "admin"; } 
             else if (isNewTown) { targetLayer = devLayer; layerType = "dev"; } 
-            else if ((name.endsWith("구") || name.endsWith("군")) && !name.includes("읍") && !name.includes("면")) { targetLayer = guGunLayer; layerType = "gugun"; } 
+            else if ((name.endsWith("구") || name.endsWith("군")|| name.endsWith("시")) && !name.includes("읍") && !name.includes("면")) { targetLayer = guGunLayer; layerType = "gugun"; } 
             else if (name.includes("가") || name.endsWith("리") || name.includes("중앙로") || name === "훈동") { targetLayer = legalLayer; layerType = "legal"; } 
             else { targetLayer = adminLayer; layerType = "admin"; }
             
@@ -1162,7 +1181,7 @@
         if (!foundGugun && !foundAdmin && !foundLegal) { return; }
 
         var province = "효빈광역시";
-        if (foundGugun === "선곡군" || foundGugun === "기도군" || foundGugun === "덕현군") { province = "덕빈북도"; }
+        if (foundGugun === "선곡군" || foundGugun === "기도군" || foundGugun === "덕현군"|| foundGugun === "약산시"|| foundGugun === "낭원군"|| foundGugun === "치원군"|| foundGugun === "천주시") { province = "덕빈북도"; }
         if (foundGugun && (foundGugun.includes("천주시") || foundGugun.includes("약산시"))) { province = "덕빈북도"; }
 
         var fullAddress = province;
@@ -1260,11 +1279,11 @@
             }
             var finalArea = Math.abs(areaSum) / 2.0;
             
-            // [NEW] 측정된 면적도 1.41배 보정 적용 (중구가 아니라고 가정)
-            var adjustedArea = finalArea * 1.41;
+            // [NEW] 측정된 면적도 1.395배 보정 적용 (중구가 아니라고 가정)
+            var adjustedArea = finalArea * 1.395;
             var areaStr = formatArea(adjustedArea); 
 
-            // 데이터 저장 (원본은 finalArea지만, 표시/저장 시 1.41배 적용)
+            // 데이터 저장 (원본은 finalArea지만, 표시/저장 시 1.395배 적용)
             var areaId = Date.now();
             var areaObj = { id: areaId, points: areaPoints, area: finalArea }; // 원본 저장, 나중에 보정
             measuredAreas.push(areaObj);
