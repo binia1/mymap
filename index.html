@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>효빈광역시 전자지도 (v4.2 데이터 통합 다운로드 & 면적보정)</title>
+    <title>효빈광역시 전자지도 (v4.3 UI 개선 & 사용자 색상)</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -13,7 +13,7 @@
     <script src="hyobin_markers.js"></script> 
 
     <style>
-        body { margin: 0; background-color: #aaddff; font-family: 'Malgun Gothic', sans-serif; } 
+        body { margin: 0; background-color: #aaddff; font-family: 'Malgun Gothic', sans-serif; overflow: hidden; } 
         #map { width: 100vw; height: 100vh; cursor: default; }
         
         .leaflet-popup-content-wrapper { border-radius: 8px; text-align: center; }
@@ -26,13 +26,40 @@
             font-size: 14px; text-align: center; white-space: nowrap;
         }
 
-        /* 컨트롤 패널 */
+        /* 컨트롤 패널 (수정됨: 트랜지션 효과 추가) */
         .control-panel {
             position: absolute; top: 10px; left: 50px; z-index: 1000;
             display: flex; flex-direction: column; gap: 8px;
             max-height: 90vh;
+            transition: transform 0.3s ease-in-out; /* 부드러운 이동 효과 */
+            padding-right: 15px; /* 토글 버튼 공간 확보 */
         }
         
+        /* 패널이 숨겨졌을 때 클래스 */
+        .control-panel.collapsed {
+            transform: translateX(-110%); /* 왼쪽으로 숨김 */
+        }
+
+        /* 패널 토글 버튼 (신규 추가) */
+        .panel-toggle-btn {
+            position: absolute;
+            top: 0;
+            right: -25px; /* 패널 바깥쪽에 위치 */
+            width: 30px;
+            height: 30px;
+            background: #333;
+            color: white;
+            border: 2px solid white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .panel-toggle-btn:hover { background: #555; }
+
         /* 검색창 */
         .search-group { display: flex; gap: 5px; margin-bottom: 5px; }
         .search-input {
@@ -82,6 +109,14 @@
         .color-option:last-child { border-bottom: none; }
         .color-option:hover { background: #f0f0f0; }
         .color-preview-small { width: 16px; height: 16px; border-radius: 3px; border: 1px solid #ccc; }
+
+        /* 사용자 지정 색상 인풋 스타일 (신규) */
+        .custom-color-row {
+            display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 2px dashed #ccc; margin-bottom: 5px;
+        }
+        .custom-color-input {
+            border: none; width: 30px; height: 30px; cursor: pointer; background: none; padding: 0;
+        }
 
         /* 노선 필터 박스 */
         .subway-filter-box {
@@ -177,7 +212,9 @@
 </head>
 <body>
 
-<div class="control-panel">
+<div class="control-panel" id="main-control-panel">
+    <div class="panel-toggle-btn" onclick="toggleControlPanel()">◀</div>
+
     <div class="search-group">
         <input type="text" id="search-input" class="search-input" placeholder="장소, 역, 동 검색..." onkeypress="if(event.key==='Enter') searchLocation()">
         <button class="search-btn" onclick="searchLocation()">🔍</button>
@@ -188,7 +225,8 @@
         <button id="area-btn" class="map-btn" onclick="toggleAreaMode()">📐 면적 측정</button>
         <button id="radius-btn" class="map-btn" onclick="toggleRadiusMode()">⭕ 반경 측정</button>
         <button id="unit-btn" class="map-btn" onclick="toggleUnit()">🔄 단위: km²</button>
-        <button id="csv-btn" class="map-btn" onclick="downloadAllDataCSV()">💾 데이터 저장(CSV)</button> <button id="auto-dist-btn" class="map-btn" onclick="toggleAutoDistance()">📏 역간 거리(자동)</button>
+        <button id="csv-btn" class="map-btn" onclick="downloadAllDataCSV()">💾 데이터 저장(CSV)</button> 
+        <button id="auto-dist-btn" class="map-btn" onclick="toggleAutoDistance()">📏 역간 거리(자동)</button>
         <button id="auto-area-btn" class="map-btn" onclick="toggleDistrictArea()">📊 구역별 면적</button>
         <button id="capture-btn" class="map-btn" onclick="downloadMapImage()">📸 지도 캡처</button>
         <button id="station-btn" class="map-btn" onclick="toggleStationMode()">🚉 역 추가</button>
@@ -232,7 +270,12 @@
             </div>
             <span id="toggle-icon">▼</span>
         </div>
-        <div id="palette-list"></div>
+        <div id="palette-list">
+            <div class="custom-color-row">
+                <input type="color" id="custom-color-input" class="custom-color-input" value="#ff0000" onchange="setCustomColor(this.value)">
+                <span style="font-size:12px; font-weight:bold;">🎨 사용자 지정 색상</span>
+            </div>
+            </div>
     </div>
 </div>
 
@@ -353,6 +396,35 @@
     function updateHeaderPreview(color) { document.getElementById('current-color-preview').style.backgroundColor = color; }
     updateHeaderPreview(currentSelectedColor);
 
+    // =========================================================
+    // ★ [NEW] 사용자 지정 색상 처리
+    // =========================================================
+    function setCustomColor(color) {
+        currentSelectedColor = color;
+        updateHeaderPreview(color);
+        // 라디오 버튼 선택 해제
+        var radios = document.getElementsByName('drawColor');
+        radios.forEach(r => r.checked = false);
+        
+        document.getElementById('subway-select').value = "";
+    }
+
+    // =========================================================
+    // ★ [NEW] 컨트롤 패널 토글 로직
+    // =========================================================
+    function toggleControlPanel() {
+        var panel = document.getElementById('main-control-panel');
+        var btn = document.querySelector('.panel-toggle-btn');
+        
+        panel.classList.toggle('collapsed');
+        
+        if (panel.classList.contains('collapsed')) {
+            btn.innerHTML = "▶"; // 펼치기 아이콘
+        } else {
+            btn.innerHTML = "◀"; // 숨기기 아이콘
+        }
+    }
+
     var paletteContainer = document.getElementById('palette-list');
     regionColors.forEach((rc, index) => {
         var label = document.createElement('label'); label.className = 'color-option';
@@ -362,6 +434,7 @@
             currentSelectedColor = rc.code; 
             updateHeaderPreview(rc.code);
             document.getElementById('subway-select').value = "";
+            // 사용자 지정 색상 인풋 값은 굳이 안 바꿔도 됨
         };
         var box = document.createElement('div'); box.className = 'color-preview-small'; box.style.backgroundColor = rc.code;
         var text = document.createTextNode(rc.name);
@@ -640,7 +713,7 @@
         for (var i = 0; i < points.length; i++) {
             var p1 = points[i];
             var p2 = points[(i + 1) % points.length];
-            areaSum += (p1[1] * p2[0] - p2[1] * p1[0]);
+            var areaSum = areaSum + (p1[1] * p2[0] - p2[1] * p1[0]);
         }
         return Math.abs(areaSum) / 2.0;
     }
