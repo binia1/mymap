@@ -266,6 +266,7 @@
         <button id="load-btn" class="map-btn" onclick="document.getElementById('file-input').click()">📂 열기</button>
         <button id="clear-btn" class="map-btn" onclick="clearAllData()">🗑️ 초기화</button>
         <button id="mode-btn" class="map-btn" onclick="toggleSubwayMode()">🚇 노선도 모드</button>
+    <button id="grid-capture-btn" class="map-btn" onclick="captureSpecificGrid()">🔲 그리드 캡처</button>
     </div>
     
     <input type="file" id="file-input" style="display: none;" accept=".json" onchange="loadData(this)">
@@ -1032,7 +1033,8 @@ function setCustomColor(color) {
     var devLayer = L.layerGroup();      
     var subwayLineLayer = L.layerGroup(); 
     var subwayStationLayer = L.layerGroup(); 
-
+    var normalMarkerLayer = L.layerGroup().addTo(map);
+    var gridLayer = L.layerGroup();
     if (typeof districtData !== 'undefined') {
         districtData.forEach(function(d) {
             var color = d.color || getColorByName(d.name);
@@ -1066,14 +1068,54 @@ function setCustomColor(color) {
             L.marker(center, { icon: L.divIcon({ className: 'district-label', html: name.split('(')[0], iconSize: [120, 20], iconAnchor: [60, 10] }) }).addTo(targetLayer);
         });
     }
+var gridLayer = L.layerGroup(); 
+var gridWidth = 2000;  // 가로 크기를 2000으로 변경
+var gridHeight = 1500; // 세로 크기를 1500으로 변경
+var gridCells = {}; 
+var gridNum = 1;
 
+// 1. 세로 선 그리기 (X축으로 가로 크기만큼 이동)
+for (var x = 0; x <= totalWidth; x += gridWidth) {
+    L.polyline([[0, x], [-totalHeight, x]], { color: 'gray', weight: 1, opacity: 0.4, dashArray: '5, 5', interactive: false }).addTo(gridLayer);
+}
+
+// 2. 가로 선 그리기 (Y축으로 세로 크기만큼 이동)
+for (var y = 0; y >= -totalHeight; y -= gridHeight) {
+    L.polyline([[y, 0], [y, totalWidth]], { color: 'gray', weight: 1, opacity: 0.4, dashArray: '5, 5', interactive: false }).addTo(gridLayer);
+}
+
+// 3. 그리드 번호 달기 및 좌표 저장
+for (var y = 0; y > -totalHeight; y -= gridHeight) {
+    for (var x = 0; x < totalWidth; x += gridWidth) {
+        // 사각형 영역 계산 (세로 높이, 가로 너비 각각 적용)
+        var bounds = [[y - gridHeight, x], [y, x + gridWidth]]; 
+        // 정중앙 좌표 계산
+        var center = [y - gridHeight / 2, x + gridWidth / 2];   
+
+        // 지도 중앙에 번호 표시
+        L.marker(center, {
+            icon: L.divIcon({
+                className: 'grid-number-label',
+                html: `<div style="color:gray; font-size:30px; font-weight:bold; opacity:0.6; text-align:center;">${gridNum}</div>`,
+                iconSize: [50, 50],
+                iconAnchor: [25, 25]
+            }),
+            interactive: false 
+        }).addTo(gridLayer);
+        
+        gridCells[gridNum] = bounds; 
+        gridNum++;
+    }
+}
 var overlays = { 
         "🏙️ 구/군 (상위)": guGunLayer,
         "🏢 행정 읍/면/동": adminLayer,
         "촘촘 법정 동/리": legalLayer,
         "🏗️ 개발지구": devLayer,
         "🛤️ 도시/일반철도 노선": subwayLineLayer,
-        "🚉 도시/일반철도 역": subwayStationLayer
+        "🚉 도시/일반철도 역": subwayStationLayer,
+        "📍 일반 마커": normalMarkerLayer,
+"📏 2000x1500 그리드": gridLayer
     };
     L.control.layers(null, overlays, { collapsed: false }).addTo(map);
 
@@ -1165,7 +1207,7 @@ var myLandmarks = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
         if (item.type === 'subway') {
             marker.addTo(subwayStationLayer); 
         } else {
-            marker.addTo(map); 
+            marker.addTo(normalMarkerLayer); 
         }
         
         marker.myColor = item.color; 
@@ -1765,7 +1807,97 @@ function searchLocation() {
         };
         reader.readAsText(file);
     }
+// =========================================================
+// ★ 특정 그리드 캡처 기능 (주변 여백 & 크기 완벽 해결판)
+// =========================================================
+function captureSpecificGrid() {
+    var numStr = prompt("캡처할 그리드 번호를 입력하세요 (1 ~ " + (gridNum - 1) + "):");
+    if (!numStr) return;
+    
+    var num = parseInt(numStr);
+    if (!gridCells[num]) {
+        alert("존재하지 않는 그리드 번호입니다.");
+        return;
+    }
 
+    var btn = document.getElementById('grid-capture-btn');
+    var originalText = btn.innerHTML;
+    btn.innerHTML = "📸 화면 고정 중...";
+
+    // 1. 방해 요소 숨기기 (메뉴, 번호)
+    var controls = document.querySelector('.leaflet-control-container');
+    if (controls) controls.style.display = 'none';
+    var numberLabels = document.querySelectorAll('.grid-number-label');
+    numberLabels.forEach(function(l) { l.style.display = 'none'; });
+
+    var mapDiv = document.getElementById('map');
+
+    // 2. 현재 지도 상태 백업 (다 찍고 되돌리기 위해)
+    var originalCssText = mapDiv.style.cssText; 
+    var originalCenter = map.getCenter();
+    var originalZoom = map.getZoom();
+
+    // 3. 🌟핵심: 지도 화면 창 자체를 2000x1500으로 강제 변신!🌟
+    // 이렇게 하면 모니터 크기와 상관없이 주변 여백이 생길 공간 자체가 사라짐
+    mapDiv.style.position = 'fixed';
+    mapDiv.style.top = '0px';
+    mapDiv.style.left = '0px';
+    mapDiv.style.width = gridWidth + 'px';
+    mapDiv.style.height = gridHeight + 'px';
+    mapDiv.style.zIndex = '9999';
+    mapDiv.style.margin = '0';
+    mapDiv.style.padding = '0';
+
+    // 바뀐 크기 지도에 적용
+    map.invalidateSize(false);
+
+    // 4. 강제로 1:1 비율(zoom: 0)로 그리드 정중앙에 카메라 맞추기
+    var bounds = gridCells[num];
+    var centerY = (bounds[0][0] + bounds[1][0]) / 2;
+    var centerX = (bounds[0][1] + bounds[1][1]) / 2;
+    
+    map.setView([centerY, centerX], 0, { animate: false });
+
+    btn.innerHTML = "📸 찰칵!...";
+
+    // 5. 화면이 바뀔 시간을 주고 캡처 실행 (화면이 잠깐 이상해 보여도 정상임!)
+    setTimeout(function() {
+        html2canvas(mapDiv, {
+            allowTaint: true,
+            useCORS: true,
+            scale: 1, // 화면 자체를 크게 키웠으니 배율은 1배로!
+            width: gridWidth,
+            height: gridHeight,
+            backgroundColor: "#aaddff" // 바다 배경색 유지
+        }).then(function(canvas) {
+            // 이미지 다운로드
+            var link = document.createElement('a');
+            link.download = 'hyobin_grid_' + num + '.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+
+            // 6. 모든 걸 원래대로 되돌리기
+            restoreMap();
+            alert(num + "번 그리드 캡처 완료!");
+
+        }).catch(function(err) {
+            console.error(err);
+            alert("캡처 실패: " + err);
+            restoreMap();
+        });
+    }, 1500); // 맵 타일 불러올 시간 넉넉하게 1.5초 대기
+
+    // 원상 복구용 함수
+    function restoreMap() {
+        mapDiv.style.cssText = originalCssText || 'width: 100vw; height: 100vh;';
+        map.invalidateSize(false);
+        map.setView(originalCenter, originalZoom, { animate: false });
+
+        if (controls) controls.style.display = 'block';
+        numberLabels.forEach(function(l) { l.style.display = 'block'; });
+        btn.innerHTML = originalText;
+    }
+}
     function clearAllData() { 
         if(confirm("모든 사용자 데이터를 삭제하고 초기화하시겠습니까?")) { 
             localStorage.removeItem('hyobin_markers'); 
