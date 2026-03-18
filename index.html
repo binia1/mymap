@@ -239,7 +239,20 @@
         .search-result-item:last-child { border-bottom: none; }
         .search-type-badge {
             font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-right: 8px; color: white; white-space: nowrap;
-        }    
+        }  
+          /* 레이어 선택창을 무조건 맨 앞으로 끌어올리기 */
+.leaflet-control-layers {
+    z-index: 1500 !important; 
+    margin-right: 20px !important;
+    margin-top: 20px !important;
+    background: white !important;
+    border: 2px solid #333 !important;
+}
+
+/* 컨트롤 박스 전체 숨김 해제 */
+.leaflet-control-container {
+    display: block !important;
+}
 </style>
 </head>
 <body>
@@ -267,7 +280,9 @@
         <button id="load-btn" class="map-btn" onclick="document.getElementById('file-input').click()">📂 열기</button>
         <button id="clear-btn" class="map-btn" onclick="clearAllData()">🗑️ 초기화</button>
         <button id="mode-btn" class="map-btn" onclick="toggleSubwayMode()">🚇 노선도 모드</button>
-    <button id="grid-capture-btn" class="map-btn" onclick="captureSpecificGrid()">🔲 그리드 캡처</button>
+    <button id="intersect-btn" class="map-btn" onclick="findIntersections()">❌ 교차점 찾기</button>
+        <button id="grid-capture-btn" class="map-btn" onclick="captureSpecificGrid()">🔲 그리드 캡처</button>
+        <button id="road-csv-btn" class="map-btn" onclick="downloadRoadDataCSV()" style="border-color: #ff9922; color: #ff9922;">🛣️ 도로 데이터 추출</button>
     </div>
     
     <input type="file" id="file-input" style="display: none;" accept=".json" onchange="loadData(this)">
@@ -987,16 +1002,16 @@ function setCustomColor(color) {
         [null, null, null, 36, 36, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 45, null],
         [null, null, null, 36, 36, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 45, null],
         [null, null, null, 7, 7, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 45, null],
-        [null, null, null, 7, 7, null, null, null, null, null, null, null, null, null, null, 41, 42, 42, 43, 45, 52],
-        [null, null, null, 8, 8, 11, 15, 19, 23, 28, 33, 34, 38, 39, 40, 41, 42, 42, 43, 44, 52],
-        [null, null, null, 8, 8, 11, 15, 19, 23, 28, 33, 34, 38, 39, 40, 49, 42, 42, 43, 44, 52],
+        [null, null, null, 7, 7, null, null, null, null, null, 33, 33, null, null, null, 41, 42, 42, 43, 45, 52],
+        [null, null, null, 8, 8, 11, 15, 19, 23, 28, 33, 33, 38, 39, 40, 41, 42, 42, 43, 44, 52],
+        [null, null, null, 8, 8, 11, 15, 19, 23, 28, 33, 33, 38, 39, 40, 49, 42, 42, 43, 44, 52],
         [0, 1, null, null, 9, 12, 16, 20, 24, 29, 31, 35, 38, 39, 40, 49, null, null, null, null, null],
         [0, 1, 3, 5, 9, 12, 16, 20, 24, 29, 31, 35, 38, 39, 40, 49, null, null, null, null, null],
         [0, 1, 3, 5, 10, 13, 17, 21, 25, 30, 32, 35, null, null, null, null, null, null, null, null, null],
         [null, 2, 2, 6, 10, 13, 17, 21, 25, 30, 32, null, null, null, null, null, null, null, null, null, null],
-        [null, 2, 2, 6, 10, 14, 18, 22, 26, null, null, null, null, null, null, null, null, null, null, null, null],
-        [null, 4, 4, 6, null, 14, 18, 22, 26, null, null, null, null, null, null, null, null, null, null, null, null],
-        [null, 4, 4, null, null, null, null, 22, 26, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, 2, 2, 6, 10, 14, 22, 22, 26, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, 4, 4, 6, null, 14, 22, 22, 26, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, 4, 4, null, null, null, 22, 22, 26, null, null, null, null, null, null, null, null, null, null, null, null],
         [null, 4, 4, null, null, null, null, 27, 27, null, null, null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
     ];
@@ -1132,14 +1147,15 @@ var myLandmarks = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
     var allLandmarks = processedDefaultLandmarks.concat(myLandmarks);
 
     if (typeof subwayData !== 'undefined') {
-        if (subwayData.markers) {
-            subwayData.markers.forEach(m => { 
-                m.lat += adjustY; 
-                // ★ 지하철 데이터에 '역'이 없으면 붙이기
-                if (!m.name.endsWith('역')) m.name += '역'; 
-            });
-            allLandmarks = allLandmarks.concat(subwayData.markers);
-        }
+if (subwayData.markers) {
+    var processedSubwayMarkers = subwayData.markers.map(m => {
+        var newName = m.name;
+        if (!newName.endsWith('역')) newName += '역';
+        // 원본 m을 건드리지 않고 새로운 객체를 리턴합니다.
+        return Object.assign({}, m, { name: newName, lat: m.lat + adjustY });
+    });
+    allLandmarks = allLandmarks.concat(processedSubwayMarkers);
+}
         if (subwayData.lines) {
             subwayData.lines.forEach(function(line) {
                 var correctedPoints = line.points.map(p => [p[0] + adjustY, p[1]]);
@@ -1243,21 +1259,8 @@ var roadLayer = L.layerGroup();
             }
         });
     }
-var overlays = { 
-        "🏙️ 구/군 (상위)": guGunLayer,
-        "🏢 행정 읍/면/동": adminLayer,
-        "촘촘 법정 동/리": legalLayer,
-        "🏗️ 개발지구": devLayer,
-        "🛤️ 도시/일반철도 노선": subwayLineLayer,
-        "🚉 도시/일반철도 역": subwayStationLayer,
-        "📍 일반 마커": normalMarkerLayer,
-"📏 2000x1500 그리드": gridLayer,        
-"🛣️ 주요 도로망": roadLayer
 
-    };
-    L.control.layers(null, overlays, { collapsed: false }).addTo(map);
-
-    // =========================================================
+// =========================================================
     // 6. 클릭 이벤트 및 그리기 로직 (거리 꼬리표 + 클릭시 상세 + 면적)
     // =========================================================
     var isDrawing = false; var drawPoints = []; var drawPolyline = null; var tempLine = null;
@@ -1331,9 +1334,10 @@ var overlays = {
     }
 
     map.on('click', function(e) {
-if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchHighlightLayer.clearLayers();
+        if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchHighlightLayer.clearLayers();
         var resultBox = document.getElementById('search-result-list');
         if(resultBox) resultBox.style.display = 'none';
+        
         // [선 그리기 모드]
         if (isDrawingMode) {
             var lat = Math.round(e.latlng.lat); 
@@ -1368,7 +1372,6 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
         // [NEW] 반경 측정 모드
         if (isRadiusMode) {
             if (!radiusCenter) {
-                // 첫 클릭: 중심점 설정
                 radiusCenter = e.latlng;
                 tempRadiusCircle = L.circle(radiusCenter, { 
                     radius: 0, 
@@ -1378,7 +1381,6 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
                     weight: 2
                 }).addTo(map);
             } else {
-                // 두번째 클릭: 확정
                 var dist = map.distance(radiusCenter, e.latlng);
                 tempRadiusCircle.setRadius(dist);
                 tempRadiusCircle.bindTooltip("반경: " + formatDistanceStr(dist), { 
@@ -1387,13 +1389,11 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
                     className: 'dist-tooltip' 
                 }).openTooltip();
 
-                // 삭제 이벤트 등록 (더블 클릭)
                 tempRadiusCircle.on('dblclick', function(ev) {
                     L.DomEvent.stopPropagation(ev);
                     map.removeLayer(this);
                 });
 
-                // 초기화 (다음 반경을 위해)
                 radiusCenter = null; 
                 tempRadiusCircle = null;
             }
@@ -1452,12 +1452,9 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
             tempAreaLine = L.polyline([lastPoint, e.latlng], { color: "#009900", dashArray: '5, 5', weight: 2 }).addTo(map);
         }
 
-        // [NEW] 반경 그리기 중 미리보기
         if (isRadiusMode && radiusCenter && tempRadiusCircle) {
             var dist = map.distance(radiusCenter, e.latlng);
             tempRadiusCircle.setRadius(dist);
-            // 툴팁 업데이트는 setRadius로 자동 갱신되지 않으므로 새로 바인딩하거나 내용을 바꿔야 함.
-            // 여기선 간단하게 팝업이나 툴팁을 임시로 띄움
             tempRadiusCircle.bindTooltip("반경: " + formatDistanceStr(dist), {direction: 'center', className:'dist-tooltip'}).openTooltip();
         }
     });
@@ -1485,28 +1482,44 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
     }
 
     // =========================================================
-    // 7. 마커 및 모달 처리
+    // 7. 마커 및 모달 처리 (+ 도로 시종점 행정구역 추가)
     // =========================================================
     var tempMarkerData = null;
     map.on('contextmenu', function(e) {
-        if (isDrawingMode) {
+        // [수정됨] 도로 시종점 행정구역 표시 기능
+if (isDrawingMode) {
             if (drawPoints.length > 1) {
-                var totalDistance = 0; for(var i=0; i<drawPoints.length-1; i++) totalDistance += map.distance(drawPoints[i], drawPoints[i+1]);
-                var defaultName = "";
-                var selectedSubwayVal = document.getElementById('subway-select').value;
-                if(selectedSubwayVal) defaultName = subwayLines[selectedSubwayVal].name;
+                var totalDistance = 0; 
+                for(var i=0; i<drawPoints.length-1; i++) totalDistance += map.distance(drawPoints[i], drawPoints[i+1]);
                 
-                var lineName = prompt(`총 거리: ${Math.round(totalDistance)}m\n\n이 선을 저장하려면 이름을 입력하세요.`, defaultName);
+                // ★ 경유하는 모든 행정구역 리스트 가져오기
+                var passingDistricts = getPathDistricts(drawPoints);
+                var startAddress = passingDistricts[0] || "미지정";
+                var endAddress = passingDistricts[passingDistricts.length - 1] || "미지정";
+
+                var promptMsg = `📏 총 거리: ${Math.round(totalDistance)}m\n`;
+                promptMsg += `🚩 경유지: ${passingDistricts.join(" → ")}\n\n`;
+                promptMsg += `이 도로를 저장하려면 이름을 입력하세요.`;
+
+                var lineName = prompt(promptMsg, "");
                 if (lineName) {
-                    var newLine = { name: lineName, points: drawPoints, color: currentSelectedColor };
-                    myLines.push(newLine); localStorage.setItem('hyobin_lines', JSON.stringify(myLines));
-                    addLineToMap(newLine); alert("저장되었습니다!");
+                    var newLine = { 
+                        name: lineName, 
+                        points: drawPoints, 
+                        color: currentSelectedColor,
+                        startAddr: startAddress,
+                        endAddr: endAddress,
+                        passing: passingDistricts // 경유지 정보도 데이터에 포함
+                    };
+                    myLines.push(newLine); 
+                    localStorage.setItem('hyobin_lines', JSON.stringify(myLines));
+                    addLineToMap(newLine); 
+                    alert("도로 데이터가 저장되었습니다!");
                 }
             }
             resetDrawMode(); 
             return;
         }
-
         if (isAreaMode) {
             if (areaPoints.length < 3) { alert("면적을 측정하려면 최소 3개의 점이 필요합니다."); return; }
             
@@ -1517,14 +1530,11 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
                 areaSum += (p1[1] * p2[0] - p2[1] * p1[0]); 
             }
             var finalArea = Math.abs(areaSum) / 2.0;
-            
-            // [NEW] 측정된 면적도 1.395배 보정 적용 (중구가 아니라고 가정)
             var adjustedArea = finalArea * 1.395;
             var areaStr = formatArea(adjustedArea); 
 
-            // 데이터 저장 (원본은 finalArea지만, 표시/저장 시 1.395배 적용)
             var areaId = Date.now();
-            var areaObj = { id: areaId, points: areaPoints, area: finalArea }; // 원본 저장, 나중에 보정
+            var areaObj = { id: areaId, points: areaPoints, area: finalArea }; 
             measuredAreas.push(areaObj);
 
             var center = L.polygon(areaPoints).getBounds().getCenter();
@@ -1553,7 +1563,6 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
             });
 
             areaPolygon = null; 
-
             resetAreaMode(); 
             return;
         }
@@ -1593,11 +1602,10 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
         document.getElementById('station-modal').style.display = 'flex';
     }
 
- function confirmAddStation() {
+    function confirmAddStation() {
         var name = document.getElementById('station-name-input').value.trim();
         if (!name) { alert("역 이름을 입력하세요."); return; }
 
-        // ★ 새로 역을 추가할 때 이름 끝에 '역'이 없으면 자동으로 붙임 (서울역역 방지)
         if (!name.endsWith('역')) name += '역';
 
         var checkedBoxes = document.querySelectorAll('input[name="stationLine"]:checked');
@@ -1614,10 +1622,8 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
     // =========================================================
     // 8. 검색, 파일관리, 노선도 모드
     // =========================================================
-// 검색 하이라이트를 담을 전역 변수
     var searchHighlightLayer = null;
 
-    // 전체 주소 반환 함수
     function getFullAddress(lat, lng) {
         var foundGugun = null; var foundAdmin = null; var foundLegal = null;
         searchablePolygons.forEach(function(poly) {
@@ -1642,8 +1648,8 @@ if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchH
         return fullAddress;
     }
 
-    // 완전히 새로 짠 다중 검색 함수
-function searchLocation() {
+// 완전히 새로 짠 다중 검색 함수 (경고창 숨김 기능 추가)
+    function searchLocation(isAuto = false) {
         var input = document.getElementById('search-input').value.trim();
         var resultBox = document.getElementById('search-result-list');
         
@@ -1659,7 +1665,8 @@ function searchLocation() {
         var targetPolys = searchablePolygons.filter(p => p.name && p.name.includes(input));
 
         if (targetMarkers.length === 0 && targetPolys.length === 0) {
-            alert("검색 결과를 찾을 수 없습니다.");
+            // ★ 사람이 직접 검색버튼을 누른 게 아닐 때(자동검색일 때)는 경고창을 띄우지 않음!
+            if (!isAuto) alert("검색 결과를 찾을 수 없습니다."); 
             resultBox.style.display = 'none';
             return;
         }
@@ -1697,7 +1704,6 @@ function searchLocation() {
         resultBox.style.display = 'block';
     }
 
-    // 리스트에서 항목을 클릭했을 때 실행되는 함수
     function selectSearchResult(type, index) {
         document.getElementById('search-result-list').style.display = 'none';
         if (!searchHighlightLayer) searchHighlightLayer = L.layerGroup().addTo(map);
@@ -1722,14 +1728,12 @@ function searchLocation() {
             map.fitBounds(polyBounds, { maxZoom: -1 });
             highlight.openPopup();
             
-} else if (type === 'marker') {
+        } else if (type === 'marker') {
             var target = currentSearchResults.markers[index];
             if (target.type === 'subway' && !map.hasLayer(subwayStationLayer)) map.addLayer(subwayStationLayer);
             
-            // [추가] 마커의 좌표로 전체 행정구역 주소 가져오기
             var fullAddr = getFullAddress(target.lat, target.lng);
             
-            // [수정] 팝업에 이름과 주소를 보기 좋게 합침
             var popupContent = `<div style="font-size:14px; text-align:center; padding:3px;">
                                 <b style="font-size:16px;">${target.name}</b><br>
                                 <hr style="margin:5px 0; border:0; border-top:1px solid #ccc;">
@@ -1746,33 +1750,28 @@ function searchLocation() {
         var originalText = btn.innerHTML;
         btn.innerHTML = "📸 찰칵!...";
 
-        // 캡처 시 컨트롤 패널 숨기기
         var controls = document.querySelector('.leaflet-control-container');
         if(controls) controls.style.display = 'none';
 
-        // [수정된 부분] 캡처 옵션 강화
         html2canvas(document.getElementById('map'), {
-            allowTaint: true,   // 타 도메인 이미지 허용
-            useCORS: true,      // CORS 사용 (서버 필수)
-            logging: true,      // 로그로 에러 확인
-            scale: 2,           // 고화질
+            allowTaint: true,
+            useCORS: true,
+            logging: true,
+            scale: 2,
             ignoreElements: (element) => {
-                // 혹시라도 캡처를 방해하는 요소를 제외하려면 여기에 추가
                 return false;
             }
         }).then(function(canvas) {
-            // 이미지 다운로드 로직
             var link = document.createElement('a');
             link.download = 'hyobin_map_capture.png';
             link.href = canvas.toDataURL("image/png");
             link.click();
 
-            // 복구
             if(controls) controls.style.display = 'block';
             btn.innerHTML = originalText;
             alert("지도 이미지가 다운로드되었습니다!");
         }).catch(function(err) {
-            console.error(err); // F12 콘솔에서 정확한 에러 확인 가능
+            console.error(err);
             alert("캡처 실패! (서버 환경에서 실행했는지 확인하세요)\n에러: " + err);
             
             if(controls) controls.style.display = 'block';
@@ -1783,10 +1782,7 @@ function searchLocation() {
     function saveData() {
         if (myLandmarks.length === 0 && myLines.length === 0) { alert("저장할 데이터가 없습니다."); return; }
         
-        var data = {
-            markers: myLandmarks,
-            lines: myLines
-        };
+        var data = { markers: myLandmarks, lines: myLines };
         var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
         var url = URL.createObjectURL(blob);
         var a = document.createElement("a");
@@ -1826,97 +1822,86 @@ function searchLocation() {
         };
         reader.readAsText(file);
     }
-// =========================================================
-// ★ 특정 그리드 캡처 기능 (주변 여백 & 크기 완벽 해결판)
-// =========================================================
-function captureSpecificGrid() {
-    var numStr = prompt("캡처할 그리드 번호를 입력하세요 (1 ~ " + (gridNum - 1) + "):");
-    if (!numStr) return;
-    
-    var num = parseInt(numStr);
-    if (!gridCells[num]) {
-        alert("존재하지 않는 그리드 번호입니다.");
-        return;
-    }
 
-    var btn = document.getElementById('grid-capture-btn');
-    var originalText = btn.innerHTML;
-    btn.innerHTML = "📸 화면 고정 중...";
+    function captureSpecificGrid() {
+        var numStr = prompt("캡처할 그리드 번호를 입력하세요 (1 ~ " + (gridNum - 1) + "):");
+        if (!numStr) return;
+        
+        var num = parseInt(numStr);
+        if (!gridCells[num]) {
+            alert("존재하지 않는 그리드 번호입니다.");
+            return;
+        }
 
-    // 1. 방해 요소 숨기기 (메뉴, 번호)
-    var controls = document.querySelector('.leaflet-control-container');
-    if (controls) controls.style.display = 'none';
-    var numberLabels = document.querySelectorAll('.grid-number-label');
-    numberLabels.forEach(function(l) { l.style.display = 'none'; });
+        var btn = document.getElementById('grid-capture-btn');
+        var originalText = btn.innerHTML;
+        btn.innerHTML = "📸 화면 고정 중...";
 
-    var mapDiv = document.getElementById('map');
+        var controls = document.querySelector('.leaflet-control-container');
+        if (controls) controls.style.display = 'none';
+        var numberLabels = document.querySelectorAll('.grid-number-label');
+        numberLabels.forEach(function(l) { l.style.display = 'none'; });
 
-    // 2. 현재 지도 상태 백업 (다 찍고 되돌리기 위해)
-    var originalCssText = mapDiv.style.cssText; 
-    var originalCenter = map.getCenter();
-    var originalZoom = map.getZoom();
+        var mapDiv = document.getElementById('map');
 
-    // 3. 🌟핵심: 지도 화면 창 자체를 2000x1500으로 강제 변신!🌟
-    // 이렇게 하면 모니터 크기와 상관없이 주변 여백이 생길 공간 자체가 사라짐
-    mapDiv.style.position = 'fixed';
-    mapDiv.style.top = '0px';
-    mapDiv.style.left = '0px';
-    mapDiv.style.width = gridWidth + 'px';
-    mapDiv.style.height = gridHeight + 'px';
-    mapDiv.style.zIndex = '9999';
-    mapDiv.style.margin = '0';
-    mapDiv.style.padding = '0';
+        var originalCssText = mapDiv.style.cssText; 
+        var originalCenter = map.getCenter();
+        var originalZoom = map.getZoom();
 
-    // 바뀐 크기 지도에 적용
-    map.invalidateSize(false);
+        mapDiv.style.position = 'fixed';
+        mapDiv.style.top = '0px';
+        mapDiv.style.left = '0px';
+        mapDiv.style.width = gridWidth + 'px';
+        mapDiv.style.height = gridHeight + 'px';
+        mapDiv.style.zIndex = '9999';
+        mapDiv.style.margin = '0';
+        mapDiv.style.padding = '0';
 
-    // 4. 강제로 1:1 비율(zoom: 0)로 그리드 정중앙에 카메라 맞추기
-    var bounds = gridCells[num];
-    var centerY = (bounds[0][0] + bounds[1][0]) / 2;
-    var centerX = (bounds[0][1] + bounds[1][1]) / 2;
-    
-    map.setView([centerY, centerX], 0, { animate: false });
-
-    btn.innerHTML = "📸 찰칵!...";
-
-    // 5. 화면이 바뀔 시간을 주고 캡처 실행 (화면이 잠깐 이상해 보여도 정상임!)
-    setTimeout(function() {
-        html2canvas(mapDiv, {
-            allowTaint: true,
-            useCORS: true,
-            scale: 1, // 화면 자체를 크게 키웠으니 배율은 1배로!
-            width: gridWidth,
-            height: gridHeight,
-            backgroundColor: "#aaddff" // 바다 배경색 유지
-        }).then(function(canvas) {
-            // 이미지 다운로드
-            var link = document.createElement('a');
-            link.download = 'hyobin_grid_' + num + '.png';
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-
-            // 6. 모든 걸 원래대로 되돌리기
-            restoreMap();
-            alert(num + "번 그리드 캡처 완료!");
-
-        }).catch(function(err) {
-            console.error(err);
-            alert("캡처 실패: " + err);
-            restoreMap();
-        });
-    }, 1500); // 맵 타일 불러올 시간 넉넉하게 1.5초 대기
-
-    // 원상 복구용 함수
-    function restoreMap() {
-        mapDiv.style.cssText = originalCssText || 'width: 100vw; height: 100vh;';
         map.invalidateSize(false);
-        map.setView(originalCenter, originalZoom, { animate: false });
 
-        if (controls) controls.style.display = 'block';
-        numberLabels.forEach(function(l) { l.style.display = 'block'; });
-        btn.innerHTML = originalText;
+        var bounds = gridCells[num];
+        var centerY = (bounds[0][0] + bounds[1][0]) / 2;
+        var centerX = (bounds[0][1] + bounds[1][1]) / 2;
+        
+        map.setView([centerY, centerX], 0, { animate: false });
+
+        btn.innerHTML = "📸 찰칵!...";
+
+        setTimeout(function() {
+            html2canvas(mapDiv, {
+                allowTaint: true,
+                useCORS: true,
+                scale: 1, 
+                width: gridWidth,
+                height: gridHeight,
+                backgroundColor: "#aaddff" 
+            }).then(function(canvas) {
+                var link = document.createElement('a');
+                link.download = 'hyobin_grid_' + num + '.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+
+                restoreMap();
+                alert(num + "번 그리드 캡처 완료!");
+
+            }).catch(function(err) {
+                console.error(err);
+                alert("캡처 실패: " + err);
+                restoreMap();
+            });
+        }, 1500); 
+
+        function restoreMap() {
+            mapDiv.style.cssText = originalCssText || 'width: 100vw; height: 100vh;';
+            map.invalidateSize(false);
+            map.setView(originalCenter, originalZoom, { animate: false });
+
+            if (controls) controls.style.display = 'block';
+            numberLabels.forEach(function(l) { l.style.display = 'block'; });
+            btn.innerHTML = originalText;
+        }
     }
-}
+    
     function clearAllData() { 
         if(confirm("모든 사용자 데이터를 삭제하고 초기화하시겠습니까?")) { 
             localStorage.removeItem('hyobin_markers'); 
@@ -2015,30 +2000,34 @@ function captureSpecificGrid() {
 
     map.on('overlayadd', function() { if(isDistrictAreaMode) updateDistrictAreaLabels(); });
     map.on('overlayremove', function() { if(isDistrictAreaMode) updateDistrictAreaLabels(); });
-    // =========================================================
-    // ★ [NEW] 부모 창(위키) 제목을 읽어서 자동 포커스 (노가다 방지)
+
+// =========================================================
+    // ★ [NEW] 꼬리표(?name=) 확인 및 부모 창 제목 읽어서 자동 포커스
     // =========================================================
     window.addEventListener('DOMContentLoaded', function() {
         try {
-            // 1. 지도를 품고 있는 부모 창(위키 문서)의 탭 제목을 몰래 읽어옴
-            // 예: 위키 탭 제목이 "고송대로 - 효빈위키" 라고 가정
-            var parentTitle = window.parent.document.title; 
+            var targetName = null;
 
-            // 2. 제목에서 쓸데없는 위키 이름 떼어내고 진짜 '장소 이름'만 추출
-            // 만약 위키 제목이 "고송대로 - 효빈위키"라면 ' -' 를 기준으로 잘라서 앞부분만 씀
-            // (시장님의 위키 제목 형식에 맞춰서 split 안의 글자를 수정해줘!)
-            var targetName = parentTitle.split(' -')[0].replace(' 문서', '').trim();
+            // 1. URL 꼬리표 파라미터가 있는지 먼저 확인 (예: ?name=효빈대학교)
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('name')) {
+                targetName = urlParams.get('name');
+            } 
+            // 2. 꼬리표가 없고, 지도가 위키 문서(iframe) 안에 쏙 들어가 있을 때만 제목 읽기
+            else if (window !== window.parent) {
+                var parentTitle = window.parent.document.title; 
+                targetName = parentTitle.split(' -')[0].replace(' 문서', '').trim();
+            }
 
+            // 3. 찾을 이름이 발견되었다면 조용히 자동 검색 실행!
             if (targetName) {
-                // 3. 검색창에 이름 자동 입력
                 var searchInput = document.getElementById('search-input');
                 if(searchInput) searchInput.value = targetName;
 
-                // 4. 지도가 다 그려질 시간을 잠깐 주고 검색 실행
                 setTimeout(function() {
-                    searchLocation(); 
-
-                    // 5. 검색 결과 리스트가 뜨면 첫 번째 결과 자동 클릭!
+                    // searchLocation에 true를 넣어서 '자동 검색'임을 알려줌 (경고창 안 띄움)
+                    searchLocation(true); 
+                    
                     setTimeout(function() {
                         var firstResult = document.querySelector('.search-result-item');
                         if (firstResult) {
@@ -2048,10 +2037,192 @@ function captureSpecificGrid() {
                 }, 500);
             }
         } catch (error) {
-            // 보안 문제(CORS)로 부모 창을 못 읽을 때를 대비한 에러 처리 (지도가 고장나지 않게 함)
-            console.log("부모 창의 제목을 읽을 수 없습니다. URL 파라미터 방식을 권장합니다.");
+            console.log("부모 창 접근 차단됨 (URL 파라미터 방식을 사용하세요).");
         }
     });
-</script>
+// =========================================================
+    // ★ [수정본] 교차점 찾기 & 경로 분석 로직
+    // =========================================================
+
+    // 1. 선분 교차점 계산 함수 (수학적 계산)
+    function getIntersection(p1, p2, p3, p4) {
+        var x1 = p1[0], y1 = p1[1], x2 = p2[0], y2 = p2[1];
+        var x3 = p3[0], y3 = p3[1], x4 = p4[0], y4 = p4[1];
+
+        var denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        if (denom === 0) return null; 
+
+        var t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+        var u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+
+        if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+            return [x1 + t * (x2 - x1), y1 + t * (y2 - y1)];
+        }
+        return null;
+    }
+
+    var intersectionMarkers = [];
+
+    // 2. 모든 도로의 교차점을 찾아 마커 표시
+    function findIntersections() {
+        if (intersectionMarkers.length > 0) {
+            intersectionMarkers.forEach(m => map.removeLayer(m));
+            intersectionMarkers = [];
+            document.getElementById('intersect-btn').classList.remove('active-btn');
+            return;
+        }
+
+        document.getElementById('intersect-btn').classList.add('active-btn');
+        var foundCount = 0;
+        
+        // 데이터 원본에 따라 좌표를 미리 보정해서 리스트업
+        var normalizedLines = [];
+
+        // 파일 도로 데이터 보정 (Raw -> Map)
+        if (typeof roadData !== 'undefined') {
+            roadData.forEach(l => {
+                normalizedLines.push({
+                    name: l.name,
+                    points: l.points.map(p => [p[0] + adjustY, p[1]])
+                });
+            });
+        }
+        // 내가 그린 도로는 이미 보정되어 있으므로 그대로 추가
+        myLines.forEach(l => {
+            normalizedLines.push({ name: l.name, points: l.points });
+        });
+
+        // 보정된 데이터끼리 비교
+        for (var i = 0; i < normalizedLines.length; i++) {
+            for (var j = i + 1; j < normalizedLines.length; j++) {
+                var line1 = normalizedLines[i];
+                var line2 = normalizedLines[j];
+
+                for (var a = 0; a < line1.points.length - 1; a++) {
+                    for (var b = 0; b < line2.points.length - 1; b++) {
+                        var intersect = getIntersection(line1.points[a], line1.points[a+1], line2.points[b], line2.points[b+1]);
+
+                        if (intersect) {
+                            foundCount++;
+                            var marker = L.circleMarker(intersect, {
+                                radius: 6, color: 'white', fillColor: 'red', fillOpacity: 1, weight: 2
+                            }).addTo(map);
+                            marker.bindTooltip(`교차점: ${line1.name} X ${line2.name}`);
+                            intersectionMarkers.push(marker);
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (foundCount > 0) alert(`총 ${foundCount}개의 교차점을 찾았습니다!`);
+        else {
+            alert("교차하는 도로가 없습니다.");
+            document.getElementById('intersect-btn').classList.remove('active-btn');
+        }
+    }
+
+    // 3. 도로가 지나는 모든 행정구역 추출 (isRaw 옵션 추가)
+    // points: 좌표배열, isRaw: 파일데이터(원본)라면 true, 직접그린거면 false
+    function getPathDistricts(points, isRaw = false) {
+        let districts = new Set();
+        
+        points.forEach(p => {
+            // 원본 좌표일 경우에만 adjustY를 더해서 행정구역 폴리곤 좌표와 맞춤
+            let checkLat = isRaw ? p[0] + adjustY : p[0];
+            let addr = getFullAddress(checkLat, p[1]);
+            if (addr) districts.add(addr);
+        });
+
+        // 중간 지점 검사로 누락 방지
+        for (let i = 0; i < points.length - 1; i++) {
+            let midLat = (points[i][0] + points[i+1][0]) / 2;
+            let midLng = (points[i][1] + points[i+1][1]) / 2;
+            let checkMidLat = isRaw ? midLat + adjustY : midLat;
+            
+            let midAddr = getFullAddress(checkMidLat, midLng);
+            if (midAddr) districts.add(midAddr);
+        }
+
+        return Array.from(districts);
+    }
+    var overlays = { 
+        "🏙️ 구/군 (상위)": guGunLayer,
+        "🏢 행정 읍/면/동": adminLayer,
+        "촘촘 법정 동/리": legalLayer,
+        "🏗️ 개발지구": devLayer,
+        "🛤️ 도시/일반철도 노선": subwayLineLayer,
+        "🚉 도시/일반철도 역": subwayStationLayer,
+        "📍 일반 마커": normalMarkerLayer,
+"📏 2000x1500 그리드": gridLayer,        
+"🛣️ 주요 도로망": roadLayer
+
+    };
+    L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+
+// 2. 도로 데이터 전용 CSV 다운로드 함수 (길이, 시종점 추가 완벽 버전)
+function downloadRoadDataCSV() {
+    let allLines = [];
+
+    // 파일 도로 데이터 보정 후 추가 (Raw -> Map)
+    if (typeof roadData !== 'undefined') {
+        roadData.forEach(l => {
+            allLines.push({
+                name: l.name,
+                color: l.color,
+                startAddr: l.startAddr || '', // 기존에 저장된 값이 있으면 쓰고 없으면 냅둠
+                endAddr: l.endAddr || '',
+                // 원본 좌표에 adjustY를 더해 보정 좌표로 통일
+                points: l.points.map(p => [p[0] + adjustY, p[1]])
+            });
+        });
+    }
+
+    // 내가 그린 도로는 이미 보정되어 있으므로 그대로 추가
+    allLines = allLines.concat(myLines);
+
+    if (allLines.length === 0) {
+        alert("저장된 도로 데이터가 없습니다.");
+        return;
+    }
+
+    let csvContent = "\uFEFF"; // 엑셀 한글 깨짐 방지
+    // ★ 헤더에 도로 길이, 시작지점, 종착지점 추가!
+    csvContent += "도로명,색상,도로 길이,시작지점,종착지점,경유 행정구역,좌표데이터\n";
+
+    allLines.forEach(line => {
+        // 1. 도로 길이 계산 (map.distance 활용)
+        let totalDist = 0;
+        for(let i = 0; i < line.points.length - 1; i++) {
+            totalDist += map.distance(line.points[i], line.points[i+1]);
+        }
+        let lengthStr = Math.round(totalDist) + "m";
+
+        // 2. 시작지점 / 종착지점 자동 계산
+        // 이미 데이터에 startAddr/endAddr가 있으면 그걸 쓰고, 없으면 첫 좌표와 끝 좌표로 주소 따오기
+        let firstPt = line.points[0];
+        let lastPt = line.points[line.points.length - 1];
+        
+        let calculatedStart = getFullAddress(firstPt[0], firstPt[1]) || "미지정";
+        let calculatedEnd = getFullAddress(lastPt[0], lastPt[1]) || "미지정";
+        
+        let finalStart = line.startAddr || calculatedStart;
+        let finalEnd = line.endAddr || calculatedEnd;
+
+        // 3. 경유 행정구역 및 좌표 문자열 변환
+        let passing = getPathDistricts(line.points).join(" | ");
+        let coords = line.points.map(p => `[${p[0]},${p[1]}]`).join("; ");
+
+        // CSV 형식에 맞게 콤마 처리하여 한 줄씩 추가
+        csvContent += `"${line.name}","${line.color}","${lengthStr}","${finalStart}","${finalEnd}","${passing}","${coords}"\n`;
+    });
+
+    let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "hyobin_road_analysis.csv";
+    link.click();
+}
+    </script>
 </body>
 </html>
