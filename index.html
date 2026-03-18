@@ -11,6 +11,7 @@
     <script src="hyobin_data.js"></script>
     <script src="hyobin_subway.js"></script>
     <script src="hyobin_markers.js"></script> 
+    <script src="hyobin_roads.js"></script>
 
     <style>
         body { margin: 0; background-color: #aaddff; font-family: 'Malgun Gothic', sans-serif; overflow: hidden; } 
@@ -1107,17 +1108,6 @@ for (var y = 0; y > -totalHeight; y -= gridHeight) {
         gridNum++;
     }
 }
-var overlays = { 
-        "🏙️ 구/군 (상위)": guGunLayer,
-        "🏢 행정 읍/면/동": adminLayer,
-        "촘촘 법정 동/리": legalLayer,
-        "🏗️ 개발지구": devLayer,
-        "🛤️ 도시/일반철도 노선": subwayLineLayer,
-        "🚉 도시/일반철도 역": subwayStationLayer,
-        "📍 일반 마커": normalMarkerLayer,
-"📏 2000x1500 그리드": gridLayer
-    };
-    L.control.layers(null, overlays, { collapsed: false }).addTo(map);
 
     // =========================================================
     // 5. 마커 데이터 통합 (파일에서 불러와서 좌표 보정)
@@ -1164,7 +1154,23 @@ var myLandmarks = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
             });
         }
     }
+var roadLayer = L.layerGroup(); 
 
+    if (typeof roadData !== 'undefined') {
+        roadData.forEach(function(road) {
+            // 기존 마커/노선처럼 좌표 자동 보정 적용 (Y축)
+            var correctedPoints = road.points.map(p => [p[0] + adjustY, p[1]]);
+            
+            var poly = L.polyline(correctedPoints, { 
+                color: road.color || '#777777', 
+                weight: road.weight || 4,       
+                opacity: 0.8 
+            });
+            
+            poly.bindTooltip("🛣️ " + road.name, { sticky: true });
+            poly.addTo(roadLayer);
+        });
+    }
     var activeMarkers = [];
     allLandmarks.forEach(item => addMarkerToMap(item));
     function calculateSize(zoom) { return Math.max(baseMarkerSize + (zoom * sizeMultiplier), minMarkerSize); }
@@ -1237,6 +1243,19 @@ var myLandmarks = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
             }
         });
     }
+var overlays = { 
+        "🏙️ 구/군 (상위)": guGunLayer,
+        "🏢 행정 읍/면/동": adminLayer,
+        "촘촘 법정 동/리": legalLayer,
+        "🏗️ 개발지구": devLayer,
+        "🛤️ 도시/일반철도 노선": subwayLineLayer,
+        "🚉 도시/일반철도 역": subwayStationLayer,
+        "📍 일반 마커": normalMarkerLayer,
+"📏 2000x1500 그리드": gridLayer,        
+"🛣️ 주요 도로망": roadLayer
+
+    };
+    L.control.layers(null, overlays, { collapsed: false }).addTo(map);
 
     // =========================================================
     // 6. 클릭 이벤트 및 그리기 로직 (거리 꼬리표 + 클릭시 상세 + 면적)
@@ -1996,6 +2015,43 @@ function captureSpecificGrid() {
 
     map.on('overlayadd', function() { if(isDistrictAreaMode) updateDistrictAreaLabels(); });
     map.on('overlayremove', function() { if(isDistrictAreaMode) updateDistrictAreaLabels(); });
+    // =========================================================
+    // ★ [NEW] 부모 창(위키) 제목을 읽어서 자동 포커스 (노가다 방지)
+    // =========================================================
+    window.addEventListener('DOMContentLoaded', function() {
+        try {
+            // 1. 지도를 품고 있는 부모 창(위키 문서)의 탭 제목을 몰래 읽어옴
+            // 예: 위키 탭 제목이 "고송대로 - 효빈위키" 라고 가정
+            var parentTitle = window.parent.document.title; 
+
+            // 2. 제목에서 쓸데없는 위키 이름 떼어내고 진짜 '장소 이름'만 추출
+            // 만약 위키 제목이 "고송대로 - 효빈위키"라면 ' -' 를 기준으로 잘라서 앞부분만 씀
+            // (시장님의 위키 제목 형식에 맞춰서 split 안의 글자를 수정해줘!)
+            var targetName = parentTitle.split(' -')[0].replace(' 문서', '').trim();
+
+            if (targetName) {
+                // 3. 검색창에 이름 자동 입력
+                var searchInput = document.getElementById('search-input');
+                if(searchInput) searchInput.value = targetName;
+
+                // 4. 지도가 다 그려질 시간을 잠깐 주고 검색 실행
+                setTimeout(function() {
+                    searchLocation(); 
+
+                    // 5. 검색 결과 리스트가 뜨면 첫 번째 결과 자동 클릭!
+                    setTimeout(function() {
+                        var firstResult = document.querySelector('.search-result-item');
+                        if (firstResult) {
+                            firstResult.click();
+                        }
+                    }, 300);
+                }, 500);
+            }
+        } catch (error) {
+            // 보안 문제(CORS)로 부모 창을 못 읽을 때를 대비한 에러 처리 (지도가 고장나지 않게 함)
+            console.log("부모 창의 제목을 읽을 수 없습니다. URL 파라미터 방식을 권장합니다.");
+        }
+    });
 </script>
 </body>
 </html>
