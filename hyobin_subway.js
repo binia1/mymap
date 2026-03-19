@@ -106,6 +106,8 @@ var subwayData = {
     { "name": "신산", "lat": -79, "lng": 15501, "type": "subway", "lines": ["3"] },
     { "name": "중만도", "lat": -1248, "lng": 15462, "type": "subway", "lines": ["3"] },
     { "name": "토모리해수욕장", "lat": -2319, "lng": 15690, "type": "subway", "lines": ["3"] },
+    { "name": "청엽역", "lat": -10868, "lng": 22309, "type": "subway", "lines": ["3"] },
+
     { "name": "송덕", "lat": -3998, "lng": 15294, "type": "subway", "lines": ["3"] },
     { "name": "과진", "lat": -5338, "lng": 16464, "type": "subway", "lines": ["3"] },
     { "name": "고속버스터미널", "lat": -7958, "lng": 20003, "type": "subway", "lines": ["3", "5"] },

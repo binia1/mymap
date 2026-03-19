@@ -284,6 +284,7 @@
         <button id="grid-capture-btn" class="map-btn" onclick="captureSpecificGrid()">🔲 그리드 캡처</button>
         <button id="intersect-csv-btn" class="map-btn" onclick="downloadIntersectionCSV()" style="border-color: #EE0022; color: #EE0022;">❌ 교차로 데이터 추출</button>
         <button id="road-csv-btn" class="map-btn" onclick="downloadRoadDataCSV()" style="border-color: #ff9922; color: #ff9922;">🛣️ 도로 데이터 추출</button>
+   <button id="marker-csv-btn" class="map-btn" onclick="downloadMarkerDataCSV()" style="border-color: #0077DD; color: #0077DD;">📍 마커 데이터 추출</button>
     </div>
     
     <input type="file" id="file-input" style="display: none;" accept=".json" onchange="loadData(this)">
@@ -2211,12 +2212,13 @@ function clearAllData() {
         if (clusters.length > 0) alert(`교차로 탐색 완료!`);
     }
 
-// [콤보 박스 모달 제어 함수 - 추천 알고리즘 대폭 강화]
+// [콤보 박스 모달 제어 함수 - 추천 알고리즘 대폭 강화 (삼거리, 오거리, 로터리 등)]
     function openIntersectNameModal(marker, cluster, currentName) {
         currentIntersectMarker = marker;
         currentIntersectData = { lat: Math.round(cluster.lat), lng: Math.round(cluster.lng) };
 
-        let defaultRoads = Array.from(cluster.roadNames).join(" X ");
+        let roadArray = Array.from(cluster.roadNames);
+        let defaultRoads = roadArray.join(" X ");
         let defaultInfo = document.getElementById('intersect-default-info');
         
         let input = document.getElementById('intersect-name-input');
@@ -2233,7 +2235,10 @@ function clearAllData() {
 
         let suggestions = [];
         
-        // 1. 랜드마크 기반 맞춤형 추천 (반경 1200px로 조금 더 넓게 탐색)
+        // 0. 겹치는 도로 개수에 따른 자동 판별 (도로가 3개 이상 겹치면 오거리/육거리/로터리 우선 추천)
+        let isComplex = roadArray.length >= 3;
+
+        // 1. 랜드마크 기반 맞춤형 추천 (반경 1200px)
         let nearby = latestLandmarks.map(lm => {
             let d = Math.sqrt(Math.pow(cluster.lat - lm.lat, 2) + Math.pow(cluster.lng - lm.lng, 2));
             return { name: lm.name, dist: d, type: lm.type || 'normal' };
@@ -2246,21 +2251,27 @@ function clearAllData() {
             if (isStation) {
                 // 🚇 역(Station) 전용 추천
                 suggestions.push(`${cleanName}역 사거리`);
+                suggestions.push(`${cleanName}역 삼거리`);
+                if (isComplex) suggestions.push(`${cleanName}역 오거리`, `${cleanName}역 로터리`);
                 suggestions.push(`${cleanName}역 앞 교차로`);
-                suggestions.push(`${cleanName}역입구`);
-                suggestions.push(`신${cleanName} 사거리`); // 예: 신청엽 사거리
+                suggestions.push(`${cleanName}역입구 삼거리`);
+                suggestions.push(`신${cleanName} 교차로`); 
             } else if (lm.name.match(/(학교|초|중|고|대)$/)) {
                 // 🏫 학교 전용 추천
-                suggestions.push(`${lm.name} 앞`);
+                suggestions.push(`${lm.name} 앞 삼거리`);
+                suggestions.push(`${lm.name} 사거리`);
                 suggestions.push(`${lm.name}입구 교차로`);
             } else if (lm.name.endsWith('공원')) {
                 // 🌳 공원 전용 추천
+                suggestions.push(`${lm.name} 삼거리`);
                 suggestions.push(`${lm.name} 사거리`);
-                suggestions.push(`${lm.name}네거리`);
+                if (isComplex) suggestions.push(`${lm.name} 로터리`);
             } else {
                 // 🏢 일반 시설 추천
                 suggestions.push(`${lm.name} 사거리`);
+                suggestions.push(`${lm.name} 삼거리`);
                 suggestions.push(`${lm.name} 교차로`);
+                if (isComplex) suggestions.push(`${lm.name} 오거리`);
             }
         });
 
@@ -2269,14 +2280,27 @@ function clearAllData() {
         if (addr && addr !== "미지정") {
             let dongName = addr.split(' ').pop().replace(/\(.*\)/, ''); // 법정동 추출
             if(!['읍', '면', '시', '군', '구'].includes(dongName.slice(-1))) {
+                suggestions.push(`${dongName} 삼거리`);
+                suggestions.push(`${dongName} 사거리`);
                 suggestions.push(`${dongName} 교차로`);
-                suggestions.push(`${dongName}중앙 사거리`);
-                suggestions.push(`구${dongName} 네거리`); // 예: 구채산 네거리
+                if (isComplex) suggestions.push(`${dongName} 육거리`, `${dongName} 로터리`);
+                suggestions.push(`${dongName}중앙 교차로`);
+                suggestions.push(`구${dongName} 네거리`); 
+                suggestions.push(`신${dongName} 나들목`);
             }
         }
 
-        // 중복 제거 및 최대 8개까지만 표시 (화면 가림 방지)
-        let uniqueSuggestions = [...new Set(suggestions)].slice(0, 8); 
+        // 3. 만나는 도로 이름들을 합친 추천 (예: 고송로 + 채산길 = 고송채산 사거리)
+        if (roadArray.length >= 2) {
+            let r1 = roadArray[0].replace(/(로|길|대로|거리)$/, '');
+            let r2 = roadArray[1].replace(/(로|길|대로|거리)$/, '');
+            suggestions.push(`${r1}${r2} 사거리`);
+            suggestions.push(`${r1}${r2} 삼거리`);
+            suggestions.push(`${r1} 교차로`);
+        }
+
+        // 중복 제거 및 최대 15개까지 표시 (다양한 옵션을 위해 한도 증가)
+        let uniqueSuggestions = [...new Set(suggestions)].slice(0, 15); 
 
         // Datalist에 추가 (타이핑 시 자동완성용)
         let datalist = document.getElementById('intersect-suggestions');
@@ -2299,6 +2323,7 @@ function clearAllData() {
 
         document.getElementById('intersect-name-modal').style.display = 'flex';
     }
+
     // 모달 저장 로직
     function saveIntersectName() {
         let newName = document.getElementById('intersect-name-input').value.trim();
@@ -2327,7 +2352,8 @@ function clearAllData() {
         map.removeLayer(currentIntersectMarker);
         closeModal('intersect-name-modal');
     }
-        // 3. 도로가 지나는 모든 행정구역 추출 (보정 로직 포함)
+
+    // 3. 도로가 지나는 모든 행정구역 추출 (보정 로직 포함)
     function getPathDistricts(points, isRaw = false) {
         let districts = new Set();
         points.forEach(p => {
@@ -2344,7 +2370,7 @@ function clearAllData() {
         }
         return Array.from(districts);
     }
-        var overlays = { 
+            var overlays = { 
         "🏙️ 구/군 (상위)": guGunLayer,
         "🏢 행정 읍/면/동": adminLayer,
         "촘촘 법정 동/리": legalLayer,
@@ -2553,6 +2579,41 @@ function downloadRoadDataCSV() {
         link.click();
         
         alert("교차로 데이터 대장이 생성되었습니다!");
+    }
+    // [신규] 모든 마커 데이터를 CSV로 추출하는 함수
+    function downloadMarkerDataCSV() {
+        // 추출할 데이터 소스 취합 (allLandmarks는 이미 지하철역 + 일반 마커가 합쳐진 상태입니다)
+        if (allLandmarks.length === 0) {
+            alert("추출할 마커 데이터가 없습니다.");
+            return;
+        }
+
+        let csvContent = "\uFEFF"; // 엑셀 한글 깨짐 방지용 BOM
+        csvContent += "마커 이름,마커 종류,소재지(상세 행정구역),위도,경도\n";
+
+        allLandmarks.forEach(m => {
+            // 1. 종류 판별
+            let typeName = (m.type === 'subway') ? "지하철역" : "일반 시설/마커";
+            
+            // 2. 주소 분석 (이미 구현된 getFullAddress 활용)
+            let address = getFullAddress(m.lat, m.lng) || "미지정 구역";
+            
+            // 3. 좌표 정수화
+            let lat = Math.round(m.lat);
+            let lng = Math.round(m.lng);
+
+            // 4. CSV 행 작성 (쉼표 오작동 방지를 위해 큰따옴표 처리)
+            csvContent += `"${m.name}","${typeName}","${address}","${lat}","${lng}"\n`;
+        });
+
+        // 파일 다운로드 로직
+        let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `효빈광역시_시설물_대장_${new Date().toLocaleDateString()}.csv`;
+        link.click();
+        
+        alert("효빈광역시 시설물 대장이 생성되었습니다!");
     }
     </script>
 </body>
