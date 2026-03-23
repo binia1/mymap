@@ -28,42 +28,31 @@
             font-size: 14px; text-align: center; white-space: nowrap;
         }
 
-        /* 컨트롤 패널 (수정됨: 트랜지션 효과 추가) */
+        /* 컨트롤 패널 */
         .control-panel {
             position: absolute; top: 10px; left: 50px; z-index: 1000;
             display: flex; flex-direction: column; gap: 8px;
             max-height: 90vh;
-            transition: transform 0.3s ease-in-out; /* 부드러운 이동 효과 */
-            padding-right: 15px; /* 토글 버튼 공간 확보 */
+            transition: transform 0.3s ease-in-out;
+            padding-right: 15px; 
         }
         
-        /* 패널이 숨겨졌을 때 클래스 */
         .control-panel.collapsed {
-            transform: translateX(-110%); /* 왼쪽으로 숨김 */
+            transform: translateX(-110%);
         }
 
-        /* 패널 토글 버튼 (신규 추가) */
+        /* 패널 토글 버튼 */
         .panel-toggle-btn {
-            position: absolute;
-            top: 0;
-            right: -25px; /* 패널 바깥쪽에 위치 */
-            width: 30px;
-            height: 30px;
-            background: #333;
-            color: white;
-            border: 2px solid white;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            position: absolute; top: 0; right: -25px; 
+            width: 30px; height: 30px; background: #333; color: white;
+            border: 2px solid white; border-radius: 0 5px 5px 0; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
         .panel-toggle-btn:hover { background: #555; }
 
         /* 검색창 */
-        .search-group { display: flex; gap: 5px; margin-bottom: 5px; }
+        .search-group { display: flex; gap: 5px; margin-bottom: 5px; position: relative; }
         .search-input {
             padding: 8px; border: 2px solid #333; border-radius: 5px; width: 200px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3); font-weight: bold; outline: none;
@@ -72,6 +61,19 @@
             background: #0077DD; color: white; border: 2px solid #0055aa; border-radius: 5px;
             cursor: pointer; font-weight: bold; width: 50px;
         }
+        .search-result-list {
+            position: absolute; top: 40px; left: 0;
+            background: white; border: 2px solid #333; border-radius: 5px;
+            width: 260px; max-height: 250px; overflow-y: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; z-index: 1001;
+        }
+        .search-result-item {
+            padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;
+            font-size: 13px; font-weight: bold; color: #333; display: flex; align-items: center;
+        }
+        .search-result-item:hover { background-color: #f0f8ff; }
+        .search-result-item:last-child { border-bottom: none; }
+        .search-type-badge { font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-right: 8px; color: white; white-space: nowrap; }
 
         /* 버튼 그룹 */
         .btn-group { display: flex; gap: 5px; flex-wrap: wrap; max-width: 450px; }
@@ -112,23 +114,14 @@
         .color-option:hover { background: #f0f0f0; }
         .color-preview-small { width: 16px; height: 16px; border-radius: 3px; border: 1px solid #ccc; }
 
-        /* 사용자 지정 색상 인풋 스타일 (신규) */
-        .custom-color-row {
-            display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 2px dashed #ccc; margin-bottom: 5px;
-        }
-        .custom-color-input {
-            border: none; width: 30px; height: 30px; cursor: pointer; background: none; padding: 0;
-        }
+        /* 사용자 지정 색상 인풋 스타일 */
+        .custom-color-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 2px dashed #ccc; margin-bottom: 5px; }
+        .custom-color-input { border: none; width: 30px; height: 30px; cursor: pointer; background: none; padding: 0; }
 
         /* 노선 필터 박스 */
         .subway-filter-box {
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid #333; border-radius: 8px;
-            padding: 10px;
-            margin-top: 5px;
-            display: none; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            max-width: 220px;
+            background: rgba(255, 255, 255, 0.95); border: 2px solid #333; border-radius: 8px;
+            padding: 10px; margin-top: 5px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); max-width: 220px;
         }
         .filter-title { font-weight: bold; font-size: 13px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
         .filter-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
@@ -145,8 +138,7 @@
         .color-btn { 
             width: 100%; height: 40px; border-radius: 5px; border: 1px solid #ddd; 
             cursor: pointer; font-size: 11px; color: white; font-weight: bold;
-            display: flex; align-items: center; justify-content: center;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
         .cancel-btn { background: #eee; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; }
         .confirm-btn { background: #333; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; margin-left: 5px;}
@@ -160,101 +152,36 @@
         .line-color-box { width: 12px; height: 12px; border-radius: 2px; }
 
         /* 지하철 역 아이콘 */
-        .station-circle {
-            background: white; border-radius: 50%;
-            box-shadow: 1px 1px 3px rgba(0,0,0,0.3); box-sizing: border-box;
-        }
+        .station-circle { background: white; border-radius: 50%; box-shadow: 1px 1px 3px rgba(0,0,0,0.3); box-sizing: border-box; }
         .station-transfer {
             background: white; border: 2px solid black; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            gap: 2px; padding: 0 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            display: flex; align-items: center; justify-content: center; gap: 2px; padding: 0 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         .transfer-dot { width: 8px; height: 8px; border-radius: 50%; }
         .station-name-label {
             position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
             white-space: nowrap; font-size: 12px; font-weight: bold;
-            color: black; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
-            pointer-events: none;
+            color: black; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; pointer-events: none;
         }
         
         /* 툴팁 및 뱃지 */
-        .dist-tooltip {
-            background: rgba(0, 0, 0, 0.8); border: 1px solid white; color: #fff;
-            font-weight: bold; font-size: 12px; padding: 2px 5px; border-radius: 4px;
-        }
+        .dist-tooltip { background: rgba(0, 0, 0, 0.8); border: 1px solid white; color: #fff; font-weight: bold; font-size: 12px; padding: 2px 5px; border-radius: 4px; }
         .dist-badge {
-            background: #fff; border: 2px solid #333; color: #333;
-            font-size: 11px; font-weight: 900; padding: 2px 5px;
-            border-radius: 10px; box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-            white-space: nowrap; z-index: 1000;
+            background: #fff; border: 2px solid #333; color: #333; font-size: 11px; font-weight: 900; padding: 2px 5px;
+            border-radius: 10px; box-shadow: 1px 1px 3px rgba(0,0,0,0.4); white-space: nowrap; z-index: 1000;
         }
-        /* 면적 결과 뱃지 */
         .area-result-badge {
-            background: #fff; border: 2px solid #009900; color: #009900;
-            font-size: 13px; font-weight: 900; padding: 4px 8px;
-            border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.4);
-            white-space: nowrap; cursor: pointer;
+            background: #fff; border: 2px solid #009900; color: #009900; font-size: 13px; font-weight: 900; padding: 4px 8px;
+            border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.4); white-space: nowrap; cursor: pointer;
         }
         .area-result-badge:hover { background-color: #eaffea; }
+        .auto-dist-badge { background: #fff; border: 1px solid #666; color: #555; font-size: 10px; font-weight: bold; padding: 1px 3px; border-radius: 3px; white-space: nowrap; opacity: 0.9; }
+        .area-info-badge { background: rgba(255, 255, 255, 0.85); border: 1px solid #555; color: #000; font-size: 10px; font-weight: bold; padding: 1px 4px; border-radius: 3px; white-space: nowrap; pointer-events: none; }
 
-        /* 역간 거리 자동표시 뱃지 */
-        .auto-dist-badge {
-            background: #fff; border: 1px solid #666; color: #555;
-            font-size: 10px; font-weight: bold; padding: 1px 3px;
-            border-radius: 3px; white-space: nowrap; opacity: 0.9;
-        }
-
-        /* 구역 면적 정보 뱃지 */
-        .area-info-badge {
-            background: rgba(255, 255, 255, 0.85); border: 1px solid #555; color: #000;
-            font-size: 10px; font-weight: bold; padding: 1px 4px;
-            border-radius: 3px; white-space: nowrap; pointer-events: none;
-        }
-/* 패널 애니메이션 및 토글 버튼 */
-.control-panel { transition: transform 0.3s ease-in-out; }
-.control-panel.collapsed { transform: translateX(-110%); }
-.panel-toggle-btn {
-    position: absolute; top: 0; right: -25px; width: 30px; height: 30px;
-    background: #333; color: white; border: 2px solid white; border-radius: 0 5px 5px 0;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-}
-/* 사용자 지정 색상 인풋 스타일 */
-.custom-color-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 2px dashed #ccc; margin-bottom: 5px; }
-.custom-color-input { border: none; width: 30px; height: 30px; cursor: pointer; background: none; padding: 0; }
-/* 검색창 상대 위치 설정 */
-        .search-group { position: relative; }
-        
-        /* 검색 결과 리스트 스타일 */
-        .search-result-list {
-            position: absolute; top: 40px; left: 0;
-            background: white; border: 2px solid #333; border-radius: 5px;
-            width: 260px; max-height: 250px; overflow-y: auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; z-index: 1001;
-        }
-        .search-result-item {
-            padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;
-            font-size: 13px; font-weight: bold; color: #333; display: flex; align-items: center;
-        }
-        .search-result-item:hover { background-color: #f0f8ff; }
-        .search-result-item:last-child { border-bottom: none; }
-        .search-type-badge {
-            font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-right: 8px; color: white; white-space: nowrap;
-        }  
-          /* 레이어 선택창을 무조건 맨 앞으로 끌어올리기 */
-.leaflet-control-layers {
-    z-index: 1500 !important; 
-    margin-right: 20px !important;
-    margin-top: 20px !important;
-    background: white !important;
-    border: 2px solid #333 !important;
-}
-
-/* 컨트롤 박스 전체 숨김 해제 */
-.leaflet-control-container {
-    display: block !important;
-}
-</style>
+        /* 레이어 선택창 맨 앞으로 끌어올리기 */
+        .leaflet-control-layers { z-index: 1500 !important; margin-right: 20px !important; margin-top: 20px !important; background: white !important; border: 2px solid #333 !important; }
+        .leaflet-control-container { display: block !important; }
+    </style>
 </head>
 <body>
 
@@ -264,7 +191,7 @@
     <div class="search-group">
         <input type="text" id="search-input" class="search-input" placeholder="장소, 역, 동 검색..." onkeypress="if(event.key==='Enter') searchLocation()">
         <button class="search-btn" onclick="searchLocation()">🔍</button>
-<div id="search-result-list" class="search-result-list"></div>
+        <div id="search-result-list" class="search-result-list"></div>
     </div>
 
     <div class="btn-group">
@@ -281,11 +208,15 @@
         <button id="load-btn" class="map-btn" onclick="document.getElementById('file-input').click()">📂 열기</button>
         <button id="clear-btn" class="map-btn" onclick="clearAllData()">🗑️ 초기화</button>
         <button id="mode-btn" class="map-btn" onclick="toggleSubwayMode()">🚇 노선도 모드</button>
-    <button id="intersect-btn" class="map-btn" onclick="findIntersections()">❌ 교차점 찾기</button>
+        <button id="intersect-btn" class="map-btn" onclick="findIntersections()">❌ 교차점 찾기</button>
+        <button id="auto-bus-stop-btn" class="map-btn" onclick="autoGenerateBusStops()" style="border-color: #37B484; color: #37B484;">🚌 정류장 일괄 생성</button>    
         <button id="grid-capture-btn" class="map-btn" onclick="captureSpecificGrid()">🔲 그리드 캡처</button>
         <button id="intersect-csv-btn" class="map-btn" onclick="downloadIntersectionCSV()" style="border-color: #EE0022; color: #EE0022;">❌ 교차로 데이터 추출</button>
         <button id="road-csv-btn" class="map-btn" onclick="downloadRoadDataCSV()" style="border-color: #ff9922; color: #ff9922;">🛣️ 도로 데이터 추출</button>
-   <button id="marker-csv-btn" class="map-btn" onclick="downloadMarkerDataCSV()" style="border-color: #0077DD; color: #0077DD;">📍 마커 데이터 추출</button>
+        <button id="marker-csv-btn" class="map-btn" onclick="downloadMarkerDataCSV()" style="border-color: #0077DD; color: #0077DD;">📍 마커 데이터 추출</button>
+        <button id="bus-stop-btn" class="map-btn" onclick="toggleBusStopMode()">🚏 정류장 추가</button>
+        <button id="bus-csv-btn" class="map-btn" onclick="downloadBusStopCSV()" style="border-color: #37B484; color: #37B484;">🚏 정류장 데이터 추출</button>
+    <button id="bus-filter-btn" class="map-btn" onclick="toggleBusFilterBox()" style="border-color: #01B7ED; color: #01B7ED;">🚍 버스 필터</button>
     </div>
     
     <input type="file" id="file-input" style="display: none;" accept=".json" onchange="loadData(this)">
@@ -299,7 +230,7 @@
         <div id="subway-filter-list" class="filter-list"></div>
     </div>
 
-<select id="subway-select" class="subway-select" onchange="selectSubwayLine(this.value)">
+    <select id="subway-select" class="subway-select" onchange="selectSubwayLine(this.value)">
         <option value="">🚇 도시철도/일반철도 선택...</option>
         <option value="1">🟦 1호선 (파랑)</option>
         <option value="1B">🟦 1호선 지선</option>
@@ -322,8 +253,17 @@
         <option value="R6">🛤️ 효빈항선</option>
         <option value="R7">🛤️ 포장공단선</option>
         <option value="H1">🚄 빈효고속선</option>
+        <option value="T1">🚃 효빈대 A선 트램 (#a0fff9)</option>
+        <option value="M1">🚟 효빈대 B선 모노레일 (#74f466)</option>
     </select>
-
+<div id="bus-filter-box" class="subway-filter-box">
+        <div class="filter-title">
+            🚍 버스 종류별 보기 
+            <button onclick="toggleAllBusFilters(true)" style="font-size:10px; cursor:pointer;">모두 켜기</button>
+            <button onclick="toggleAllBusFilters(false)" style="font-size:10px; cursor:pointer;">모두 끄기</button>
+        </div>
+        <div id="bus-filter-list" class="filter-list"></div>
+    </div>
     <div class="color-picker-box">
         <div class="picker-header" onclick="togglePaletteList()">
             <div style="display:flex; align-items:center;">
@@ -331,12 +271,12 @@
             </div>
             <span id="toggle-icon">▼</span>
         </div>
-<div id="palette-list">
-    <div class="custom-color-row">
-        <input type="color" id="custom-color-input" class="custom-color-input" value="#ff0000" onchange="setCustomColor(this.value)">
-        <span style="font-size:12px; font-weight:bold;">🎨 사용자 지정 색상</span>
-    </div>
-</div>
+        <div id="palette-list">
+            <div class="custom-color-row">
+                <input type="color" id="custom-color-input" class="custom-color-input" value="#ff0000" onchange="setCustomColor(this.value)">
+                <span style="font-size:12px; font-weight:bold;">🎨 사용자 지정 색상</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -359,6 +299,7 @@
         <button class="confirm-btn" onclick="confirmAddStation()">추가</button>
     </div>
 </div>
+
 <div id="intersect-name-modal" class="modal-overlay">
     <div class="modal-content">
         <h3 style="margin:0 0 10px 0;">🚦 교차로 이름 지정</h3>
@@ -369,7 +310,7 @@
                    style="width:90%; padding:10px; font-size:14px; font-weight:bold; border:2px solid #333; border-radius:5px;">
             <datalist id="intersect-suggestions"></datalist>
         </div>
-
+        
         <div style="display:flex; justify-content:center; gap:5px;">
             <button class="confirm-btn" onclick="saveIntersectName()">💾 저장</button>
             <button class="map-btn" style="border-color:#EE0022; color:#EE0022;" onclick="ignoreIntersect()">ㅜ 제외</button>
@@ -377,6 +318,41 @@
         </div>
     </div>
 </div>
+
+<div id="bus-stop-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 style="margin:0 0 10px 0;">🚏 버스 정류장 등록</h3>
+        <div id="bus-stop-passing-info" style="font-size:12px; background:#f9f9f9; border:1px solid #ddd; padding:8px; border-radius:5px; margin-bottom:10px; text-align:left; max-height:100px; overflow-y:auto;">
+        </div>
+        
+        <input type="text" id="bus-stop-name-input" placeholder="정류장 이름 (예: 시청앞)" style="width:90%; padding:8px; font-size:14px; font-weight:bold; text-align:center; border:2px solid #333; border-radius:5px; margin-bottom:5px;">
+        
+        <div style="font-size:12px; color:#0077DD; font-weight:bold; text-align:left; margin-top:5px;">💡 추천 이름 (클릭)</div>
+        <div id="bus-stop-suggestions" style="text-align:left; margin-bottom:15px; line-height:1.8;"></div>
+
+        <button class="cancel-btn" onclick="closeModal('bus-stop-modal')">취소</button>
+        <button class="confirm-btn" onclick="confirmAddBusStop()">추가</button>
+    </div>
+</div>
+
+<div id="bus-stop-edit-modal" class="modal-overlay">
+    <div class="modal-content" style="width:320px;">
+        <h3 style="margin:0 0 10px 0;">🚏 정류장 정보 수정</h3>
+        <input type="text" id="edit-bus-stop-name" style="width:90%; padding:8px; font-size:14px; font-weight:bold; text-align:center; border:2px solid #333; border-radius:5px; margin-bottom:10px;">
+        
+        <div style="font-size:12px; font-weight:bold; color:#555; text-align:left; margin-bottom:5px;">✅ 정차 노선 선택 (체크 해제 시 무정차 통과)</div>
+        <div id="edit-bus-stop-routes" style="max-height:150px; overflow-y:auto; text-align:left; background:#f9f9f9; border:1px solid #ddd; padding:8px; border-radius:5px; margin-bottom:15px;"></div>
+        
+        <div style="display:flex; justify-content:space-between;">
+            <button class="map-btn" style="color:#EE0022; border-color:#EE0022;" onclick="deleteEditBusStop()">🗑️ 정류장 삭제</button>
+            <div>
+                <button class="cancel-btn" onclick="closeModal('bus-stop-edit-modal')">취소</button>
+                <button class="confirm-btn" onclick="saveBusStopEdit()">💾 저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="map"></div>
 
 <script src="hyobin_main.js"></script>

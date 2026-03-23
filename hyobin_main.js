@@ -34,6 +34,8 @@
     var isAutoDistMode = false; 
     var isDistrictAreaMode = false; 
     var useKmUnit = true; 
+    var isBusStopMode = false;
+var tempBusStopData = null;
     // 검색 영역 하이라이트용 변수
 var searchHighlightPoly = null; 
 // 검색 하이라이트 레이어 및 결과 저장용 변수
@@ -64,6 +66,25 @@ var searchHighlightPoly = null;
         }
         return fullAddress;
     }
+    // 버스 정류장 모드 토글 함수
+function toggleBusStopMode() {
+    resetDrawMode(); resetAreaMode(); isRadiusMode = false; isStationMode = false;
+    document.getElementById('radius-btn').classList.remove('active-btn');
+    document.getElementById('station-btn').classList.remove('active-btn');
+    
+    isBusStopMode = !isBusStopMode;
+    var btn = document.getElementById("bus-stop-btn");
+    
+    if (isBusStopMode) {
+        btn.classList.add("active-btn");
+        btn.innerHTML = "🚏 위치 클릭";
+        document.getElementById("map").style.cursor = "crosshair";
+    } else {
+        btn.classList.remove("active-btn");
+        btn.innerHTML = "🚏 정류장 추가";
+        document.getElementById("map").style.cursor = "default";
+    }
+}
 // 패널 숨기기/펼치기 함수
 function toggleControlPanel() {
     var panel = document.getElementById('main-control-panel');
@@ -139,7 +160,9 @@ function setCustomColor(color) {
         "R6": { name: "효빈항선", color: "#3152A5" },
         "R7": { name: "포장공단선", color: "#3152A5" },
         // 고속철도
-        "H1": { name: "빈효고속선", color: "#1D2352" }
+        "H1": { name: "빈효고속선", color: "#1D2352" },
+        "T1": { name: "효빈대 A선 트램", color: "#a0fff9" },
+    "M1": { name: "효빈대 B선 모노레일", color: "#74f466" }
     };
 
     var currentSelectedColor = regionColors[0].code;
@@ -689,8 +712,9 @@ function setCustomColor(color) {
     var devLayer = L.layerGroup();      
     var subwayLineLayer = L.layerGroup(); 
     var subwayStationLayer = L.layerGroup(); 
-    var normalMarkerLayer = L.layerGroup().addTo(map);
+    var normalMarkerLayer = L.layerGroup();
     var gridLayer = L.layerGroup();
+    var busStopLayer = L.layerGroup();
     if (typeof districtData !== 'undefined') {
         districtData.forEach(function(d) {
             var color = d.color || getColorByName(d.name);
@@ -810,58 +834,102 @@ if (subwayData.markers) {
             });
         }
     }
-var roadLayer = L.layerGroup(); 
-
+// =========================================================
+    // ★ [수정됨] 🛣️ 주요 도로망 그리기 (도로 라벨 추가)
+    // =========================================================
+    var roadLayer = L.layerGroup(); 
+// 2. 🛣️ 주요 도로망 그리기
 if (typeof roadData !== 'undefined') {
-        roadData.forEach(function(road) {
-            // 기존 마커/노선처럼 좌표 자동 보정 적용 (Y축)
-            var correctedPoints = road.points.map(p => [p[0] + adjustY, p[1]]);
-            
-            var poly = L.polyline(correctedPoints, { 
-                color: road.color || '#777777', 
-                weight: road.weight || 4,       
-                opacity: 0.8 
-            });
-            
-            poly.bindTooltip("🛣️ " + road.name, { sticky: true });
-            poly.addTo(roadLayer);
-        });
-    }
+    // ★ 도로를 아래로 내릴 값입니다. 
+    // 기본적으로 다른 마커들과 똑같이 맞추기 위해 adjustY를 썼습니다.
+    // 만약 더 내리거나 덜 내리고 싶으시면 adjustY 대신 -500, -1000 처럼 직접 숫자를 쓰셔도 됩니다.
+    var roadOffsetY = adjustY; 
 
-    // =========================================================
-    // ★ [NEW] 🚌 버스 레이어 및 데이터 그리기 (효빈광역시 도색 반영)
-    // =========================================================
-    var busLineLayer = L.layerGroup(); 
-    
-    var busColors = {
-        "간선": "#01B7ED",
-        "순환": "#E7D600",
-        "지선": "#37B484",
-        "광역": "#485EC6",
-        "좌석": "#FF5800",
-        "마을": "#A664A0",
-        "공항": "#84C36E",
-        "시티투어": "#7777AA",
-        "급행": "#D81C2F"
-    };
+    roadData.forEach(function(road) {
+        // [좌표 내리기] 모든 도로 좌표의 Y값에 오프셋을 더해 아래로 내립니다. (다중 선분 에러 방지 완벽 적용)
+        var shiftedPoints = road.points.map(function(pt) {
+            if (Array.isArray(pt[0])) {
+                return pt.map(function(innerPt) { return [innerPt[0] + roadOffsetY, innerPt[1]]; });
+            } else {
+                return [pt[0] + roadOffsetY, pt[1]];
+            }
+        });
 
-    if (typeof busData !== 'undefined') {
-        busData.forEach(function(bus) {
-            var correctedPoints = bus.points.map(p => [p[0] + adjustY, p[1]]);
-            var bColor = busColors[bus.type] || '#888888';
-            
-            var poly = L.polyline(correctedPoints, { 
-                color: bColor, 
-                weight: 4, 
-                opacity: 0.85,
-                dashArray: '7, 5' // 버스는 도로/지하철과 구분되게 점선으로 표시
-            });
-            
-            poly.bindTooltip(`🚌 [${bus.type}버스] ${bus.name}`, { sticky: true });
-            poly.addTo(busLineLayer);
-        });
-    }
-    // =========================================================
+        // 내려간 좌표(shiftedPoints)를 기준으로 선을 그립니다.
+        var poly = L.polyline(shiftedPoints, { 
+            color: "#1A237E", weight: 6, opacity: 0.9 
+        });
+        poly.bindTooltip(`🛣️ ${road.name}`, { sticky: true });
+        poly.addTo(roadLayer);
+
+        // 내려간 좌표(shiftedPoints)를 기준으로 라벨(이름)을 답니다.
+        var labelPt = shiftedPoints[0];
+        if (Array.isArray(labelPt[0])) {
+            labelPt = labelPt[0]; 
+        }
+
+        var labelHtml = `<div class="station-name-label" style="position: absolute; color:#fff; font-size:12px; font-weight:bold; white-space: nowrap; text-shadow:-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000; top: -20px; left: 50%; transform: translateX(-50%);">${road.name}</div>`;
+        var labelMarker = L.marker(labelPt, {
+            icon: L.divIcon({ className: 'custom-bus-stop', html: labelHtml, iconSize: [16, 16], iconAnchor: [8, 8] }),
+            interactive: false
+        });
+        labelMarker.addTo(roadLayer);
+    });
+}
+// =========================================================
+    // ★ 🚌 버스 레이어 및 데이터 그리기 (10번대, 100번대 정밀 분류)
+    // =========================================================
+    var busLineLayer = L.layerGroup(); 
+    var allBusLines = []; 
+    var busColors = {
+        "간선": "#01B7ED", "순환": "#E7D600", "지선": "#37B484",
+        "광역": "#485EC6", "좌석": "#FF5800", "마을": "#A664A0",
+        "공항": "#84C36E", "투어": "#7777AA", "급행": "#D81C2F"
+    };
+
+    if (typeof busData !== 'undefined') {
+        busData.forEach(function(bus) {
+            var correctedPoints = bus.points.map(p => [p[0] + adjustY, p[1]]);
+            var bColor = busColors[bus.type] || '#888888';
+            
+            // [핵심] 간선은 10번 단위로, 지선은 100번 단위로 쪼개기
+            let busSubGroup = bus.type;
+            const busNumMatch = bus.name.match(/\d+/);
+            if (busNumMatch) {
+                let num = parseInt(busNumMatch[0], 10);
+                if (bus.type === "간선") {
+                    busSubGroup = `간선 [${Math.floor(num / 10) * 10}번대]`;
+                } else if (bus.type === "지선") {
+                    busSubGroup = `지선 [${Math.floor(num / 100) * 100}번대]`;
+                }
+            }
+            
+            var poly = L.polyline(correctedPoints, { 
+                color: bColor, weight: 4, opacity: 0.85, dashArray: '7, 5' 
+            });
+            
+            var fullBusName = `[${bus.type}] ${bus.name}`;
+            poly.bindTooltip(`🚌 ${fullBusName}`, { sticky: true });
+            poly.busType = busSubGroup; 
+            
+            allBusLines.push(poly);
+            poly.addTo(busLineLayer); 
+
+            // 노선 이름 라벨 추가
+            if (correctedPoints.length > 2) {
+                var midIdx = Math.floor(correctedPoints.length / 2);
+                var midPt = correctedPoints[midIdx];
+                var labelHtml = `<div class="station-name-label" style="position: absolute; color:${bColor}; font-size:11px; font-weight:bold; white-space: nowrap; text-shadow:-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; top: -15px; left: 50%; transform: translateX(-50%);">${fullBusName}</div>`;
+                var labelMarker = L.marker(midPt, {
+                    icon: L.divIcon({ className: 'custom-bus-stop', html: labelHtml, iconSize: [16, 16], iconAnchor: [8, 8] }),
+                    interactive: false 
+                });
+                labelMarker.busType = busSubGroup; // 라벨도 같이 필터링되도록 속성 부여
+                allBusLines.push(labelMarker); 
+                labelMarker.addTo(busLineLayer);
+            }
+        });
+    }        // =========================================================
 
     var activeMarkers = [];
     allLandmarks.forEach(item => addMarkerToMap(item));
@@ -871,70 +939,162 @@ if (typeof roadData !== 'undefined') {
         var size = calculateSize(map.getZoom());
         var marker;
 
-        if (item.type === 'subway') {
-            var lines = item.lines || []; 
-            var iconHtml = "";
-            var width = (lines.length === 1) ? 14 : (lines.length * 10) + 6;
+if (item.type === 'subway') {
+            var lines = item.lines || []; 
+            var iconHtml = "";
+            var width = (lines.length === 1) ? 14 : (lines.length * 10) + 6;
 
-            if (lines.length === 1) {
-                var lineInfo = subwayLines[lines[0]];
-                var lineColor = lineInfo ? lineInfo.color : "#333";
-                iconHtml = `<div class="station-circle" style="width:14px; height:14px; border: 3px solid ${lineColor};"></div>`;
-            } else {
-                var dotsHtml = "";
-                lines.forEach(lid => {
-                    var lInfo = subwayLines[lid];
-                    var c = lInfo ? lInfo.color : "#333";
-                    dotsHtml += `<div class="transfer-dot" style="background-color:${c};"></div>`;
-                });
-                iconHtml = `<div class="station-transfer" style="width:${width}px; height:14px;">${dotsHtml}</div>`;
-            }
-            iconHtml += `<div class="station-name-label">${item.name}</div>`;
-            
-            marker = L.marker([item.lat, item.lng], {
-                icon: L.divIcon({ className: 'custom-station', html: iconHtml, iconSize: [width, 14], iconAnchor: [width/2, 7] })
-            });
+            if (lines.length === 1) {
+                var lineInfo = subwayLines[lines[0]];
+                var lineColor = lineInfo ? lineInfo.color : "#333";
+                iconHtml = `<div class="station-circle" style="width:14px; height:14px; border: 3px solid ${lineColor};"></div>`;
+            } else {
+                var dotsHtml = "";
+                lines.forEach(lid => {
+                    var lInfo = subwayLines[lid];
+                    var c = lInfo ? lInfo.color : "#333";
+                    dotsHtml += `<div class="transfer-dot" style="background-color:${c};"></div>`;
+                });
+                iconHtml = `<div class="station-transfer" style="width:${width}px; height:14px;">${dotsHtml}</div>`;
+            }
+            iconHtml += `<div class="station-name-label">${item.name}</div>`;
+            
+            marker = L.marker([item.lat, item.lng], {
+                icon: L.divIcon({ className: 'custom-station', html: iconHtml, iconSize: [width, 14], iconAnchor: [width/2, 7] })
+            });
 
-            // [NEW] Marker 객체에 노선 정보 심기 (필터링용)
-            marker.lineCodes = lines;
+            // [NEW] Marker 객체에 노선 정보 심기 (필터링용)
+            marker.lineCodes = lines;
 
-        } else {
-            marker = L.marker([item.lat, item.lng], { icon: createCustomIcon(item.color, size) });
-        }
+        } else if (item.type === 'busStop') {
+            // [NEW] 버스 정류장 전용 아이콘 (네모난 정류장 모양)
+            var iconHtml = `<div style="background:white; border:2px solid #555; border-radius:4px; width:16px; height:16px; display:flex; align-items:center; justify-content:center; box-shadow: 1px 1px 3px rgba(0,0,0,0.5);"><span style="font-size:10px;">🚏</span></div><div class="station-name-label" style="color:#222; font-size:11px; margin-top:2px; font-weight:bold; text-shadow:-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">${item.name.replace(' 정류장','')}</div>`;
+            
+            marker = L.marker([item.lat, item.lng], {
+                icon: L.divIcon({ className: 'custom-bus-stop', html: iconHtml, iconSize: [16, 16], iconAnchor: [8, 8] })
+            });
+        } else {
+            marker = L.marker([item.lat, item.lng], { icon: createCustomIcon(item.color, size) });
+        }
 
-        if (item.type === 'subway') {
-            marker.addTo(subwayStationLayer); 
-        } else {
-            marker.addTo(normalMarkerLayer); 
-        }
-        
-        marker.myColor = item.color; 
-        activeMarkers.push(marker);
+        if (item.type === 'subway') {
+            marker.addTo(subwayStationLayer); 
+        } else if (item.type === 'busStop') {
+            marker.addTo(busStopLayer); // <-- [NEW] 버스 정류장은 전용 레이어로!
+        } else {
+            marker.addTo(normalMarkerLayer); 
+        }
+        
+        marker.myColor = item.color; 
+        activeMarkers.push(marker);
 
-// 지하철/기차역인 경우 경유 노선들을 모아서 보여줌
+        // 지하철/버스/기반 마커 툴팁 분기
         if (item.type === 'subway') {
             var lineNames = (item.lines || []).map(lid => subwayLines[lid] ? subwayLines[lid].name : "").filter(Boolean).join(", ");
             marker.bindTooltip(`<b>${item.name}</b><br><span style="font-size:11px; color:#555;">경유: ${lineNames}</span>`, { offset: [0, -10], direction: 'top' });
+        } else if (item.type === 'busStop') {
+            // [NEW] 버스 정류장 전용 툴팁 (경유 노선 리스트 표시)
+            var busList = item.passingBuses && item.passingBuses.length > 0 ? item.passingBuses.join("<br>") : "<span style='color:#999;'>경유 노선 없음</span>";
+            marker.bindTooltip(`<b>🚏 ${item.name}</b><br><hr style="margin:3px 0; border-top:1px dashed #ccc;"><div style="font-size:11px; line-height:1.5;">${busList}</div>`, { offset: [0, -10], direction: 'top' });
         } else {
             marker.bindTooltip(item.name, { offset: [0, -20], direction: 'top' });
         }
-        marker.on('dblclick', function(e) {
-            L.DomEvent.stopPropagation(e);
-            var isUserMarker = myLandmarks.some(m => m.name === item.name && m.lat === item.lat);
-            if (isUserMarker) {
-                if (confirm(`'${item.name}' 마커를 삭제하시겠습니까?`)) {
-                    if (item.type === 'subway') {
-                        subwayStationLayer.removeLayer(marker);
-                    } else {
-                        map.removeLayer(marker);
+
+// [수정된 부분] 삭제 및 편집 이벤트 분기 (기존 삭제 기능 대체)
+        if (item.type === 'busStop') {
+            // 버스 정류장은 클릭 시 수정/무정차 설정 모달창 열기
+            marker.on('click', function(e) {
+                L.DomEvent.stopPropagation(e);
+                openBusStopEditModal(item, marker);
+            });
+        } else {
+            // 지하철/일반 마커는 기존처럼 더블클릭 시 삭제
+            marker.on('dblclick', function(e) {
+                L.DomEvent.stopPropagation(e);
+                var isUserMarker = myLandmarks.some(m => m.name === item.name && m.lat === item.lat);
+                if (isUserMarker) {
+                    if (confirm(`'${item.name}' 마커를 삭제하시겠습니까?`)) {
+                        if (item.type === 'subway') {
+                            subwayStationLayer.removeLayer(marker);
+                        } else {
+                            map.removeLayer(marker);
+                        }
+                        activeMarkers = activeMarkers.filter(m => m !== marker);
+                        myLandmarks = myLandmarks.filter(m => m.name !== item.name || m.lat !== item.lat);
+                        localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
                     }
-                    activeMarkers = activeMarkers.filter(m => m !== marker);
-                    myLandmarks = myLandmarks.filter(m => m.name !== item.name || m.lat !== item.lat);
-                    localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
                 }
-            }
-        });
+            });
+        }
+    } // <-- addMarkerToMap 함수가 여기서 닫힙니다.
+
+// =========================================================
+// ★ 정류장 이름 수정 & 무정차 노선 설정 기능 (모달 제어)
+// =========================================================
+var currentEditMarker = null;
+var currentEditItem = null;
+
+function openBusStopEditModal(item, marker) {
+    currentEditItem = item;
+    currentEditMarker = marker;
+    
+    document.getElementById('edit-bus-stop-name').value = item.name.replace(' 정류장', '');
+    
+    // 호환성 처리: 옛날에 저장된 정류장일 경우 전체 노선 데이터를 동기화
+    if (!item.allPassingBuses) item.allPassingBuses = [...(item.passingBuses || [])];
+    
+    var routesHtml = "";
+    item.allPassingBuses.forEach(busStr => {
+        var isChecked = item.passingBuses.includes(busStr) ? "checked" : "";
+        routesHtml += `<label style="display:block; margin-bottom:5px; cursor:pointer;">
+            <input type="checkbox" class="edit-bus-route-chk" value='${busStr}' ${isChecked}> 
+            ${busStr}
+        </label>`;
+    });
+    
+    document.getElementById('edit-bus-stop-routes').innerHTML = routesHtml || "<span style='color:#999;'>지나가는 노선이 없습니다.</span>";
+    document.getElementById('bus-stop-edit-modal').style.display = 'flex';
+}
+
+function saveBusStopEdit() {
+    var newName = document.getElementById('edit-bus-stop-name').value.trim();
+    if (!newName) { alert("이름을 입력하세요!"); return; }
+    if (!newName.endsWith('정류장')) newName += " 정류장";
+    
+    // 체크된(정차하는) 노선만 수집
+    var checkedRoutes = [];
+    document.querySelectorAll('.edit-bus-route-chk:checked').forEach(chk => {
+        checkedRoutes.push(chk.value);
+    });
+    
+    currentEditItem.name = newName;
+    currentEditItem.passingBuses = checkedRoutes;
+    
+    // 로컬 스토리지 업데이트
+    localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+    
+    // 툴팁 즉시 업데이트 (체크 해제된 건 안 보임)
+    var busListHtml = checkedRoutes.length > 0 ? checkedRoutes.join("<br>") : "<span style='color:#EE0022; font-weight:bold;'>🚫 모든 노선 무정차 통과</span>";
+    currentEditMarker.setTooltipContent(`<b>🚏 ${currentEditItem.name}</b><br><hr style="margin:3px 0; border-top:1px dashed #ccc;"><div style="font-size:11px; line-height:1.5;">${busListHtml}</div>`);
+    
+    // 지도상 아이콘 이름 즉시 업데이트
+    var iconHtml = `<div style="background:white; border:2px solid #555; border-radius:4px; width:16px; height:16px; display:flex; align-items:center; justify-content:center; box-shadow: 1px 1px 3px rgba(0,0,0,0.5);"><span style="font-size:10px;">🚏</span></div><div class="station-name-label" style="color:#222; font-size:11px; margin-top:2px; font-weight:bold; text-shadow:-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">${currentEditItem.name.replace(' 정류장','')}</div>`;
+    currentEditMarker.setIcon(L.divIcon({ className: 'custom-bus-stop', html: iconHtml, iconSize: [16, 16], iconAnchor: [8, 8] }));
+    
+    closeModal('bus-stop-edit-modal');
+}
+
+function deleteEditBusStop() {
+    if(confirm(`'${currentEditItem.name}'을(를) 삭제하시겠습니까?`)) {
+        if (typeof busStopLayer !== 'undefined') busStopLayer.removeLayer(currentEditMarker);
+        else map.removeLayer(currentEditMarker);
+        
+        activeMarkers = activeMarkers.filter(m => m !== currentEditMarker);
+        myLandmarks = myLandmarks.filter(m => m.name !== currentEditItem.name || m.lat !== currentEditItem.lat);
+        localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+        closeModal('bus-stop-edit-modal');
     }
+}
 
 // =========================================================
     // 6. 클릭 이벤트 및 그리기 로직 (거리 꼬리표 + 클릭시 상세 + 면적)
@@ -1013,7 +1173,11 @@ if (typeof roadData !== 'undefined') {
         if (typeof searchHighlightLayer !== 'undefined' && searchHighlightLayer) searchHighlightLayer.clearLayers();
         var resultBox = document.getElementById('search-result-list');
         if(resultBox) resultBox.style.display = 'none';
-        
+        // [NEW] 버스 정류장 추가 모드
+        if (isBusStopMode) {
+            handleBusStopClick(e);
+            return;
+        }
         // [선 그리기 모드]
         if (isDrawingMode) {
             var lat = Math.round(e.latlng.lat); 
@@ -1251,7 +1415,6 @@ if (typeof roadData !== 'undefined') {
             radiusCenter = null;
             return;
         }
-
         // =========================================================
         // ★ [NEW] 일반 마커 생성 (행정구역 자동 탐색 & 색상 칠하기)
         // =========================================================
@@ -2161,6 +2324,7 @@ function clearAllData() {
         "촘촘 법정 동/리": legalLayer,
         "🏗️ 개발지구": devLayer,
         "🚌 버스 노선": busLineLayer,
+        "🚏 버스 정류장": busStopLayer,
         "🛤️ 도시/일반철도 노선": subwayLineLayer,
         "🚉 도시/일반철도 역": subwayStationLayer,
         "📍 일반 마커": normalMarkerLayer,
@@ -2259,7 +2423,107 @@ function downloadRoadDataCSV() {
             });
         });
     }
+// 선분과 점 사이의 거리 계산 (수학 공식)
+function pointToSegmentDist(px, py, x1, y1, x2, y2) {
+    var A = px - x1, B = py - y1, C = x2 - x1, D = y2 - y1;
+    var dot = A * C + B * D;
+    var len_sq = C * C + D * D;
+    var param = -1;
+    if (len_sq != 0) param = dot / len_sq;
+    var xx, yy;
+    if (param < 0) { xx = x1; yy = y1; }
+    else if (param > 1) { xx = x2; yy = y2; }
+    else { xx = x1 + param * C; yy = y1 + param * D; }
+    var dx = px - xx, dy = py - yy;
+    return Math.sqrt(dx * dx + dy * dy);
+}
 
+// 버스 정류장 클릭 시 처리 로직
+function handleBusStopClick(e) {
+    var lat = Math.round(e.latlng.lat);
+    var lng = Math.round(e.latlng.lng);
+
+    // 1. 반경 내(60px) 경유하는 버스 노선 싹쓸이 탐색
+    var passingBuses = [];
+    var margin = 60; 
+    if (typeof busData !== 'undefined') {
+        busData.forEach(bus => {
+            var pts = bus.points.map(p => [p[0] + adjustY, p[1]]);
+            for (var i = 0; i < pts.length - 1; i++) {
+                var dist = pointToSegmentDist(lat, lng, pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
+                if (dist <= margin) {
+                    var bColor = busColors[bus.type] || '#333';
+                    passingBuses.push(`<span style="color:${bColor}; font-weight:bold;">[${bus.type}]</span> ${bus.name}`);
+                    break; // 중복 추가 방지
+                }
+            }
+        });
+    }
+
+    // 2. 주변 랜드마크 기반 이름 추천 (1000px 이내)
+    var nearby = allLandmarks.map(lm => {
+        return { name: lm.name, dist: Math.sqrt(Math.pow(lat - lm.lat, 2) + Math.pow(lng - lm.lng, 2)), type: lm.type };
+    }).filter(lm => lm.dist < 1000).sort((a, b) => a.dist - b.dist).slice(0, 4);
+
+    var suggestions = [];
+    nearby.forEach(lm => {
+        var cleanName = lm.name.replace(/역$/, '');
+        if (lm.type === 'subway' || lm.name.endsWith('역')) {
+            suggestions.push(`${cleanName}역`);
+            suggestions.push(`${cleanName}역입구`);
+        } else {
+            suggestions.push(`${lm.name}`);
+            suggestions.push(`${lm.name}입구`);
+        }
+    });
+
+    var addr = getFullAddress(lat, lng);
+    if (addr && addr !== "미지정") {
+        var dongName = addr.split(' ').pop().replace(/\(.*\)/, '');
+        if(!['읍', '면', '시', '군', '구'].includes(dongName.slice(-1))) {
+            suggestions.push(`${dongName}동`);
+            suggestions.push(`${dongName}주민센터`);
+        }
+    }
+    
+    var uniqueSuggestions = [...new Set(suggestions)].slice(0, 8);
+
+    // 3. 데이터 임시 저장 후 모달 오픈
+    tempBusStopData = { lat: lat, lng: lng, buses: passingBuses };
+    document.getElementById('bus-stop-name-input').value = "";
+    
+    var suggestHtml = uniqueSuggestions.map(s => 
+        `<span style="display:inline-block; background:#eef5ff; padding:4px 8px; margin:3px; border-radius:12px; cursor:pointer; font-size:12px; border:1px solid #0077DD; color:#0077DD; box-shadow:1px 1px 2px rgba(0,0,0,0.2);" onclick="document.getElementById('bus-stop-name-input').value='${s}'">${s}</span>`
+    ).join("");
+    document.getElementById('bus-stop-suggestions').innerHTML = suggestHtml || "추천 데이터 없음";
+    
+    var busInfoHtml = passingBuses.length > 0 ? passingBuses.join("<br>") : "<span style='color:#999;'>경유 버스 노선을 찾을 수 없습니다.</span>";
+    document.getElementById('bus-stop-passing-info').innerHTML = `<b>🚌 정차 예정 노선:</b><br>${busInfoHtml}`;
+    
+    document.getElementById('bus-stop-modal').style.display = 'flex';
+}
+
+function confirmAddBusStop() {
+    var nameInput = document.getElementById('bus-stop-name-input');
+    if(!nameInput || !nameInput.value.trim()) { alert("정류장 이름을 입력해주세요!"); return; }
+    
+    var stopData = { 
+        name: nameInput.value.trim() + " 정류장", 
+        lat: tempBusStopData.lat, 
+        lng: tempBusStopData.lng, 
+        type: 'busStop', 
+        color: '#333',
+        isManual: true, // ★ 중요: 수동으로 만든 정류장임을 표시 (삭제 방지용)
+        allPassingBuses: tempBusStopData.buses, 
+        passingBuses: [...tempBusStopData.buses] 
+    };
+    
+    addMarkerToMap(stopData); 
+    myLandmarks.push(stopData);
+    localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+    closeModal('bus-stop-modal'); 
+    toggleBusStopMode();
+}
     // 내가 그린 도로는 보정 없이 그대로 합침
     allLines = allLines.concat(myLines);
 
@@ -2401,3 +2665,300 @@ function downloadRoadDataCSV() {
         
         alert("효빈광역시 시설물 대장이 생성되었습니다!");
     }
+// =========================================================
+// 🚌 버스 정류장 시스템 (수동 추가 + 등급별 자동 생성 통합 엔진)
+// =========================================================
+
+// 1. 선분과 점 사이의 거리 계산 (수학 공식)
+function pointToSegmentDist(px, py, x1, y1, x2, y2) {
+    var A = px - x1, B = py - y1, C = x2 - x1, D = y2 - y1;
+    var dot = A * C + B * D;
+    var len_sq = C * C + D * D;
+    var param = -1;
+    if (len_sq != 0) param = dot / len_sq;
+    var xx, yy;
+    if (param < 0) { xx = x1; yy = y1; }
+    else if (param > 1) { xx = x2; yy = y2; }
+    else { xx = x1 + param * C; yy = y1 + param * D; }
+    var dx = px - xx, dy = py - yy;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+// 2. 수동 클릭 시 정류장 후보지 탐색 및 이름 추천
+function handleBusStopClick(e) {
+    var lat = Math.round(e.latlng.lat);
+    var lng = Math.round(e.latlng.lng);
+    var passingBuses = [];
+    var margin = 60; 
+
+    if (typeof busData !== 'undefined') {
+        busData.forEach(bus => {
+            var pts = bus.points.map(p => [p[0] + adjustY, p[1]]);
+            for (var i = 0; i < pts.length - 1; i++) {
+                var dist = pointToSegmentDist(lat, lng, pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
+                if (dist <= margin) {
+                    var bColor = busColors[bus.type] || '#333';
+                    passingBuses.push(`<span style="color:${bColor}; font-weight:bold;">[${bus.type}]</span> ${bus.name}`);
+                    break; 
+                }
+            }
+        });
+    }
+
+    var nearby = allLandmarks.map(lm => {
+        return { name: lm.name, dist: Math.sqrt(Math.pow(lat - lm.lat, 2) + Math.pow(lng - lng, 2)), type: lm.type };
+    }).filter(lm => lm.dist < 1000).sort((a, b) => a.dist - b.dist).slice(0, 4);
+
+    var suggestions = [];
+    nearby.forEach(lm => {
+        var cleanName = lm.name.replace(/역$/, '');
+        if (lm.type === 'subway' || lm.name.endsWith('역')) { suggestions.push(`${cleanName}역`, `${cleanName}역입구`); } 
+        else { suggestions.push(`${lm.name}`, `${lm.name}입구`); }
+    });
+    
+    tempBusStopData = { lat: lat, lng: lng, buses: passingBuses };
+    document.getElementById('bus-stop-name-input').value = "";
+    
+    var suggestHtml = [...new Set(suggestions)].slice(0, 8).map(s => 
+        `<span style="display:inline-block; background:#eef5ff; padding:4px 8px; margin:3px; border-radius:12px; cursor:pointer; font-size:12px; border:1px solid #0077DD; color:#0077DD; box-shadow:1px 1px 2px rgba(0,0,0,0.2);" onclick="document.getElementById('bus-stop-name-input').value='${s}'">${s}</span>`
+    ).join("");
+    document.getElementById('bus-stop-suggestions').innerHTML = suggestHtml || "추천 데이터 없음";
+    document.getElementById('bus-stop-passing-info').innerHTML = `<b>🚌 정차 예정 노선:</b><br>${passingBuses.length > 0 ? passingBuses.join("<br>") : "<span style='color:#999;'>경유 노선 없음</span>"}`;
+    document.getElementById('bus-stop-modal').style.display = 'flex';
+}
+
+// 3. 수동 추가 모달 '추가' 버튼 로직
+function confirmAddBusStop() {
+    var nameInput = document.getElementById('bus-stop-name-input');
+    if(!nameInput || !nameInput.value.trim()) { alert("정류장 이름을 입력해주세요!"); return; }
+    
+    var stopData = { 
+        name: nameInput.value.trim() + " 정류장", lat: tempBusStopData.lat, lng: tempBusStopData.lng, 
+        type: 'busStop', color: '#333',
+        allPassingBuses: tempBusStopData.buses, 
+        passingBuses: [...tempBusStopData.buses] 
+    };
+    
+    addMarkerToMap(stopData); 
+    myLandmarks.push(stopData);
+    localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+    closeModal('bus-stop-modal'); 
+    toggleBusStopMode();
+}
+
+// =========================================================
+// 🚌 버스 정류장 일괄 생성 (수동 정류장 보호 버전)
+// =========================================================
+function autoGenerateBusStops() {
+    if (typeof busData === 'undefined' || busData.length === 0) {
+        alert("버스 노선 데이터가 없습니다!"); return;
+    }
+    var btn = document.getElementById('auto-bus-stop-btn');
+    if (btn) btn.innerHTML = "⏳ 생성 중...";
+
+    // 1. [수정됨] 데이터 청소: 버스 정류장이 아니거나, '수동(isManual)'인 것만 남기고 삭제
+    myLandmarks = myLandmarks.filter(m => m.type !== 'busStop' || m.isManual === true);
+    
+    // 2. [수정됨] 레이어 청소: 수동 마커가 아닌 것(자동 생성된 것)만 골라 제거
+    if (typeof busStopLayer !== 'undefined') {
+        busStopLayer.eachLayer(function(layer) {
+            if (!layer.isManualMarker) {
+                busStopLayer.removeLayer(layer);
+            }
+        });
+    }
+    
+    // 3. activeMarkers 배열 동기화
+    activeMarkers = activeMarkers.filter(m => !(m.options.icon && m.options.icon.options.className === 'custom-bus-stop' && !m.isManualMarker));
+
+    var allBusPoints = [];
+    var intervalMap = { "마을": 400, "순환": 500, "지선": 600, "간선": 800, "좌석": 1500 };
+
+    busData.forEach(bus => {
+        var pts = bus.points.map(p => [p[0] + adjustY, p[1]]);
+        var bColor = busColors[bus.type] || '#333';
+        var formattedName = `<span style="color:${bColor}; font-weight:bold;">[${bus.type}]</span> ${bus.name}`;
+        var interval = intervalMap[bus.type];
+        
+        if (interval) {
+            var currentDist = 0;
+            for (var i = 0; i < pts.length - 1; i++) {
+                var p1 = pts[i]; var p2 = pts[i+1];
+                allBusPoints.push({ lat: p1[0], lng: p1[1], busName: formattedName });
+                var segDist = map.distance(p1, p2);
+                var distLeft = segDist; var currPt = p1;
+                while (currentDist + distLeft >= interval) {
+                    var walk = interval - currentDist;
+                    var ratio = walk / segDist;
+                    var newLat = currPt[0] + (p2[0] - currPt[0]) * ratio;
+                    var newLng = currPt[1] + (p2[1] - currPt[1]) * ratio;
+                    allBusPoints.push({ lat: newLat, lng: newLng, busName: formattedName });
+                    currPt = [newLat, newLng]; distLeft -= walk; segDist -= walk; currentDist = 0;
+                }
+                currentDist += distLeft;
+            }
+            allBusPoints.push({ lat: pts[pts.length-1][0], lng: pts[pts.length-1][1], busName: formattedName });
+        } else {
+            pts.forEach(pt => allBusPoints.push({ lat: pt[0], lng: pt[1], busName: formattedName }));
+        }
+    });
+
+    var clusters = [];
+    allBusPoints.forEach(pt => {
+        var joined = false;
+        for (var i = 0; i < clusters.length; i++) {
+            var c = clusters[i];
+            var dist = Math.sqrt(Math.pow(pt.lat - c.lat, 2) + Math.pow(pt.lng - c.lng, 2));
+            if (dist < 400) { c.buses.add(pt.busName); joined = true; break; }
+        }
+        if (!joined) {
+            var newSet = new Set(); newSet.add(pt.busName);
+            clusters.push({ lat: pt.lat, lng: pt.lng, buses: newSet });
+        }
+    });
+
+    var addedCount = 0;
+    clusters.forEach(c => {
+        var nearby = allLandmarks.map(lm => {
+            return { name: lm.name, dist: Math.sqrt(Math.pow(c.lat - lm.lat, 2) + Math.pow(c.lng - lm.lng, 2)), type: lm.type };
+        }).filter(lm => lm.dist < 1200 && lm.type !== 'busStop').sort((a, b) => a.dist - b.dist);
+
+        var stopName = "임시";
+        if (nearby.length > 0) {
+            var lm = nearby[0]; var cleanName = lm.name.replace(/역$/, '');
+            if (lm.type === 'subway' || lm.name.endsWith('역')) stopName = cleanName + "역";
+            else if (lm.name.endsWith('공원') || lm.name.endsWith('학교')) stopName = lm.name;
+            else stopName = lm.name + "";
+        } else {
+            var addr = getFullAddress(c.lat, c.lng);
+            if (addr && addr !== "미지정") {
+                var dongName = addr.split(' ').pop().replace(/\(.*\)/, '');
+                if(!['읍', '면', '시', '군', '구'].includes(dongName.slice(-1))) stopName = dongName;
+            }
+        }
+
+        var stopData = {
+            name: stopName + " 정류장", lat: Math.round(c.lat), lng: Math.round(c.lng),
+            type: 'busStop', color: '#333', isManual: false, // 자동 생성임을 표시
+            allPassingBuses: Array.from(c.buses), passingBuses: Array.from(c.buses)
+        };
+        addMarkerToMap(stopData); myLandmarks.push(stopData); addedCount++;
+    });
+
+    localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+    if (btn) btn.innerHTML = "🚌 정류장 일괄 생성";
+    alert(`성공! 총 ${addedCount}개의 정류장이 생성되었습니다. (수동 정류장은 보호됨)`);
+}
+
+// 🚏 버스 정류장 대장 CSV 추출 기능
+function downloadBusStopCSV() {
+    var busStops = myLandmarks.filter(m => m.type === 'busStop');
+    if (busStops.length === 0) { alert("추출할 정류장 데이터가 없습니다."); return; }
+
+    let csvContent = "\uFEFF"; 
+    csvContent += "정류장명,설치유형,소재지,경유 노선,위도,경도\n";
+
+    busStops.forEach(stop => {
+        var address = getFullAddress(stop.lat, stop.lng) || "미지정 구역";
+        var routes = (stop.passingBuses || []).map(r => r.replace(/<[^>]*>?/gm, '')).join(" | ");
+        var type = stop.isManual ? "수동" : "자동";
+        csvContent += `"${stop.name}","${type}","${address}","${routes}","${Math.round(stop.lat)}","${Math.round(stop.lng)}"\n`;
+    });
+
+    var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `효빈광역시_버스정류장_대장_${new Date().toLocaleDateString()}.csv`;
+    link.click();
+}
+// =========================================================
+// 🚍 버스 종류별 필터링 기능 모음
+// =========================================================
+
+// 1. 페이지 로딩 시 버스 필터 체크박스 자동 생성 (데이터 기반 동적 생성)
+window.addEventListener('DOMContentLoaded', function() {
+    var busFilterContainer = document.getElementById('bus-filter-list');
+    if (busFilterContainer && typeof busData !== 'undefined') {
+        
+        var uniqueGroups = new Map();
+
+        // 버스 데이터를 싹 훑어서 실제로 있는 번호대만 수집합니다.
+        busData.forEach(function(bus) {
+            var busSubGroup = bus.type;
+            var bColor = (typeof busColors !== 'undefined' && busColors[bus.type]) ? busColors[bus.type] : '#888888';
+
+            var busNumMatch = bus.name.match(/\d+/);
+            if (busNumMatch) {
+                var num = parseInt(busNumMatch[0], 10);
+                if (bus.type === "간선") {
+                    busSubGroup = `간선 [${Math.floor(num / 10) * 10}번대]`;
+                } else if (bus.type === "지선") {
+                    busSubGroup = `지선 [${Math.floor(num / 100) * 100}번대]`;
+                }
+            }
+            if (!uniqueGroups.has(busSubGroup)) {
+                uniqueGroups.set(busSubGroup, { type: bus.type, color: bColor });
+            }
+        });
+
+        // 이름순으로 예쁘게 정렬 (간선 10번대 -> 20번대 -> 지선 100번대 -> 200번대...)
+        var sortedGroups = Array.from(uniqueGroups.keys()).sort();
+
+        sortedGroups.forEach(function(groupName) {
+            var info = uniqueGroups.get(groupName);
+
+            var filterItem = document.createElement('label'); 
+            filterItem.className = 'filter-item';
+            
+            var fChk = document.createElement('input'); 
+            fChk.type = 'checkbox'; fChk.value = groupName; fChk.checked = true; fChk.name = 'busFilter';
+            fChk.onchange = applyBusFilter; 
+            
+            var fDot = document.createElement('div'); 
+            fDot.className = 'filter-color-dot'; fDot.style.backgroundColor = info.color;
+            
+            filterItem.appendChild(fChk); 
+            filterItem.appendChild(fDot); 
+            filterItem.appendChild(document.createTextNode(groupName));
+            
+            busFilterContainer.appendChild(filterItem);
+        });
+    }
+});
+// 2. 필터 박스 열기/닫기 토글
+function toggleBusFilterBox() {
+    var box = document.getElementById('bus-filter-box');
+    var btn = document.getElementById('bus-filter-btn');
+    if (box.style.display === 'block') {
+        box.style.display = 'none';
+        btn.classList.remove('active-btn');
+    } else {
+        box.style.display = 'block';
+        btn.classList.add('active-btn');
+        // 필터를 조작할 때 버스 레이어 자체가 꺼져있으면 강제로 켬
+        if (!map.hasLayer(busLineLayer)) map.addLayer(busLineLayer);
+    }
+}
+
+// 3. 모두 켜기 / 모두 끄기 버튼 동작
+function toggleAllBusFilters(isChecked) {
+    var checkboxes = document.querySelectorAll('input[name="busFilter"]');
+    checkboxes.forEach(cb => cb.checked = isChecked);
+    applyBusFilter();
+}
+
+// 4. [수정됨] 체크된 노선만 남기고 싹 정리하는 핵심 로직
+function applyBusFilter() {
+    var checkedTypes = [];
+    document.querySelectorAll('input[name="busFilter"]:checked').forEach(cb => checkedTypes.push(cb.value));
+
+    busLineLayer.clearLayers(); 
+    
+    allBusLines.forEach(function(layer) {
+        // layer가 마커이든 폴리라인이든 busType 정보를 기반으로 필터링
+        var typeToCheck = layer.busType;
+        if (checkedTypes.includes(typeToCheck)) {
+            busLineLayer.addLayer(layer); 
+        }
+    });
+}
