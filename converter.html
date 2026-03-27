@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>효빈광역시 교차로 데이터 변환기</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f4f7f6; padding: 30px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h2 { color: #0077DD; margin-top: 0; }
+        .file-box { border: 2px dashed #0077DD; padding: 20px; text-align: center; border-radius: 8px; margin-bottom: 20px; background: #f0f8ff; }
+        textarea { width: 100%; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: monospace; font-size: 13px; resize: vertical; box-sizing: border-box; }
+        .info { font-size: 13px; color: #555; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🚦 교차로 CSV ➡️ JavaScript 변환기 (필터링 적용)</h2>
+    <p class="info">다운로드하신 <b>'효빈광역시_교차로_대장_...'</b> CSV 파일을 선택해 주세요.</p>
+    
+    <div class="file-box">
+        <input type="file" id="csvFileInput" accept=".csv" style="font-size: 16px; cursor: pointer;">
+    </div>
+
+    <p class="info">👇 변환된 코드 (아래 안내에 따라 붙여넣으세요)</p>
+    <textarea id="outputArea" placeholder="파일을 선택하면 여기에 코드가 나타납니다..."></textarea>
+</div>
+
+<script>
+    document.getElementById('csvFileInput').addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        if (!file) return;
+
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var text = event.target.result;
+            var lines = text.split('\n');
+            
+            var jsOutput = "[\n";
+            var count = 0;
+            var ignoreCount = 0;
+            
+            // 첫 줄(헤더) 건너뛰고 1부터 시작
+            for (var i = 1; i < lines.length; i++) {
+                var line = lines[i].trim();
+                if (!line) continue;
+
+                var regex = /"([^"]*)"/g;
+                var matches = [];
+                var match;
+                while ((match = regex.exec(line)) !== null) {
+                    matches.push(match[1]);
+                }
+
+                if (matches.length >= 5) {
+                    var name = matches[0];
+                    var lat = parseInt(matches[3], 10);
+                    var lng = parseInt(matches[4], 10);
+                    
+                    // ★ 핵심: 이름이 "ㅜ"인 데이터는 가차없이 버림!
+                    if (name === "ㅜ") {
+                        ignoreCount++;
+                        continue;
+                    }
+
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        jsOutput += '    { lat: ' + lat + ', lng: ' + lng + ', name: "' + name + '" },\n';
+                        count++;
+                    }
+                }
+            }
+            jsOutput += "]";
+            
+            var outputArea = document.getElementById('outputArea');
+            outputArea.value = jsOutput;
+            
+            alert("✅ 정상 교차로 " + count + "개 변환 완료!\n(무시된 'ㅜ' 데이터: " + ignoreCount + "개)");
+            outputArea.select(); 
+        };
+        
+        reader.readAsText(file, "utf-8");
+    });
+</script>
+
+</body>
+</html>

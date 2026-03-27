@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>효빈광역시 전자지도 (v4.3 UI 개선 & 사용자 색상)</title>
+    <title>효빈광역시 전자지도 (v5.0 카카오맵 UI 에디션)</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -28,110 +28,109 @@
             font-size: 14px; text-align: center; white-space: nowrap;
         }
 
-        /* 컨트롤 패널 */
-        .control-panel {
-            position: absolute; top: 10px; left: 50px; z-index: 1000;
-            display: flex; flex-direction: column; gap: 8px;
-            max-height: 90vh;
-            transition: transform 0.3s ease-in-out;
-            padding-right: 15px; 
+        /* =========================================
+           카카오맵 스타일 UI - 사이드바 & 툴바
+        ========================================= */
+        /* 왼쪽 사이드바 */
+        .sidebar {
+            position: absolute; top: 0; left: 0; z-index: 1000;
+            width: 320px; height: 100vh; background: #fff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column;
+            transition: transform 0.3s ease;
         }
-        
-        .control-panel.collapsed {
-            transform: translateX(-110%);
-        }
+        .sidebar.collapsed { transform: translateX(-320px); }
 
-        /* 패널 토글 버튼 */
-        .panel-toggle-btn {
-            position: absolute; top: 0; right: -25px; 
-            width: 30px; height: 30px; background: #333; color: white;
-            border: 2px solid white; border-radius: 0 5px 5px 0; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-        }
-        .panel-toggle-btn:hover { background: #555; }
-
-        /* 검색창 */
-        .search-group { display: flex; gap: 5px; margin-bottom: 5px; position: relative; }
+        /* 사이드바 헤더 (검색창) */
+        .sidebar-header { background: #0077DD; padding: 20px 15px; color: white; }
+        .sidebar-header h2 { margin: 0 0 10px 0; font-size: 18px; font-weight: 900; }
+        .search-group { display: flex; gap: 5px; position: relative; }
         .search-input {
-            padding: 8px; border: 2px solid #333; border-radius: 5px; width: 200px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3); font-weight: bold; outline: none;
+            flex: 1; padding: 10px; border: none; border-radius: 4px;
+            font-weight: bold; font-size: 14px; outline: none; color: #333;
         }
         .search-btn {
-            background: #0077DD; color: white; border: 2px solid #0055aa; border-radius: 5px;
-            cursor: pointer; font-weight: bold; width: 50px;
+            background: #fff; border: none; border-radius: 4px; padding: 0 12px;
+            cursor: pointer; font-size: 16px;
         }
-        .search-result-list {
-            position: absolute; top: 40px; left: 0;
-            background: white; border: 2px solid #333; border-radius: 5px;
-            width: 260px; max-height: 250px; overflow-y: auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; z-index: 1001;
+        .search-result-list { 
+            position: absolute; top: 45px; left: 0; width: 100%;
+            background: white; border: 1px solid #ddd; border-radius: 5px;
+            max-height: 250px; overflow-y: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: none; z-index: 1001;
         }
-        .search-result-item {
-            padding: 10px; border-bottom: 1px solid #eee; cursor: pointer;
-            font-size: 13px; font-weight: bold; color: #333; display: flex; align-items: center;
-        }
+        .search-result-item { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 13px; font-weight: bold; color: #333; display: flex; align-items: center; }
         .search-result-item:hover { background-color: #f0f8ff; }
-        .search-result-item:last-child { border-bottom: none; }
         .search-type-badge { font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-right: 8px; color: white; white-space: nowrap; }
 
-        /* 버튼 그룹 */
-        .btn-group { display: flex; gap: 5px; flex-wrap: wrap; max-width: 450px; }
-        .map-btn {
-            background: white; border: 2px solid #333; border-radius: 5px;
-            padding: 8px 12px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3); font-size: 13px; color: #333;
+        /* 사이드바 탭 */
+        .sidebar-tabs { display: flex; border-bottom: 1px solid #ddd; background: #f8f9fa; }
+        .tab-btn {
+            flex: 1; padding: 12px 0; background: transparent; border: none;
+            font-size: 13px; font-weight: bold; color: #777; cursor: pointer;
+            border-bottom: 3px solid transparent; outline: none;
         }
-        .map-btn:hover { background: #eee; }
-        .active-btn { background: #333 !important; color: white !important; border-color: white !important; }
-        #clear-btn { border-color: red; color: red; }
-        #unit-btn { border-color: #009900; color: #009900; }
-        #capture-btn { border-color: #881188; color: #881188; }
-        #radius-btn { border-color: #FF007F; color: #FF007F; }
-        #csv-btn { border-color: #008080; color: #008080; } 
+        .tab-btn.active { color: #0077DD; border-bottom: 3px solid #0077DD; }
 
-        /* 지하철 선택 박스 */
-        .subway-select {
-            background: white; border: 2px solid #0077DD; border-radius: 5px;
-            padding: 8px; font-weight: bold; cursor: pointer; color: #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3); font-size: 13px; outline: none;
+        /* 사이드바 콘텐츠 (버튼 목록) */
+        .sidebar-content { flex: 1; overflow-y: auto; padding: 15px; background: #fefefe; }
+        .tab-pane { display: none; flex-direction: column; gap: 8px; }
+        .tab-pane.active { display: flex; }
+
+        .sidebar-btn {
+            width: 100%; padding: 12px; background: #fff; border: 1px solid #ddd; border-radius: 5px;
+            text-align: left; font-size: 13px; font-weight: bold; color: #333; cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s; display: block;
+        }
+        .sidebar-btn:hover { background: #f0f8ff; border-color: #0077DD; }
+        .danger-btn { color: #EE0022; }
+        .admin-btn { border-left: 4px solid #333; }
+
+        .sidebar-toggle {
+            position: absolute; top: 50%; right: -24px; transform: translateY(-50%);
+            width: 24px; height: 50px; background: #fff; border: 1px solid #ddd; border-left: none;
+            border-radius: 0 8px 8px 0; cursor: pointer; box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: center; font-size: 12px; color: #555;
         }
 
-        /* 색상 선택기 */
-        .color-picker-box {
-            background: rgba(255, 255, 255, 0.95); padding: 0; border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2); font-size: 12px; width: 180px; overflow: hidden;
+        /* 오른쪽 플로팅 툴바 */
+        .right-toolbar {
+            position: absolute; top: 20px; right: 20px; z-index: 1000;
+            background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; overflow: hidden; border: 1px solid #ddd;
         }
-        .picker-header {
-            padding: 10px; background: #f8f9fa; cursor: pointer; font-weight: bold;
-            display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd;
+        .toolbar-btn {
+            width: 45px; height: 45px; background: #fff; border: none; border-bottom: 1px solid #eee;
+            font-size: 18px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center;
         }
-        .picker-header:hover { background: #eee; }
+        .toolbar-btn:last-child { border-bottom: none; }
+        .toolbar-btn:hover { background: #f5f5f5; }
+        .toolbar-divider { height: 4px; background: #f0f0f0; border-bottom: 1px solid #ddd; border-top: 1px solid #ddd; }
+        .active-btn { background: #0077DD !important; color: white !important; }
+
+        /* 기존 컴포넌트 재배치용 스타일 수정 */
+        .color-picker-box { background: white; border: 1px solid #ddd; border-radius: 5px; font-size: 12px; overflow: hidden; margin-bottom: 8px;}
+        .picker-header { padding: 10px; background: #f8f9fa; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; }
         #current-color-preview { width: 20px; height: 20px; border-radius: 3px; border: 1px solid #999; margin-right: 5px; }
-        #palette-list { display: none; padding: 10px; max-height: 300px; overflow-y: auto; }
+        #palette-list { display: none; padding: 10px; max-height: 200px; overflow-y: auto; }
         .color-option { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 0; border-bottom: 1px solid #eee; }
-        .color-option:last-child { border-bottom: none; }
-        .color-option:hover { background: #f0f0f0; }
         .color-preview-small { width: 16px; height: 16px; border-radius: 3px; border: 1px solid #ccc; }
-
-        /* 사용자 지정 색상 인풋 스타일 */
         .custom-color-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 2px dashed #ccc; margin-bottom: 5px; }
         .custom-color-input { border: none; width: 30px; height: 30px; cursor: pointer; background: none; padding: 0; }
-
-        /* 노선 필터 박스 */
-        .subway-filter-box {
-            background: rgba(255, 255, 255, 0.95); border: 2px solid #333; border-radius: 8px;
-            padding: 10px; margin-top: 5px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); max-width: 220px;
-        }
-        .filter-title { font-weight: bold; font-size: 13px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
-        .filter-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+        
+        .subway-select { width: 100%; background: white; border: 1px solid #0077DD; border-radius: 5px; padding: 8px; font-weight: bold; cursor: pointer; color: #333; margin-bottom: 8px; outline: none; }
+        .subway-filter-box { background: white; border: 1px solid #ddd; border-radius: 5px; padding: 10px; margin-bottom: 8px; display: none; }
+        .filter-title { font-weight: bold; font-size: 13px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 5px; display:flex; gap:5px; align-items:center; }
+        .filter-list { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
         .filter-item { font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
         .filter-color-dot { width: 10px; height: 10px; border-radius: 2px; }
 
-        /* 모달창 */
+        /* =========================================
+           기존 맵 요소 및 모달창 스타일 (유지 및 z-index 수정)
+        ========================================= */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.5); z-index: 10005; /* 사이드바보다 확실하게 위로 올림 */
+            justify-content: center; align-items: center;
         }
         .modal-content { background: white; padding: 20px; border-radius: 15px; text-align: center; width: 340px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0; }
@@ -181,103 +180,203 @@
         /* 레이어 선택창 맨 앞으로 끌어올리기 */
         .leaflet-control-layers { z-index: 1500 !important; margin-right: 20px !important; margin-top: 20px !important; background: white !important; border: 2px solid #333 !important; }
         .leaflet-control-container { display: block !important; }
+        /* 오른쪽 플로팅 툴바 */
+        .right-toolbar {
+            position: absolute; 
+            top: 50%; /* 화면 세로 중앙으로 이동 */
+            transform: translateY(-50%); /* 정확히 가운데 맞춤 */
+            right: 20px; 
+            z-index: 1000;
+            background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; overflow: hidden; border: 1px solid #ddd;
+        }
+        /* 지하철 종점 로고 스타일 */
+        .subway-terminal-logo {
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 13px;
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            /* 텍스트 드래그 방지 */
+            user-select: none; pointer-events: none;
+        }
+        /* =========================================
+           📍 내 위치 (파란 물결 펄스) 마커 스타일
+        ========================================= */
+        .my-location-container { position: relative; width: 16px; height: 16px; }
+        
+        .my-location-dot {
+            width: 16px; height: 16px;
+            background-color: #0077DD; /* 카카오맵 톤 파란색 */
+            border: 2px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            position: absolute; z-index: 2;
+        }
+        
+        .my-location-pulse {
+            width: 40px; height: 40px;
+            background-color: rgba(0, 119, 221, 0.4);
+            border-radius: 50%;
+            position: absolute;
+            top: -12px; left: -12px;
+            z-index: 1;
+            /* 물결이 퍼지는 애니메이션 무한 반복 */
+            animation: pulse-animation 1.5s infinite ease-out;
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(0.3); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        /* =========================================
+           🗺️ 실시간 행정구역(주소) 표시 패널 (사각형 정통 스타일)
+        ========================================= */
+        .current-address-box {
+            position: absolute;
+            top: 20px;
+            left: 340px; /* 사이드바 오른쪽에 위치 */
+            z-index: 1000;
+            background: #ffffff;
+            padding: 8px 15px;
+            border-radius: 3px; /* 알약에서 사각형으로 변경 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid #ccc;
+            font-family: 'Malgun Gothic', sans-serif;
+            font-size: 14px;
+            font-weight: 900;
+            color: #000;
+            pointer-events: none; /* 클릭 방해 안 함 */
+        }
     </style>
 </head>
 <body>
-
-<div class="control-panel" id="main-control-panel">
-    <div class="panel-toggle-btn" onclick="toggleControlPanel()">◀</div>
-
-    <div class="search-group">
-        <input type="text" id="search-input" class="search-input" placeholder="장소, 역, 동 검색..." onkeypress="if(event.key==='Enter') searchLocation()">
-        <button class="search-btn" onclick="searchLocation()">🔍</button>
-        <div id="search-result-list" class="search-result-list"></div>
-    </div>
-
-    <div class="btn-group">
-        <button id="draw-btn" class="map-btn" onclick="toggleDrawMode()">📏 선 그리기</button>
-        <button id="area-btn" class="map-btn" onclick="toggleAreaMode()">📐 면적 측정</button>
-        <button id="radius-btn" class="map-btn" onclick="toggleRadiusMode()">⭕ 반경 측정</button>
-        <button id="unit-btn" class="map-btn" onclick="toggleUnit()">🔄 단위: km²</button>
-        <button id="csv-btn" class="map-btn" onclick="downloadAllDataCSV()">💾 데이터 저장(CSV)</button> 
-        <button id="auto-dist-btn" class="map-btn" onclick="toggleAutoDistance()">📏 역간 거리(자동)</button>
-        <button id="auto-area-btn" class="map-btn" onclick="toggleDistrictArea()">📊 구역별 면적</button>
-        <button id="capture-btn" class="map-btn" onclick="downloadMapImage()">📸 지도 캡처</button>
-        <button id="station-btn" class="map-btn" onclick="toggleStationMode()">🚉 역 추가</button>
-        <button id="save-btn" class="map-btn" onclick="saveData()">💾 저장(JSON)</button>
-        <button id="load-btn" class="map-btn" onclick="document.getElementById('file-input').click()">📂 열기</button>
-        <button id="clear-btn" class="map-btn" onclick="clearAllData()">🗑️ 초기화</button>
-        <button id="mode-btn" class="map-btn" onclick="toggleSubwayMode()">🚇 노선도 모드</button>
-        <button id="intersect-btn" class="map-btn" onclick="findIntersections()">❌ 교차점 찾기</button>
-        <button id="auto-bus-stop-btn" class="map-btn" onclick="autoGenerateBusStops()" style="border-color: #37B484; color: #37B484;">🚌 정류장 일괄 생성</button>    
-        <button id="grid-capture-btn" class="map-btn" onclick="captureSpecificGrid()">🔲 그리드 캡처</button>
-        <button id="intersect-csv-btn" class="map-btn" onclick="downloadIntersectionCSV()" style="border-color: #EE0022; color: #EE0022;">❌ 교차로 데이터 추출</button>
-        <button id="road-csv-btn" class="map-btn" onclick="downloadRoadDataCSV()" style="border-color: #ff9922; color: #ff9922;">🛣️ 도로 데이터 추출</button>
-        <button id="marker-csv-btn" class="map-btn" onclick="downloadMarkerDataCSV()" style="border-color: #0077DD; color: #0077DD;">📍 마커 데이터 추출</button>
-        <button id="bus-stop-btn" class="map-btn" onclick="toggleBusStopMode()">🚏 정류장 추가</button>
-        <button id="bus-csv-btn" class="map-btn" onclick="downloadBusStopCSV()" style="border-color: #37B484; color: #37B484;">🚏 정류장 데이터 추출</button>
-    <button id="bus-filter-btn" class="map-btn" onclick="toggleBusFilterBox()" style="border-color: #01B7ED; color: #01B7ED;">🚍 버스 필터</button>
-    </div>
+<div class="current-address-box" id="current-address-box">
+    <span id="current-address-text">위치 탐색 중...</span>
+</div>
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-toggle" onclick="toggleSidebar()">◀</div>
     
-    <input type="file" id="file-input" style="display: none;" accept=".json" onchange="loadData(this)">
-    
-    <div id="subway-filter-box" class="subway-filter-box">
-        <div class="filter-title">
-            🚇 노선별 보기 
-            <button onclick="toggleAllSubwayFilters(true)" style="font-size:10px; cursor:pointer;">모두선택</button>
-            <button onclick="toggleAllSubwayFilters(false)" style="font-size:10px; cursor:pointer;">해제</button>
+    <div class="sidebar-header">
+        <h2>효빈광역시 전자지도</h2>
+        <div class="search-group">
+            <input type="text" id="search-input" class="search-input" placeholder="장소, 역, 도로명 검색..." onkeypress="if(event.key==='Enter') searchLocation()">
+            <button class="search-btn" onclick="searchLocation()">🔍</button>
+            <div id="search-result-list" class="search-result-list"></div>
         </div>
-        <div id="subway-filter-list" class="filter-list"></div>
     </div>
 
-    <select id="subway-select" class="subway-select" onchange="selectSubwayLine(this.value)">
-        <option value="">🚇 도시철도/일반철도 선택...</option>
-        <option value="1">🟦 1호선 (파랑)</option>
-        <option value="1B">🟦 1호선 지선</option>
-        <option value="2">🟩 2호선 (초록)</option>
-        <option value="2B">🟩 2호선 지선</option>
-        <option value="3">🟨 3호선 (노랑)</option>
-        <option value="4">🟧 4호선 (주황)</option>
-        <option value="5">🟥 5호선 (빨강)</option>
-        <option value="6">🟪 6호선 (보라)</option>
-        <option value="7">🌸 7호선 (분홍)</option>
-        <option value="7B">🌸 7호선 지선</option>
-        <option value="8">🔮 8호선 (연보라)</option>
-        <option value="B">🚆 빈효선 (연청)</option>
-        <option disabled>──────────</option>
-        <option value="R1">🛤️ 빈효선(일반)</option>
-        <option value="R2">🛤️ 효빈공단인입선</option>
-        <option value="R3">🛤️ 강빈선</option>
-        <option value="R4">🛤️ 수포현대선</option>
-        <option value="R5">🛤️ 청선인자선</option>
-        <option value="R6">🛤️ 효빈항선</option>
-        <option value="R7">🛤️ 포장공단선</option>
-        <option value="H1">🚄 빈효고속선</option>
-        <option value="T1">🚃 효빈대 A선 트램 (#a0fff9)</option>
-        <option value="M1">🚟 효빈대 B선 모노레일 (#74f466)</option>
-    </select>
-<div id="bus-filter-box" class="subway-filter-box">
-        <div class="filter-title">
-            🚍 버스 종류별 보기 
-            <button onclick="toggleAllBusFilters(true)" style="font-size:10px; cursor:pointer;">모두 켜기</button>
-            <button onclick="toggleAllBusFilters(false)" style="font-size:10px; cursor:pointer;">모두 끄기</button>
-        </div>
-        <div id="bus-filter-list" class="filter-list"></div>
+    <div class="sidebar-tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-layer', this)">레이어/뷰</button>
+        <button class="tab-btn" onclick="switchTab('tab-data', this)">데이터/관리</button>
     </div>
-    <div class="color-picker-box">
-        <div class="picker-header" onclick="togglePaletteList()">
-            <div style="display:flex; align-items:center;">
-                <div id="current-color-preview"></div><span>색상 선택</span>
+
+    <div class="sidebar-content">
+        <div id="tab-layer" class="tab-pane active">
+            <div class="color-picker-box">
+                <div class="picker-header" onclick="togglePaletteList()">
+                    <div style="display:flex; align-items:center;">
+                        <div id="current-color-preview"></div><span>마커/선 색상 선택</span>
+                    </div>
+                    <span id="toggle-icon">▼</span>
+                </div>
+                <div id="palette-list">
+                    <div class="custom-color-row">
+                        <input type="color" id="custom-color-input" class="custom-color-input" value="#ff0000" onchange="setCustomColor(this.value)">
+                        <span style="font-size:12px; font-weight:bold;">🎨 사용자 지정 색상</span>
+                    </div>
+                </div>
             </div>
-            <span id="toggle-icon">▼</span>
+
+            <select id="subway-select" class="subway-select" onchange="selectSubwayLine(this.value)">
+                <option value="">🚇 도시철도/일반철도 선택...</option>
+                <option value="1">🟦 1호선 (파랑)</option>
+                <option value="1B">🟦 1호선 지선</option>
+                <option value="2">🟩 2호선 (초록)</option>
+                <option value="2B">🟩 2호선 지선</option>
+                <option value="3">🟨 3호선 (노랑)</option>
+                <option value="4">🟧 4호선 (주황)</option>
+                <option value="5">🟥 5호선 (빨강)</option>
+                <option value="6">🟪 6호선 (보라)</option>
+                <option value="7">🌸 7호선 (분홍)</option>
+                <option value="7B">🌸 7호선 지선</option>
+                <option value="8">🔮 8호선 (연보라)</option>
+                <option value="B">🚆 빈효선 (연청)</option>
+                <option disabled>──────────</option>
+                <option value="R1">🛤️ 빈효선(일반)</option>
+                <option value="R2">🛤️ 효빈공단인입선</option>
+                <option value="R3">🛤️ 강빈선</option>
+                <option value="R4">🛤️ 수포현대선</option>
+                <option value="R5">🛤️ 청선인자선</option>
+                <option value="R6">🛤️ 효빈항선</option>
+                <option value="R7">🛤️ 포장공단선</option>
+                <option value="H1">🚄 빈효고속선</option>
+                <option value="T1">🚃 효빈대 A선 트램</option>
+                <option value="M1">🚟 효빈대 B선 모노레일</option>
+            </select>
+
+            <button id="mode-btn" class="sidebar-btn" onclick="toggleSubwayMode()">🚇 노선도 모드 전환</button>
+            <div id="subway-filter-box" class="subway-filter-box">
+                <div class="filter-title">
+                    🚇 노선별 보기 
+                    <button onclick="toggleAllSubwayFilters(true)" style="font-size:10px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:3px;">전체</button>
+                    <button onclick="toggleAllSubwayFilters(false)" style="font-size:10px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:3px;">해제</button>
+                </div>
+                <div id="subway-filter-list" class="filter-list"></div>
+            </div>
+
+            <button id="bus-filter-btn" class="sidebar-btn" style="border-left: 4px solid #01B7ED;" onclick="toggleBusFilterBox()">🚍 버스 노선 필터</button>
+            <div id="bus-filter-box" class="subway-filter-box">
+                <div class="filter-title">
+                    🚍 버스 종류별 보기 
+                    <button onclick="toggleAllBusFilters(true)" style="font-size:10px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:3px;">전체</button>
+                    <button onclick="toggleAllBusFilters(false)" style="font-size:10px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:3px;">해제</button>
+                </div>
+                <div id="bus-filter-list" class="filter-list"></div>
+            </div>
+
+            <button id="auto-area-btn" class="sidebar-btn" onclick="toggleDistrictArea()">📊 행정구역 면적 켜기</button>
+            <button id="auto-dist-btn" class="sidebar-btn" onclick="toggleAutoDistance()">📏 역간 거리(자동) 켜기</button>
+            <button id="unit-btn" class="sidebar-btn" onclick="toggleUnit()">🔄 단위 변경 (km² ↔ m²)</button>
+            <button id="grid-capture-btn" class="sidebar-btn" onclick="captureSpecificGrid()">🔲 그리드 지정 캡처</button>
         </div>
-        <div id="palette-list">
-            <div class="custom-color-row">
-                <input type="color" id="custom-color-input" class="custom-color-input" value="#ff0000" onchange="setCustomColor(this.value)">
-                <span style="font-size:12px; font-weight:bold;">🎨 사용자 지정 색상</span>
-            </div>
+
+        <div id="tab-data" class="tab-pane">
+            <div style="font-size:11px; color:#999; margin-bottom:5px;">개인 파일 관리</div>
+            <button id="save-btn" class="sidebar-btn" onclick="saveData()">💾 내 마커/선 저장 (JSON)</button>
+            <button id="load-btn" class="sidebar-btn" onclick="document.getElementById('file-input').click()">📂 내 데이터 불러오기</button>
+            <input type="file" id="file-input" style="display: none;" accept=".json" onchange="loadData(this)">
+            
+            <div style="font-size:11px; color:#999; margin:15px 0 5px 0;">CSV 대장 추출</div>
+            <button id="csv-btn" class="sidebar-btn" onclick="downloadAllDataCSV()">📊 전체 구역/측정 (CSV)</button> 
+            <button id="marker-csv-btn" class="sidebar-btn" onclick="downloadMarkerDataCSV()">📍 시설물 대장 (CSV)</button>
+            <button id="road-csv-btn" class="sidebar-btn" onclick="downloadRoadDataCSV()">🛣️ 도로 대장 (CSV)</button>
+            <button id="intersect-csv-btn" class="sidebar-btn" onclick="downloadIntersectionCSV()">❌ 교차로 대장 (CSV)</button>
+            <button id="bus-csv-btn" class="sidebar-btn" onclick="downloadBusStopCSV()">🚏 버스정류장 대장 (CSV)</button>
+            
+            <div style="font-size:11px; color:#EE0022; margin:15px 0 5px 0;">시스템 관리자 메뉴</div>
+            <button id="auto-bus-stop-btn" class="sidebar-btn admin-btn" onclick="autoGenerateBusStops()">🚌 버스 정류장 일괄 생성</button>
+            <button id="clear-btn" class="sidebar-btn danger-btn" onclick="clearAllData()">🗑️ 브라우저 캐시 초기화</button>
         </div>
     </div>
+</div>
+
+<div id="right-toolbar" class="right-toolbar">
+    <button id="my-loc-btn" class="toolbar-btn" onclick="goToMyLocation()" title="내 위치로 이동">🎯</button>
+    <div class="toolbar-divider"></div>
+    <button id="draw-btn" class="toolbar-btn" onclick="toggleDrawMode()" title="선 그리기/거리 측정">📏</button>
+    <button id="area-btn" class="toolbar-btn" onclick="toggleAreaMode()" title="면적 측정">📐</button>
+    <button id="radius-btn" class="toolbar-btn" onclick="toggleRadiusMode()" title="반경 측정">⭕</button>
+    <div class="toolbar-divider"></div>
+    <button id="station-btn" class="toolbar-btn" onclick="toggleStationMode()" title="지하철역 추가">🚉</button>
+    <button id="bus-stop-btn" class="toolbar-btn" onclick="toggleBusStopMode()" title="버스 정류장 추가">🚏</button>
+    <button id="intersect-btn" class="toolbar-btn" onclick="toggleIntersectionLayer()" title="교차로 대장 보기/숨기기">🚦</button>
+    <div class="toolbar-divider"></div>
+    <button id="capture-btn" class="toolbar-btn" onclick="downloadMapImage()" title="현재 화면 지도 캡처">📸</button>
 </div>
 
 <div id="color-modal" class="modal-overlay">
@@ -313,7 +412,7 @@
         
         <div style="display:flex; justify-content:center; gap:5px;">
             <button class="confirm-btn" onclick="saveIntersectName()">💾 저장</button>
-            <button class="map-btn" style="border-color:#EE0022; color:#EE0022;" onclick="ignoreIntersect()">ㅜ 제외</button>
+            <button class="sidebar-btn" style="border:1px solid #EE0022; color:#EE0022; width:auto; display:inline-block;" onclick="ignoreIntersect()">ㅜ 제외</button>
             <button class="cancel-btn" onclick="closeModal('intersect-name-modal')">취소</button>
         </div>
     </div>
@@ -344,7 +443,7 @@
         <div id="edit-bus-stop-routes" style="max-height:150px; overflow-y:auto; text-align:left; background:#f9f9f9; border:1px solid #ddd; padding:8px; border-radius:5px; margin-bottom:15px;"></div>
         
         <div style="display:flex; justify-content:space-between;">
-            <button class="map-btn" style="color:#EE0022; border-color:#EE0022;" onclick="deleteEditBusStop()">🗑️ 정류장 삭제</button>
+            <button class="sidebar-btn" style="color:#EE0022; border-color:#EE0022; width:auto;" onclick="deleteEditBusStop()">🗑️ 정류장 삭제</button>
             <div>
                 <button class="cancel-btn" onclick="closeModal('bus-stop-edit-modal')">취소</button>
                 <button class="confirm-btn" onclick="saveBusStopEdit()">💾 저장</button>
@@ -354,6 +453,26 @@
 </div>
 
 <div id="map"></div>
+
+<script>
+    function toggleSidebar() {
+        var sidebar = document.getElementById('sidebar');
+        var toggleBtn = document.querySelector('.sidebar-toggle');
+        sidebar.classList.toggle('collapsed');
+        toggleBtn.innerHTML = sidebar.classList.contains('collapsed') ? "▶" : "◀";
+    }
+
+    function switchTab(tabId, btnElement) {
+        document.querySelectorAll('.tab-pane').forEach(function(pane) {
+            pane.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+</script>
 
 <script src="hyobin_main.js"></script>
 </body>
