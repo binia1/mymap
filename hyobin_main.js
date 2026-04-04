@@ -3178,22 +3178,279 @@ var intersectionMarkers = [];
         }
         return Array.from(districts);
     }
-            var overlays = { 
-        "🏙️ 구/군 (상위)": guGunLayer,
-        "🏢 행정 읍/면/동": adminLayer,
-        "촘촘 법정 동/리": legalLayer,
-        "🏗️ 개발지구": devLayer,
-        "🚌 버스 노선": busLineLayer,
-        "🚏 버스 정류장": busStopLayer,
-        "🛤️ 도시/일반철도 노선": subwayLineLayer,
-        "🚉 도시/일반철도 역": subwayStationLayer,
-        "📍 일반 마커": normalMarkerLayer,
-"📏 2000x1500 그리드": gridLayer,        
-"🛣️ 주요 도로망": roadLayer
+// =========================================================
+// 1. 편의점 레이어 선언
+// =========================================================
+var cvsLayer = L.layerGroup();
 
-    };
-    L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+// =========================================================
+// 2. 우측 상단 레이어 컨트롤 메뉴
+// =========================================================
+var overlays = { 
+    "🏙️ 구/군 (상위)": guGunLayer,
+    "🏢 행정 읍/면/동": adminLayer,
+    "촘촘 법정 동/리": legalLayer,
+    "🏗️ 개발지구": devLayer,
+    "🚌 버스 노선": busLineLayer,
+    "🚏 버스 정류장": busStopLayer,
+    "🛤️ 도시/일반철도 노선": subwayLineLayer,
+    "🚉 도시/일반철도 역": subwayStationLayer,
+    "📍 일반 마커": normalMarkerLayer,
+    "🏪 편의점": cvsLayer,
+    "📏 2000x1500 그리드": gridLayer,        
+    "🛣️ 주요 도로망": roadLayer
+};
+L.control.layers(null, overlays, { collapsed: false }).addTo(map);
 
+// =========================================================
+// 3. 편의점 자동 배치 시스템 V4 (정량 배급 & 중복/에러 방지)
+// =========================================================
+var TARGET_CVS_COUNT = 2500; // ★ 350만 광역시 기준 적정 편의점 총 개수 (원하시는 수치로 조절 가능!)
+
+var cvsBrands = [
+    { name: "GS25", color: "#0077c8", textColor: "#ffffff", weight: 35 },
+    { name: "CU", color: "#652C91", textColor: "#a6d654", weight: 35 },
+    { name: "세븐일레븐", color: "#00805E", textColor: "#ff6600", weight: 20 },
+    { name: "이마트24", color: "#FFB81C", textColor: "#333333", weight: 10 },
+    { name: "스토리웨이", color: "#009045", textColor: "#ffffff", weight: 0 } // 가중치 0 (일반 뽑기 제외)
+];
+
+function getRandomCVSBrand() {
+    var sum = 0, r = Math.random() * 100;
+    for (var i = 0; i < cvsBrands.length; i++) {
+        sum += cvsBrands[i].weight;
+        if (r <= sum) return cvsBrands[i];
+    }
+    return cvsBrands[0];
+}
+
+// ★ "역역앞" 대참사 방지용: 이름에서 역, 교차로 등을 완전히 뼈까지 발라냅니다.
+function cleanBaseName(name) {
+    if(!name) return "효빈";
+    return name.replace(/(역|교차로|사거리|삼거리|네거리|오거리|앞|입구|로터리|IC|나들목|신도시|지구|타운|단지|마을)/g, '').trim();
+}
+
+// 상권별 맞춤 접미사 (역 글자를 뺐으므로 여기서 다시 붙여줌)
+var stationSuffixes = ["역앞", "역광장", "역로데오", "역남부", "역북부", "역동부", "역서부", "역중앙"];
+var normalSuffixes = ["중앙", "본점", "로데오", "타운", "사거리", "삼거리"];
+var resSuffixes = ["단지내", "정문", "후문", "상가", "마을", "센트럴"];
+
+var aptRegex = /(아파트|주공|우미린|아이파크|푸르지오|자이|래미안|더샵|힐스테이트|롯데캐슬|e편한세상|센트럴|빌리브|클래스|스카이뷰|더휴|데시안|호르)/;
+
+function getRandomOffset(lat, lng, maxRadius) {
+    var angle = Math.random() * Math.PI * 2;
+    var radius = Math.random() * maxRadius;
+    return { lat: lat + (Math.sin(angle) * radius), lng: lng + (Math.cos(angle) * radius) };
+}
+
+// 마커 생성 함수
+function createCVSMarker(lat, lng, brandData, branchName, isManual = false, autoId = null) {
+    var fullName = brandData.name + " " + branchName + "점";
+    var iconHtml = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+            <div style="background: ${brandData.color}; border: 1.5px solid #fff; border-radius: 8px; padding: 2px 6px; box-shadow: 1px 1px 3px rgba(0,0,0,0.4); display: inline-block;">
+                <span style="color: ${brandData.textColor}; font-size: 10px; font-weight: 900; letter-spacing: -0.5px;">${brandData.name}</span>
+            </div>
+            <div class="station-name-label" style="color: #222; font-size: 11px; margin-top: 2px; font-weight: 800; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; white-space: nowrap;">
+                ${branchName}점
+            </div>
+        </div>
+    `;
+    
+    var marker = L.marker([lat, lng], {
+        icon: L.divIcon({ className: 'custom-cvs', html: iconHtml, iconSize: [80, 40], iconAnchor: [40, 15] })
+    });
+    
+    marker.cvsData = { brand: brandData.name, branch: branchName, isManual: isManual };
+    marker.bindTooltip(`<b>🏪 ${fullName}</b><br><span style="font-size:10px; color:#777;">(더블클릭하여 영구 철거)</span>`, { direction: 'top', offset: [0, -15] });
+
+    marker.on('dblclick', function(e) {
+        L.DomEvent.stopPropagation(e);
+        if (confirm(`'${fullName}' 마커를 철거하시겠습니까?\n(영구 삭제되며 다신 이 자리에 자동 생성되지 않습니다)`)) {
+            cvsLayer.removeLayer(marker);
+            if (isManual) {
+                if (typeof myLandmarks !== 'undefined') {
+                    myLandmarks = myLandmarks.filter(m => !(m.lat === lat && m.lng === lng));
+                    localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+                }
+                var deletedManualCVS = JSON.parse(localStorage.getItem('hyobin_deleted_manual_cvs')) || [];
+                deletedManualCVS.push(lat + "_" + lng);
+                localStorage.setItem('hyobin_deleted_manual_cvs', JSON.stringify(deletedManualCVS));
+            } else if (autoId) {
+                // V4 대장에서 영구 삭제
+                var autoCVS = JSON.parse(localStorage.getItem('hyobin_auto_cvs_v4')) || [];
+                autoCVS = autoCVS.filter(c => c.id !== autoId);
+                localStorage.setItem('hyobin_auto_cvs_v4', JSON.stringify(autoCVS));
+            }
+        }
+    });
+    return marker;
+}
+
+function autoGenerateConvenienceStores() {
+    cvsLayer.clearLayers();
+    var cvsCount = 0;
+    var deletedManualCVS = JSON.parse(localStorage.getItem('hyobin_deleted_manual_cvs')) || [];
+    
+    // ★ 브랜드 내 지점명 중복 검사용 사전 (Set)
+    var usedNames = {};
+    cvsBrands.forEach(b => usedNames[b.name] = new Set());
+
+    // [1] 수동 마커 흡수
+    if (typeof allLandmarks !== 'undefined') {
+        allLandmarks.forEach(m => {
+            if (deletedManualCVS.includes(m.lat + "_" + m.lng)) return;
+            var nameStr = m.name.toUpperCase();
+            if (/(GS25|CU|세븐일레븐|이마트24|스토리웨이)/.test(nameStr)) {
+                var brand = cvsBrands.find(b => nameStr.includes(b.name.toUpperCase())) || cvsBrands[0];
+                var branch = m.name.replace(/(GS25|CU|세븐일레븐|이마트24|스토리웨이|점|\s)/gi, '').trim() || "수동지점";
+                
+                // 수동 마커 지점명도 사전에 등록
+                usedNames[brand.name].add(branch);
+                
+                createCVSMarker(m.lat, m.lng, brand, branch, true).addTo(cvsLayer);
+                m._isConvertedCVS = true;
+                cvsCount++;
+            }
+        });
+    }
+
+    // [2] 자동 생성 V4 (정량 배분 & 중복 방지 시스템)
+    var autoCVS = JSON.parse(localStorage.getItem('hyobin_auto_cvs_v4')) || null;
+
+    // 만약 V4 대장이 없으면 새로 목표 개수(TARGET_CVS_COUNT)만큼 찍어냅니다!
+    if (!autoCVS) {
+        autoCVS = [];
+        var needed = TARGET_CVS_COUNT - cvsCount; 
+        if (needed < 0) needed = 0;
+
+        var basePool = [];
+
+        // 기반지(상권 구역) 수집
+        if (typeof allLandmarks !== 'undefined') {
+            allLandmarks.filter(m => m.type === 'subway').forEach(st => {
+                var lines = st.lines || st.lineCodes || [];
+                basePool.push({ lat: st.lat, lng: st.lng, name: cleanBaseName(st.name), type: 'station', isRailway: lines.some(l => l.startsWith('R')), weight: lines.length >= 2 ? 3 : 1 });
+            });
+            allLandmarks.forEach(m => {
+                if ((m.type === 'normal' || !m.type) && aptRegex.test(m.name)) {
+                    basePool.push({ lat: m.lat, lng: m.lng, name: cleanBaseName(m.name), type: 'res', weight: 2 });
+                }
+            });
+        }
+
+        searchablePolygons.filter(p => p.type === 'dev').forEach(dev => {
+            var center = L.polygon(dev.points).getBounds().getCenter();
+            basePool.push({ lat: center.lat, lng: center.lng, name: cleanBaseName(dev.name), type: 'res', weight: 2 });
+        });
+
+        if (typeof savedIntersections !== 'undefined') {
+            savedIntersections.forEach(i => {
+                if (i.name && i.name !== "ㅜ") {
+                    basePool.push({ lat: i.lat, lng: i.lng, name: cleanBaseName(i.name), type: aptRegex.test(i.name) ? 'res' : 'normal', weight: 1 });
+                }
+            });
+        }
+
+        // 상권별 편의점 데이터 생성기
+        function createAutoCVSData(b) {
+            var brand, branch = b.name, isStoryway = false;
+            
+            if (b.type === 'station' && b.isRailway && !b.hasStoryway) {
+                brand = cvsBrands[4]; // 스토리웨이는 역마다 딱 1개
+                b.hasStoryway = true;
+                branch += "역사";
+                isStoryway = true;
+            } else {
+                brand = getRandomCVSBrand();
+                if (b.type === 'station') branch += stationSuffixes[Math.floor(Math.random() * stationSuffixes.length)];
+                else if (b.type === 'res') branch += resSuffixes[Math.floor(Math.random() * resSuffixes.length)];
+                else branch += normalSuffixes[Math.floor(Math.random() * normalSuffixes.length)];
+            }
+            
+            // ★ 중복 방지 로직: "GS25 시청점"이 이미 있다면 "GS25 시청2호점"으로 변경!
+            var finalBranch = branch;
+            var suffixNum = 2;
+            while (usedNames[brand.name].has(finalBranch)) {
+                finalBranch = branch + suffixNum + "호";
+                suffixNum++;
+            }
+            usedNames[brand.name].add(finalBranch); // 사전에 등록
+
+            var radius = (b.type === 'res') ? 120 : (isStoryway ? 20 : 350);
+            var offset = getRandomOffset(b.lat, b.lng, radius);
+            
+            return {
+                id: Date.now() + Math.random(),
+                lat: offset.lat, lng: offset.lng,
+                brandData: brand, branchName: finalBranch
+            };
+        }
+
+        // 1바퀴: 모든 상권에 일단 최소 1개씩은 공평하게 깔아주기
+        var ticketBox = [];
+        basePool.forEach((b, idx) => {
+            if (needed > 0) {
+                autoCVS.push(createAutoCVSData(b));
+                needed--;
+            }
+            // 가중치만큼 추첨표(티켓) 넣기
+            for (var w = 0; w < b.weight; w++) ticketBox.push(idx); 
+        });
+
+        // 2바퀴: 남은 목표 개수를 추첨(티켓)을 통해 유동인구 많은 곳에 무작위 배치
+        while (needed > 0 && ticketBox.length > 0) {
+            var pickIdx = ticketBox[Math.floor(Math.random() * ticketBox.length)];
+            autoCVS.push(createAutoCVSData(basePool[pickIdx]));
+            needed--;
+        }
+
+        // 생성 완료 후 대장 저장
+        localStorage.setItem('hyobin_auto_cvs_v4', JSON.stringify(autoCVS));
+    } else {
+        // 이미 V4 대장이 있으면 사전에 이름만 추가 등록 (중복 방지용)
+        autoCVS.forEach(c => usedNames[c.brandData.name].add(c.branchName));
+    }
+
+    // 지도에 출력
+    autoCVS.forEach(cv => createCVSMarker(cv.lat, cv.lng, cv.brandData, cv.branchName, false, cv.id).addTo(cvsLayer));
+    console.log(`[시스템] 편의점 V4 (정량 쿼터제) 배치 완료: 총 ${cvsCount + autoCVS.length}개`);
+}
+
+setTimeout(autoGenerateConvenienceStores, 2000);
+
+// =========================================================
+// 📊 편의점 대장 CSV 다운로드 기능
+// =========================================================
+function downloadCVSDataCSV() {
+    var csvContent = "\uFEFF"; 
+    csvContent += "편의점 브랜드,지점명,생성구분,소재지(상세 행정구역),위도,경도\n";
+    
+    var count = 0;
+    cvsLayer.eachLayer(function(marker) {
+        var data = marker.cvsData;
+        if (!data) return;
+        
+        var lat = Math.round(marker.getLatLng().lat);
+        var lng = Math.round(marker.getLatLng().lng);
+        var address = (typeof getFullAddress === 'function') ? (getFullAddress(lat, lng) || "미지정 구역") : "미지정 구역";
+        var typeStr = data.isManual ? "수동 (기존마커 변환)" : "상권 자동배치";
+        
+        csvContent += `"${data.brand}","${data.branch}","${typeStr}","${address}","${lat}","${lng}"\n`;
+        count++;
+    });
+
+    if(count === 0) {
+        alert("추출할 편의점 데이터가 없습니다.");
+        return;
+    }
+
+    var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `효빈광역시_편의점_대장_${new Date().toLocaleDateString()}.csv`;
+    link.click();
+}
 // =========================================================
 // 1. 전체 주소 반환 함수 (돌연변이 장곡리 치료 버전)
 // =========================================================
