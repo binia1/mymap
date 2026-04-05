@@ -1,4 +1,4 @@
-// 파일명: hyobin_subway.js
+// 파일명: sexy.js
 
 var subwayData = {
   "markers": [
@@ -13,15 +13,9 @@ var subwayData = {
     { "name": "회산", "lat": -16616, "lng": 8313, "type": "subway", "lines": ["1"] },
     { "name": "남당", "lat": -16071, "lng": 8953, "type": "subway", "lines": ["1"] },
     { "name": "평당", "lat": -15324, "lng": 9382, "type": "subway", "lines": ["1"] },
-    { "name": "효빈항", "lat": -11497, "lng": 10144, "type": "subway", "lines": ["1", "7", "B", "R1"] },
     { "name": "효빈항물류지구", "lat": -11496, "lng": 11287, "type": "subway", "lines": ["1", "B"] },
-    { "name": "월천", "lat": -11450, "lng": 12658, "type": "subway", "lines": ["1", "2", "7", "2B"] },
     { "name": "십덕", "lat": -11145, "lng": 13749, "type": "subway", "lines": ["1"] },
     { "name": "약맥", "lat": -10973, "lng": 15048, "type": "subway", "lines": ["1"] },
-    { "name": "중앙로", "lat": -9881, "lng": 16955, "type": "subway", "lines": ["1", "2", "7"] },
-    { "name": "중구청", "lat": -9672, "lng": 18076, "type": "subway", "lines": ["1", "7"] },
-    { "name": "내조", "lat": -9732, "lng": 19062, "type": "subway", "lines": ["1", "7"] },
-    { "name": "효빈", "lat": -9823, "lng": 20568, "type": "subway", "lines": ["1", "3", "7", "B", "R1", "R3", "H1"] },
     { "name": "전천", "lat": -8437, "lng": 21077, "type": "subway", "lines": ["1", "5"] },
     { "name": "보몽", "lat": -9008, "lng": 21076, "type": "subway", "lines": ["1"] },
     { "name": "천왕사", "lat": -7303, "lng": 21262, "type": "subway", "lines": ["1"] },
@@ -34,7 +28,7 @@ var subwayData = {
     { "name": "평전", "lat": -6572, "lng": 28808, "type": "subway", "lines": ["1"] },
     { "name": "아진", "lat": -7412, "lng": 29566, "type": "subway", "lines": ["1"] },
     { "name": "당안", "lat": -8097, "lng": 30123, "type": "subway", "lines": ["1"] },
-    { "name": "안천", "lat": -8410, "lng": 31112, "type": "subway", "lines": ["1", "B", "R1", "H1"] },
+    { "name": "안천", "lat": -8410, "lng": 31112, "type": "subway", "lines": ["1", "B"] },
     { "name": "팔망성", "lat": -9317, "lng": 32448, "type": "subway", "lines": ["1"] },
     { "name": "추자", "lat": -9599, "lng": 34292, "type": "subway", "lines": ["1"] },
     { "name": "이자출장소", "lat": -9126, "lng": 35677, "type": "subway", "lines": ["1"] },
@@ -43,7 +37,7 @@ var subwayData = {
     { "name": "정치", "lat": -8758, "lng": 39018, "type": "subway", "lines": ["1"] },
     { "name": "영색무", "lat": -8485, "lng": 39915, "type": "subway", "lines": ["1", "B"] },
     { "name": "능릉", "lat": -8076, "lng": 41558, "type": "subway", "lines": ["1"] },
-    { "name": "고해", "lat": -8386, "lng": 44789, "type": "subway", "lines": ["1", "B", "R1"] },
+    { "name": "고해", "lat": -8386, "lng": 44789, "type": "subway", "lines": ["1", "B"] },
     { "name": "오석", "lat": -10963, "lng": 17106, "type": "subway", "lines": ["4", "1B"] },
     { "name": "장원", "lat": -11049, "lng": 18268, "type": "subway", "lines": ["4", "1B", "B"] },
     { "name": "동리", "lat": -11529, "lng": 19090, "type": "subway", "lines": ["1B"] },
@@ -102,7 +96,6 @@ var subwayData = {
     { "name": "소장", "lat": -8648, "lng": 17103, "type": "subway", "lines": ["2"] },
     { "name": "심동", "lat": -10196, "lng": 15495, "type": "subway", "lines": ["2"] },
     { "name": "고도", "lat": -10464, "lng": 14317, "type": "subway", "lines": ["2"] },
-    { "name": "내항", "lat": -10605, "lng": 13347, "type": "subway", "lines": ["2", "7"] },
     { "name": "신산", "lat": -79, "lng": 15501, "type": "subway", "lines": ["3"] },
     { "name": "중만도", "lat": -1248, "lng": 15462, "type": "subway", "lines": ["3"] },
     { "name": "토모리해수욕장", "lat": -2319, "lng": 15690, "type": "subway", "lines": ["3"] },
@@ -142,7 +135,7 @@ var subwayData = {
     { "name": "천가", "lat": -6391, "lng": 42806, "type": "subway", "lines": ["4"] },
     { "name": "소원", "lat": -5667, "lng": 40764, "type": "subway", "lines": ["4"] },
     { "name": "서수", "lat": -7000, "lng": 39103, "type": "subway", "lines": ["4"] },
-    { "name": "이자", "lat": -8485, "lng": 38173, "type": "subway", "lines": ["4", "B", "R1"] },
+    { "name": "이자", "lat": -8485, "lng": 38173, "type": "subway", "lines": ["4", "B"] },
     { "name": "탄자", "lat": -9981, "lng": 37748, "type": "subway", "lines": ["4"] },
     { "name": "앵내", "lat": -12023, "lng": 37363, "type": "subway", "lines": ["4"] },
     { "name": "잠재", "lat": -12817, "lng": 35603, "type": "subway", "lines": ["4"] },
@@ -162,70 +155,83 @@ var subwayData = {
     { "name": "운양", "lat": -12059, "lng": 9792, "type": "subway", "lines": ["2B"] },
     { "name": "어간항", "lat": -11930, "lng": 8330, "type": "subway", "lines": ["2B"] },
     { "name": "어간수산시장", "lat": -11512, "lng": 7085, "type": "subway", "lines": ["2B"] },
-    { "name": "어간중앙", "lat": -11026, "lng": 6260, "type": "subway", "lines": ["7", "2B"] },
     { "name": "어간", "lat": -10408, "lng": 5300, "type": "subway", "lines": ["2B"] },
     { "name": "항동1가", "lat": -9835, "lng": 3906, "type": "subway", "lines": ["2B"] },
     { "name": "효빈항국제여객터미널", "lat": -8696, "lng": 2364, "type": "subway", "lines": ["2B"] },
     { "name": "신덕", "lat": -10562, "lng": 19545, "type": "subway", "lines": ["4", "B"] },
-    { "name": "어간초", "lat": -10924, "lng": 6864, "type": "subway", "lines": ["7"] },
-    { "name": "항동3가", "lat": -10776, "lng": 7913, "type": "subway", "lines": ["7"] },
-    { "name": "항만해변", "lat": -10834, "lng": 8547, "type": "subway", "lines": ["7"] },
-    { "name": "산홍", "lat": -11112, "lng": 9253, "type": "subway", "lines": ["7"] },
-    { "name": "효빈항동부", "lat": -11534, "lng": 10782, "type": "subway", "lines": ["7"] },
-    { "name": "분덕", "lat": -11565, "lng": 11593, "type": "subway", "lines": ["7"] },
-    { "name": "항동문화회관", "lat": -11726, "lng": 11963, "type": "subway", "lines": ["7"] },
-    { "name": "갑문", "lat": -11219, "lng": 12848, "type": "subway", "lines": ["7B"] },
-    { "name": "명일", "lat": -10920, "lng": 12965, "type": "subway", "lines": ["7"] },
-    { "name": "내항시장", "lat": -10442, "lng": 13619, "type": "subway", "lines": ["7"] },
-    { "name": "만마루", "lat": -10226, "lng": 13797, "type": "subway", "lines": ["7"] },
-    { "name": "구 세관", "lat": -10221, "lng": 14142, "type": "subway", "lines": ["7"] },
-    { "name": "고도리", "lat": -10220, "lng": 14477, "type": "subway", "lines": ["7"] },
-    { "name": "시북", "lat": -10221, "lng": 14764, "type": "subway", "lines": ["7"] },
-    { "name": "시남", "lat": -10223, "lng": 14992, "type": "subway", "lines": ["7"] },
-    { "name": "우이", "lat": -10450, "lng": 15120, "type": "subway", "lines": ["7"] },
-    { "name": "우이문화촌역", "lat": -10564, "lng": 15354, "type": "subway", "lines": ["7"] },
-    { "name": "심동1가", "lat": -10431, "lng": 15621, "type": "subway", "lines": ["7"] },
-    { "name": "심동2가", "lat": -10296, "lng": 15902, "type": "subway", "lines": ["7"] },
-    { "name": "중앙로1가", "lat": -10026, "lng": 16077, "type": "subway", "lines": ["7"] },
-    { "name": "개항지", "lat": -9810, "lng": 16250, "type": "subway", "lines": ["7"] },
-    { "name": "중앙로3가", "lat": -9950, "lng": 16490, "type": "subway", "lines": ["7"] },
-    { "name": "원동4가", "lat": -10169, "lng": 16919, "type": "subway", "lines": ["7"] },
-    { "name": "중보로", "lat": -10171, "lng": 17243, "type": "subway", "lines": ["7", "7B"] },
-    { "name": "효빈은행", "lat": -10322, "lng": 17442, "type": "subway", "lines": ["7"] },
-    { "name": "구시청앞", "lat": -10589, "lng": 17397, "type": "subway", "lines": ["7"] },
-    { "name": "경동", "lat": -10589, "lng": 17616, "type": "subway", "lines": ["7"] },
-    { "name": "유내", "lat": -10538, "lng": 18018, "type": "subway", "lines": ["7"] },
-    { "name": "리사", "lat": -10494, "lng": 18331, "type": "subway", "lines": ["7"] },
-    { "name": "도람", "lat": -10460, "lng": 18559, "type": "subway", "lines": ["7"] },
-    { "name": "궁정", "lat": -10340, "lng": 18749, "type": "subway", "lines": ["7"] },
-    { "name": "상원초", "lat": -10158, "lng": 18760, "type": "subway", "lines": ["7"] },
-    { "name": "효빈성앞", "lat": -9890, "lng": 18775, "type": "subway", "lines": ["7"] },
-    { "name": "중앙고", "lat": -9749, "lng": 19487, "type": "subway", "lines": ["7"] },
-    { "name": "내조공원", "lat": -9828, "lng": 19769, "type": "subway", "lines": ["7"] },
-    { "name": "사가당공원", "lat": -9541, "lng": 20302, "type": "subway", "lines": ["7"] },
-    { "name": "가족센터", "lat": -9287, "lng": 20130, "type": "subway", "lines": ["7"] },
-    { "name": "치남", "lat": -9024, "lng": 19940, "type": "subway", "lines": ["7"] },
-    { "name": "사능동3가", "lat": -8932, "lng": 19745, "type": "subway", "lines": ["7"] },
-    { "name": "유성당", "lat": -8865, "lng": 19486, "type": "subway", "lines": ["7"] },
-    { "name": "사능복지관", "lat": -8836, "lng": 19189, "type": "subway", "lines": ["7"] },
-    { "name": "사능동1가", "lat": -8816, "lng": 18882, "type": "subway", "lines": ["7"] },
-    { "name": "북구서부어린이회관", "lat": -8822, "lng": 18572, "type": "subway", "lines": ["7"] },
-    { "name": "사능삼거리", "lat": -8797, "lng": 18253, "type": "subway", "lines": ["7"] },
-    { "name": "봇지마을", "lat": -8742, "lng": 18079, "type": "subway", "lines": ["7"] },
-    { "name": "북문로", "lat": -8640, "lng": 17911, "type": "subway", "lines": ["7"] },
-    { "name": "효빈성북문", "lat": -8424, "lng": 17773, "type": "subway", "lines": ["7"] },
-    { "name": "구 칠천군사기지", "lat": -8155, "lng": 17898, "type": "subway", "lines": ["7"] },
-    { "name": "당선원마을", "lat": -7825, "lng": 18050, "type": "subway", "lines": ["7"] },
-    { "name": "효빈대입구", "lat": -7612, "lng": 18038, "type": "subway", "lines": ["7"] },
-    { "name": "중동3가", "lat": -10031, "lng": 17467, "type": "subway", "lines": ["7B"] },
-    { "name": "조유동3가", "lat": -9630, "lng": 17454, "type": "subway", "lines": ["7B"] },
-    { "name": "색수시장", "lat": -9819, "lng": 17439, "type": "subway", "lines": ["7B"] },
-    { "name": "조유동2가", "lat": -9674, "lng": 17833, "type": "subway", "lines": ["7"] },
-    { "name": "천석동2가", "lat": -9648, "lng": 18313, "type": "subway", "lines": ["7B"] },
-    { "name": "천석동3가", "lat": -9510, "lng": 18500, "type": "subway", "lines": ["7B"] },
-    { "name": "서남", "lat": -9281, "lng": 18508, "type": "subway", "lines": ["7B"] },
-    { "name": "효빈고", "lat": -9104, "lng": 18507, "type": "subway", "lines": ["7B"] },
-    { "name": "사중", "lat": -8956, "lng": 18517, "type": "subway", "lines": ["7B"] },
+// =================================================================
+    // 7호선 및 7호선 지선(7B) 마커 (isMajor 태그 적용 완료)
+    // =================================================================
+    // [1] 메이저 역 (환승역 + 시장님 특별 지정 역)
+    { "name": "효빈항", "lat": -11497, "lng": 10144, "type": "subway", "lines": ["1", "7", "B"], "isMajor": true },
+    { "name": "월천", "lat": -11450, "lng": 12658, "type": "subway", "lines": ["1", "2", "7", "2B"], "isMajor": true },
+    { "name": "중앙로", "lat": -9881, "lng": 16955, "type": "subway", "lines": ["1", "2", "7"], "isMajor": true },
+    { "name": "중구청", "lat": -9672, "lng": 18076, "type": "subway", "lines": ["1", "7"], "isMajor": true },
+    { "name": "내조", "lat": -9732, "lng": 19062, "type": "subway", "lines": ["1", "7"], "isMajor": true },
+    { "name": "효빈", "lat": -9823, "lng": 20568, "type": "subway", "lines": ["1", "3", "7", "B"], "isMajor": true },
+    { "name": "내항", "lat": -10605, "lng": 13347, "type": "subway", "lines": ["2", "7"], "isMajor": true },
+    { "name": "어간중앙", "lat": -11026, "lng": 6260, "type": "subway", "lines": ["7", "2B"], "isMajor": true },
+    { "name": "중보로", "lat": -10171, "lng": 17243, "type": "subway", "lines": ["7", "7B"], "isMajor": true },
+    { "name": "구시청앞", "lat": -10589, "lng": 17397, "type": "subway", "lines": ["7"], "isMajor": true },
+    { "name": "효빈성앞", "lat": -9890, "lng": 18775, "type": "subway", "lines": ["7"], "isMajor": true },
+    { "name": "효빈대입구", "lat": -7612, "lng": 18038, "type": "subway", "lines": ["7"], "isMajor": true },
+
+    // [2] 일반 역 (전체 노선도에서는 점이 숨겨질 역들)
+    { "name": "어간초", "lat": -10924, "lng": 6864, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "항동3가", "lat": -10776, "lng": 7913, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "항만해변", "lat": -10834, "lng": 8547, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "산홍", "lat": -11112, "lng": 9253, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "효빈항동부", "lat": -11534, "lng": 10782, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "분덕", "lat": -11565, "lng": 11593, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "항동문화회관", "lat": -11726, "lng": 11963, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "갑문", "lat": -11219, "lng": 12848, "type": "subway", "lines": ["7B"], "isMajor": false },
+    { "name": "명일", "lat": -10920, "lng": 12965, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "내항시장", "lat": -10442, "lng": 13619, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "만마루", "lat": -10226, "lng": 13797, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "구 세관", "lat": -10221, "lng": 14142, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "고도리", "lat": -10220, "lng": 14477, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "시북", "lat": -10221, "lng": 14764, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "시남", "lat": -10223, "lng": 14992, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "우이", "lat": -10450, "lng": 15120, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "우이문화촌역", "lat": -10564, "lng": 15354, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "심동1가", "lat": -10431, "lng": 15621, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "심동2가", "lat": -10296, "lng": 15902, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "중앙로1가", "lat": -10026, "lng": 16077, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "개항지", "lat": -9810, "lng": 16250, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "중앙로3가", "lat": -9950, "lng": 16490, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "원동4가", "lat": -10169, "lng": 16919, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "효빈은행", "lat": -10322, "lng": 17442, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "경동", "lat": -10589, "lng": 17616, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "유내", "lat": -10538, "lng": 18018, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "리사", "lat": -10494, "lng": 18331, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "도람", "lat": -10460, "lng": 18559, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "궁정", "lat": -10340, "lng": 18749, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "상원초", "lat": -10158, "lng": 18760, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "중앙고", "lat": -9749, "lng": 19487, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "내조공원", "lat": -9828, "lng": 19769, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "사가당공원", "lat": -9541, "lng": 20302, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "가족센터", "lat": -9287, "lng": 20130, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "치남", "lat": -9024, "lng": 19940, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "사능동3가", "lat": -8932, "lng": 19745, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "유성당", "lat": -8865, "lng": 19486, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "사능복지관", "lat": -8836, "lng": 19189, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "사능동1가", "lat": -8816, "lng": 18882, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "북구서부어린이회관", "lat": -8822, "lng": 18572, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "사능삼거리", "lat": -8797, "lng": 18253, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "봇지마을", "lat": -8742, "lng": 18079, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "북문로", "lat": -8640, "lng": 17911, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "효빈성북문", "lat": -8424, "lng": 17773, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "구 칠천군사기지", "lat": -8155, "lng": 17898, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "당선원마을", "lat": -7825, "lng": 18050, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "중동3가", "lat": -10031, "lng": 17467, "type": "subway", "lines": ["7B"], "isMajor": false },
+    { "name": "조유동3가", "lat": -9630, "lng": 17454, "type": "subway", "lines": ["7B"], "isMajor": false },
+    { "name": "색수시장", "lat": -9819, "lng": 17439, "type": "subway", "lines": ["7B"], "isMajor": false },
+    { "name": "조유동2가", "lat": -9674, "lng": 17833, "type": "subway", "lines": ["7"], "isMajor": false },
+    { "name": "천석동2가", "lat": -9648, "lng": 18313, "type": "subway", "lines": ["7B"], "isMajor": false },
+    { "name": "천석동3가", "lat": -9510, "lng": 18500, "type": "subway", "lines": ["7B"], "isMajor": false },
+    { "name": "서남", "lat": -9281, "lng": 18508, "type": "subway", "lines": ["7B"], "isMajor": false },
+    { "name": "효빈고", "lat": -9104, "lng": 18507, "type": "subway", "lines": ["7B"], "isMajor": false },
+    { "name": "사중", "lat": -8956, "lng": 18517, "type": "subway", "lines": ["7B"], "isMajor": false },
     { "name": "곽산고", "lat": -16802, "lng": 8953, "type": "subway", "lines": ["8"] },
     { "name": "남부소방서", "lat": -16602, "lng": 9899, "type": "subway", "lines": ["8"] },
     { "name": "부한", "lat": -16493, "lng": 10688, "type": "subway", "lines": ["8"] },
@@ -249,25 +255,22 @@ var subwayData = {
     { "name": "박산중고등학교", "lat": -12650, "lng": 12937, "type": "subway", "lines": ["8"] },
     { "name": "동신", "lat": -12073, "lng": 12874, "type": "subway", "lines": ["B"] },
     { "name": "오주", "lat": -11825, "lng": 16026, "type": "subway", "lines": ["B"] },
-    { "name": "효빈동신도시", "lat": -11415, "lng": 17222, "type": "subway", "lines": ["B", "R1"] },
+    { "name": "효빈동신도시", "lat": -11415, "lng": 17222, "type": "subway", "lines": ["B"] },
     { "name": "하성천", "lat": -9437, "lng": 25080, "type": "subway", "lines": ["B"] },
     { "name": "북택", "lat": -9474, "lng": 26669, "type": "subway", "lines": ["B"] },
     { "name": "수포", "lat": -8934, "lng": 28441, "type": "subway", "lines": ["B"] },
     { "name": "타천", "lat": -8449, "lng": 33591, "type": "subway", "lines": ["B"] },
     { "name": "리의", "lat": -8480, "lng": 36405, "type": "subway", "lines": ["B"] },
 
-    // =================================================================
-    // [2] 추가된 마커 (원래 좌표(옛날 좌표)로 싹 다 복구 완료!)
-    // =================================================================
 // =================================================================
     // [2] 추가된 마커 (Raw 좌표로 완벽 복구!)
     // =================================================================
     { "name": "효빈국제공항", "lat": 6546, "lng": 12489, "type": "subway", "lines": ["3"] },
     { "name": "주양", "lat": 1768, "lng": 15542, "type": "subway", "lines": ["3"] },
-    { "name": "염곡", "lat": 3789, "lng": 15746, "type": "subway", "lines": ["3", "R3"] },
+    { "name": "염곡", "lat": 3789, "lng": 15746, "type": "subway", "lines": ["3"] },
 
     { "name": "도향", "lat": -8830, "lng": 50051, "type": "subway", "lines": ["1"] },
-    { "name": "화소", "lat": -3265, "lng": 66631, "type": "subway", "lines": ["1", "B", "H1"] },
+    { "name": "화소", "lat": -3265, "lng": 66631, "type": "subway", "lines": ["1", "B"] },
     { "name": "산형", "lat": -8859, "lng": 54571, "type": "subway", "lines": ["1"] },
     { "name": "탄미", "lat": -8855, "lng": 56695, "type": "subway", "lines": ["1"] },
     { "name": "약산시청", "lat": -8864, "lng": 58777, "type": "subway", "lines": ["1"] },
@@ -279,46 +282,22 @@ var subwayData = {
     { "name": "무기", "lat": -5299, "lng": 77165, "type": "subway", "lines": ["1"] },
     { "name": "장선", "lat": -4007, "lng": 78295, "type": "subway", "lines": ["1"] },
     { "name": "영내", "lat": -8019, "lng": 56313, "type": "subway", "lines": ["B"] },
-    { "name": "약산", "lat": -7522, "lng": 58912, "type": "subway", "lines": ["B", "R1"] },
+    { "name": "약산", "lat": -7522, "lng": 58912, "type": "subway", "lines": ["B"] },
     { "name": "홍하", "lat": -5024, "lng": 63715, "type": "subway", "lines": ["B"] },
     { "name": "근강", "lat": -2487, "lng": 70840, "type": "subway", "lines": ["B"] },
-    { "name": "궁하", "lat": -1558, "lng": 74373, "type": "subway", "lines": ["B", "R1"] },
+    { "name": "궁하", "lat": -1558, "lng": 74373, "type": "subway", "lines": ["B"] },
     { "name": "아이", "lat": -4, "lng": 75180, "type": "subway", "lines": ["B"] },
     { "name": "서팔", "lat": 1458, "lng": 75171, "type": "subway", "lines": ["B"] },
     { "name": "과림", "lat": 4313, "lng": 75129, "type": "subway", "lines": ["B"] },
     { "name": "시곡", "lat": 7056, "lng": 74734, "type": "subway", "lines": ["B"] },
-    { "name": "산취", "lat": 9939, "lng": 74468, "type": "subway", "lines": ["B", "R1", "H1"] },
+    { "name": "산취", "lat": 9939, "lng": 74468, "type": "subway", "lines": ["B"] },
     { "name": "빈전", "lat": 12028, "lng": 75520, "type": "subway", "lines": ["B"] },
     { "name": "대뢰", "lat": 11347, "lng": 74780, "type": "subway", "lines": ["B"] },
     { "name": "천주중앙", "lat": 13113, "lng": 75639, "type": "subway", "lines": ["B"] },
     { "name": "천주시청", "lat": 14220, "lng": 75231, "type": "subway", "lines": ["B"] },
-    { "name": "천주", "lat": 15319, "lng": 74307, "type": "subway", "lines": ["B", "R1", "H1"] },
+    { "name": "천주", "lat": 15319, "lng": 74307, "type": "subway", "lines": ["B"] },
     { "name": "고남", "lat": 17622, "lng": 72373, "type": "subway", "lines": ["B"] },
         
-    // (트램 및 모노레일은 원본 그대로 정상!)
-    { "name": "수의대·동물병원역", "lat": -8528, "lng": 18766, "type": "subway", "lines": ["T1"] },
-    { "name": "효빈대병원역", "lat": -8317, "lng": 18518, "type": "subway", "lines": ["T1"] },
-    { "name": "간호대 - 한의관역", "lat": -8328, "lng": 18223, "type": "subway", "lines": ["T1"] },
-    { "name": "약대 보건대역", "lat": -8111, "lng": 18071, "type": "subway", "lines": ["T1"] },
-    { "name": "화공 전기대역", "lat": -7911, "lng": 18229, "type": "subway", "lines": ["T1"] },
-    { "name": "토목대 복지관역", "lat": -7686, "lng": 18355, "type": "subway", "lines": ["T1"] },
-    { "name": "대학본부·충승당역", "lat": -7454, "lng": 18397, "type": "subway", "lines": ["T1"] },
-    { "name": "교통대학 기지역", "lat": -6693, "lng": 18865, "type": "subway", "lines": ["M1"] },
-    { "name": "중앙도서관역", "lat": -6995, "lng": 19005, "type": "subway", "lines": ["M1"] },
-    { "name": "사회복지대역", "lat": -7205, "lng": 19012, "type": "subway", "lines": ["M1"] },
-    { "name": "미술사회대역", "lat": -7216, "lng": 18818, "type": "subway", "lines": ["M1"] },
-    { "name": "법전원역", "lat": -7203, "lng": 18573, "type": "subway", "lines": ["M1"] },
-    { "name": "상과대 학생회관역(T1)", "lat": -7313, "lng": 18432, "type": "subway", "lines": ["T1"] },
-    { "name": "효빈대중앙환승장역", "lat": -7125, "lng": 18443, "type": "subway", "lines": ["T1", "M1"] },
-    { "name": "예술대역", "lat": -6957, "lng": 18437, "type": "subway", "lines": ["M1"] },
-    { "name": "자연대역", "lat": -6740, "lng": 18393, "type": "subway", "lines": ["M1"] },
-    { "name": "베르데홀역", "lat": -6708, "lng": 18059, "type": "subway", "lines": ["M1"] },
-    { "name": "북부 기숙사역", "lat": -6842, "lng": 17819, "type": "subway", "lines": ["M1"] },
-    { "name": "보건진료소역", "lat": -7074, "lng": 17801, "type": "subway", "lines": ["M1"] },
-    { "name": "대운동장역", "lat": -7446, "lng": 17932, "type": "subway", "lines": ["M1"] },
-    { "name": "본부. 충승당역", "lat": -7451, "lng": 18384, "type": "subway", "lines": ["M1"] },
-    { "name": "상과대 학생회관역(M1)", "lat": -7286, "lng": 18433, "type": "subway", "lines": ["M1"] },
-    { "name": "효빈대중앙환승장(종점)역", "lat": -7039, "lng": 18439, "type": "subway", "lines": ["M1"] }
   ],
   "lines": [
     // --- 1호선 (복구 완료!) ---
@@ -597,81 +576,6 @@ var subwayData = {
         [-7613, 18038]
       ],
       "color": "#FF8899"
-    },{ 
-    name: "입동기지선", 
-    color: "#2d4552", 
-    points: [
-      [-14338, 15103], [-14132, 15097], [-13686, 15100], [-13278, 15112], [-13183, 15139], [-13026, 15191], [-12902, 15181], [-12826, 15145], [-12797, 15080]
-    ] 
-  },
-  { 
-    name: "효빈공단인입선", 
-    color: "#3152A5", 
-    points: [
-      [-14371, 13947], [-14341, 14641], [-14244, 14929], [-14106, 15078], 
-      [-13494, 15104], [-13255, 15115], [-13013, 15197], [-12897, 15186], 
-      [-12845, 15238], [-12789, 15388], [-12341, 15473], [-12125, 15720], 
-      [-11897, 15884], [-11811, 16067]
-    ] 
-  },  { 
-    name: "효빈항선(신)", 
-    color: "#2d4552", 
-    points: [
-      [-9640, 7083], [-10056, 7543], [-10292, 8054], [-10412, 8327], [-10633, 8711], [-10742, 8845], [-10970, 9092], [-11295, 9745], [-11393, 10137], [-11471, 10488]
-    ] 
-  },
-  { 
-    name: "빈효고속선", 
-    color: "#024f54", 
-    points: [
-      [-10001, 20756], [-9831, 21181], [-9659, 21626], [-9588, 21967], [-9472, 22496], [-9451, 22643], [-9430, 23137], [-9414, 23493], [-9427, 24541], [-9435, 25372], [-9451, 26403], [-9460, 26805], [-9376, 27051], [-8886, 28535], [-8517, 29537], [-8380, 29928], [-8391, 30701], [-8397, 31216], [-8408, 32203], [-8418, 33192], [-8429, 34116], [-8504, 34549], [-8482, 36096], [-8467, 37208], [-8464, 38403], [-8475, 39359], [-8470, 40523], [-8473, 41897], [-8473, 43046], [-8480, 44231], [-8467, 45395], [-8451, 46071], [-8344, 47520], [-8243, 48821], [-8164, 49893], [-8108, 50608], [-8062, 51146], [-7789, 52787], [-7644, 53602], [-7204, 54651], [-6730, 55771], [-6566, 56038], [-5713, 57250], [-5125, 58089], [-4445, 59075], [-3929, 59790], [-3713, 60711], [-3564, 61385], [-3463, 61825], [-3415, 63044], [-3371, 64103], [-3250, 65074], [-3210, 65422], [-2380, 66871], [-1753, 67896]
-    ] 
-  },
-  { 
-    name: "강빈선", 
-    color: "#00147a", 
-    points: [
-      [-10159, 20333], [-9933, 20807], [-9789, 21021], [-9630, 21059], [-9242, 21053], [-8990, 21003], [-8661, 21014], [-8056, 20738], [-7250, 20379], [-7147, 20372], [-6680, 20320], [-6458, 20204], [-6225, 20060], [-6135, 19963], [-6016, 19799], [-5936, 19592], [-5881, 19407], [-5822, 19220], [-5796, 19053], [-5799, 18765], [-5760, 18567], [-5738, 18526], [-5452, 18174], [-5437, 17438], [-5424, 16821], [-5355, 16649], [-5232, 16227], [-5079, 15888], [-4987, 15763], [-4750, 15483], [-4629, 15341], [-4567, 15294], [-3602, 15294], [-3412, 15291], [-3133, 15707], [-3075, 15753], [-2487, 15768], [-1529, 15522], [-971, 15401], [-514, 15404], [-105, 15490],
-      [-98, 15494],
-      [82, 15545],
-      [1831, 15545],
-      [3416, 15725],
-      [5388, 15922]
-    ] 
-  },{
-      "name": "빈효고속선",
-      "points": [
-        [8323, 72719],
-        [9420, 74178],
-        [10890, 74382],
-        [12689, 74415],
-        [13694, 74441],
-        [14867, 74480],
-        [15063, 74422],
-        [15540, 74061],
-        [15780, 73928],
-        [16716, 73619],
-        [17190, 73467],
-        [17622, 73411],
-        [18080, 73356],
-        [19282, 73389],
-        [19819, 73395]
-      ],
-      "color": "#024f54"
-    },
-    {
-      "name": "청선인자선",
-      "points": [
-        [15493, 74343],
-        [15263, 74607],
-        [15296, 74792],
-        [14860, 75095],
-        [14920, 75319],
-        [14896, 76225],
-        [15057, 76562],
-        [15066, 76577]
-      ],
-      "color": "#3152A5"
     },
     {
       "name": "7호선(지선)",
@@ -696,29 +600,6 @@ var subwayData = {
       ],
       "color": "#00CCAA"
     },
-    // --- 효빈대 A선 트램 (보정 완료) ---
-    {
-      "name": "효빈대A선",
-      "points": [
-        [-8551, 18768], [-8383, 18769], [-8342, 18758], [-8318, 18748], [-8313, 18466], [-8321, 18289],
-        [-8323, 18203], [-8313, 18064], [-8271, 18050], [-8165, 18055], [-8084, 18074], [-8073, 18160],
-        [-7983, 18176], [-7901, 18243], [-7749, 18354], [-7641, 18357], [-7592, 18334], [-7519, 18381],
-        [-7429, 18406], [-7330, 18436], [-7166, 18446], [-6971, 18443], [-6966, 18388]
-      ],
-      "color": "#a0fff9"
-    },
-    // --- 효빈대 B선 모노레일 (보정 완료) ---
-    {
-      "name": "효빈대 B선",
-      "points": [
-        [-6632, 18847], [-6704, 18872], [-6771, 18936], [-6835, 18992], [-7011, 19007], [-7215, 19019],
-        [-7247, 19015], [-7242, 18940], [-7220, 18818], [-7211, 18677], [-7207, 18452], [-7038, 18447],
-        [-6957, 18440], [-6883, 18454], [-6777, 18437], [-6747, 18401], [-6703, 18241], [-6712, 18051],
-        [-6787, 17906], [-6805, 17835], [-6910, 17798], [-7120, 17799], [-7198, 17837], [-7282, 17846],
-        [-7361, 17908], [-7477, 17937], [-7519, 17982], [-7523, 18014], [-7512, 18035], [-7498, 18087],
-        [-7478, 18148], [-7455, 18345], [-7455, 18385], [-7320, 18429], [-7128, 18439], [-7039, 18441]
-      ],
-      "color": "#74f466"
-    }
+
   ]
 };

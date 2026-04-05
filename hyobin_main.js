@@ -810,19 +810,26 @@ if (subwayData.markers) {
     });
     allLandmarks = allLandmarks.concat(processedSubwayMarkers);
 }
-        if (subwayData.lines) {
-            subwayData.lines.forEach(function(line) {
-                var correctedPoints = line.points.map(p => [p[0] + adjustY, p[1]]);
-                // [NEW] lineKey 찾아서 레이어에 심기 (필터링용)
-                var lineKey = Object.keys(subwayLines).find(key => subwayLines[key].name === line.name) || "";
-                if (!lineKey) lineKey = Object.keys(subwayLines).find(key => line.name.includes(subwayLines[key].name) || subwayLines[key].name.includes(line.name));
-                
-                var poly = L.polyline(correctedPoints, { color: line.color, weight: 5, opacity: 0.8 });
-                poly.bindTooltip(line.name, { sticky: true });
-                poly.lineCode = lineKey; // ID 저장
-                poly.addTo(subwayLineLayer);
-            });
-        }
+if (typeof subwayData !== 'undefined' && subwayData.lines) {
+        subwayData.lines.forEach(function(line) {
+            // ★ 1. 좌표 보정 (Y축에 adjustY 더하기)
+            var correctedPoints = line.points.map(p => [p[0] + adjustY, p[1]]);
+            
+            // 🕵️ 범인 색출 추적기! (키보드 F12 눌러서 Console 창을 보면 좌표가 어떻게 찍히는지 나옵니다)
+            // console.log(line.name + " 보정된 첫 좌표:", correctedPoints[0]);
+            
+            // lineKey 찾아서 레이어에 심기 (필터링용)
+            var lineKey = Object.keys(subwayLines).find(key => subwayLines[key].name === line.name) || "";
+            if (!lineKey) lineKey = Object.keys(subwayLines).find(key => line.name.includes(subwayLines[key].name) || subwayLines[key].name.includes(line.name));
+            
+            // ★ 2. 반드시 "correctedPoints"로 선을 그려야 합니다! (line.points 절대 금지)
+            var poly = L.polyline(correctedPoints, { color: line.color, weight: 5, opacity: 0.8 });
+            
+            poly.bindTooltip(line.name, { sticky: true });
+            poly.lineCode = lineKey; // ID 저장
+            poly.addTo(subwayLineLayer);
+        });
+    }
     }
 // =========================================================
     // ★ [수정됨] 🛣️ 주요 도로망 그리기 (도로 라벨 추가)
@@ -975,7 +982,7 @@ if (item.type === 'subway') {
 
             // [NEW] Marker 객체에 노선 정보 심기 (필터링용)
             marker.lineCodes = lines;
-
+            marker.stationName = item.name; // ★ [추가] 필터링 시 이름을 다시 그리기 위해 저장해둡니다!
         } else if (item.type === 'busStop') {
             // [NEW] 버스 정류장 전용 아이콘 (네모난 정류장 모양)
             var iconHtml = `<div style="background:white; border:2px solid #555; border-radius:4px; width:16px; height:16px; display:flex; align-items:center; justify-content:center; box-shadow: 1px 1px 3px rgba(0,0,0,0.5);"><span style="font-size:10px;">🚏</span></div><div class="station-name-label" style="color:#222; font-size:11px; margin-top:2px; font-weight:bold; text-shadow:-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">${item.name.replace(' 정류장','')}</div>`;
@@ -2056,12 +2063,13 @@ function clearAllData() {
         applySubwayFilter();
     }
 
-    function applySubwayFilter() {
+function applySubwayFilter() {
         if (!isSubwayMode) return;
 
         var checkedLines = [];
         document.querySelectorAll('input[name="subwayFilter"]:checked').forEach(cb => checkedLines.push(cb.value));
 
+        // 1. 노선(선) 필터링
         subwayLineLayer.eachLayer(function(layer) {
             if (checkedLines.includes(layer.lineCode)) {
                 if (!map.hasLayer(layer)) map.addLayer(layer);
@@ -2070,17 +2078,67 @@ function clearAllData() {
             }
         });
 
+// 2. 지하철역(마커) 필터링 (환승역 동적 아이콘 업데이트 적용!)
         subwayStationLayer.eachLayer(function(marker) {
             var stationLines = marker.lineCodes || [];
-            var isVisible = stationLines.some(code => checkedLines.includes(code));
             
-            if (isVisible) {
+            // ★ 현재 켜져 있는 노선들 중, 이 역이 포함하는 노선만 추려냅니다.
+            var activeLines = stationLines.filter(code => checkedLines.includes(code));
+            
+            if (activeLines.length > 0) {
+                // 역 보이기
                 if (!map.hasLayer(marker)) map.addLayer(marker);
+                
+                // ★ 살아남은 노선(activeLines)만 가지고 아이콘(환승 마크)을 다시 그립니다!
+                var width = (activeLines.length === 1) ? 14 : (activeLines.length * 10) + 6;
+                var iconHtml = "";
+                
+                if (activeLines.length === 1) {
+                    var lineInfo = subwayLines[activeLines[0]];
+                    var lineColor = lineInfo ? lineInfo.color : "#333";
+                    iconHtml = `<div class="station-circle" style="width:14px; height:14px; border: 3px solid ${lineColor};"></div>`;
+                } else {
+                    var dotsHtml = "";
+                    activeLines.forEach(lid => {
+                        var lInfo = subwayLines[lid];
+                        var c = lInfo ? lInfo.color : "#333";
+                        dotsHtml += `<div class="transfer-dot" style="background-color:${c};"></div>`;
+                    });
+                    iconHtml = `<div class="station-transfer" style="width:${width}px; height:14px;">${dotsHtml}</div>`;
+                }
+                
+                // 역 이름 붙이기 (방금 저장해둔 stationName 사용, 없으면 툴팁에서 빼옴)
+                var sName = marker.stationName || (marker.getTooltip() ? marker.getTooltip().getContent().match(/<b>(.*?)<\/b>/)[1] : "역");
+                iconHtml += `<div class="station-name-label">${sName}</div>`;
+                
+                // 마커 아이콘 실시간 교체!
+                marker.setIcon(L.divIcon({ 
+                    className: 'custom-station', 
+                    html: iconHtml, 
+                    iconSize: [width, 14], 
+                    iconAnchor: [width/2, 7] 
+                }));
+
             } else {
+                // 포함된 노선이 하나도 안 켜져 있으면 역 완전히 숨기기
                 if (map.hasLayer(marker)) map.removeLayer(marker);
             }
         });
+        // ==========================================
+        // ★ [NEW] 3. 종점 로고 필터링 완벽 연동!
+        // ==========================================
+        if (typeof terminalLogoLayer !== 'undefined') {
+            terminalLogoLayer.eachLayer(function(marker) {
+                // 방금 1단계에서 달아준 이름표(lineCode)가 체크된 목록에 있는지 확인
+                if (checkedLines.includes(marker.lineCode)) {
+                    if (!map.hasLayer(marker)) map.addLayer(marker);
+                } else {
+                    if (map.hasLayer(marker)) map.removeLayer(marker);
+                }
+            });
+        }
 
+        // 4. 역간 거리 라벨 필터링
         if (isAutoDistMode) {
             autoDistanceLabels.forEach(function(lbl) {
                 if (checkedLines.includes(lbl.relatedLineId)) {
@@ -2091,7 +2149,6 @@ function clearAllData() {
             });
         }
     }
-
     map.on('overlayadd', function() { if(isDistrictAreaMode) updateDistrictAreaLabels(); });
     map.on('overlayremove', function() { if(isDistrictAreaMode) updateDistrictAreaLabels(); });
 
@@ -4115,9 +4172,15 @@ function applyBusFilter() {
 // =========================================================
 
 // 1. 로고들을 담아둘 전용 바구니(레이어) 생성
+// =========================================================
+// 🚇 지하철 종점(Terminal) 링형 로고 (레이어 박스 완벽 연동판)
+// =========================================================
+
+// 1. 로고들을 담아둘 전용 바구니(레이어) 생성
 var terminalLogoLayer = L.layerGroup(); 
 
-function drawTerminalLogo(lat, lng, text, color) {
+// ★ 파라미터에 lineKey 추가!
+function drawTerminalLogo(lat, lng, text, color, lineKey) {
     var iconHtml = `
         <div style="background: white; border: 3px solid ${color}; color: ${color}; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; box-shadow: 1px 1px 4px rgba(0,0,0,0.5); box-sizing: border-box; text-shadow: none;">
             ${text}
@@ -4132,39 +4195,72 @@ function drawTerminalLogo(lat, lng, text, color) {
     });
 
     var marker = L.marker([lat, lng], {icon: logoIcon, zIndexOffset: 2000, interactive: false});
+    
+    // ★ 핵심: 마커 객체에 이 로고가 무슨 노선인지 이름표(ID)를 딱 붙여줍니다!
+    marker.lineCode = lineKey; 
+    
     terminalLogoLayer.addLayer(marker);
 }
 
-// 지도 로딩 후 안전하게 실행 (1.5초 대기)
+// 지도 로딩 및 선 그리기가 완전히 끝난 후 안전하게 실행 (1.5초 대기)
 setTimeout(function() {
-    var targetData = null;
-    if (typeof lines !== 'undefined' && Array.isArray(lines)) targetData = lines;
-    else if (typeof subwayData !== 'undefined' && subwayData.lines && Array.isArray(subwayData.lines)) targetData = subwayData.lines;
-    else if (typeof subwayLines !== 'undefined' && Array.isArray(subwayLines)) targetData = subwayLines;
+    terminalLogoLayer.clearLayers(); 
 
-    if (!targetData) return;
+    // [헬퍼 함수] 다중 선분 데이터 껍질 벗기기
+    function getFlatPoints(arr) {
+        if (arr.length > 0 && Array.isArray(arr[0])) return getFlatPoints(arr[0]);
+        return arr;
+    }
 
-    targetData.forEach(function(line) {
-        if (!line.points || line.points.length === 0) return;
+    subwayLineLayer.eachLayer(function(poly) {
+        var latlngs = poly.getLatLngs();
+        var flatPoints = getFlatPoints(latlngs);
         
-// ★ 핵심: 효빈대 A/B선은 영문자로, 나머지는 기존대로 표시 ★
+        // 점이 2개 이상이어야 노선의 '방향'을 계산할 수 있음
+        if (!flatPoints || flatPoints.length < 2) return;
+
+        var p0 = flatPoints[0]; // 시작 역
+        var p1 = flatPoints[1]; // 시작 역 다음 역
+        var pN = flatPoints[flatPoints.length - 1]; // 종착 역
+        var pN_1 = flatPoints[flatPoints.length - 2]; // 종착 역 이전 역
+
+        // =========================================================
+        // ★ 핵심: 선이 뻗어나가는 방향을 계산해서 로고를 바깥으로 밀어냅니다!
+        // =========================================================
+        var offsetDist = 40; // 📏 밀어낼 거리 (로고가 너무 멀면 30으로, 글자랑 여전히 겹치면 50으로 조절하세요!)
+
+        // 1. 시작점 벡터 (p1 -> p0 방향으로 선 밖으로 밀어내기)
+        var dxStart = p0.lng - p1.lng;
+        var dyStart = p0.lat - p1.lat;
+        var lenStart = Math.sqrt(dxStart*dxStart + dyStart*dyStart) || 1;
+        var offsetStartLat = p0.lat + (dyStart / lenStart) * offsetDist;
+        var offsetStartLng = p0.lng + (dxStart / lenStart) * offsetDist;
+
+        // 2. 종착점 벡터 (pN_1 -> pN 방향으로 선 밖으로 밀어내기)
+        var dxEnd = pN.lng - pN_1.lng;
+        var dyEnd = pN.lat - pN_1.lat;
+        var lenEnd = Math.sqrt(dxEnd*dxEnd + dyEnd*dyEnd) || 1;
+        var offsetEndLat = pN.lat + (dyEnd / lenEnd) * offsetDist;
+        var offsetEndLng = pN.lng + (dxEnd / lenEnd) * offsetDist;
+
+        // 노선 정보 추출
+        var lineName = poly.getTooltip() ? poly.getTooltip().getContent() : "";
+        var lineKey = poly.lineCode; 
+        var color = poly.options.color || "#333";
+
         var text = "";
-        if (line.name.includes("효빈대A선")) text = "A"; // 효빈대 A선 -> A
-        else if (line.name.includes("효빈대 B선")) text = "B"; // 효빈대 B선 -> B
-        else if (line.name.includes("빈효선")) text = "빈"; // 빈효선 -> 빈
-        else if (line.name.includes("호선")) text = line.name.replace(/[^0-9]/g, ""); // "4호선" -> "4"
-        else text = line.name.charAt(0); // 그 외는 첫 글자만 따오기
+        if (lineName.includes("효빈대A선")) text = "A"; 
+        else if (lineName.includes("효빈대 B선")) text = "B"; 
+        else if (lineName.includes("빈효선")) text = "빈"; 
+        else if (lineName.includes("호선")) text = lineName.replace(/[^0-9]/g, ""); 
+        else text = lineName.charAt(0) || "역"; 
 
-        var color = line.color || "#333";
-        var pStart = line.points[0];
-        var pEnd = line.points[line.points.length - 1];
-        var shiftY = (typeof adjustY !== 'undefined') ? adjustY : 0;
-
-        drawTerminalLogo(pStart[0] + shiftY, pStart[1], text, color);
-        drawTerminalLogo(pEnd[0] + shiftY, pEnd[1], text, color);
+        // 원래 좌표(p0, pN) 대신 '밀어낸 새 좌표'로 로고 그리기
+        drawTerminalLogo(offsetStartLat, offsetStartLng, text, color, lineKey);
+        drawTerminalLogo(offsetEndLat, offsetEndLng, text, color, lineKey);
     });
     
-    console.log("✅ 지하철 종점 로고 바구니에 장전 완료!");
+    console.log("✅ 지하철 종점 로고 방향 벡터 보정 완료 (역 마커와 겹침 완벽 해결)!");
 
     // 2. 사이드바의 '노선도 모드 전환' 버튼 클릭 시 연동
     var modeBtn = document.getElementById('mode-btn');
@@ -4182,8 +4278,7 @@ setTimeout(function() {
         if (modeBtn.classList.contains('active-btn')) map.addLayer(terminalLogoLayer);
     }
 
-    // 3. ★ 핵심: 우측 상단 '레이어 선택 박스(체크박스)' 조작 시 연동 ★
-    // 지도의 자체 이벤트를 감지해서 레이어 이름에 '철도'나 '지하철'이 들어가면 같이 켜고 끕니다!
+    // 3. 우측 상단 '레이어 선택 박스' 조작 시 연동
     map.on('overlayadd', function(e) {
         if (e.name.includes('철도') || e.name.includes('지하철') || e.name.includes('노선')) {
             map.addLayer(terminalLogoLayer);
@@ -4196,8 +4291,7 @@ setTimeout(function() {
         }
     });
 
-}, 1500);
-// =========================================================
+}, 1500);// =========================================================
 // 🎯 가상 '내 위치' 기능 (카카오맵 스타일 파란 물결)
 // =========================================================
 var myLocationMarker = null;
@@ -4670,3 +4764,73 @@ window.confirmAddBusStop = function() {
         console.error(err);
     }
 };
+// =========================================================
+// ★ [최종 수정판] 전체 지도 기준! 브라우저 한계 우회 초고화질 캡처
+// =========================================================
+function downloadUltraHighResMap() {
+    var btn = document.getElementById('full-capture-btn') || document.getElementById('capture-btn'); 
+    var originalText = btn ? btn.innerHTML : "다운로드";
+    if (btn) btn.innerHTML = "⏳ 극한 렌더링 중... (잠시 멈출 수 있습니다)";
+
+    var controls = document.querySelector('.leaflet-control-container');
+    if (controls) controls.style.display = 'none';
+
+    var mapDiv = document.getElementById('map');
+    var originalCssText = mapDiv.style.cssText;
+    var originalCenter = map.getCenter();
+    var originalZoom = map.getZoom();
+
+    // 1. 전체 지도 비율 계산
+    var ratio = totalHeight / totalWidth;
+    
+    // 2. 가로 5000px 고정 (scale 1로 찍어서 메모리 폭발로 인한 '잘림 현상' 원천 차단)
+    var captureWidth = 5000; 
+    var captureHeight = Math.round(captureWidth * ratio);
+
+    // ★ 해결 핵심 1: 스크롤 꼬임 방지를 위해 화면을 맨 위로 올리고 지도를 최상단에 고정
+    window.scrollTo(0, 0);
+    mapDiv.style.position = 'absolute'; 
+    mapDiv.style.top = '0px';
+    mapDiv.style.left = '0px';
+    mapDiv.style.width = captureWidth + 'px';
+    mapDiv.style.height = captureHeight + 'px';
+    mapDiv.style.zIndex = '9999'; 
+
+    map.invalidateSize(false);
+    map.fitBounds(mapBounds, { animate: false });
+
+    // ★ 해결 핵심 2: 선(SVG)과 배경이 5000px 영역 끝까지 완벽하게 퍼질 때까지 3초 넉넉하게 대기
+    setTimeout(function() {
+        html2canvas(mapDiv, {
+            allowTaint: true,
+            useCORS: true,
+            scale: 1, // ★ 브라우저 한계(8000px 이상 잘림)를 피하기 위해 스케일은 1로 고정!
+            width: captureWidth,
+            height: captureHeight,
+            windowWidth: captureWidth, // ★ html2canvas가 화면 밖 영역도 강제로 인식하도록 지정
+            windowHeight: captureHeight,
+            backgroundColor: (typeof isSubwayMode !== 'undefined' && isSubwayMode) ? "#ffffff" : "#aaddff" 
+        }).then(function(canvas) {
+            var link = document.createElement('a');
+            link.download = '효빈광역시_전체지도_초고화질.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+
+            restoreMap();
+            alert("🎉 드디어 안 잘린 전체 지도 캡처 성공!");
+        }).catch(function(err) {
+            console.error(err);
+            alert("🚨 캡처 실패! 에러: " + err);
+            restoreMap();
+        });
+    }, 3000);
+
+    function restoreMap() {
+        mapDiv.style.cssText = originalCssText || 'width: 100vw; height: 100vh;';
+        map.invalidateSize(false);
+        map.setView(originalCenter, originalZoom, { animate: false });
+        if (controls) controls.style.display = 'block';
+        if (btn) btn.innerHTML = originalText;
+        window.scrollTo(0, 0);
+    }
+}

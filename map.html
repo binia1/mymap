@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>효빈도시철도 스켈레톤 추출기</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="sexy.js"></script>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        #map-container {
+            background-color: white;
+            display: inline-block;
+            border: 2px solid #ddd;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-download {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #485EC6; /* 광역버스 로얄 블루 컬러 적용! */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+        .btn-download:hover { background-color: #354799; }
+        text { font-size: 8px; fill: #333; font-weight: bold; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <h1>🚇 효빈도시철도 뼈대(Skeleton) 추출기</h1>
+    <p>1단계 렌더링 화면입니다. 7호선의 자잘한 역들은 <code>isMajor: false</code> 설정에 의해 숨겨졌습니다.<br>
+    <del>이제 일러스트레이터에서 각 잡고 45도 노가다를 뛸 시간입니다.(...)</del></p>
+    
+    <button class="btn-download" onclick="downloadSVG()">💾 일러스트레이터용 SVG 다운로드</button>
+    <br>
+    
+    <div id="map-container"></div>
+
+    <script>
+        // 1. 캔버스 해상도 설정 (거대한 맵을 담기 위해 2000픽셀로 넉넉하게 잡음)
+        const width = 2000;
+        const height = 2000;
+        const padding = 100; // 여백
+
+        const svg = d3.select("#map-container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("xmlns", "http://www.w3.org/2000/svg");
+
+        // 2. 데이터 범위(Scale) 계산
+        // Raw 좌표계(-20000 ~ 75000 등)를 2000x2000 화면 픽셀에 딱 맞게 욱여넣는 작업입니다.
+        let allLngs = [];
+        let allLats = [];
+        
+        subwayData.lines.forEach(line => {
+            line.points.forEach(pt => {
+                allLats.push(pt[0]);
+                allLngs.push(pt[1]);
+            });
+        });
+        subwayData.markers.forEach(m => {
+            allLats.push(m.lat);
+            allLngs.push(m.lng);
+        });
+
+        // X축: 경도(lng) 대응
+        const xScale = d3.scaleLinear().domain(d3.extent(allLngs)).range([padding, width - padding]);
+        // Y축: 위도(lat) 대응. (웹 화면은 아래로 갈수록 y좌표가 증가하므로 지형을 뒤집지 않기 위해 범위 반전)
+        const yScale = d3.scaleLinear().domain(d3.extent(allLats)).range([height - padding, padding]);
+
+        // 3. 노선(선) 그리기
+        const lineGenerator = d3.line()
+            .x(d => xScale(d[1]))
+            .y(d => yScale(d[0]));
+
+        svg.selectAll(".route-line")
+            .data(subwayData.lines)
+            .enter()
+            .append("path")
+            .attr("class", "route-line")
+            .attr("d", d => lineGenerator(d.points))
+            .attr("fill", "none")
+            .attr("stroke", d => d.color)
+            .attr("stroke-width", 5)
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round");
+
+        // 4. 역(마커) 그리기 및 7호선 필터링
+        const visibleMarkers = subwayData.markers.filter(d => {
+            // 7호선이거나 7B호선인 경우
+            const isLine7 = d.lines.includes("7") || d.lines.includes("7B");
+            // isMajor가 명시적으로 false면 필터링 (화면에서 날려버림)
+            if (isLine7 && d.isMajor === false) return false; 
+            return true;
+        });
+
+        const stationGroups = svg.selectAll(".station")
+            .data(visibleMarkers)
+            .enter()
+            .append("g")
+            .attr("class", "station")
+            .attr("transform", d => `translate(${xScale(d.lng)}, ${yScale(d.lat)})`);
+
+        // 역 동그라미
+        stationGroups.append("circle")
+            .attr("r", d => d.isMajor ? 5 : 3) // 환승역/메이저역은 더 크게!
+            .attr("fill", "#ffffff")
+            .attr("stroke", "#000000")
+            .attr("stroke-width", 1.5);
+
+        // 역 이름표
+        stationGroups.append("text")
+            .attr("dx", 8)
+            .attr("dy", 4)
+            .text(d => d.name);
+
+        // 5. SVG 파일 다운로드 로직
+        function downloadSVG() {
+            const svgNode = document.querySelector("#map-container svg");
+            const serializer = new XMLSerializer();
+            let source = serializer.serializeToString(svgNode);
+            
+            // XML 선언부 추가 (일러스트레이터 호환성을 위해)
+            if(!source.match(/^<\?xml/)){
+                source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+            }
+            
+            const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+            const downloadLink = document.createElement("a");
+            downloadLink.href = url;
+            downloadLink.download = "Hyobin_Subway_Map_Skeleton.svg";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+            alert("다운로드가 완료되었습니다! 이제 일러스트레이터에서 파일을 열고 위상기하학적 튜닝을 시작하세요!");
+        }
+    </script>
+</body>
+</html>
