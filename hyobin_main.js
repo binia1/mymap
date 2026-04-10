@@ -147,6 +147,10 @@ function setCustomColor(color) {
         "6": { name: "6호선", color: "#881188" },
         "7": { name: "7호선", color: "#FF8899" },
         "7B": { name: "7호선(지선)", color: "#FF8899" },
+                "7c": { name: "7호선(폐선)", color: "#ffc1ca" },
+                "c": { name: "창전선", color: "#33aaff" },
+                "y": { name: "청엽선", color: "#D6D5CA" },
+
         "8": { name: "8호선", color: "#9856FF" },
         "B": { name: "빈효선", color: "#6677CC" },
         // 일반철도 (모두 같은 코레일 블루색 적용)
