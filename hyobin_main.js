@@ -3900,9 +3900,14 @@ function autoGenerateBusStops() {
     activeMarkers = activeMarkers.filter(m => !(m.options && m.options.icon && m.options.icon.options.className === 'custom-bus-stop' && !m.isManualMarker));
 
     var allBusPoints = [];
-    var intervalMap = { "마을": 400, "순환": 500, "지선": 600, "간선": 800, "좌석": 1500 };
+var intervalMap = { "마을": 300, "순환": 500, "지선": 600, "간선": 800 };
 
     busData.forEach(bus => {
+        // ★ 2. 여기서 특수 버스들을 완전히 쫓아냅니다! (else 구문으로 빠져서 무한 증식하는 걸 방지)
+        if (["좌석", "급행", "광역", "공항", "투어"].includes(bus.type)) {
+            return; // 이 버스들은 정류장 계산 안 하고 바로 다음 버스로 넘어감!
+        }
+
         var pts = bus.points.map(p => [p[0] + adjustY, p[1]]);
         var bColor = busColors[bus.type] || '#333';
         var formattedName = `<span style="color:${bColor}; font-weight:bold;">[${bus.type}]</span> ${bus.name}`;
