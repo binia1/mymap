@@ -3211,7 +3211,7 @@ var intersectionMarkers = [];
         closeModal('intersect-name-modal');
     }
 
-    // 모달 ㅜ 제외 로직
+    // 모달  제외 로직
     function ignoreIntersect() {
         let lat = currentIntersectData.lat;
         let lng = currentIntersectData.lng;
@@ -3261,8 +3261,51 @@ var overlays = {
     "📏 2000x1500 그리드": gridLayer,        
     "🛣️ 주요 도로망": roadLayer
 };
-L.control.layers(null, overlays, { collapsed: false }).addTo(map);
 
+// 1. collapsed를 false로 두고 컨트롤을 생성한 뒤 변수에 저장합니다.
+var layerControl = L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+
+// 2. 레이어 컨트롤의 HTML 컨테이너를 가져옵니다.
+var container = layerControl.getContainer();
+
+// 3. 접기/펼치기 버튼 요소를 직접 생성합니다.
+var toggleBtn = document.createElement('button');
+toggleBtn.innerHTML = '접기 🔼'; // 초기 텍스트
+toggleBtn.style.width = '100%';
+toggleBtn.style.marginTop = '10px';
+toggleBtn.style.padding = '5px 0';
+toggleBtn.style.cursor = 'pointer';
+toggleBtn.style.border = '1px solid #ccc';
+toggleBtn.style.backgroundColor = '#f8f9fa';
+toggleBtn.style.borderRadius = '4px';
+toggleBtn.style.fontWeight = 'bold';
+
+// 4. 버튼 클릭 시 목록을 숨기거나 보여주는 로직 (수정됨)
+var isCollapsed = false;
+toggleBtn.onclick = function(e) {
+    e.stopPropagation(); // 버튼 클릭 시 지도가 클릭되는 것을 방지
+    e.preventDefault();
+
+    // 🚨 수정된 부분: form 대신 Leaflet 공식 클래스명을 찾습니다.
+    var listContainer = container.querySelector('.leaflet-control-layers-list'); 
+
+    if (listContainer) { // 요소를 무사히 찾았다면 실행
+        if (isCollapsed) {
+            listContainer.style.display = 'block'; // 펼치기
+            toggleBtn.innerHTML = '접기 🔼';
+            isCollapsed = false;
+        } else {
+            listContainer.style.display = 'none'; // 접기
+            toggleBtn.innerHTML = '펼치기 🔽';
+            isCollapsed = true;
+        }
+    } else {
+        console.error("레이어 목록을 찾을 수 없습니다. HTML 구조를 확인해주세요.");
+    }
+};
+
+// 5. 레이어 컨트롤 컨테이너 맨 아래에 만든 버튼을 추가합니다.
+container.appendChild(toggleBtn);
 // =========================================================
 // 3. 편의점 자동 배치 시스템 V4 (정량 배급 & 중복/에러 방지)
 // =========================================================
