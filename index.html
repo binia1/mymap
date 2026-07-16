@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
     <script src="hyobin_data.js"></script>
     <script src="hyobin_subway_light.js"></script>
     <script src="hyobin_markers.js"></script> 
@@ -356,6 +358,9 @@
             <input type="file" id="file-input" style="display: none;" accept=".json" onchange="loadData(this)">
             
             <div style="font-size:11px; color:#999; margin:15px 0 5px 0;">CSV 대장 추출</div>
+            <button class="sidebar-btn" style="background:#28a745; color:white; font-weight:bold; margin-top:10px;" onclick="exportNearbyTransitData(500)">
+    📊 지역별 주변 대중교통 엑셀 추출
+</button>
             <button id="csv-btn" class="sidebar-btn" onclick="downloadAllDataCSV()">📊 전체 구역/측정 (CSV)</button> 
             <button id="marker-csv-btn" class="sidebar-btn" onclick="downloadMarkerDataCSV()">📍 시설물 대장 (CSV)</button>
             <button id="road-csv-btn" class="sidebar-btn" onclick="downloadRoadDataCSV()">🛣️ 도로 대장 (CSV)</button>

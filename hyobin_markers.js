@@ -649,7 +649,7 @@ var defaultLandmarksData = [
 { name: "국토안전관리원 효빈본부", lat: -14798, lng: 25608, color: "#33AAFF", type: "normal" },
 { name: "창전보건소", lat: -14295, lng: 25458, color: "#33AAFF", type: "normal" },
 { name: "홈플러스 창전점", lat: -14138, lng: 26208, color: "#33AAFF", type: "normal" },
-{ name: "창전 홈플러스", lat: -14138, lng: 26208, color: "#33AAFF", type: "normal" },
+{ name: "이마트 창전점", lat: -14138, lng: 26208, color: "#33AAFF", type: "normal" },
 { name: "오아초", lat: -14185, lng: 25164, color: "#33AAFF", type: "normal" },
 { name: "가스기술공사 효빈본부", lat: -13659, lng: 27239, color: "#33AAFF", type: "normal" },
 { name: "도로교통공단 효빈본부", lat: -12608, lng: 27403, color: "#33AAFF", type: "normal" },

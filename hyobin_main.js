@@ -677,9 +677,10 @@ function setCustomColor(color) {
     var totalWidth = gridLayout[0].length * cellWidth;
     var mapBounds = L.latLngBounds([[-totalHeight, 0], [0, totalWidth]]);
 
-    var map = L.map('map', {
+var map = L.map('map', {
         crs: L.CRS.Simple, minZoom: -4.0, maxZoom: 1, zoomSnap: 0.1, zoomDelta: 0.5, attributionControl: false,
-        maxBounds: mapBounds, maxBoundsViscosity: 0.8
+        maxBounds: mapBounds, maxBoundsViscosity: 0.8,
+        preferCanvas: true  // ★ 이 옵션을 반드시 추가하세요! (선/면 렌더링 속도 폭발적 증가)
     });
 
     var imageLayerGroup = L.layerGroup().addTo(map);
@@ -691,7 +692,7 @@ function setCustomColor(color) {
             var endCol = col; while (endCol + 1 < gridLayout[row].length && gridLayout[row][endCol + 1] === imgId) endCol++;
             var endRow = row; while (endRow + 1 < gridLayout.length && gridLayout[endRow + 1][col] === imgId) endRow++;
             var bounds = [[-((endRow + 1) * cellHeight), col * cellWidth], [-(row * cellHeight), (endCol + 1) * cellWidth]];
-            L.imageOverlay("big" + imgId + ".png", bounds).addTo(imageLayerGroup);
+            L.imageOverlay("big" + imgId + ".webp", bounds).addTo(imageLayerGroup);
             placedImages[imgId] = true;
         }
     }
@@ -1869,7 +1870,7 @@ function deleteEditBusStop() {
             }
         }).then(function(canvas) {
             var link = document.createElement('a');
-            link.download = 'hyobin_map_capture.png';
+            link.download = 'hyobin_map_capture.webp';
             link.href = canvas.toDataURL("image/png");
             link.click();
 
@@ -1983,7 +1984,7 @@ function deleteEditBusStop() {
                 backgroundColor: "#aaddff" 
             }).then(function(canvas) {
                 var link = document.createElement('a');
-                link.download = 'hyobin_grid_' + num + '.png';
+                link.download = 'hyobin_grid_' + num + '.webp';
                 link.href = canvas.toDataURL("image/png");
                 link.click();
 
@@ -3242,8 +3243,12 @@ var intersectionMarkers = [];
 // =========================================================
 // 1. 편의점 레이어 선언
 // =========================================================
-var cvsLayer = L.layerGroup();
-
+// 1. 편의점 레이어 선언 (클러스터링 적용!)
+var cvsLayer = L.markerClusterGroup({
+    // 지도를 일정 수준(예: 14) 이상 확대하면 뭉쳐있던 마커들이 개별로 쫙 펼쳐집니다.
+    disableClusteringAtZoom: 14, 
+    maxClusterRadius: 80 // 마커들이 뭉치는 반경 (픽셀 단위, 조절 가능)
+});
 // =========================================================
 // 2. 우측 상단 레이어 컨트롤 메뉴
 // =========================================================
@@ -4864,7 +4869,7 @@ function downloadUltraHighResMap() {
             backgroundColor: (typeof isSubwayMode !== 'undefined' && isSubwayMode) ? "#ffffff" : "#aaddff" 
         }).then(function(canvas) {
             var link = document.createElement('a');
-            link.download = '효빈광역시_전체지도_초고화질.png';
+            link.download = '효빈광역시_전체지도_초고화질.webp';
             link.href = canvas.toDataURL("image/png");
             link.click();
 
@@ -4885,4 +4890,112 @@ function downloadUltraHighResMap() {
         if (btn) btn.innerHTML = originalText;
         window.scrollTo(0, 0);
     }
+}
+// =========================================================
+// ★ [완전 무결점판] 마커 주변 대중교통 엑셀 추출 기능
+// (쓸데없는 좌표 변형을 완전히 제거한 순수 스캔)
+// =========================================================
+function exportNearbyTransitData(radius = 1000) { 
+    var subwayStations = allLandmarks.filter(m => m.type === 'subway');
+    var targetMarkers = allLandmarks.filter(m => m.type !== 'subway');
+
+    if (targetMarkers.length === 0) {
+        alert("분석할 일반 마커 데이터가 없습니다.");
+        return;
+    }
+
+    // 🛡️ 효빈광역시 좌표계 맞춤형 순수 수학 공식
+    function safeGetDist(px, py, x1, y1, x2, y2) {
+        var A = px - x1, B = py - y1, C = x2 - x1, D = y2 - y1;
+        var dot = A * C + B * D;
+        var len_sq = C * C + D * D;
+        var param = -1;
+        if (len_sq != 0) param = dot / len_sq;
+        var xx, yy;
+        if (param < 0) { xx = x1; yy = y1; }
+        else if (param > 1) { xx = x2; yy = y2; }
+        else { xx = x1 + param * C; yy = y1 + param * D; }
+        var dx = px - xx, dy = py - yy;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    var allBusLines = [];
+
+    // [1] hyobin_bus.js에 있는 모든 버스 노선 (간선, 지선, 급행, 순환, 마을, 광역 전체)
+    // 🚨 여기서 절대 adjustY를 더하지 않고, 원본 좌표 그대로 가져옵니다.
+    if (typeof rawBusJson !== 'undefined' && rawBusJson.lines) {
+        rawBusJson.lines.forEach(line => {
+            var rings = Array.isArray(line.points[0][0]) ? line.points : [line.points];
+            allBusLines.push({ name: line.name, rings: rings });
+        });
+    }
+
+    // [2] 로컬 스토리지에 혹시 남아있을 수 있는 미저장 버스 노선 병합 (중복 방지)
+    var savedLinesStr = localStorage.getItem('hyobin_lines');
+    if (savedLinesStr) {
+        var savedLines = JSON.parse(savedLinesStr);
+        savedLines.forEach(line => {
+            if(line.points && line.points.length > 0) {
+                var rings = Array.isArray(line.points[0][0]) ? line.points : [line.points];
+                if (!allBusLines.find(b => b.name === line.name)) {
+                    allBusLines.push({ name: line.name, rings: rings });
+                }
+            }
+        });
+    }
+
+    var csvContent = "\uFEFF"; 
+    csvContent += `마커 이름,분류,주변 지하철역(${radius}m 이내),주변 버스노선(${radius}m 이내)\n`;
+
+    targetMarkers.forEach(marker => {
+        var mLat = marker.lat;
+        var mLng = marker.lng;
+
+        // [지하철 스캔] 
+        var nearbySubways = [];
+        subwayStations.forEach(station => {
+            var dx = mLat - station.lat;
+            var dy = mLng - station.lng;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist <= radius) nearbySubways.push(`${station.name}(${Math.round(dist)}m)`);
+        });
+
+        // [버스 스캔] 
+        var nearbyBuses = [];
+        allBusLines.forEach(bus => {
+            var isNearby = false;
+            
+            for (var r = 0; r < bus.rings.length; r++) {
+                var ring = bus.rings[r];
+                for (var i = 0; i < ring.length - 1; i++) {
+                    // 순수 좌표 그대로 직선거리를 계산합니다.
+                    var dist = safeGetDist(mLat, mLng, ring[i][0], ring[i][1], ring[i+1][0], ring[i+1][1]);
+                    
+                    if (dist <= radius) {
+                        isNearby = true;
+                        break; 
+                    }
+                }
+                if (isNearby) break; 
+            }
+            
+            if (isNearby) nearbyBuses.push(bus.name);
+        });
+
+        var subwayStr = nearbySubways.length > 0 ? `"${nearbySubways.join(", ")}"` : '"없음"';
+        var busStr = nearbyBuses.length > 0 ? `"${nearbyBuses.join(", ")}"` : '"없음"';
+        
+        csvContent += `"${marker.name}","${marker.type}",${subwayStr},${busStr}\n`;
+    });
+
+    var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `효빈광역시_대중교통_분석결과(${radius}m)_에러해결.csv`;
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    alert(`🎉 좌표 튕김 현상 완벽 제거! 총 ${allBusLines.length}개의 전체 버스 노선 정상 스캔 완료.`);
 }
