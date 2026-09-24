@@ -308,6 +308,10 @@
                 <option value="7B">🌸 7호선 지선</option>
                 <option value="7c">🌸 7호선 폐선</option>
                 <option value="c">� 창전선</option>
+                <option value="9"> 9 9호선</option>
+                <option value="HBA"> 🌸HDTX-A</option>
+                <option value="HBB"> 🌸HDTX-B</option>
+                <option value="A"> 🌸안천선</option>
                 <option value="y"> 🌸청엽선</option>
 
                 <option value="8">🔮 8호선 (연보라)</option>
@@ -326,6 +330,15 @@
             </select>
 
             <button id="mode-btn" class="sidebar-btn" onclick="toggleSubwayMode()">🚇 노선도 모드 전환</button>
+<button id="subway-filter-btn" class="sidebar-btn" style="border-left: 4px solid #0077DD;" onclick="toggleSubwayFilterBox()">🚇 철도 노선 필터</button>
+
+<!-- 이 버튼을 한 줄 추가하세요 -->
+<button id="station-label-btn" class="sidebar-btn" onclick="toggleStationLabels()">🔠 역명 표시: 자동 (줌 연동)</button>
+<!-- 역명 표시 자동 버튼 아래에 이 코드들을 추가하세요 -->
+<button class="sidebar-btn" style="border-left: 4px solid #881188; margin-top:5px;" onclick="toggleSubwayDetailBox()">⚙️ 노선별 마커/역명 상세 설정</button>
+<div id="subway-detail-box" class="subway-filter-box" style="display:none; max-height: 250px; overflow-y: auto; background:#f9f9f9; padding: 10px; margin-bottom: 8px;">
+    <!-- 자바스크립트가 자동으로 모든 노선 스위치를 만들어 넣습니다 -->
+</div>
             <div id="subway-filter-box" class="subway-filter-box">
                 <div class="filter-title">
                     🚇 노선별 보기 

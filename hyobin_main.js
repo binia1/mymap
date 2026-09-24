@@ -99,6 +99,7 @@ function setCustomColor(color) {
     for (var i = 0; i < radios.length; i++) radios[i].checked = false;
     document.getElementById('subway-select').value = "";
 }
+
     // 면적 데이터 저장용 배열
     var measuredAreas = [];
 
@@ -152,7 +153,11 @@ function setCustomColor(color) {
                 "y": { name: "청엽선", color: "#D6D5CA" },
 
         "8": { name: "8호선", color: "#9856FF" },
-        "B": { name: "빈효선", color: "#6677CC" },
+        "9": { name: "9호선", color: "#999999" },
+        "HBA": { name: "HDTX-A", color: "#FB637E" },
+        "HBB": { name: "HDTX-B", color: "#9d8de2" },
+        "A": { name: "안천선", color: "#B2FFDD" },
+        "B": { name: "빈효광역선", color: "#6677cc" },
         // 일반철도 (모두 같은 코레일 블루색 적용)
         "R1": { name: "빈효선(일반)", color: "#3152A5" },
         "R2": { name: "효빈공단인입선", color: "#3152A5" },
@@ -166,7 +171,16 @@ function setCustomColor(color) {
         "T1": { name: "효빈대 A선 트램", color: "#a0fff9" },
     "M1": { name: "효빈대 B선 모노레일", color: "#74f466" }
     };
-
+// ★ 내가 직접 지정하는 주요역(급행 정차역, 거점역 등) 목록
+var myMajorStations = [
+    "평당역", "보몽역", "평전역", "창전구청역", "아논타워역", "탄성군청역", "장선역", "장곡역", "약산시청역", // 1호선
+    "효빈공단역", // 2호선
+    "효빈국제공항역", "사능역", "팔조역", // 3호선
+    "천가역", "해운산업지구역", "앵내역", // 4호선
+    "소조역", "루비역", "포성산역", "청덕공원역", // 5호선
+    "고송역", "진희역", // 6호선
+    "효빈은행역", "효빈성역", "리사역", "개항지역", "만마루역", "항만해변역", "색수시장역" // 7호선 및 지선
+];
     var currentSelectedColor = regionColors[0].code;
 
     function updateHeaderPreview(color) { document.getElementById('current-color-preview').style.backgroundColor = color; }
@@ -970,7 +984,7 @@ if (item.type === 'subway') {
                 var lineInfo = subwayLines[lines[0]];
                 var lineColor = lineInfo ? lineInfo.color : "#333";
                 iconHtml = `<div class="station-circle" style="width:14px; height:14px; border: 3px solid ${lineColor};"></div>`;
-            } else {
+} else {
                 var dotsHtml = "";
                 lines.forEach(lid => {
                     var lInfo = subwayLines[lid];
@@ -979,10 +993,23 @@ if (item.type === 'subway') {
                 });
                 iconHtml = `<div class="station-transfer" style="width:${width}px; height:14px;">${dotsHtml}</div>`;
             }
-            iconHtml += `<div class="station-name-label">${item.name}</div>`;
-            
+
+            // ▼ 여기서부터 교체 ▼
+            var isTransfer = lines.length >= 2; 
+            var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(item.name);
+            var isMajor = (isTransfer || isManualMajor) ? "major-station" : "normal-station";
+            var markerClass = (isTransfer || isManualMajor) ? "major-marker" : "normal-marker";
+            var lineClasses = lines.map(l => "line-" + l).join(" "); // 노선 꼬리표 추가
+
+            iconHtml += `<div class="station-name-label ${isMajor}">${item.name}</div>`;
+
             marker = L.marker([item.lat, item.lng], {
-                icon: L.divIcon({ className: 'custom-station', html: iconHtml, iconSize: [width, 14], iconAnchor: [width/2, 7] })
+                icon: L.divIcon({ 
+                    className: `custom-station ${lineClasses} ${markerClass}`, // className에 꼬리표가 추가되어야 합니다!
+                    html: iconHtml, 
+                    iconSize: [width, 14], 
+                    iconAnchor: [width/2, 7] 
+                })
             });
 
             // [NEW] Marker 객체에 노선 정보 심기 (필터링용)
@@ -2020,47 +2047,51 @@ function clearAllData() {
     var isSubwayMode = false;
     var savedLayerState = [];
 
-    function toggleSubwayMode() {
-        isSubwayMode = !isSubwayMode;
-        var btn = document.getElementById('mode-btn');
-        var mapDiv = document.getElementById('map');
-        var backgroundLayers = [imageLayerGroup, guGunLayer, adminLayer, legalLayer, devLayer];
-        var filterBox = document.getElementById('subway-filter-box');
+function toggleSubwayMode() {
+    isSubwayMode = !isSubwayMode;
+    var btn = document.getElementById('mode-btn');
+    var mapDiv = document.getElementById('map');
+    var backgroundLayers = [imageLayerGroup, guGunLayer, adminLayer, legalLayer, devLayer];
+    // var filterBox = document.getElementById('subway-filter-box'); <-- 이 줄 삭제 (이제 버튼으로 따로 제어할 거라 필요 없음)
 
-        if (isSubwayMode) {
-            btn.innerHTML = "🗺️ 지도 모드"; 
-            btn.classList.add('active-btn');
-            mapDiv.style.backgroundColor = '#ffffff'; 
-            filterBox.style.display = 'block'; 
+    if (isSubwayMode) {
+        btn.innerHTML = "🗺️ 지도 모드"; 
+        btn.classList.add('active-btn');
+        mapDiv.style.backgroundColor = '#ffffff'; 
+        // filterBox.style.display = 'block'; <-- 이 줄 삭제
 
-            savedLayerState = [];
-            backgroundLayers.forEach(layer => {
-                if (map.hasLayer(layer)) {
-                    savedLayerState.push(layer);
-                    map.removeLayer(layer);
-                }
-            });
+        savedLayerState = [];
+        backgroundLayers.forEach(layer => {
+            if (map.hasLayer(layer)) {
+                savedLayerState.push(layer);
+                map.removeLayer(layer);
+            }
+        });
 
-            if (!map.hasLayer(subwayLineLayer)) map.addLayer(subwayLineLayer);
-            if (!map.hasLayer(subwayStationLayer)) map.addLayer(subwayStationLayer);
-            alert("노선도만 깔끔하게 보여줍니다. (좌측 하단에서 노선별 필터링 가능)");
-            applySubwayFilter(); 
+        if (!map.hasLayer(subwayLineLayer)) map.addLayer(subwayLineLayer);
+        if (!map.hasLayer(subwayStationLayer)) map.addLayer(subwayStationLayer);
+        alert("노선도만 깔끔하게 보여줍니다. (좌측 하단에서 노선별 필터링 가능)");
+        applySubwayFilter(); 
 
-        } else {
-            btn.innerHTML = "🚇 노선도 모드";
-            btn.classList.remove('active-btn');
-            mapDiv.style.backgroundColor = '#aaddff'; 
-            filterBox.style.display = 'none'; 
+    } else {
+        btn.innerHTML = "🚇 노선도 모드";
+        btn.classList.remove('active-btn');
+        mapDiv.style.backgroundColor = '#aaddff'; 
+        // filterBox.style.display = 'none'; <-- 이 줄 삭제
 
-            savedLayerState.forEach(layer => {
-                if (!map.hasLayer(layer)) map.addLayer(layer);
-            });
-            if (!map.hasLayer(imageLayerGroup)) map.addLayer(imageLayerGroup);
-            
-            subwayLineLayer.eachLayer(layer => map.addLayer(layer));
-            subwayStationLayer.eachLayer(layer => map.addLayer(layer));
-        }
+        savedLayerState.forEach(layer => {
+            if (!map.hasLayer(layer)) map.addLayer(layer);
+        });
+        if (!map.hasLayer(imageLayerGroup)) map.addLayer(imageLayerGroup);
+        
+        // 삭제할 코드: 무조건 다 띄우던 로직
+        // subwayLineLayer.eachLayer(layer => map.addLayer(layer));
+        // subwayStationLayer.eachLayer(layer => map.addLayer(layer));
+        
+        // 추가할 코드: 지도 모드로 돌아와도 체크박스 필터 상태 유지
+        applySubwayFilter(); 
     }
+}
 
     function toggleAllSubwayFilters(isChecked) {
         var checkboxes = document.querySelectorAll('input[name="subwayFilter"]');
@@ -2069,12 +2100,12 @@ function clearAllData() {
     }
 
 function applySubwayFilter() {
-        if (!isSubwayMode) return;
+    // if (!isSubwayMode) return;  <-- 이 줄을 삭제하거나 주석(//) 처리하세요!
 
-        var checkedLines = [];
-        document.querySelectorAll('input[name="subwayFilter"]:checked').forEach(cb => checkedLines.push(cb.value));
+    var checkedLines = [];
+    document.querySelectorAll('input[name="subwayFilter"]:checked').forEach(cb => checkedLines.push(cb.value));
 
-        // 1. 노선(선) 필터링
+    // 1. 노선(선) 필터링
         subwayLineLayer.eachLayer(function(layer) {
             if (checkedLines.includes(layer.lineCode)) {
                 if (!map.hasLayer(layer)) map.addLayer(layer);
@@ -2112,13 +2143,21 @@ function applySubwayFilter() {
                     iconHtml = `<div class="station-transfer" style="width:${width}px; height:14px;">${dotsHtml}</div>`;
                 }
                 
-                // 역 이름 붙이기 (방금 저장해둔 stationName 사용, 없으면 툴팁에서 빼옴)
+// 역 이름 붙이기 (방금 저장해둔 stationName 사용, 없으면 툴팁에서 빼옴)
                 var sName = marker.stationName || (marker.getTooltip() ? marker.getTooltip().getContent().match(/<b>(.*?)<\/b>/)[1] : "역");
-                iconHtml += `<div class="station-name-label">${sName}</div>`;
+
+                // ▼ 여기서부터 교체 ▼
+                var isTransfer = activeLines.length >= 2;
+                var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(sName);
+                var isMajor = (isTransfer || isManualMajor) ? "major-station" : "normal-station";
+                var markerClass = (isTransfer || isManualMajor) ? "major-marker" : "normal-marker";
+                var lineClasses = activeLines.map(l => "line-" + l).join(" ");
+
+                iconHtml += `<div class="station-name-label ${isMajor}">${sName}</div>`;
                 
                 // 마커 아이콘 실시간 교체!
                 marker.setIcon(L.divIcon({ 
-                    className: 'custom-station', 
+                    className: `custom-station ${lineClasses} ${markerClass}`, // ★여기에 꼬리표가 들어갑니다
                     html: iconHtml, 
                     iconSize: [width, 14], 
                     iconAnchor: [width/2, 7] 
@@ -4589,51 +4628,99 @@ function highlightBusRoute(targetBusName, originalColor) {
     });
 }
 // =========================================================
-// ★ 지도 줌 레벨에 따라 정류장 이름 숨기기/보이기 (글자 겹침 방지)
+// ★ 지도 줌 레벨 및 노선별 역명/마커 표시 완벽 제어
 // =========================================================
-
-// 1. 라벨을 제어할 CSS 스타일 (전철역은 살리고 버스만 제어!)
 var labelStyle = document.createElement('style');
 labelStyle.innerHTML = `
-    /* ★ [수정됨] .custom-bus-stop 안에 있는 이름표만 숨기도록 타겟을 좁혔습니다! */
-    .hide-map-labels .custom-bus-stop .station-name-label {
-        display: none !important;
+    /* 1. 버스 정류장 제어 */
+    .hide-map-labels .custom-bus-stop .station-name-label { display: none !important; }
+    .custom-bus-stop:hover .station-name-label { 
+        display: block !important; position: absolute; z-index: 9999 !important; 
+        background: rgba(255,255,255,0.9); padding: 2px 4px; border-radius: 4px; border: 1px solid #ccc; 
     }
+
+    /* 2. 7호선 일반역(비환승, 주요역 아님) 줌 아웃 시 마커 자체를 숨김! */
+    .hide-line7-markers .line-7.normal-marker,
+    .hide-line7-markers .line-7B.normal-marker { display: none !important; }
+
+    /* 3. 지하철 역명 제어 */
+    .hide-normal-stations .custom-station .normal-station { display: none !important; }
+    .hide-all-stations .custom-station .station-name-label { display: none !important; }
     
-    /* [보너스] 숨겨진 상태라도 정류장에 마우스를 올리면 이름이 맨 위로 팝업됨! */
-    .custom-bus-stop:hover .station-name-label {
-        display: block !important;
-        position: absolute;
-        z-index: 9999 !important;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 2px 4px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
+/* 4. [NEW] 노선별 특정 역명 끄기 (주요역/환승역은 절대 건드리지 않음!) */
+    .hide-label-7 .line-7.normal-marker .station-name-label, 
+    .hide-label-7 .line-7B.normal-marker .station-name-label { display: none !important; }
+
+    .custom-station:hover .station-name-label {
+        display: block !important; position: absolute; z-index: 9999 !important;
+        background: rgba(255,255,255,0.9); padding: 2px 4px; border-radius: 4px; border: 1px solid #333;
     }
 `;
 document.head.appendChild(labelStyle);
 
-// 2. 지도를 확대/축소할 때마다 검사하는 감시자 함수
+var labelMode = 0; // 0: 자동, 1: 전체, 2: 주요역, 3: 숨김
+
+window.toggleStationLabels = function() {
+    labelMode = (labelMode + 1) % 4;
+    var btn = document.getElementById('station-label-btn');
+    var mapContainer = map.getContainer();
+    
+    mapContainer.classList.remove('hide-normal-stations', 'hide-all-stations');
+
+    if (labelMode === 0) {
+        btn.innerHTML = "🔠 역명 표시: 자동 (줌 연동)";
+        updateLabelVisibility(); 
+    } else if (labelMode === 1) {
+        btn.innerHTML = "🔠 역명 표시: 전체 보기";
+    } else if (labelMode === 2) {
+        btn.innerHTML = "🔠 역명 표시: 주요역만 보기";
+        mapContainer.classList.add('hide-normal-stations');
+    } else if (labelMode === 3) {
+        btn.innerHTML = "🔠 역명 표시: 모두 숨김";
+        mapContainer.classList.add('hide-all-stations');
+    }
+};
+
+// [NEW] 노선별 역명 강제 숨김/표시 스위치
+window.toggleLineLabel = function(lineNum, isHidden) {
+    var mapContainer = map.getContainer();
+    if (isHidden) {
+        mapContainer.classList.add('hide-label-' + lineNum);
+    } else {
+        mapContainer.classList.remove('hide-label-' + lineNum);
+    }
+};
+
 function updateLabelVisibility() {
     var currentZoom = map.getZoom();
-    
-    // 지도가 담긴 컨테이너 가져오기 (보통 id가 'map' 또는 지도 변수에서 직접 컨테이너 추출)
     var mapContainer = map.getContainer(); 
 
-    // ★ 핵심: 줌 레벨 기준점 (숫자가 클수록 더 가까이 확대해야 글자가 보입니다)
-    // 효빈광역시 크기를 고려할 때 보통 14~15 정도가 적당합니다.
-    if (currentZoom < 14) {
-        mapContainer.classList.add('hide-map-labels'); // 축소됨: 글자 숨겨!
-    } else {
-        mapContainer.classList.remove('hide-map-labels'); // 확대됨: 글자 보여!
+    // 초기화
+    mapContainer.classList.remove('hide-map-labels', 'hide-normal-stations', 'hide-all-stations', 'hide-line7-markers');
+
+    if (currentZoom < -0.5) mapContainer.classList.add('hide-map-labels'); // 버스
+
+    // ★ 지도를 -1.5 이하로 축소하면 7호선 일반역은 "마커 자체"가 아예 사라집니다 (주요역만 남음)
+    if (currentZoom <= -1.5) {
+        mapContainer.classList.add('hide-line7-markers');
+    }
+
+    if (labelMode === 0) {
+        if (currentZoom <= -2.5) {
+            mapContainer.classList.add('hide-all-stations');
+        } else if (currentZoom <= -1.0) {
+            mapContainer.classList.add('hide-normal-stations'); // 주요역만 남음
+        }
+    } else if (labelMode === 2) {
+        mapContainer.classList.add('hide-normal-stations');
+    } else if (labelMode === 3) {
+        mapContainer.classList.add('hide-all-stations');
     }
 }
 
-// 3. 지도 줌(확대/축소) 이벤트가 끝날 때마다 감시자 함수 실행
 map.on('zoomend', updateLabelVisibility);
-
-// 4. 처음 지도를 딱 켰을 때도 현재 줌 레벨에 맞춰서 한 번 정리해주기
 updateLabelVisibility();
+
 // =========================================================
 // ★ [필수 코어 함수] 점과 선분 사이의 거리 계산 (절대 삭제 금지!)
 // =========================================================
@@ -4999,3 +5086,80 @@ function exportNearbyTransitData(radius = 1000) {
     
     alert(`🎉 좌표 튕김 현상 완벽 제거! 총 ${allBusLines.length}개의 전체 버스 노선 정상 스캔 완료.`);
 }
+function toggleSubwayFilterBox() {
+    var box = document.getElementById('subway-filter-box');
+    var btn = document.getElementById('subway-filter-btn');
+    if (box.style.display === 'block') {
+        box.style.display = 'none';
+        btn.classList.remove('active-btn');
+    } else {
+        box.style.display = 'block';
+        btn.classList.add('active-btn');
+        // 필터 조작 시 지하철 레이어가 꺼져있다면 지도에 강제로 켜기
+        if (!map.hasLayer(subwayLineLayer)) map.addLayer(subwayLineLayer);
+        if (!map.hasLayer(subwayStationLayer)) map.addLayer(subwayStationLayer);
+    }
+}
+
+// =========================================================
+// ★ [NEW] 모든 노선별 일반 마커 & 역명 개별 제어 시스템
+// =========================================================
+function initSubwayDetailControls() {
+    var container = document.getElementById('subway-detail-box');
+    if(!container) return;
+    
+    var dynamicCss = "";
+    
+    // 지하철 노선 데이터(subwayLines)를 전부 뒤져서 스위치와 CSS를 자동 생산!
+    for (const [key, val] of Object.entries(subwayLines)) {
+        
+        // 1. 노선별 CSS 자동 작성 (주요역/환승역은 무시하고 '일반역(normal-marker)'만 족집게 타겟팅)
+        dynamicCss += `
+            .hide-marker-${key} .line-${key}.normal-marker { display: none !important; }
+            .hide-label-${key} .line-${key}.normal-marker .station-name-label { display: none !important; }
+        `;
+        
+        // 2. 패널에 들어갈 개별 스위치 조립
+        var div = document.createElement('div');
+        div.style.borderBottom = "1px solid #ddd";
+        div.style.padding = "6px 0";
+        div.style.fontSize = "12px";
+        
+        div.innerHTML = `
+            <div style="font-weight:bold; color:${val.color}; margin-bottom:4px;">${val.name}</div>
+            <label style="margin-right:8px; cursor:pointer; color:#555;">
+                <input type="checkbox" onchange="toggleSpecificLine('${key}', 'marker', this.checked)"> 마커 숨김
+            </label>
+            <label style="cursor:pointer; color:#555;">
+                <input type="checkbox" onchange="toggleSpecificLine('${key}', 'label', this.checked)"> 역명 숨김
+            </label>
+        `;
+        container.appendChild(div);
+    }
+    
+    // 완성된 CSS를 지도에 주입
+    var styleSheet = document.createElement('style');
+    styleSheet.innerHTML = dynamicCss;
+    document.head.appendChild(styleSheet);
+}
+
+// 상세 설정 패널 열고 닫기
+window.toggleSubwayDetailBox = function() {
+    var box = document.getElementById('subway-detail-box');
+    box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+};
+
+// 스위치를 누르면 즉시 지도에 숨김 클래스를 탈부착!
+window.toggleSpecificLine = function(lineKey, type, isHidden) {
+    var mapContainer = map.getContainer();
+    var className = (type === 'marker') ? 'hide-marker-' + lineKey : 'hide-label-' + lineKey;
+    
+    if (isHidden) {
+        mapContainer.classList.add(className);
+    } else {
+        mapContainer.classList.remove(className);
+    }
+};
+
+// 화면과 데이터가 다 불러와진 뒤(1초 후) 안전하게 스위치 공장 가동!
+setTimeout(initSubwayDetailControls, 1000);
