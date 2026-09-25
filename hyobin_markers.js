@@ -648,7 +648,6 @@ var defaultLandmarksData = [
 { name: "빈동고등학교", lat: -12340, lng: 22252, color: "#006699", type: "normal" },
 { name: "국토안전관리원 효빈본부", lat: -14798, lng: 25608, color: "#33AAFF", type: "normal" },
 { name: "창전보건소", lat: -14295, lng: 25458, color: "#33AAFF", type: "normal" },
-{ name: "홈플러스 창전점", lat: -14138, lng: 26208, color: "#33AAFF", type: "normal" },
 { name: "이마트 창전점", lat: -14138, lng: 26208, color: "#33AAFF", type: "normal" },
 { name: "오아초", lat: -14185, lng: 25164, color: "#33AAFF", type: "normal" },
 { name: "가스기술공사 효빈본부", lat: -13659, lng: 27239, color: "#33AAFF", type: "normal" },
@@ -2496,7 +2495,7 @@ var defaultLandmarksData = [
     "type": "normal"
   },
   {
-    "name": "창전홈플러스(북)",
+    "name": "창전이마트(북)",
     "lat": -13738,
     "lng": 26299,
     "color": "#33AAFF",
@@ -3017,5 +3016,641 @@ var defaultLandmarksData = [
       "lng": 25545,
       "color": "#33AAFF",
       "type": "normal"
+    },{
+      "name": "북고송역",
+      "lat": -4724,
+      "lng": 19190,
+      "color": "#7799CC",
+      "type": "normal"
     },
+    {
+      "name": "빈스마트 고송본점",
+      "lat": -4681,
+      "lng": 18178,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 남구청정",
+      "lat": -13691,
+      "lng": 9916,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "이케아 효빈점",
+      "lat": -12413,
+      "lng": 23260,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "스타필드 효빈(예정)",
+      "lat": -12781,
+      "lng": 23753,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "롯데몰 창전점",
+      "lat": -14452,
+      "lng": 25069,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 창전구청점",
+      "lat": -14224,
+      "lng": 25354,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 청엽 메가센터",
+      "lat": -11738,
+      "lng": 22768,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 중수점",
+      "lat": -5299,
+      "lng": 26890,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 소조점(SSM)",
+      "lat": -6843,
+      "lng": 19283,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 중수점(SSM)",
+      "lat": -5221,
+      "lng": 25173,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 청능점(SSM)",
+      "lat": -6086,
+      "lng": 19026,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 오내점(SSM)",
+      "lat": -7844,
+      "lng": 23411,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 평당점(SSM)",
+      "lat": -16359,
+      "lng": 9941,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 곽산점(SSM)",
+      "lat": -19075,
+      "lng": 7532,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 어간점(SSM)",
+      "lat": -12526,
+      "lng": 8332,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 동곡점(SSM)",
+      "lat": -14122,
+      "lng": 21306,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 잔백점(SSM)",
+      "lat": -12371,
+      "lng": 26577,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 칠심점(SSM)",
+      "lat": -12864,
+      "lng": 25360,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 팔조점(SSM)",
+      "lat": -15658,
+      "lng": 21888,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 마잡점(SSM)",
+      "lat": -14192,
+      "lng": 20041,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 우전점(SSM)",
+      "lat": -13008,
+      "lng": 22928,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 비마점(SSM)",
+      "lat": -12588,
+      "lng": 21017,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 안천점(SSM)",
+      "lat": -9147,
+      "lng": 30687,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 이자점(SSM)",
+      "lat": -8995,
+      "lng": 37283,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 창건점(SSM)",
+      "lat": -10520,
+      "lng": 35748,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 악부점(SSM)",
+      "lat": -10060,
+      "lng": 33154,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 과진점(SSM)",
+      "lat": -5650,
+      "lng": 15337,
+      "color": "#00AABB",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 사복점(SSM)",
+      "lat": -5506,
+      "lng": 18052,
+      "color": "#00AABB",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 당선점(SSM)",
+      "lat": -7492,
+      "lng": 17541,
+      "color": "#00AABB",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 전천점(SSM)",
+      "lat": -8364,
+      "lng": 21227,
+      "color": "#FF9922",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 덕현점(SSM)",
+      "lat": -9195,
+      "lng": 21244,
+      "color": "#FF9922",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 사가당점(SSM)",
+      "lat": -10749,
+      "lng": 20830,
+      "color": "#FF9922",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 내조점(SSM)",
+      "lat": -9879,
+      "lng": 18985,
+      "color": "#BB9955",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 중앙로점(SSM)",
+      "lat": -9832,
+      "lng": 17132,
+      "color": "#BB9955",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 도변점(SSM)",
+      "lat": -13866,
+      "lng": 34092,
+      "color": "#BBFF64",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 흑택점(SSM)",
+      "lat": -12698,
+      "lng": 29931,
+      "color": "#BBFF64",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 탄성읍점(SSM)",
+      "lat": -17288,
+      "lng": 32602,
+      "color": "#BBFF64",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 화소점(SSM)",
+      "lat": -5206,
+      "lng": 60379,
+      "color": "#F8C8C4",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 궁하점(SSM)",
+      "lat": -982,
+      "lng": 75886,
+      "color": "#8B4993",
+      "type": "normal"
+    },
+    {
+      "name": "빈스마트 장곡점(SSM)",
+      "lat": -5133,
+      "lng": 74791,
+      "color": "#F8C8C4",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 창전 식자재점",
+      "lat": -13918,
+      "lng": 24279,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 평당식자재점",
+      "lat": -14809,
+      "lng": 10795,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 창건식자재점",
+      "lat": -10644,
+      "lng": 36677,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 사가당식자재점",
+      "lat": -10498,
+      "lng": 22062,
+      "color": "#FF9922",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 사복식자재점",
+      "lat": -6192,
+      "lng": 16980,
+      "color": "#00AABB",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 원동식자재점",
+      "lat": -10607,
+      "lng": 16857,
+      "color": "#BB9955",
+      "type": "normal"
+    },
+    {
+      "name": "CY마트 고송식자재점",
+      "lat": -3318,
+      "lng": 16416,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "마루마트 동구본점",
+      "lat": -9582,
+      "lng": 23028,
+      "color": "#FF9922",
+      "type": "normal"
+    },
+    {
+      "name": "마루마트 탄성군청점",
+      "lat": -16574,
+      "lng": 33626,
+      "color": "#BBFF64",
+      "type": "normal"
+    },
+    {
+      "name": "마루마트 즈라스토어 청덕화환점",
+      "lat": -5760,
+      "lng": 14378,
+      "color": "#00AABB",
+      "type": "normal"
+    },
+    {
+      "name": "마루마트 즈라스토어 진백점",
+      "lat": -12031,
+      "lng": 26074,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "마루마트 즈라스토어 이자점",
+      "lat": -9812,
+      "lng": 37826,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "고송마루웰",
+      "lat": -4712,
+      "lng": 19964,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "평당마루웰",
+      "lat": -15588,
+      "lng": 9947,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "중앙마루웰",
+      "lat": -10505,
+      "lng": 15359,
+      "color": "#BB9955",
+      "type": "normal"
+    },
+    {
+      "name": "천조마트 효빈항물류점",
+      "lat": -11321,
+      "lng": 9473,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "천조마트 안천본점",
+      "lat": -9728,
+      "lng": 30799,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "천조마트 평전산단점(SSM)",
+      "lat": -6395,
+      "lng": 28545,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "하나로마트 효빈점",
+      "lat": -10319,
+      "lng": 19475,
+      "color": "#BB9955",
+      "type": "normal"
+    },
+    {
+      "name": "하나로마트 당선점",
+      "lat": -6845,
+      "lng": 17272,
+      "color": "#00AABB",
+      "type": "normal"
+    },
+    {
+      "name": "하나로마트 고송점",
+      "lat": -4302,
+      "lng": 18531,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "하나로마트 평당점",
+      "lat": -14119,
+      "lng": 10809,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "하나로마트 청엽점",
+      "lat": -13200,
+      "lng": 21548,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "하나로마트 안천점",
+      "lat": -8499,
+      "lng": 30760,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "하나로마트 탄성점",
+      "lat": -16878,
+      "lng": 30550,
+      "color": "#BBFF64",
+      "type": "normal"
+    },
+    {
+      "name": "리에라몰",
+      "lat": -8377,
+      "lng": 29674,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "세이브존 효빈사가당점",
+      "lat": -10336,
+      "lng": 20278,
+      "color": "#FF9922",
+      "type": "normal"
+    },
+    {
+      "name": "애니플러스샵 창전점",
+      "lat": -14364,
+      "lng": 24885,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "뉴코아아울렛 창전점",
+      "lat": -14576,
+      "lng": 24629,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "모다아울렛 고해점",
+      "lat": -8596,
+      "lng": 44427,
+      "color": "#BBFF64",
+      "type": "normal"
+    },
+    {
+      "name": "영풍문고 효빈대점",
+      "lat": -7698,
+      "lng": 18500,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "영풍문고 고송스퀘어점",
+      "lat": -4122,
+      "lng": 16870,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "고송스퀘어",
+      "lat": -4121,
+      "lng": 16843,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "교보문고 효빈터미널점",
+      "lat": -7882,
+      "lng": 20321,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "교보문고 안천 팝업스토어",
+      "lat": -8785,
+      "lng": 31815,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "종로서적 평당센트럴점",
+      "lat": -15254,
+      "lng": 9912,
+      "color": "#DDBBFF",
+      "type": "normal"
+    },
+    {
+      "name": "아크앤북 창전점",
+      "lat": -14448,
+      "lng": 25071,
+      "color": "#33AAFF",
+      "type": "normal"
+    },
+    {
+      "name": "영풍문고 롯데백화점 청엽점",
+      "lat": -12456,
+      "lng": 21986,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "알라딘 중고서점 효빈역점",
+      "lat": -10090,
+      "lng": 20261,
+      "color": "#FF9922",
+      "type": "normal"
+    },
+    {
+      "name": "알라딘중고서점 고송교차로역점",
+      "lat": -4730,
+      "lng": 18126,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "알라딘중고서점 청엽구청역점",
+      "lat": -11700,
+      "lng": 22289,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "알라딘중고서점 이자점",
+      "lat": -8967,
+      "lng": 38021,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "이자파크몰",
+      "lat": -9055,
+      "lng": 38197,
+      "color": "#AA66DD",
+      "type": "normal"
+    },
+    {
+      "name": "도변스퀘어몰",
+      "lat": -13423,
+      "lng": 33569,
+      "color": "#BBFF64",
+      "type": "normal"
+    },
+    {
+      "name": "청엽시티몰",
+      "lat": -11710,
+      "lng": 21918,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "아논타워몰",
+      "lat": -12032,
+      "lng": 23412,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "아논타워",
+      "lat": -12030,
+      "lng": 23414,
+      "color": "#006699",
+      "type": "normal"
+    },
+    {
+      "name": "유니브스퀘어",
+      "lat": -6796,
+      "lng": 18080,
+      "color": "#00AABB",
+      "type": "normal"
+    },
+    {
+      "name": "카린아울렛",
+      "lat": -6416,
+      "lng": 26684,
+      "color": "#7799CC",
+      "type": "normal"
+    },
+    {
+      "name": "애니아울렛",
+      "lat": -5580,
+      "lng": 18760,
+      "color": "#7799CC",
+      "type": "normal"
+    }
 ];
