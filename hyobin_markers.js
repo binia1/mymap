@@ -3686,7 +3686,7 @@ var defaultLandmarksData = [
     },
     {
       "name": "평당 아르티엠 아파트(꼴보수 성지(...)",
-      "lat": -15165,
+      "lat": -15005,
       "lng": 10002,
       "color": "#DDBBFF",
       "type": "normal"
