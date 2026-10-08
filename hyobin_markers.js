@@ -3696,5 +3696,9 @@ var defaultLandmarksData = [
       "type": "normal"
     },
     { name: "원더랜드빌딩", lat: -6370, lng: 24518, color: "#7799CC", type: "normal" },
-{ name: "효빈지방중대범죄수사청", lat: -6366, lng: 24523, color: "#7799CC", type: "normal" }
+{ name: "효빈지방중대범죄수사청", lat: -6366, lng: 24523, color: "#7799CC", type: "normal" },
+{ name: "개비도", lat: -7453, lng: 11849, color: "#BB9955", type: "normal" },
+{ name: "휴소도", lat: -5350, lng: 12625, color: "#00AABB", type: "normal" },
+{ name: "포상도", lat: -1287, lng: 24664, color: "#7799CC", type: "normal" },
+{ name: "부리도", lat: -19406, lng: 23413, color: "#33AAFF", type: "normal" }
 ];
