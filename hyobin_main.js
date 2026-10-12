@@ -495,16 +495,24 @@ var myMajorStations = [
     }
 
     // 기본 면적 계산 (신발끈 공식)
-    function calculatePolygonArea(points) {
-        var areaSum = 0;
-        for (var i = 0; i < points.length; i++) {
-            var p1 = points[i];
-            var p2 = points[(i + 1) % points.length];
-            var areaSum = areaSum + (p1[1] * p2[0] - p2[1] * p1[0]);
-        }
-        return Math.abs(areaSum) / 2.0;
-    }
+// 3. 면적 계산 (다중 구역 합산 지원)
+function calculatePolygonArea(points) {
+    var totalArea = 0;
+    var isMulti = Array.isArray(points[0][0]);
+    var rings = isMulti ? points : [points];
 
+    for (var r = 0; r < rings.length; r++) {
+        var pts = rings[r];
+        var areaSum = 0;
+        for (var i = 0; i < pts.length; i++) {
+            var p1 = pts[i];
+            var p2 = pts[(i + 1) % pts.length];
+            areaSum += (p1[1] * p2[0] - p2[1] * p1[0]);
+        }
+        totalArea += Math.abs(areaSum) / 2.0;
+    }
+    return totalArea;
+}
 
     // =========================================================
     // 역간 거리 자동 계산 및 표시
@@ -725,8 +733,48 @@ var map = L.map('map', {
     var normalMarkerLayer = L.layerGroup();
     var gridLayer = L.layerGroup();
     var busStopLayer = L.layerGroup();
-    if (typeof districtData !== 'undefined') {
+if (typeof districtData !== 'undefined') {
+        var mergedDict = {};
         districtData.forEach(function(d) {
+            // 고유 식별키 생성 (예: "팔조동_legal", "팔조동_admin")
+            // 이름이 같아도 행정동과 법정동은 따로 분리해서 합치도록 안전장치 마련
+            var key = d.name + "_" + (d.type || "none"); 
+            
+            if (!mergedDict[key]) {
+                mergedDict[key] = Object.assign({}, d); // 객체 복사
+                // 배열의 깊이를 확인하여, 단일 폴리곤이면 멀티폴리곤 형태인 [ [좌표들] ] 로 강제 변환
+                mergedDict[key].points = Array.isArray(d.points[0][0]) ? d.points : [d.points];
+            } else {
+                // 이미 존재하는 구역이면 기존 폴리곤 배열에 덩어리(points)만 쏙 추가
+                var newPoints = Array.isArray(d.points[0][0]) ? d.points : [d.points];
+                mergedDict[key].points = mergedDict[key].points.concat(newPoints);
+            }
+        });
+        
+        // 흩어져 있던 데이터를 완벽히 병합된 상태로 덮어쓰기
+        districtData = Object.values(mergedDict); 
+    }
+
+    // ▼ 기존 레이어 그리기 로직 시작 ▼
+if (typeof districtData !== 'undefined') {
+        // ★ [1단계] 이름과 타입이 같은 쪼개진 구역들을 하나의 멀티폴리곤으로 자동 병합
+        var mergedDict = {};
+        districtData.forEach(function(d) {
+            var key = d.name + "_" + (d.type || "none"); 
+            var newPoints = Array.isArray(d.points[0][0]) ? d.points : [d.points];
+
+            if (!mergedDict[key]) {
+                mergedDict[key] = Object.assign({}, d);
+                mergedDict[key].points = newPoints;
+            } else {
+                mergedDict[key].points = mergedDict[key].points.concat(newPoints);
+            }
+        });
+        
+        var mergedDistrictData = Object.values(mergedDict);
+
+        // ★ [2단계] 지도에 깔끔하게 그리기
+        mergedDistrictData.forEach(function(d) {
             var color = d.color || getColorByName(d.name);
             var name = d.name;
             var targetLayer; var layerType = ""; 
@@ -745,20 +793,21 @@ var map = L.map('map', {
             else if (targetLayer === adminLayer) { dashStyle = '5, 5'; weightStyle = 2; opacity = 0.5; }
             else if (targetLayer === legalLayer) { weightStyle = 1; opacity = 0.8; }
 
-            var rawPoints = Array.isArray(d.points[0][0]) ? d.points : [d.points];
-            var polyPoints = shiftPoints(rawPoints); 
+            var polyPoints = shiftPoints(d.points); 
 
-            polyPoints.forEach(function(polygonPoints) {
-                L.polygon(polygonPoints, { color: color, fillColor: color, fillOpacity: 0.15, weight: weightStyle, dashArray: dashStyle, opacity: opacity, interactive: false })
-                .addTo(targetLayer);
-                searchablePolygons.push({ name: name, type: layerType, points: polygonPoints });
-            });
+            // 병합된 다중 구역을 통째로 렌더링
+            L.polygon(polyPoints, { color: color, fillColor: color, fillOpacity: 0.15, weight: weightStyle, dashArray: dashStyle, opacity: opacity, interactive: false })
+            .addTo(targetLayer);
             
-            var center = L.polygon(polyPoints[0]).getBounds().getCenter();
+            // 검색 및 계산을 위해 하나로 합쳐진 상태로 저장
+            searchablePolygons.push({ name: name, type: layerType, points: polyPoints });
+            
+            // 라벨(이름표)은 합쳐진 전체 영역의 정중앙에 딱 1개만 표시
+            var center = L.polygon(polyPoints).getBounds().getCenter();
             L.marker(center, { icon: L.divIcon({ className: 'district-label', html: name.split('(')[0], iconSize: [120, 20], iconAnchor: [60, 10] }) }).addTo(targetLayer);
         });
     }
-var gridLayer = L.layerGroup(); 
+    var gridLayer = L.layerGroup(); 
 var gridWidth = 2000;  // 가로 크기를 2000으로 변경
 var gridHeight = 1500; // 세로 크기를 1500으로 변경
 var gridCells = {}; 
@@ -4438,47 +4487,54 @@ function goToMyLocation() {
 // =========================================================
 
 // 1. 점이 폴리곤 안에 있는지 확인하는 기본 함수
+// 1. 점이 폴리곤(다중 구역 포함) 안에 있는지 확인하는 기본 함수
 function isPointInPolygon(lat, lng, polygon) {
     var x = lat, y = lng;
-    var inside = false;
-    // 다중 배열(구멍 뚫린 폴리곤 등) 방어 로직
-    var pts = Array.isArray(polygon[0][0]) ? polygon[0] : polygon;
+    var isInside = false;
     
-    for (var i = 0, j = pts.length - 1; i < pts.length; j = i++) {
-        var xi = pts[i][0], yi = pts[i][1];
-        var xj = pts[j][0], yj = pts[j][1];
-        var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        if (intersect) inside = !inside;
-    }
-    return inside;
-}
+    var isMulti = Array.isArray(polygon[0][0]);
+    var rings = isMulti ? polygon : [polygon];
 
+    for (var r = 0; r < rings.length; r++) {
+        var pts = rings[r];
+        var inside = false;
+        for (var i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+            var xi = pts[i][0], yi = pts[i][1];
+            var xj = pts[j][0], yj = pts[j][1];
+            var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        if (inside) isInside = true;
+    }
+    return isInside;
+}
 // 2. [핵심] 틈새(Gap)에 빠졌을 때, 가장 가까운 폴리곤 경계선까지의 거리를 구하는 수학 함수
+// 2. 틈새(Gap)에 빠졌을 때, 가장 가까운 폴리곤 경계선까지의 거리를 구하는 수학 함수
 function getDistanceToPolygon(lat, lng, polygon) {
     var minDistance = Infinity;
     var x = lat, y = lng;
-    var pts = Array.isArray(polygon[0][0]) ? polygon[0] : polygon;
+    
+    var isMulti = Array.isArray(polygon[0][0]);
+    var rings = isMulti ? polygon : [polygon];
 
-    for (var i = 0, j = pts.length - 1; i < pts.length; j = i++) {
-        var x1 = pts[i][0], y1 = pts[i][1];
-        var x2 = pts[j][0], y2 = pts[j][1];
-        
-        // 점과 선분 사이의 최단 거리 공식 (Point to Line Segment)
-        var A = x - x1, B = y - y1, C = x2 - x1, D = y2 - y1;
-        var dot = A * C + B * D;
-        var len_sq = C * C + D * D;
-        var param = -1;
-        if (len_sq != 0) param = dot / len_sq;
-        
-        var xx, yy;
-        if (param < 0) { xx = x1; yy = y1; } 
-        else if (param > 1) { xx = x2; yy = y2; } 
-        else { xx = x1 + param * C; yy = y1 + param * D; }
-        
-        var dx = x - xx, dy = y - yy;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        
-        if (dist < minDistance) minDistance = dist;
+    for (var r = 0; r < rings.length; r++) {
+        var pts = rings[r];
+        for (var i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+            var x1 = pts[i][0], y1 = pts[i][1];
+            var x2 = pts[j][0], y2 = pts[j][1];
+            var A = x - x1, B = y - y1, C = x2 - x1, D = y2 - y1;
+            var dot = A * C + B * D;
+            var len_sq = C * C + D * D;
+            var param = -1;
+            if (len_sq != 0) param = dot / len_sq;
+            var xx, yy;
+            if (param < 0) { xx = x1; yy = y1; } 
+            else if (param > 1) { xx = x2; yy = y2; } 
+            else { xx = x1 + param * C; yy = y1 + param * D; }
+            var dx = x - xx, dy = y - yy;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < minDistance) minDistance = dist;
+        }
     }
     return minDistance;
 }
@@ -4983,7 +5039,26 @@ function downloadUltraHighResMap() {
 // ★ [완전 무결점판] 마커 주변 대중교통 엑셀 추출 기능
 // (쓸데없는 좌표 변형을 완전히 제거한 순수 스캔)
 // =========================================================
-function exportNearbyTransitData(radius = 1000) { 
+// =========================================================
+// ★ [완전 무결점판] 마커 주변 대중교통 엑셀 추출 기능 (사용자 거리 지정 + 주소/노선명 포함)
+// =========================================================
+function exportNearbyTransitData() { 
+    // ★ [추가됨] 사용자에게 검색 반경을 입력받습니다. (기본값: 500)
+    var inputRadius = prompt("검색할 반경(거리)을 미터(m) 단위로 입력하세요.\n(예: 500, 1000)", "500");
+    
+    // 취소를 누르거나 입력값이 없으면 종료
+    if (inputRadius === null || inputRadius.trim() === "") {
+        return;
+    }
+
+    var radius = parseInt(inputRadius, 10);
+    
+    // 숫자가 아니거나 0 이하의 값이면 경고 후 종료
+    if (isNaN(radius) || radius <= 0) {
+        alert("유효한 숫자(0보다 큰 정수)를 입력해주세요.");
+        return;
+    }
+
     var subwayStations = allLandmarks.filter(m => m.type === 'subway');
     var targetMarkers = allLandmarks.filter(m => m.type !== 'subway');
 
@@ -5009,8 +5084,7 @@ function exportNearbyTransitData(radius = 1000) {
 
     var allBusLines = [];
 
-    // [1] hyobin_bus.js에 있는 모든 버스 노선 (간선, 지선, 급행, 순환, 마을, 광역 전체)
-    // 🚨 여기서 절대 adjustY를 더하지 않고, 원본 좌표 그대로 가져옵니다.
+    // [1] hyobin_bus.js에 있는 모든 버스 노선
     if (typeof rawBusJson !== 'undefined' && rawBusJson.lines) {
         rawBusJson.lines.forEach(line => {
             var rings = Array.isArray(line.points[0][0]) ? line.points : [line.points];
@@ -5018,7 +5092,7 @@ function exportNearbyTransitData(radius = 1000) {
         });
     }
 
-    // [2] 로컬 스토리지에 혹시 남아있을 수 있는 미저장 버스 노선 병합 (중복 방지)
+    // [2] 로컬 스토리지에 남아있을 수 있는 미저장 버스 노선 병합
     var savedLinesStr = localStorage.getItem('hyobin_lines');
     if (savedLinesStr) {
         var savedLines = JSON.parse(savedLinesStr);
@@ -5033,11 +5107,16 @@ function exportNearbyTransitData(radius = 1000) {
     }
 
     var csvContent = "\uFEFF"; 
-    csvContent += `마커 이름,분류,주변 지하철역(${radius}m 이내),주변 버스노선(${radius}m 이내)\n`;
+    // CSV 헤더에 입력받은 radius 값 동적 적용
+    csvContent += `마커 이름,분류,소재지(행정구역),주변 지하철역(${radius}m 이내),주변 버스노선(${radius}m 이내)\n`;
 
     targetMarkers.forEach(marker => {
         var mLat = marker.lat;
         var mLng = marker.lng;
+
+        // [주소 추출]
+        var currentAddress = (typeof getFullAddress === 'function') ? getFullAddress(mLat, mLng) : "미지정 구역";
+        if (!currentAddress) currentAddress = "미지정 구역";
 
         // [지하철 스캔] 
         var nearbySubways = [];
@@ -5045,20 +5124,29 @@ function exportNearbyTransitData(radius = 1000) {
             var dx = mLat - station.lat;
             var dy = mLng - station.lng;
             var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist <= radius) nearbySubways.push(`${station.name}(${Math.round(dist)}m)`);
+            
+            if (dist <= radius) {
+                var lineNames = [];
+                var sLines = station.lines || station.lineCodes || [];
+                sLines.forEach(lid => {
+                    if (typeof subwayLines !== 'undefined' && subwayLines[lid]) {
+                        lineNames.push(subwayLines[lid].name);
+                    }
+                });
+                
+                var linePrefix = lineNames.length > 0 ? `[${lineNames.join("/")}] ` : "";
+                nearbySubways.push(`${linePrefix}${station.name}(${Math.round(dist)}m)`);
+            }
         });
 
         // [버스 스캔] 
         var nearbyBuses = [];
         allBusLines.forEach(bus => {
             var isNearby = false;
-            
             for (var r = 0; r < bus.rings.length; r++) {
                 var ring = bus.rings[r];
                 for (var i = 0; i < ring.length - 1; i++) {
-                    // 순수 좌표 그대로 직선거리를 계산합니다.
                     var dist = safeGetDist(mLat, mLng, ring[i][0], ring[i][1], ring[i+1][0], ring[i+1][1]);
-                    
                     if (dist <= radius) {
                         isNearby = true;
                         break; 
@@ -5066,26 +5154,25 @@ function exportNearbyTransitData(radius = 1000) {
                 }
                 if (isNearby) break; 
             }
-            
             if (isNearby) nearbyBuses.push(bus.name);
         });
 
         var subwayStr = nearbySubways.length > 0 ? `"${nearbySubways.join(", ")}"` : '"없음"';
         var busStr = nearbyBuses.length > 0 ? `"${nearbyBuses.join(", ")}"` : '"없음"';
         
-        csvContent += `"${marker.name}","${marker.type}",${subwayStr},${busStr}\n`;
+        csvContent += `"${marker.name}","${marker.type}","${currentAddress}",${subwayStr},${busStr}\n`;
     });
 
     var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     var link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `효빈광역시_대중교통_분석결과(${radius}m)_에러해결.csv`;
+    link.download = `효빈광역시_대중교통_분석결과(${radius}m)_주소및노선포함.csv`;
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
-    alert(`🎉 좌표 튕김 현상 완벽 제거! 총 ${allBusLines.length}개의 전체 버스 노선 정상 스캔 완료.`);
+    alert(`🎉 분석 완료! 반경 ${radius}m 내의 대중교통 데이터가 추출되었습니다.`);
 }
 function toggleSubwayFilterBox() {
     var box = document.getElementById('subway-filter-box');
