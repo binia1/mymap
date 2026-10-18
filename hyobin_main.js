@@ -471,7 +471,12 @@ var myLandmarks = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
 
     if (typeof subwayData !== 'undefined') {
 if (subwayData.markers) {
-    var processedSubwayMarkers = subwayData.markers.map(m => {
+    // ★ 그룹별로 쪼개진 데이터를 Object.values().flat()을 이용해 하나의 배열로 다시 합쳐줍니다.
+    var mergedSubwayMarkers = Array.isArray(subwayData.markers) 
+        ? subwayData.markers 
+        : Object.values(subwayData.markers).flat();
+
+    var processedSubwayMarkers = mergedSubwayMarkers.map(m => {
         var newName = m.name;
         if (!newName.endsWith('역')) newName += '역';
         // 원본 m을 건드리지 않고 새로운 객체를 리턴합니다.
@@ -620,116 +625,390 @@ if (typeof roadData !== 'undefined') {
     }    var activeMarkers = [];
     allLandmarks.forEach(item => addMarkerToMap(item));
     function calculateSize(zoom) { return Math.max(baseMarkerSize + (zoom * sizeMultiplier), minMarkerSize); }
-    
-    function addMarkerToMap(item) {
-        var size = calculateSize(map.getZoom());
-        var marker;
+// 카테고리별 마커 색상 지정 (추출 파일과 동일)
+// =========================================================
+// 1. [초정밀] 35종 세부 카테고리 마커 색상 정의
+// =========================================================
+var markerColors = {
+    // 자연 / 지형
+    "mountain": "#558B2F",      // 산 (짙은 녹색)
+    "water": "#1976D2",         // 호수/바다/강 (푸른색)
+    "park": "#4CAF50",          // 공원/유원지 (밝은 녹색)
+    // 공공 / 관공서 (급 나누기)
+    "office_main": "#1A237E",   // 시/구/군/도청 (위엄있는 남색)
+    "office_sub": "#3949AB",    // 읍면동/주민센터 (약간 밝은 남색)
+    "office_etc": "#3F51B5",    // 기타 공단/공사/법원
+    "police": "#0D47A1",        // 경찰/파출소 (경찰 딥블루)
+    "fire_station": "#D32F2F",  // 소방서 (소방 레드)
+    "post_office": "#E65100",   // 우체국 (우체국 주황)
+    "welfare": "#00897B",       // 복지시설/경로당/아동센터
+    // 주거 / 교육
+    "school": "#FFCA28",        // 학교/유치원 (노란색)
+    "apartment": "#795548",     // 아파트/주거 (갈색)
+    // 상업 / 금융
+    "bank": "#0288D1",          // 은행/금융
+    "commercial": "#F57C00",    // 백화점/마트/대형상업
+    "market": "#8D6E63",        // 전통시장/수산시장
+    "cvs": "#8BC34A",           // 편의점
+    // F&B / 식음료
+    "cafe": "#6D4C41",          // 카페/커피전문점
+    "bakery": "#F4A460",        // 빵집/베이커리
+    "fastfood": "#FF5252",      // 햄버거/패스트푸드
+    "restaurant": "#FFB300",    // 일반 식당/음식점
+    "pub": "#673AB7",           // 술집/호프/포차
+    // 숙박 / 문화 / 체육
+    "hotel": "#AB47BC",         // 숙박/호텔/모텔
+    "culture": "#C2185B",       // 박물관/미술관/전시관
+    "cinema": "#E53935",        // 영화관 (메가박스, CGV)
+    "anime": "#E040FB",         // 서브컬처/애니플러스/굿즈샵 (포인트 마젠타)
+    "religion": "#5D4037",      // 종교시설 (교회, 성당, 절)
+    "sports": "#0277BD",        // 체육관/수영장/경기장
+    // 의료
+    "hospital": "#00ACC1",      // 병원/의원
+    "pharmacy": "#43A047",      // 약국
+    // 교통 / 인프라
+    "parking": "#455A64",       // 주차장
+    "toilet": "#0097A7",        // 공중화장실
+    "airport": "#006064",       // 공항
+    "port": "#01579B",          // 항구/여객터미널
+    "station": "#C62828",       // 기차역/터미널
+    "factory": "#757575",       // 공장/산업단지
+    "normal": "#333333"         // 기타 일반
+};
 
-if (item.type === 'subway') {
-            var lines = item.lines || []; 
-            var iconHtml = "";
-            var width = (lines.length === 1) ? 14 : (lines.length * 10) + 6;
+// =========================================================
+// 2. 고품질 눈물방울 디자인 맵 핀 생성 함수 (SVG + 이모지 심볼)
+// =========================================================
+// =========================================================
+// 2. [가독성 극대화] 핀 꼬리 완전 제거 + 큼직한 원형 꽉 찬 아이콘
+// =========================================================
+function createFacilityCustomIcon(type, color, size) {
+    if (!color) color = "#333333";
+    
+    // ★ 핵심 포인트: 지도를 축소해도 아이콘이 깨알처럼 작아지지 않도록 
+    // 무조건 '최소 32px' 이상의 크기를 억지로라도 보장합니다.
+    var actualSize = Math.max(size || 36, 32); 
 
-            if (lines.length === 1) {
-                var lineInfo = subwayLines[lines[0]];
-                var lineColor = lineInfo ? lineInfo.color : "#333";
-                iconHtml = `<div class="station-circle" style="width:14px; height:14px; border: 3px solid ${lineColor};"></div>`;
-} else {
-                var dotsHtml = "";
-                lines.forEach(lid => {
-                    var lInfo = subwayLines[lid];
-                    var c = lInfo ? lInfo.color : "#333";
-                    dotsHtml += `<div class="transfer-dot" style="background-color:${c};"></div>`;
-                });
-                iconHtml = `<div class="station-transfer" style="width:${width}px; height:14px;">${dotsHtml}</div>`;
-            }
+    var iconPath = "";
 
-            // ▼ 여기서부터 교체 ▼
-            var isTransfer = lines.length >= 2; 
-            var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(item.name);
-            var isMajor = (isTransfer || isManualMajor) ? "major-station" : "normal-station";
-            var markerClass = (isTransfer || isManualMajor) ? "major-marker" : "normal-marker";
-            var lineClasses = lines.map(l => "line-" + l).join(" "); // 노선 꼬리표 추가
+    // (아이콘 모양 패스는 그대로 유지)
+    switch (type) {
+        case 'school': iconPath = `M319.4 178.2L288 163.9v53.2c0 14.8-18 22.4-28.4 11.8L192 160l-67.6 68.9c-10.4 10.6-28.4 3-28.4-11.8v-53.2L64.6 178.2C49.5 185.7 40 201.2 40 218.2V384c0 13.3 10.7 24 24 24h64c13.3 0 24-10.7 24-24V300l40-40 40 40v84c0 13.3 10.7 24 24 24h64c13.3 0 24-10.7 24-24V218.2c0-17-9.5-32.5-24.6-40zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z`; break;
+        case 'apartment': iconPath = `M0 32V480H448V32H0zm64 64H128V160H64V96zm128 0H256V160H192V96zm128 0H384V160H320V96zM64 224H128V288H64V224zm128 0H256V288H192V224zm128 0H384V288H320V224zM64 352H128V416H64V352zm128 0H256V416H192V352zm128 0H384V416H320V352z`; break;
+        case 'office_main': 
+        case 'office_sub':
+        case 'office_etc': iconPath = `M224 0C100.3 0 0 100.3 0 224s100.3 224 224 224s224-100.3 224-224S347.7 0 224 0zm0 384c-88.4 0-160-71.6-160-160s71.6-160 160-160s160 71.6 160 160s-71.6 160-160 160zm32-240c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z`; break;
+        case 'police': iconPath = `M466.5 83.7l-192-80a48.2 48.2 0 0 0 -36.9 0l-192 80C27.7 91.1 16 108.6 16 128c0 198.5 114.5 335.7 221.5 380.3 11.8 4.9 25.1 4.9 36.9 0C381.5 463.7 496 326.5 496 128c0-19.4-11.7-36.9-29.5-44.3zM256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128 128 57.3 128 128-57.3 128-128 128z`; break;
+        case 'bank': iconPath = `M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32H480c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32H32zM96 256H64V448h32V256zm128 0H192V448h32V256zm160 0H352V448h32V256zM0 480H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32z`; break;
+        case 'hospital': 
+        case 'pharmacy': iconPath = `M272 96c0-8.8-7.2-16-16-16h-64c-8.8 0-16 7.2-16 16v112H64c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h112v112c0 8.8 7.2 16 16 16h64c8.8 0 16-7.2 16-16V304h112c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16H272V96z`; break;
+        case 'cafe': iconPath = `M96 64c0-17.7 14.3-32 32-32H384c17.7 0 32 14.3 32 32v64H96V64zM0 192H448V352c0 53-43 96-96 96H96c-53 0-96-43-96-96V192zm448 64v64c35.3 0 64-28.7 64-64s-28.7-64-64-64z`; break;
+        case 'park': iconPath = `M256 32C125 32 18 137 18 268c0 54.3 19.3 104.3 51.5 143.6L64 432c-6.6 6.6-6.6 17.4 0 24s17.4 6.6 24 0l42.6-42.6C163.6 427.5 208.3 436 256 436c131 0 238-105 238-236S387 32 256 32z`; break;
+        case 'mountain': iconPath = `M256 32L0 448h512L256 32z`; break;
+        case 'water': iconPath = `M256 512c141.4 0 256-114.6 256-256S256 0 256 0 0 114.6 0 256s114.6 256 256 256z`; break;
+        case 'commercial': 
+        case 'market': iconPath = `M160 64c0-35.3 28.7-64 64-64s64 28.7 64 64v32h64c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V160c0-35.3 28.7-64 64-64h64V64zm64 0c-17.7 0-32 14.3-32 32v32h64V96c0-17.7-14.3-32-32-32z`; break;
+        case 'hotel': iconPath = `M32 384c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 128c0-35.3 28.7-64 64-64h192c35.3 0 64 28.7 64 64V256H64V128zM0 320H480V288H0v32z`; break;
+        case 'station': iconPath = `M256 0c-97.2 0-176 78.8-176 176V320c0 97.2 78.8 176 176 176H336c53 0 96-43 96-96V176c0-97.2-78.8-176-176-176H256zM144 144H368V256H144V144zM208 368a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm128-32a32 32 0 1 1 -64 0 32 32 0 1 1 64 0z`; break;
+        case 'airport': iconPath = `M382.3 8.3L459.7 75l.1 .1c25 22.1 36.6 55.4 30.5 87.5L445.6 373.1l60.2 46.5c15.6 12 20.3 34.3 10.6 51.5c-7 12.3-20.9 19-35.1 17l-159.2-22.7L203 490c-9.3 12.1-26.3 15-39 6.8s-17.5-23.7-11.4-37l33-72.6-133-19-61.9 47.9c-15.6 12-38 8.6-49.3-7.5c-8.2-11.7-9.5-27-3.4-39.7l35-73.4L6 142.1c-14.2-2-22.9-15.7-19.6-29.6s15.7-22.9 29.6-19.6l239.5 34.2 96-211.2c7-15.3 22.9-24.2 39.8-22.3s30.8 14.4 33.2 31l2.4 29.1-44.5 54.3z`; break;
+        case 'anime': iconPath = `M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z`; break;
+        case 'restaurant':
+        case 'fastfood': iconPath = `M224 48C100.3 48 0 148.3 0 272V304c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V272c0-123.7-100.3-224-224-224zM32 368h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32z`; break;
+        default: iconPath = `M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z`; break;
+    }
 
-            iconHtml += `<div class="station-name-label ${isMajor}">${item.name}</div>`;
+    // 핀 꼬리 완전히 없애고, 색깔이 칠해진 둥근 원판 위에 
+    // 하얀색 아이콘이 시원하게 꽉 차게 들어가는 구조로 변경했습니다.
+    var fullSvg = `
+    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));">
+        <!-- 큼직한 원형 배경 (색상 적용, 테두리 두껍게) -->
+        <circle cx="256" cy="256" r="240" fill="${color}" stroke="#ffffff" stroke-width="20"/>
+        
+        <!-- 하얀색 아이콘을 정중앙에 큼직하게 배치 -->
+        <g transform="translate(102, 102) scale(0.6)">
+            <path fill="#ffffff" d="${iconPath}"/>
+        </g>
+    </svg>`;
 
-            marker = L.marker([item.lat, item.lng], {
-                icon: L.divIcon({ 
-                    className: `custom-station ${lineClasses} ${markerClass}`, // className에 꼬리표가 추가되어야 합니다!
-                    html: iconHtml, 
-                    iconSize: [width, 14], 
-                    iconAnchor: [width/2, 7] 
-                })
-            });
+    return L.divIcon({ 
+        className: 'custom-premium-pin-svg', 
+        html: fullSvg, 
+        iconSize: [actualSize, actualSize], // 원형이므로 정사각형 비율 유지
+        iconAnchor: [actualSize / 2, actualSize / 2], // 중앙 정렬 
+        popupAnchor: [0, -actualSize / 2] 
+    });
+}
 
-            // [NEW] Marker 객체에 노선 정보 심기 (필터링용)
-            marker.lineCodes = lines;
-            marker.stationName = item.name; // ★ [추가] 필터링 시 이름을 다시 그리기 위해 저장해둡니다!
-        } else if (item.type === 'busStop') {
-            // [NEW] 버스 정류장 전용 아이콘 (네모난 정류장 모양)
-            var iconHtml = `<div style="background:white; border:2px solid #555; border-radius:4px; width:16px; height:16px; display:flex; align-items:center; justify-content:center; box-shadow: 1px 1px 3px rgba(0,0,0,0.5);"><span style="font-size:10px;">🚏</span></div><div class="station-name-label" style="color:#222; font-size:11px; margin-top:2px; font-weight:bold; text-shadow:-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">${item.name.replace(' 정류장','')}</div>`;
-            
-            marker = L.marker([item.lat, item.lng], {
-                icon: L.divIcon({ className: 'custom-bus-stop', html: iconHtml, iconSize: [16, 16], iconAnchor: [8, 8] })
-            });
-        } else {
-            marker = L.marker([item.lat, item.lng], { icon: createCustomIcon(item.color, size) });
+// =========================================================
+// 3. [최종 병기] 35개 키워드 초정밀 필터링 자동 분류 및 마커 생성
+// =========================================================
+function addMarkerToMap(item) {
+    if (!item) return;
+    
+    var size = calculateSize ? calculateSize(map.getZoom()) : 36;
+    var marker;
+
+    if (item.name && item.type !== 'subway' && item.type !== 'busStop') {
+var name = item.name;
+        
+        // 1. 아파트/주거시설 (최우선 검사)
+        if (name.includes("아파트") || name.match(/(주공|자이|푸르지오|더샵|래미안|아이파크|휴먼시아|센트럴|스타힐스|대라수|리버시티|에일린의뜰|빌라|오피스텔|주상복합|단지)$/)) {
+            item.type = "apartment";
+        }
+        
+        // 2. 대형 상업시설 / 마트 (지점명 오작동 방지를 위해 최상단 배치)
+        else if (name.match(/(백화점|이마트|홈플러스|롯데마트|트레이더스|아울렛|상가|다이소|코스트코|빈스마트|마루마트|하나로마트)/)) {
+            item.type = "commercial";
         }
 
-if (item.type === 'subway') {
-            marker.addTo(subwayStationLayer); 
-        } else if (item.type === 'busStop') {
-            marker.addTo(busStopLayer); // <-- [NEW] 버스 정류장은 전용 레이어로!
-            
-            // ★ [이 줄을 추가하세요!] 마커 객체에 경유 버스 정보 저장 (필터링용)
-            marker.passingBuses = item.passingBuses; 
-            
-        } else {
-            marker.addTo(normalMarkerLayer); 
-        }        
-        marker.myColor = item.color; 
-        activeMarkers.push(marker);
-
-        // 지하철/버스/기반 마커 툴팁 분기
-        if (item.type === 'subway') {
-            var lineNames = (item.lines || []).map(lid => subwayLines[lid] ? subwayLines[lid].name : "").filter(Boolean).join(", ");
-            marker.bindTooltip(`<b>${item.name}</b><br><span style="font-size:11px; color:#555;">경유: ${lineNames}</span>`, { offset: [0, -10], direction: 'top' });
-        } else if (item.type === 'busStop') {
-            // [NEW] 버스 정류장 전용 툴팁 (경유 노선 리스트 표시)
-            var busList = item.passingBuses && item.passingBuses.length > 0 ? item.passingBuses.join("<br>") : "<span style='color:#999;'>경유 노선 없음</span>";
-            marker.bindTooltip(`<b>🚏 ${item.name}</b><br><hr style="margin:3px 0; border-top:1px dashed #ccc;"><div style="font-size:11px; line-height:1.5;">${busList}</div>`, { offset: [0, -10], direction: 'top' });
-        } else {
-            marker.bindTooltip(item.name, { offset: [0, -20], direction: 'top' });
+        // 3. 학교/교육
+        else if (name.match(/(초|중|고|초등학교|중학교|고등학교|대학교|대학원|과기원|유치원|어린이집|학원)$/) || name.includes("학교") || name.includes("사대부") || name.includes("캠퍼스")) {
+            item.type = "school";
+        }
+        
+        // 4. 금융 (은행)
+        else if (name.match(/(은행|국민은행|신한은행|우리은행|하나은행|농협|기업은행|새마을금고|신협|수협|카카오뱅크|우체국금융)/)) {
+            item.type = "bank";
         }
 
-// [수정된 부분] 삭제 및 편집 이벤트 분기 (기존 삭제 기능 대체)
-        if (item.type === 'busStop') {
-            // 버스 정류장은 클릭 시 수정/무정차 설정 모달창 열기
-            marker.on('click', function(e) {
-                L.DomEvent.stopPropagation(e);
-                openBusStopEditModal(item, marker);
-            });
+        // 5. 자연환경
+        else if (name.match(/(산|봉|고개|령|오름)$/)) item.type = "mountain";
+        else if (name.match(/(호|호수|저수지|못|강|천|계곡|폭포|해수욕장)$/)) item.type = "water";
+        else if (name.match(/(공원|수목원|휴양림|생태공원|캠핑장|유원지|광장)/)) item.type = "park";
+
+        // 6. 공공기관
+        else if (name.match(/(시청|도청|구청|군청)/)) item.type = "office_main";
+        else if (name.match(/(주민센터|행정복지센터|동사무소|읍사무소|면사무소|출장소)/)) item.type = "office_sub";
+        else if (name.match(/(경찰서|지방경찰청|파출소|지구대|치안센터)/)) item.type = "police";
+        else if (name.match(/(소방서|119안전센터|구조대)/)) item.type = "fire_station";
+        else if (name.match(/(우체국|우편집중국|우편취급국)/)) item.type = "post_office";
+        else if (name.match(/(법원|검찰청|교육청|세무서|건강보험|국민연금|공단|공사|본부|지사|보훈지청)/)) item.type = "office_etc";
+        else if (name.match(/(복지관|노인복지관|장애인복지관|경로당|요양원|아동센터|보육원|실버타운)/)) item.type = "welfare";
+
+        // 7. 교통 인프라 (단일 '역' 키워드 삭제 완벽 반영)
+        else if (name.match(/(공항|국제공항)/)) item.type = "airport";
+        else if (name.match(/(항|항구|여객터미널|선착장|부두|마리나)/) && !name.match(/(은행|마트)/)) item.type = "port";
+        else if (name.match(/(기차역|KTX|SRT|버스터미널|종합터미널|환승센터|차량사업소|IC|JC|톨게이트)/)) item.type = "station";
+        else if (name.match(/(주차장|공영주차장|환승주차장)/)) item.type = "parking";
+
+        // 8. 기타 상업/생활
+        else if (name.match(/(편의점|CU|GS25|세븐일레븐|이마트24|미니스톱)/)) item.type = "cvs";
+        else if (name.match(/(전통시장|수산시장|청과시장|도매시장|오일장|시장)/)) item.type = "market";
+        else if (name.match(/(약국|약|온누리약국|종로약국)$/)) item.type = "pharmacy";
+        else if (name.match(/(화장실|공중화장실)/)) item.type = "toilet";
+
+        // 9. 식음료 (F&B)
+        else if (name.match(/(커피|카페|스타벅스|투썸플레이스|이디야|메가커피|컴포즈|빽다방|파스쿠찌|엔제리너스|폴바셋)/)) item.type = "cafe";
+        else if (name.match(/(빵집|베이커리|파리바게뜨|뚜레쥬르|성심당|이성당)/)) item.type = "bakery";
+        else if (name.match(/(맥도날드|버거킹|KFC|롯데리아|맘스터치|써브웨이|노브랜드버거|햄버거)/)) item.type = "fastfood";
+        else if (name.match(/(술집|호프|포차|이자카야|투다리|역전할머니맥주|펍)/)) item.type = "pub";
+        else if (name.match(/(식당|음식점|고깃집|국밥|쿠우쿠우|아웃백|가든|회관|반점|식육식당|DT)/)) item.type = "restaurant";
+
+        // 10. 숙박
+        else if (name.match(/(호텔|모텔|여관|펜션|리조트|스테이|토요코인|라마다|신신호텔|하얏트|신라호텔)/)) item.type = "hotel";
+
+        // 11. 문화/여가/체육/종교
+        else if (name.match(/(애니메이트|애니플러스|코믹프라자|굿즈샵|메이드카페|콜라보카페|서브컬처)/)) item.type = "anime"; 
+        else if (name.match(/(영화관|극장|메가박스|CGV|롯데시네마|시네마)/)) item.type = "cinema";
+        else if (name.match(/(박물관|미술관|도서관|과학관|전시관|기념관|예술의전당|문예회관)/)) item.type = "culture";
+        else if (name.match(/(체육관|경기장|스타디움|야구장|축구장|수영장|헬스장|피트니스|골프장|빙상장)/)) item.type = "sports";
+        else if (name.match(/(교회|성당|절|사찰|사원|기도원|성지)/)) item.type = "religion";
+
+        // 12. 기타 시설
+        else if (name.match(/(병원|의료원|치과|보건소|보건진료소|한의원|요양병원|대학병원)/)) item.type = "hospital";
+        else if (name.match(/(공장|산단|공단|조선소|발전소|공업사|물류센터|제철소)/)) item.type = "factory";
+        else item.type = "normal";
+        
+        if (typeof markerColors !== 'undefined') {
+            item.color = markerColors[item.type] || markerColors["normal"];
+        }
+        }
+
+    if (item.type === 'subway') {
+        var lines = item.lines || []; 
+        var iconHtml = "";
+        var width = (lines.length === 1) ? 14 : (lines.length * 10) + 6;
+
+        if (lines.length === 1) {
+            var lineInfo = subwayLines[lines[0]];
+            var lineColor = lineInfo ? lineInfo.color : "#333";
+            iconHtml = `<div class="station-circle" style="width:14px; height:14px; border: 3px solid ${lineColor};"></div>`;
         } else {
-            // 지하철/일반 마커는 기존처럼 더블클릭 시 삭제
-            marker.on('dblclick', function(e) {
-                L.DomEvent.stopPropagation(e);
-                var isUserMarker = myLandmarks.some(m => m.name === item.name && m.lat === item.lat);
-                if (isUserMarker) {
-                    if (confirm(`'${item.name}' 마커를 삭제하시겠습니까?`)) {
-                        if (item.type === 'subway') {
-                            subwayStationLayer.removeLayer(marker);
-                        } else {
-                            map.removeLayer(marker);
-                        }
-                        activeMarkers = activeMarkers.filter(m => m !== marker);
+            var dotsHtml = "";
+            lines.forEach(lid => {
+                var lInfo = subwayLines[lid];
+                var c = lInfo ? lInfo.color : "#333";
+                dotsHtml += `<div class="transfer-dot" style="background-color:${c};"></div>`;
+            });
+            iconHtml = `<div class="station-transfer" style="width:${width}px; height:14px;">${dotsHtml}</div>`;
+        }
+
+        var isTransfer = lines.length >= 2; 
+        var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(item.name);
+        var isMajor = (isTransfer || isManualMajor) ? "major-station" : "normal-station";
+        var markerClass = (isTransfer || isManualMajor) ? "major-marker" : "normal-marker";
+        var lineClasses = lines.map(l => "line-" + l).join(" ");
+
+        iconHtml += `<div class="station-name-label ${isMajor}">${item.name}</div>`;
+
+        marker = L.marker([item.lat, item.lng], {
+            icon: L.divIcon({ 
+                className: `custom-station ${lineClasses} ${markerClass}`, 
+                html: iconHtml, 
+                iconSize: [width, 14], 
+                iconAnchor: [width/2, 7] 
+            })
+        });
+
+        marker.lineCodes = lines;
+        marker.stationName = item.name;
+    } else if (item.type === 'busStop') {
+        var iconHtml = `<div style="background:white; border:2px solid #555; border-radius:4px; width:16px; height:16px; display:flex; align-items:center; justify-content:center; box-shadow: 1px 1px 3px rgba(0,0,0,0.5);"><span style="font-size:10px;">🚏</span></div><div class="station-name-label" style="color:#222; font-size:11px; margin-top:2px; font-weight:bold; text-shadow:-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">${item.name ? item.name.replace(' 정류장','') : ''}</div>`;
+        
+        marker = L.marker([item.lat, item.lng], {
+            icon: L.divIcon({ className: 'custom-bus-stop', html: iconHtml, iconSize: [16, 16], iconAnchor: [8, 8] })
+        });
+    } else {
+        // ★ 프리미엄 아이콘 생성 함수 호출
+        marker = L.marker([item.lat, item.lng], { icon: createFacilityCustomIcon(item.type, item.color, size) });
+    }
+
+    if (item.type === 'subway') {
+        if (typeof subwayStationLayer !== 'undefined') marker.addTo(subwayStationLayer); 
+    } else if (item.type === 'busStop') {
+        if (typeof busStopLayer !== 'undefined') marker.addTo(busStopLayer);
+        marker.passingBuses = item.passingBuses; 
+    } else {
+        if (typeof normalMarkerLayer !== 'undefined') marker.addTo(normalMarkerLayer); 
+    }        
+
+    marker.myColor = item.color; 
+    if (typeof activeMarkers !== 'undefined') activeMarkers.push(marker);
+
+    // =========================================================
+    // 4. 클릭 팝업 시 35종 카테고리 이름 및 실제 행정구역 주소 매핑
+    // =========================================================
+    if (item.type === 'subway') {
+        var lineNames = (item.lines || []).map(lid => subwayLines[lid] ? subwayLines[lid].name : "").filter(Boolean).join(", ");
+        marker.bindTooltip(`<b>${item.name}</b><br><span style="font-size:11px; color:#555;">경유: ${lineNames}</span>`, { offset: [0, -10], direction: 'top' });
+    } else if (item.type === 'busStop') {
+        var busList = item.passingBuses && item.passingBuses.length > 0 ? item.passingBuses.join("<br>") : "<span style='color:#999;'>경유 노선 없음</span>";
+        marker.bindTooltip(`<b>🚏 ${item.name}</b><br><hr style="margin:3px 0; border-top:1px dashed #ccc;"><div style="font-size:11px; line-height:1.5;">${busList}</div>`, { offset: [0, -10], direction: 'top' });
+    } else {
+// =========================================================
+    // ★ [완전체] 카카오맵 스타일 플레이스 카드 + 정보 수정/저장 기능 탑재
+    // =========================================================
+    marker.bindTooltip(item.name || "", { offset: [0, -20], direction: 'top' });
+    
+    marker.on('click', function(e) {
+        L.DomEvent.stopPropagation(e);
+        
+        var categoryNames = {
+            "mountain": "자연 명소 (산/고개)", "water": "수변 명소 (호수/강/바다)", "park": "공원 및 유원지",
+            "office_main": "행정기관 (시/구/군/도청)", "office_sub": "행정기관 (주민센터/읍면동)", "office_etc": "기타 공공기관",
+            "police": "경찰 및 치안시설", "fire_station": "소방 및 구조시설", "post_office": "우체국 및 우편시설",
+            "welfare": "사회복지시설", "school": "학교 및 교육시설", "apartment": "아파트 및 주거단지",
+            "bank": "금융기관 (은행)", "commercial": "상업 및 쇼핑시설", "market": "전통 및 도매시장",
+            "cvs": "편의점", "cafe": "카페 및 커피전문점", "bakery": "제과점 및 빵집",
+            "fastfood": "패스트푸드", "restaurant": "식당 및 음식점", "pub": "주점 및 호프",
+            "hotel": "숙박시설 (호텔/모텔)", "culture": "박물관 및 전시/문화시설", "cinema": "영화관 및 극장",
+            "anime": "서브컬처 매장 (애니/굿즈)", "religion": "종교시설", "sports": "체육 및 스포츠 시설",
+            "station": "육상 교통시설 (기차/터미널)", "port": "해상 교통시설 (항구/선착장)", "airport": "항공 교통시설 (공항)",
+            "hospital": "병원 및 의료시설", "pharmacy": "약국", "factory": "산업 및 공장",
+            "parking": "주차장", "toilet": "공중화장실", "normal": "일반 시설"
+        };
+        
+        var typeName = categoryNames[item.type] || "기타 시설";
+        
+        // 행정구역 주소 자동 탐색
+        var foundGugun = "", foundAdmin = "", foundLegal = "";
+        if (typeof searchablePolygons !== 'undefined') {
+            searchablePolygons.forEach(function(poly) {
+                if (isPointInPolygon(item.lat, item.lng, poly.points)) {
+                    if (poly.type === 'gugun') foundGugun = poly.name;
+                    else if (poly.type === 'admin') foundAdmin = poly.name;
+                    else if (poly.type === 'legal') foundLegal = poly.name;
+                }
+            });
+        }
+        
+        var province = "효빈광역시";
+        if (foundGugun && foundGugun.match(/(선곡군|기도군|덕현군|약산시|낭원군|치원군|천주시)/)) province = "덕빈북도"; 
+        
+        var fullAddress = province;
+        if (foundGugun) fullAddress += " " + foundGugun;
+        if (foundAdmin) fullAddress += " " + foundAdmin;
+        if (foundLegal && foundLegal !== foundAdmin) {
+            if (foundLegal.endsWith("리")) fullAddress += " " + foundLegal; 
+            else fullAddress += "(" + foundLegal + ")"; 
+        }
+        if (!foundGugun && !foundAdmin && !foundLegal) fullAddress = "효빈광역시 (관할 외 지역)";
+
+        var placeImg = item.image || `이미지/${item.name}.webp`; 
+        var placePhone = item.phone || "등록된 연락처 없음";
+        var placeDesc = item.desc || "상세 설명이 등록되지 않은 시설입니다.";
+
+        var cardId = "place-card-" + Math.random().toString(36).substring(2, 9);
+        var popupContent = `
+            <div id="${cardId}" style="width: 300px; font-family:'Noto Sans KR', sans-serif; padding: 4px; background: #fff; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <span style="font-size: 11px; background: ${item.color || '#333'}; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: bold;">${typeName}</span>
+                    <span style="font-size: 11px; color: #666;">⭐ 5.0 (리뷰 1)</span>
+                </div>
+
+                <h3 style="margin: 4px 0 8px 0; font-size: 16px; font-weight: bold; color: #222;">${item.name}</h3>
+                
+                <hr style="margin: 6px 0; border:0; border-top: 1px solid #eee;">
+
+                <div style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px;">
+                    ${placeImg ? `<img src="${placeImg}" style="width: 75px; height: 75px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; flex-shrink: 0;" onerror="this.style.display='none'">` : ''}
+                    <div style="flex: 1; font-size: 11px; color: #555; line-height: 1.5;">
+                        <p style="margin: 0 0 3px 0; word-break: break-all;">📍 <b>주소:</b> ${fullAddress}</p>
+                        <p style="margin: 0 0 3px 0;">📞 <b>연락처:</b> <span id="span-phone-${cardId}">${placePhone}</span></p>
+                    </div>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 6px 8px; border-radius: 6px; font-size: 11px; color: #444; margin-bottom: 10px; border: 1px solid #e9ecef;">
+                    💬 <span id="span-desc-${cardId}">${placeDesc}</span>
+                </div>
+
+                <!-- 정보 수정 및 저장 버튼 -->
+                <div style="text-align: right;">
+                    <button onclick="openRealPlaceEditModal('${item.name}', ${item.lat}, ${item.lng}, '${cardId}')" style="background: #0077DD; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">✏️ 정보 수정 / 상세 입력</button>
+                </div>
+            </div>
+        `;
+        
+        L.popup({ maxWidth: 320 }).setLatLng(e.latlng).setContent(popupContent).openOn(map);
+    });
+    }
+
+    if (item.type === 'busStop') {
+        marker.on('click', function(e) {
+            L.DomEvent.stopPropagation(e);
+            if (typeof openBusStopEditModal === 'function') openBusStopEditModal(item, marker);
+        });
+    } else {
+        marker.on('dblclick', function(e) {
+            L.DomEvent.stopPropagation(e);
+            var isUserMarker = typeof myLandmarks !== 'undefined' && myLandmarks.some(m => m.name === item.name && m.lat === item.lat);
+            if (isUserMarker) {
+                if (confirm(`'${item.name}' 마커를 삭제하시겠습니까?`)) {
+                    if (item.type === 'subway') {
+                        if (typeof subwayStationLayer !== 'undefined') subwayStationLayer.removeLayer(marker);
+                    } else {
+                        map.removeLayer(marker);
+                    }
+                    if (typeof activeMarkers !== 'undefined') activeMarkers = activeMarkers.filter(m => m !== marker);
+                    if (typeof myLandmarks !== 'undefined') {
                         myLandmarks = myLandmarks.filter(m => m.name !== item.name || m.lat !== item.lat);
                         localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
                     }
                 }
-            });
-        }
-    } // <-- addMarkerToMap 함수가 여기서 닫힙니다.
-
+            }
+        });
+    }
+}
 // =========================================================
 // ★ 정류장 이름 수정 & 무정차 노선 설정 기능 (모달 제어)
 // =========================================================
@@ -1458,15 +1737,16 @@ setTimeout(function() {
         if (modeBtn.classList.contains('active-btn')) map.addLayer(terminalLogoLayer);
     }
 
-    // 3. 우측 상단 '레이어 선택 박스' 조작 시 연동
+// 3. 우측 상단 '레이어 선택 박스' 조작 시 연동
     map.on('overlayadd', function(e) {
-        if (e.name.includes('철도') || e.name.includes('지하철') || e.name.includes('노선')) {
+        // '노선' 조건을 빼고 '철도'나 '지하철'일 때만 작동하도록 수정
+        if (e.name.includes('철도 노선') || e.name.includes('지하철')) {
             map.addLayer(terminalLogoLayer);
         }
     });
 
     map.on('overlayremove', function(e) {
-        if (e.name.includes('철도') || e.name.includes('지하철') || e.name.includes('노선')) {
+        if (e.name.includes('철도 노선') || e.name.includes('지하철')) {
             map.removeLayer(terminalLogoLayer);
         }
     });
@@ -1578,3 +1858,142 @@ map.on('click', function() {
     if (currentHighlightedBus) resetBusHighlight();
 });
 
+// 시설 이름(name)의 키워드를 분석하여 type을 자동 할당하는 함수
+// =========================================================
+// ★ [안전 방어형] 시설 이름 자동 분류 로직
+// =========================================================
+if (typeof defaultLandmarksData !== 'undefined' && Array.isArray(defaultLandmarksData)) {
+    defaultLandmarksData.forEach(function(marker) {
+        if (!marker || !marker.name) return; // 데이터가 비어있으면 안전하게 스킵
+        var name = marker.name;
+
+        // 1. 학교 및 교육기관
+        if (name.match(/(초|중|고|대학교|대학원|과기원|학교|유치원)$/) || name.includes("사대부") || name.includes("캠퍼스")) {
+            marker.type = "school";
+        }
+        // 2. 아파트 및 주거시설
+        else if (name.match(/(아파트|주공|자이|푸르지오|더샵|래미안|아이파크|휴먼시아|센트럴|스타힐스|대라수|리버시티)/)) {
+            marker.type = "apartment";
+        }
+        // 3. 공공기관 및 관공서
+        else if (name.match(/(시청|구청|군청|주민센터|동사무소|읍사무소|면사무소|출장소|경찰서|소방서|우체국|법원|보건소|교육청|세무서|공단|공사|본부|지사|센터)/)) {
+            marker.type = "office";
+        }
+        // 4. 상업 및 쇼핑 시설
+        else if (name.match(/(백화점|이마트|홈플러스|롯데마트|트레이더스|아울렛|시장|상가|애니메이트|애니플러스샵|다이소|코스트코|빈스마트|마루마트|하나로마트)/)) {
+            marker.type = "commercial";
+        }
+        // 5. 교통 시설
+        else if (name.match(/(역|버스터미널|정류장|공항|항|여객터미널|차량사업소|IC|선착장)$/)) {
+            marker.type = "station";
+        }
+        // 6. 식당, 카페, 프랜차이즈
+        else if (name.match(/(맥도날드|버거킹|KFC|스타벅스|뚜레쥬르|파리바게뜨|쿠우쿠우|아웃백|DT)/)) {
+            marker.type = "restaurant";
+        }
+        // 7. 문화 및 여가 시설
+        else if (name.match(/(도서관|미술관|박물관|메가박스|CGV|롯데시네마|회관|예술의전당|호텔|스테이)/)) {
+            marker.type = "culture";
+        }
+        // 8. 병원 및 의료시설
+        else if (name.match(/(병원|의료원|치과|보건진료소)/)) {
+            marker.type = "hospital";
+        }
+        // 9. 산업 및 공장
+        else if (name.match(/(공장|산단|공단|조선소|발전소|공업사)/)) {
+            marker.type = "factory";
+        }
+        // 10. 공원 및 자연
+        else if (name.match(/(공원|해수욕장|저수지|유적지|목장)/) || name.endsWith("산") || name.endsWith("호")) {
+            marker.type = "park";
+        }
+    });
+}
+
+// 플레이스 정보 수정 모달을 동적으로 띄우는 함수
+function openPlaceEditModal(name, lat, lng, cardId) {
+    var newImg = prompt("📸 등록할 이미지의 웹 주소(URL)를 입력하세요:\n(예: 인터넷 이미지 주소 복사 붙여넣기)", "");
+    if (newImg === null) return; // 취소 누르면 중단
+    
+    var newPhone = prompt("📞 전화번호를 입력하세요:", "");
+    if (newPhone === null) return;
+    
+    var newDesc = prompt("📝 상세 설명이나 메모를 입력하세요:", "");
+    if (newDesc === null) return;
+
+    // 1. myLandmarks(사용자 마커) 배열에서 해당 마커 찾아서 데이터 업데이트
+    if (typeof myLandmarks !== 'undefined') {
+        var target = myLandmarks.find(m => m.name === name && m.lat === lat);
+        if (target) {
+            if (newImg) target.image = newImg;
+            if (newPhone) target.phone = newPhone;
+            if (newDesc) target.desc = newDesc;
+            
+            // localStorage 영구 저장
+            localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+            alert("✨ 정보가 성공적으로 반영되었습니다! 마커를 다시 클릭해 확인해보세요.");
+            map.closePopup();
+            return;
+        }
+    }
+    
+    // 만약 기본 데이터(defaultLandmarksData)에 있는 마커라면 사용자 커스텀 저장소로 복사해서 저장
+    var baseItem = (typeof defaultLandmarksData !== 'undefined') ? defaultLandmarksData.find(m => m.name === name) : null;
+    var newItem = {
+        name: name,
+        lat: lat,
+        lng: baseItem ? baseItem.lng : lng,
+        type: baseItem ? baseItem.type : 'normal',
+        color: baseItem ? baseItem.color : '#333333',
+        image: newImg,
+        phone: newPhone,
+        desc: newDesc
+    };
+    
+    if (typeof myLandmarks !== 'undefined') {
+        myLandmarks.push(newItem);
+        localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+        alert("✨ 새로운 정보가 저장되었습니다! 마커를 다시 클릭해 확인해보세요.");
+        map.closePopup();
+    }
+}
+// =========================================================
+// ★ 실제 플레이스 정보 수정 모달 핸들러 함수
+// =========================================================
+function openRealPlaceEditModal(name, lat, lng, cardId) {
+    var newPhone = prompt("📞 수정할 연락처를 입력하세요:", "");
+    if (newPhone === null) return; // 취소 누르면 중단
+
+    var newDesc = prompt("💬 수정할 상세 설명을 입력하세요:", "");
+    if (newDesc === null) return;
+
+    var newImage = prompt("🖼️ 이미지 파일명을 입력하세요 (예: 이미지/단어이름.webp):", "이미지/");
+    if (newImage === null) return;
+
+    // 마커 데이터 찾아서 업데이트 (myLandmarks 또는 기본 데이터 배열 연동)
+    var target = myLandmarks.find(m => m.name === name && m.lat === lat && m.lng === lng);
+    if (!target) {
+        // 기본 데이터에 있는 거라면 myLandmarks에 새로 복사해서 추가
+        target = { name: name, lat: lat, lng: lng, type: 'normal' };
+        myLandmarks.push(target);
+    }
+
+    if (newPhone.trim() !== "") target.phone = newPhone.trim();
+    if (newDesc.trim() !== "") target.desc = newDesc.trim();
+    if (newImage.trim() !== "이미지/" && newImage.trim() !== "") target.image = newImage.trim();
+
+    // 로컬스토리지 영구 저장
+    localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+
+    // 화면(팝업 카드) 즉시 반영
+    if (newPhone.trim() !== "") {
+        var pElem = document.getElementById(`span-phone-${cardId}`);
+        if (pElem) pElem.innerText = target.phone;
+    }
+    if (newDesc.trim() !== "") {
+        var dElem = document.getElementById(`span-desc-${cardId}`);
+        if (dElem) dElem.innerText = target.desc;
+    }
+
+    alert("✨ 정보가 성공적으로 수정 및 저장되었습니다!");
+}
