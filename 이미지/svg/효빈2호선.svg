@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 사용자가 원하신 깔끔하고 굵은 Noto Sans KR 폰트 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&amp;display=swap');
+      .metro-text {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 900;
+        font-size: 55px;
+        fill: #00CCAA;
+      }
+    </style>
+  </defs>
+
+  <!-- 효빈 2호선 상징색(#00CCAA) 링 -->
+  <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#00CCAA" stroke-width="10"/>
+
+  <!-- 아래로 쏠림 현상 완벽 차단. y좌표 69로 글자를 정중앙에 수학적으로 락(Lock) 걸었습니다. -->
+  <text x="50" y="69" class="metro-text" text-anchor="middle">2</text>
+</svg>

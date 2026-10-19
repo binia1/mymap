@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <!-- 1. 교육의 든든한 토대 (유 교육감의 TAMA 5A 드럼 스틱 크로스) -->
+  <g stroke="#888888" stroke-width="8" stroke-linecap="round">
+    <line x1="55" y1="180" x2="145" y2="135" />
+    <line x1="145" y1="180" x2="55" y2="135" />
+  </g>
+
+  <!-- 2. 아이들을 포용하는 우주 궤도이자 드럼 림(Rim)의 형상화 -->
+  <!-- 좌측 궤도 (청명함을 상징하는 료 블루: #33AAFF) -->
+  <path d="M 100 65 C 15 65, 15 160, 100 160" fill="none" stroke="#33AAFF" stroke-width="16" stroke-linecap="round" />
+  <!-- 우측 궤도 (열정을 상징하는 키타 레드: #EE0022) -->
+  <path d="M 100 160 C 185 160, 185 65, 100 65" fill="none" stroke="#EE0022" stroke-width="16" stroke-linecap="round" />
+
+  <!-- 3. 핵심 철학인 '별자리(星座になれたら) 교육론' 궤적 -->
+  <!-- 결속밴드 4인을 상징하는 4개의 별 (따뜻한 봇치 핑크: #FF8899) -->
+  <path d="M 35 112 L 75 140 L 125 140 L 165 112" fill="none" stroke="#FF8899" stroke-width="3" stroke-dasharray="6,4" />
+  
+  <circle cx="35" cy="112" r="7" fill="#FF8899" />
+  <circle cx="75" cy="140" r="7" fill="#FF8899" />
+  <circle cx="125" cy="140" r="7" fill="#FF8899" />
+  <circle cx="165" cy="112" r="7" fill="#FF8899" />
+
+  <!-- 4. 덕빈북도의 가장 높은 곳에서 빛나는 태양 -->
+  <!-- 유근혁 교육감의 정체성인 '도리토스(니지카의 바보털)' (#FFCC11) -->
+  <polygon points="100,10 128,62 72,62" fill="#FFCC11" />
+</svg>

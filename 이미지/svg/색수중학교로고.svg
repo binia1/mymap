@@ -1,0 +1,10 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="140" fill="#005B96" stroke="#FFFFFF" stroke-width="8"/>
+  
+  <path d="M150,60 Q200,60 220,100 T150,140 T80,100 Q100,60 150,60 Z" fill="#E1F5FE" opacity="0.3"/>
+  <path d="M150,180 L170,220 L150,260 L130,220 Z" fill="#81C784"/>
+  
+  <text x="150" y="170" font-family="serif" font-size="70" fill="#FFFFFF" text-anchor="middle" font-weight="bold">索水</text>
+  
+  <circle cx="150" cy="30" r="10" fill="#FF8A80"/>
+</svg>

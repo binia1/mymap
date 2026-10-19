@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 깔끔하고 굵은 Noto Sans KR 폰트 특징을 벡터화 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&amp;display=swap');
+      .metro-text {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 900;
+        font-size: 55px;
+        fill: #FF5522; /* 4호선 공식 주황색 */
+      }
+    </style>
+  </defs>
+
+  <!-- 효빈 4호선 상징색(#FF5522) 링 -->
+  <!-- CSS border: 5px solid 비율에 맞춘 굵은 테두리와 흰색 배경 -->
+  <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#FF5522" stroke-width="10"/>
+
+  <!-- 이전 호선들과 마찬가지로 글자를 정중앙 y좌표인 '69'에 수학적으로 락(Lock) 걸었습니다. -->
+  <!-- 꺾임이나 받침 없는 깔끔한 산세리프 형태가 정중앙에 위치하며, 하단 뭉개짐(파먹힘) 문제를 해결했습니다. -->
+  <text x="50" y="69" class="metro-text" text-anchor="middle">4</text>
+</svg>

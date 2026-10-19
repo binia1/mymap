@@ -1,0 +1,11 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="140" fill="#6B3FA0" stroke="#F2A900" stroke-width="8"/>
+  
+  <path d="M150 50 C 100 50, 50 100, 50 150 C 50 200, 100 250, 150 250 C 200 250, 250 200, 250 150 C 250 100, 200 50, 150 50 Z" fill="none" stroke="#F2A900" stroke-width="4" stroke-dasharray="10 5"/>
+  
+  <text x="150" y="170" font-family="Serif" font-size="100" fill="#FFFFFF" text-anchor="middle" font-weight="bold">桂</text>
+  
+  <ellipse cx="150" cy="220" rx="30" ry="15" fill="#F2A900" opacity="0.8"/>
+  <ellipse cx="120" cy="200" rx="20" ry="10" fill="#F2A900" opacity="0.6" transform="rotate(-30 120 200)"/>
+  <ellipse cx="180" cy="200" rx="20" ry="10" fill="#F2A900" opacity="0.6" transform="rotate(30 180 200)"/>
+</svg>

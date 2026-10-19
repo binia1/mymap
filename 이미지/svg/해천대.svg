@@ -1,0 +1,11 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <path d="M40 20 Q 40 120, 100 170 Q 160 120, 160 20 Z" fill="#00BFFF" />
+  
+  <path d="M70 60 L70 120 M130 60 L130 120" stroke="white" stroke-width="8" stroke-linecap="round" />
+  <path d="M70 90 Q 100 70, 130 90" stroke="white" stroke-width="8" stroke-linecap="round" fill="none" />
+  <path d="M70 110 Q 100 90, 130 110" stroke="white" stroke-width="8" stroke-linecap="round" fill="none" />
+  
+  <text x="100" y="150" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="1">HAECHEON UNIV</text>
+  
+  <text x="100" y="165" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">"Catch the Job"</text>
+</svg>

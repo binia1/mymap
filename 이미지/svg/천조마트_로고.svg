@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="100%" height="100%">
+  <!-- 배경 (깔끔한 화이트톤 캔버스) -->
+  <rect width="100%" height="100%" fill="#ffffff" />
+  
+  <!-- 미니멀리즘 천조 심볼 (프레시 그린 나뭇잎과 고양이 귀의 기하학적 형상화) -->
+  <g transform="translate(35, 25)">
+    <!-- 왼쪽 나뭇잎/고양이 귀 -->
+    <path d="M 20 50 C 15 20, 35 10, 45 35 Z" fill="#059669"/>
+    <!-- 오른쪽 나뭇잎/고양이 귀 -->
+    <path d="M 70 50 C 75 20, 55 10, 45 35 Z" fill="#059669"/>
+    <!-- 코어 포인트 (아논 반창고의 주황색을 미니멀하게 차용) -->
+    <circle cx="45" cy="45" r="7" fill="#FFB74D" />
+  </g>
+
+  <!-- 우측 텍스트 영역 (영문 전용, 잘림 방지를 위해 viewBox 확장 및 자간 조정) -->
+  <g transform="translate(135, 0)">
+    <!-- 메인 브랜드 네임 -->
+    <text x="0" y="73" font-family="'Arial Black', 'Impact', sans-serif" font-size="48" font-weight="900" fill="#059669" letter-spacing="-1">CHEONJO MART</text>
+    
+    <!-- 서브 카테고리 텍스트 -->
+    <text x="4" y="96" font-family="'Arial', sans-serif" font-size="12" font-weight="bold" fill="#888888" letter-spacing="4">FRESH GREEN RETAIL</text>
+  </g>
+</svg>

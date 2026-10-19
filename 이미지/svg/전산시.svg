@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 850" width="100%" height="100%">
+  <defs>
+    <style>
+      .magenta { fill: #C1177B; }
+      .dark-blue { fill: #0F4C9C; }
+      .medium-blue { fill: #0863B5; }
+      .white { fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <!-- 왼쪽 산 (Magenta) -->
+  <path class="magenta" d="
+    M 50 550
+    L 240 230 Q 250 215 260 230
+    L 320 310
+    L 400 130 Q 410 110 420 130
+    L 520 280
+    L 380 550 Z
+  "/>
+
+  <!-- 오른쪽 산 및 공장 실루엣 (Dark Blue) -->
+  <path class="dark-blue" d="
+    M 380 550
+    L 520 280
+    L 570 330
+    L 630 280
+    L 630 180
+    L 670 180
+    L 670 330
+    L 720 290
+    L 790 350
+    L 790 520
+    L 500 550 Z
+  "/>
+
+  <!-- 공장 창문 (White) -->
+  <rect x="625" y="380" width="22" height="28" rx="2" class="white"/>
+  <rect x="665" y="380" width="22" height="28" rx="2" class="white"/>
+
+  <!-- 공장과 배 선체를 분리하는 네거티브 스페이스 컷아웃 (White) -->
+  <path d="M 605 512 C 650 500, 750 470, 895 438" stroke="#FFFFFF" stroke-width="18" fill="none" stroke-linecap="round"/>
+
+  <!-- 배 선체 앞부분 및 상단 파도 (Medium Blue) -->
+  <path class="medium-blue" d="
+    M 260 560
+    C 320 590, 370 590, 420 560
+    C 470 530, 520 530, 570 560
+    C 650 610, 750 580, 850 520
+    L 890 440
+    C 750 470, 650 500, 610 510
+    C 550 520, 520 550, 480 550
+    C 430 550, 370 570, 260 560 Z
+  "/>
+
+  <!-- 요트 하단 흰색 베이스 (White) -->
+  <polygon points="270,500 530,500 490,550 310,550" class="white"/>
+
+  <!-- 요트 파란색 데크 라인 (Medium Blue) -->
+  <rect x="330" y="482" width="140" height="18" class="medium-blue"/>
+
+  <!-- 요트 돛 (네거티브 스페이스로 돛대를 표현) -->
+  <!-- 왼쪽 돛 -->
+  <polygon points="330,482 390,482 390,340" class="white"/>
+  <!-- 오른쪽 돛 -->
+  <polygon points="405,482 485,482 405,310" class="white"/>
+
+  <!-- 중간 파도 (Medium Blue) -->
+  <path class="medium-blue" d="
+    M 300 610
+    C 350 640, 410 640, 460 610
+    C 510 580, 580 580, 630 610
+    C 700 650, 780 640, 860 580
+    C 780 620, 700 620, 630 580
+    C 580 550, 510 550, 460 580
+    C 410 610, 350 610, 300 610 Z
+  "/>
+
+  <!-- 하단 파도 (Medium Blue) -->
+  <path class="medium-blue" d="
+    M 390 660
+    C 440 690, 490 690, 540 660
+    C 590 630, 660 630, 730 660
+    C 660 630, 590 630, 540 650
+    C 490 670, 440 670, 390 660 Z
+  "/>
+
+  <!-- 하단 텍스트 -->
+  <text x="500" y="780" font-family="'Arial Rounded MT Bold', 'Nunito', 'Varela Round', 'Quicksand', sans-serif" font-size="95" font-weight="bold" class="medium-blue" text-anchor="middle" letter-spacing="3">JEON SAN-SI</text>
+</svg>

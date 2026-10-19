@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <defs>
+    <!-- 투명한 여백(Negative Space)을 뚫기 위한 마스크 1: WD-40 캔 -->
+    <mask id="canMask">
+      <!-- 기본 배경(흰색)은 도형을 그대로 렌더링함 -->
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      
+      <!-- 정중앙 톱니바퀴 음각 컷아웃 -->
+      <g transform="translate(50, 62)">
+        <!-- 톱니바퀴 톱니 -->
+        <rect x="-3.5" y="-19" width="7" height="38" rx="1" fill="black" />
+        <rect x="-3.5" y="-19" width="7" height="38" rx="1" fill="black" transform="rotate(45)" />
+        <rect x="-3.5" y="-19" width="7" height="38" rx="1" fill="black" transform="rotate(90)" />
+        <rect x="-3.5" y="-19" width="7" height="38" rx="1" fill="black" transform="rotate(135)" />
+        <!-- 톱니바퀴 본체 -->
+        <circle cx="0" cy="0" r="14" fill="black" />
+        <!-- 톱니바퀴 중앙 축 (원래 핑크색이 드러나도록 흰색으로 뚫음) -->
+        <circle cx="0" cy="0" r="6" fill="white" />
+      </g>
+      
+      <!-- 캔의 라벨(Label) 디자인을 구분하는 가로선 -->
+      <line x1="30" y1="40" x2="70" y2="40" stroke="black" stroke-width="2.5" />
+      <line x1="30" y1="84" x2="70" y2="84" stroke="black" stroke-width="2.5" />
+      
+      <!-- 스크런치 주변 투명 테두리 (캔과 스크런치를 시각적으로 분리) -->
+      <path d="M 36 26 C 34 20, 42 16, 46 21 C 50 16, 58 18, 56 23 C 62 21, 66 28, 62 32 C 66 38, 58 42, 54 36 C 48 42, 40 40, 44 34 C 36 38, 32 30, 36 26 Z" fill="black" stroke="black" stroke-width="4" stroke-linejoin="round" />
+    </mask>
+
+    <!-- 투명한 여백(Negative Space)을 뚫기 위한 마스크 2: 스크런치 주름 -->
+    <mask id="scrunchieMask">
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      <!-- 스크런치 직물 특유의 구겨진 주름 표현 -->
+      <path d="M 42 22 Q 46 26 44 30 M 52 20 Q 50 25 54 28 M 58 26 Q 55 30 57 34" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" />
+    </mask>
+  </defs>
+
+  <!-- 1. WD-40 스프레이 분사구 (캡 및 베이스) -->
+  <path d="M 44 14 L 56 14 L 54 22 L 46 22 Z" fill="#FF8899" />
+  <rect x="47" y="9" width="6" height="5" rx="1" fill="#FF8899" />
+  
+  <!-- 2. 아이코닉한 빨간색 분사 빨대(스트로우) -->
+  <line x1="47" y1="12" x2="15" y2="5" stroke="#FF8899" stroke-width="3.5" stroke-linecap="round" />
+
+  <!-- 3. WD-40 캔 본체 (마스크 적용) -->
+  <!-- 캔 상단 돔 -->
+  <path d="M 30 35 C 30 20, 70 20, 70 35 Z" fill="#FF8899" mask="url(#canMask)" />
+  <!-- 캔 원기둥 -->
+  <rect x="30" y="35" width="40" height="55" rx="4" fill="#FF8899" mask="url(#canMask)" />
+
+  <!-- 4. 스크런치 (마스크 적용) -->
+  <path d="M 36 26 C 34 20, 42 16, 46 21 C 50 16, 58 18, 56 23 C 62 21, 66 28, 62 32 C 66 38, 58 42, 54 36 C 48 42, 40 40, 44 34 C 36 38, 32 30, 36 26 Z" fill="#FF8899" mask="url(#scrunchieMask)" />
+</svg>

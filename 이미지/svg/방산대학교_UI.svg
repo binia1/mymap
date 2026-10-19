@@ -1,0 +1,9 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50,40 L250,40 L250,150 C250,220 150,280 150,280 C150,280 50,220 50,150 Z" fill="#A31D1D" />
+  
+  <path d="M50,40 L250,40 L250,150 C250,220 150,280 150,280 C150,280 50,220 50,150 Z" fill="none" stroke="#D4AF37" stroke-width="8" />
+  
+  <text x="150" y="170" font-family="serif" font-size="70" fill="#D4AF37" text-anchor="middle" font-weight="bold">防産</text>
+  
+  <path d="M110,210 L150,230 L190,210" fill="none" stroke="#D4AF37" stroke-width="4" stroke-linecap="round"/>
+</svg>

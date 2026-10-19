@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 깔끔하고 굵은 Noto Sans KR 폰트 적용 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&amp;display=swap');
+      .metro-text-changjeon {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 900;
+        font-size: 36px; /* 두 글자가 원 안에 여유 있게 들어가도록 크기 조절 */
+        letter-spacing: -2px; /* 둥근 테두리에 닿지 않도록 자간 축소 */
+        fill: #77BBDD; /* 창전선 공식 하늘색 */
+      }
+    </style>
+  </defs>
+
+  <!-- 창전선 하늘색 링 -->
+  <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#77BBDD" stroke-width="10"/>
+
+  <!-- 두 글자 크기에 맞춰 y좌표를 66으로 강제 고정하여 정중앙에 배치 -->
+  <text x="50" y="66" class="metro-text-changjeon" text-anchor="middle">고송</text>
+</svg>

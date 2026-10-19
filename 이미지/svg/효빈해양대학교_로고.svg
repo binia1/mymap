@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <!-- 방패 내부 클리핑 패스 -->
+    <clipPath id="shieldClipIcon">
+      <path d="M 100 25 L 160 43 L 160 103 C 160 150 100 168 100 168 C 100 168 40 150 40 103 L 40 43 Z" />
+    </clipPath>
+    
+    <!-- 오션 블루 그라데이션 -->
+    <linearGradient id="oceanBlueIcon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0055A4"/>
+      <stop offset="100%" stop-color="#002244"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 외부 방패 (다크 네이비 테두리) -->
+  <path d="M 100 15 L 170 35 L 170 105 C 170 160 100 180 100 180 C 100 180 30 160 30 105 L 30 35 Z" fill="#001A33" />
+  
+  <!-- 내부 방패 (오션 블루 그라데이션) -->
+  <path d="M 100 25 L 160 43 L 160 103 C 160 150 100 168 100 168 C 100 168 40 150 40 103 L 40 43 Z" fill="url(#oceanBlueIcon)" />
+
+  <!-- 파도 문양 (하단 배경) -->
+  <g clip-path="url(#shieldClipIcon)" fill="none" stroke="#88CCFF" stroke-width="4" stroke-linecap="round">
+    <path d="M 30 142 Q 65 127 100 142 Q 135 157 170 142" opacity="0.8"/>
+    <path d="M 30 155 Q 65 140 100 155 Q 135 170 170 155" opacity="0.5"/>
+  </g>
+
+  <!-- 중앙 닻 (Anchor) -->
+  <g fill="white">
+    <!-- 닻 고리 -->
+    <circle cx="100" cy="60" r="9" stroke="white" stroke-width="4" fill="none" />
+    <!-- 닻 가로대 -->
+    <rect x="70" y="80" width="60" height="4" rx="2" />
+    <!-- 닻 기둥 -->
+    <rect x="98" y="69" width="4" height="56" />
+    <!-- 닻 둥근 하단부 -->
+    <path d="M 65 110 A 35 35 0 0 0 135 110" fill="none" stroke="white" stroke-width="5" stroke-linecap="round" />
+    <!-- 닻 갈고리 -->
+    <polygon points="55,117 65,97 75,117" />
+    <polygon points="125,117 135,97 145,117" />
+  </g>
+</svg>

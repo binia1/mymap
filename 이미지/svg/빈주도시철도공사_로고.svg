@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <!-- 네이비보다 푸른빛이 도는 로열 블루(#1E3A8A) 테두리가 둥근 사각형 배경 -->
+  <rect x="10" y="10" width="180" height="180" rx="42" fill="#1E3A8A" />
+
+  <!-- 사실적인 철로(궤도)를 형상화한 흰색 'V' 심볼 그룹 -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 흰색(#FFFFFF)의 굵은 궤도 바탕 -->
+    <path d="M 52 65 C 65 120, 85 142, 100 142 C 115 142, 135 120, 148 65" 
+          stroke="#FFFFFF" stroke-width="26" />
+    
+    <!-- 선로의 두 가닥 철길과 침목을 표현하는 로열 블루 중앙 분리 라인 -->
+    <path d="M 52 65 C 65 120, 85 142, 100 142 C 115 142, 135 120, 148 65" 
+          stroke="#1E3A8A" stroke-width="6" />
+
+    <!-- 철로의 주행감을 강조하는 양단 포인트 도트 (로열 블루) -->
+    <circle cx="52" cy="65" r="3" fill="#1E3A8A" />
+    <circle cx="148" cy="65" r="3" fill="#1E3A8A" />
+  </g>
+</svg>

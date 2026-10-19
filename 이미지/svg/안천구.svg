@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 450" width="100%" height="100%">
+  <!-- 1. 상단 주황색 V자 체크 문양 -->
+  <path d="M 118 45 L 175 135 L 288 80" 
+        fill="none" 
+        stroke="#F37023" 
+        stroke-width="36" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+
+  <!-- 2. 우측 초록색 원 -->
+  <circle cx="417" cy="183" r="52" fill="#00B55B" />
+
+  <!-- 3. 하단 노란색 미소/초승달 문양 -->
+  <path d="M 80 120
+           C 65 220, 105 425, 250 425
+           C 360 425, 445 345, 458 268
+           Q 240 285, 80 120 Z" 
+        fill="#FFE600" />
+</svg>

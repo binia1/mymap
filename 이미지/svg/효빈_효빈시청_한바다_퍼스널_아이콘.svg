@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <defs>
+    <!-- 1. 전면 오브젝트(닻, 스크롤) 외곽선을 따라 배경의 킹블레이드를 파내는 투명 갭 마스크 -->
+    <mask id="bgGapMask">
+      <!-- 기본 베이스 (전체 보임) -->
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      
+      <!-- 닻(Anchor)의 실루엣 영역을 두꺼운 외곽선과 함께 검은색으로 지워 여백 형성 -->
+      <circle cx="50" cy="22" r="5" fill="black" stroke="black" stroke-width="5" />
+      <path d="M 50,27 L 50,68 M 34,32 L 66,32" stroke="black" stroke-width="9" stroke-linecap="round" />
+      <path d="M 30,52 A 20,20 0 0,0 70,52" fill="none" stroke="black" stroke-width="9" stroke-linecap="round" />
+      
+      <!-- 시민 헌장 스크롤 및 하단 리본 영역을 두껍게 타공하여 투명 틈새 확보 -->
+      <rect x="20" y="61" width="60" height="24" rx="4" fill="black" stroke="black" stroke-width="4" />
+      <path d="M 46,82 L 41,92 L 47,89 L 53,92 L 49,82 Z" fill="black" stroke="black" stroke-width="4" />
+    </mask>
+
+    <!-- 2. 시민 헌장 스크롤 내부에 미니멀한 텍스트 라인을 파내기 위한 음각 마스크 -->
+    <mask id="scrollDetailMask">
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      <!-- 맛집 지도로 위장된 문서 흔적 문양 (음각 슬롯) -->
+      <line x1="31" y1="71" x2="43" y2="71" stroke="black" stroke-width="2" stroke-linecap="round" />
+      <line x1="57" y1="71" x2="69" y2="71" stroke="black" stroke-width="2" stroke-linecap="round" />
+      <line x1="31" y1="77" x2="43" y2="77" stroke="black" stroke-width="2" stroke-linecap="round" />
+      <line x1="57" y1="77" x2="65" y2="77" stroke="black" stroke-width="2" stroke-linecap="round" />
+      <!-- 중앙 리본 매듭 부품의 경계를 나누는 투명 세로선 -->
+      <rect x="47" y="63" width="6" height="20" fill="none" stroke="black" stroke-width="1.5" />
+    </mask>
+    
+    <!-- 배경에 교차 배치될 킹블레이드(응원봉) 공통 그래픽 소스 정의 -->
+    <g id="kingBladeSrc">
+      <!-- 오타게용 강력한 발광 튜브 부품 -->
+      <rect x="47" y="12" width="6" height="38" rx="1.5" fill="#0F4C81" />
+      <!-- 가드 링 -->
+      <rect x="44" y="50" width="12" height="3.5" rx="0.5" fill="#0F4C81" />
+      <!-- 손잡이 그립 -->
+      <rect x="46.5" y="53.5" width="7" height="18" rx="1" fill="#0F4C81" />
+      <!-- 하단 스트랩 연결 고리 -->
+      <circle cx="50" cy="71.5" r="1.5" fill="none" stroke="#0F4C81" stroke-width="1" />
+    </g>
+  </defs>
+
+  <!-- [레이어 1] 배경: 썬더스네이크 오타게 정신을 계승하는 X자 교차형 킹블레이드 (갭 마스크 적용) -->
+  <g mask="url(#bgGapMask)">
+    <g transform="translate(50,45) rotate(-40) translate(-50,-45)">
+      <use href="#kingBladeSrc" />
+    </g>
+    <g transform="translate(50,45) rotate(40) translate(-50,-45)">
+      <use href="#kingBladeSrc" />
+    </g>
+  </g>
+
+  <!-- [레이어 2] 중경: 시청 대변인실의 품격과 해양 도시를 상징하는 견고한 대형 닻(Anchor) -->
+  <g stroke="#0F4C81" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 체인 연결용 상단 원형 고리 -->
+    <circle cx="50" cy="22" r="4" stroke-width="3" />
+    <!-- 상부 가로형 스톡(Stock) 바 -->
+    <line x1="34" y1="32" x2="66" y2="32" stroke-width="3.5" />
+    <!-- 중심을 관통하는 메인 샤프트 기둥 -->
+    <line x1="50" y1="26" x2="50" y2="68" stroke-width="4" />
+    <!-- 하단 원호형 갈고리(Flukes) -->
+    <path d="M 30,52 A 20,20 0 0,0 70,52" stroke-width="4" />
+    <!-- 좌우측 날카로운 화살표 팁 마감 -->
+    <polygon points="30,52 25,45 33,47" fill="#0F4C81" stroke-width="1" />
+    <polygon points="70,52 75,45 67,47" fill="#0F4C81" stroke-width="1" />
+  </g>
+
+  <!-- [레이어 3] 전면: 단단하게 묶인 양피지 스크롤 (시민 헌장 문서) -->
+  <!-- 메인 스크롤 바디 (음각 문서 라인 마스크 적용) -->
+  <rect x="25" y="65" width="50" height="16" rx="2" fill="#0F4C81" mask="url(#scrollDetailMask)" />
+  <!-- 좌우측 감겨 있는 양 끝단 롤 볼륨 레이어 -->
+  <rect x="22" y="65" width="3" height="16" rx="1" fill="#0F4C81" />
+  <rect x="75" y="65" width="3" height="16" rx="1" fill="#0F4C81" />
+  
+  <!-- 중앙 리본 타이 매듭 및 아래로 흩날리는 푸른 리본 자락 -->
+  <rect x="47" y="63" width="6" height="20" rx="1" fill="#0F4C81" />
+  <path d="M 46,82 L 41,91 L 47,88 L 53,91 L 49,82 Z" fill="#0F4C81" />
+</svg>

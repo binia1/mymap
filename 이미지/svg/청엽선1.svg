@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 깔끔하고 굵은 Noto Sans KR 폰트 적용 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&amp;display=swap');
+      .metro-text-cheong {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 900;
+        font-size: 46px; /* 한글 '청' 자가 링 안에 예쁘게 여백을 두고 들어가도록 크기 조절 */
+        fill: #D6D5CA; /* 청엽선 공식 베이지색 */
+      }
+    </style>
+  </defs>
+
+  <!-- 청엽선 베이지색 링 -->
+  <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#D6D5CA" stroke-width="10"/>
+
+  <!-- 아래로 쏠리지 않도록 y좌표를 67로 강제 고정하여 정중앙에 배치 -->
+  <text x="50" y="67" class="metro-text-cheong" text-anchor="middle">청</text>
+</svg>

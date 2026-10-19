@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%">
+  <!-- 배경 (깔끔한 화이트톤 캔버스) -->
+  <rect width="100%" height="100%" fill="#ffffff" />
+  
+  <!-- 미니멀리즘 CY 모노그램 심볼 -->
+  <g transform="translate(45, 20)">
+    <!-- 영문 'C' 형상 -->
+    <path d="M 68,15 A 32,32 0 1,0 68,65" fill="none" stroke="#00CCBB" stroke-width="12" stroke-linecap="round"/>
+    
+    <!-- 영문 'Y' 형상 (C와 교차하며 결합) -->
+    <path d="M 45,8 L 68,36 L 68,75 M 91,8 L 68,36" fill="none" stroke="#00CCBB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- 우측 텍스트 영역 (영문 전용, 심플하고 굵은 기업형 폰트) -->
+  <g transform="translate(160, 0)">
+    <!-- 메인 브랜드 네임 -->
+    <text x="0" y="70" font-family="'Arial Black', 'Impact', sans-serif" font-size="52" font-weight="900" fill="#00CCBB" letter-spacing="-1">CY MART</text>
+    
+    <!-- 서브 카테고리 텍스트 -->
+    <text x="5" y="92" font-family="'Arial', sans-serif" font-size="12" font-weight="bold" fill="#666666" letter-spacing="4">MEGA &amp; FOOD WHOLESALE</text>
+  </g>
+</svg>

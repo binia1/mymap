@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150" width="100%" height="100%">
+  <!-- 그라데이션 정의 (파스텔 블루 르네상스 & Liella! 퍼플) -->
+  <defs>
+    <linearGradient id="liellaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8BB8E8" /> <!-- 파스텔 블루 -->
+      <stop offset="100%" stop-color="#C296D4" /> <!-- 소프트 퍼플 -->
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2C3E50" />
+      <stop offset="100%" stop-color="#5B4B7A" />
+    </linearGradient>
+  </defs>
+
+  <!-- 쇼핑백 & 별 아이콘 -->
+  <g transform="translate(40, 25)">
+    <!-- 쇼핑백 손잡이 -->
+    <path d="M 35 35 L 35 15 A 15 15 0 0 1 65 15 L 65 35" fill="none" stroke="#8BB8E8" stroke-width="6" stroke-linecap="round" />
+    <!-- 쇼핑백 본체 -->
+    <path d="M 15 35 L 15 95 A 10 10 0 0 0 25 105 L 75 105 A 10 10 0 0 0 85 95 L 85 35 Z" fill="url(#liellaGrad)" />
+    <!-- 중앙 별 모티브 (슈퍼스타) -->
+    <path d="M 50 48 L 54.5 62.5 L 69.5 62.5 L 57.5 71.5 L 62 86 L 50 77 L 38 86 L 42.5 71.5 L 30.5 62.5 L 45.5 62.5 Z" fill="#FFFFFF" />
+  </g>
+
+  <!-- 리에라몰 타이포그래피 -->
+  <text x="160" y="85" font-family="'Noto Sans KR', 'Malgun Gothic', sans-serif" font-weight="900" font-size="46" fill="url(#textGrad)" letter-spacing="-1">리에라몰</text>
+  <text x="165" y="115" font-family="'Segoe UI', sans-serif" font-weight="600" font-size="18" fill="#888888" letter-spacing="5">Liella Mall</text>
+
+  <!-- 십자 반짝이 효과 (기적의 흑자 전환 상징) -->
+  <g fill="#FFD700">
+    <path d="M 140 40 Q 145 40 145 35 Q 145 40 150 40 Q 145 40 145 45 Q 145 40 140 40 Z" />
+    <path d="M 420 50 Q 425 50 425 45 Q 425 50 430 50 Q 425 50 425 55 Q 425 50 420 50 Z" />
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="145" fill="#003366" stroke="#FFFFFF" stroke-width="8"/>
+  
+  <circle cx="150" cy="150" r="135" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+  
+  <text x="150" y="170" font-family="Arial, sans-serif" font-size="90" font-weight="bold" fill="#FFFFFF" text-anchor="middle">DNUE</text>
+  
+  <text x="150" y="225" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">DEOKJU NATIONAL UNIV. OF EDUCATION</text>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <!-- 배경 (흰색) -->
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+  
+  <!-- 하단 빨간색/노란색 도형 (뷰어 오류 방지를 위해 transform을 제거하고 타원으로 고정) -->
+  <ellipse cx="130" cy="410" rx="35" ry="25" fill="#BE1622"/>
+  <ellipse cx="375" cy="395" rx="35" ry="25" fill="#E8C42A"/>
+
+  <!-- 메인 청록색 원 -->
+  <circle cx="250" cy="235" r="175" fill="#0CA8B9"/>
+
+  <!-- 우측 상단 작은 청록색 원 -->
+  <circle cx="435" cy="75" r="23" fill="#0CA8B9"/>
+
+  <!-- 중앙 연하늘색 가로 막대 3개 -->
+  <rect x="170" y="240" width="160" height="38" fill="#C0E5EB"/>
+  <rect x="170" y="290" width="160" height="38" fill="#C0E5EB"/>
+  <rect x="170" y="340" width="160" height="38" fill="#C0E5EB"/>
+
+  <!-- 가장 위를 덮는 초록색 물결 (막대기 하단과 겹치도록 좌표 정밀 조정) -->
+  <path d="M 60 345 C 120 355, 170 405, 250 405 C 330 405, 385 365, 440 345" 
+        fill="none" stroke="#28C951" stroke-width="42" stroke-linecap="round"/>
+</svg>

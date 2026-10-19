@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" width="100%" height="100%">
+  <!-- 배경 (흰색) -->
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+  <!-- 상단 심볼 (4개의 원) -->
+  <g id="symbol">
+    <!-- 좌상단: 코랄 핑크 -->
+    <circle cx="505" cy="235" r="95" fill="#F17486"/>
+    
+    <!-- 우상단: 아쿠아 민트 -->
+    <circle cx="740" cy="235" r="95" fill="#67E3C4"/>
+    
+    <!-- 좌하단: 아쿠아 민트 -->
+    <circle cx="505" cy="510" r="95" fill="#67E3C4"/>
+    
+    <!-- 우하단: 코랄 핑크 -->
+    <circle cx="740" cy="510" r="95" fill="#F17486"/>
+  </g>
+
+  <!-- 하단 텍스트 "Chiweon" -->
+  <text x="110" y="760" 
+        font-family="'Comfortaa', 'Quicksand', 'Nunito', 'Varela Round', 'Arial Rounded MT Bold', sans-serif" 
+        font-size="160" 
+        font-weight="700" 
+        fill="#F17486" 
+        textLength="735" 
+        lengthAdjust="spacing">Chiweon</text>
+</svg>

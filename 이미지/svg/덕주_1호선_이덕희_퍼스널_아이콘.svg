@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <defs>
+    <!-- 1. 명찰 외곽선을 따라 배경의 뚝배기와 김을 깔끔하게 파내는 투명 갭 마스크 -->
+    <mask id="tagGapMask">
+      <!-- 기본 베이스 (전체 보임) -->
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      
+      <!-- 전면 명찰의 회전 궤적과 동일하게 맞추어 6px 두께의 투명 여백 형성 -->
+      <g transform="translate(50,55) rotate(-20) translate(-50,-55)">
+        <rect x="32" y="43" width="36" height="24" rx="3" fill="black" stroke="black" stroke-width="6" stroke-linejoin="round" />
+        <rect x="44" y="36" width="12" height="6" rx="1" fill="black" stroke="black" stroke-width="6" stroke-linejoin="round" />
+      </g>
+    </mask>
+
+    <!-- 2. 명찰 내부의 차장 별 문양과 ID 라인을 정밀 타공하기 위한 음각 마스크 -->
+    <mask id="badgeDetailMask">
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      <g transform="translate(50,55) rotate(-20) translate(-50,-55)">
+        <!-- 명예 차장의 자부심을 상징하는 오각별 타공 (음각) -->
+        <polygon points="42,48 44,52 49,52 45,55 47,60 42,57 37,60 39,55 35,52 40,52" fill="black" />
+        <!-- 텍스트를 대체하는 미니멀한 ID 카드 라인 2줄 (음각) -->
+        <line x1="54" y1="51" x2="64" y2="51" stroke="black" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="54" y1="58" x2="61" y2="58" stroke="black" stroke-width="2.5" stroke-linecap="round" />
+      </g>
+    </mask>
+  </defs>
+
+  <!-- [레이어 1] 배경: 이덕희의 소울 푸드, 뚝배기 해장국과 열정의 스팀 라인 (갭 마스크 적용) -->
+  <g mask="url(#tagGapMask)" stroke="#FF4F91" fill="none" stroke-linecap="round">
+    <!-- 피어오르는 국밥 열기 (곡선의 미학) -->
+    <path d="M 32,36 Q 26,22 34,13" stroke-width="3" />
+    <path d="M 50,32 Q 55,18 47,10" stroke-width="3" />
+    <path d="M 68,36 Q 62,24 66,15" stroke-width="3" />
+    
+    <!-- 뚝배기 그릇 본체 볼(Bowl) 라인 -->
+    <path d="M 24,56 C 24,78 76,78 76,56" stroke-width="4.5" />
+    <!-- 뚝배기 전면의 두툼한 전(Rim) 테두리 -->
+    <rect x="20" y="52" width="60" height="5" rx="2.5" fill="#FF4F91" stroke="none" />
+    <!-- 안정적인 받침대 하단부 평면선 -->
+    <line x1="29" y1="77" x2="71" y2="77" stroke-width="4" />
+  </g>
+
+  <!-- [레이어 2] 전면: 성공한 덕후의 상징이자 아이덴티티인 명예 차장 명찰 -->
+  <g transform="translate(50,55) rotate(-20) translate(-50,-55)">
+    <!-- 상단 고정용 집게 클립 -->
+    <rect x="44" y="36" width="12" height="6" rx="1" fill="#FF4F91" />
+    <!-- 명찰 본체 (차장 별 및 라인 음각 마스크 최종 적용) -->
+    <rect x="32" y="43" width="36" height="24" rx="3" fill="#FF4F91" mask="url(#badgeDetailMask)" />
+  </g>
+</svg>

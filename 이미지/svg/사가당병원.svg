@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 22 110 115" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sagadangOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7A00" />
+      <stop offset="100%" stop-color="#FF3D00" />
+    </linearGradient>
+    
+    <linearGradient id="sagadangMedical" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F766E" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+  </defs>
+
+  <path d="M 75,28 C 105,28 125,38 125,72 C 125,105 75,132 75,132 C 75,132 25,105 25,72 C 25,38 45,28 75,28 Z" 
+        fill="none" 
+        stroke="url(#sagadangOrange)" 
+        stroke-width="7" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+  
+  <g fill="url(#sagadangMedical)">
+    <rect x="66" y="47" width="18" height="50" rx="9" />
+    <rect x="50" y="63" width="50" height="18" rx="9" />
+  </g>
+  
+  <path d="M 40,72 H 54 L 62,50 L 70,94 L 78,38 L 86,84 L 92,64 L 98,72 H 110" 
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="4" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+</svg>

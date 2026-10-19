@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700" width="100%" height="100%">
+  <!-- 배경 (흰색) -->
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+  
+  <g transform="translate(0, 15)">
+    <!-- 메인 보라색 테두리 (둥근 사각형) -->
+    <rect x="110" y="200" width="280" height="280" rx="42" fill="none" stroke="#9A30CD" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- 청록색 내부 도형 (둥근 사각형) -->
+    <rect x="180" y="325" width="175" height="120" rx="14" fill="#15C9BA"/>
+    
+    <!-- 분홍색 원과 청록색 도형 사이의 여백 (흰색으로 오려내기 효과) -->
+    <circle cx="195" cy="285" r="74" fill="#FFFFFF"/>
+    
+    <!-- 분홍색 원 -->
+    <circle cx="195" cy="285" r="58" fill="#F065C9"/>
+    
+    <!-- 하단 "MOJE" 텍스트 -->
+    <text x="250" y="560" fill="#9A30CD" font-family="'Nunito', 'Varela Round', 'Quicksand', 'Arial Rounded MT Bold', sans-serif" font-size="70" font-weight="900" text-anchor="middle" letter-spacing="9">MOJE</text>
+  </g>
+</svg>

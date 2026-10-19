@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 폰트 굵기를 900에서 700으로 약간 얇게 변경 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&amp;display=swap');
+      .seohae-top {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        fill: #ffffff; /* 흰색 글씨 */
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+      .seohae-bottom {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: -1px; /* 3글자가 원형 안에 깔끔하게 들어가도록 자간 조정 */
+        fill: #ffffff; /* 흰색 글씨 */
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+    </style>
+  </defs>
+
+  <!-- #55DDEE 색상의 꽉 찬 원형 배경 -->
+  <circle cx="50" cy="50" r="50" fill="#55DDEE"/>
+
+  <!-- 텍스트를 통으로 묶어서 완벽한 중앙 정렬 유지 (삐뚤어짐 방지) -->
+  <!-- 1행: '서'와 '해' 사이에 띄어쓰기를 주어 간격 확보 -->
+  <text x="50" y="34" class="seohae-top">서 해</text>
+  
+  <!-- 2행: '경전철' 세 글자 통으로 중앙 정렬 -->
+  <text x="50" y="70" class="seohae-bottom">경전철</text>
+</svg>

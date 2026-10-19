@@ -1,0 +1,9 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50,40 L250,40 L250,150 C250,220 150,280 150,280 C150,280 50,220 50,150 Z" fill="#005B9F" />
+  
+  <path d="M150,60 C165,60 180,80 180,100 C180,130 150,150 150,170 C150,150 120,130 120,100 C120,80 135,60 150,60 Z" fill="#FFC72C" />
+  
+  <text x="150" y="230" font-family="Arial, sans-serif" font-weight="bold" font-size="50" fill="#FFFFFF" text-anchor="middle">BHC</text>
+  
+  <path d="M80,240 L220,240" stroke="#FFC72C" stroke-width="2" fill="none" />
+</svg>

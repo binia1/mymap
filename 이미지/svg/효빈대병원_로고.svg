@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <!-- 그림자 효과 -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-opacity="0.3"/>
+    </filter>
+    <!-- 방패 배경 그라데이션 -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#28609A"/>
+      <stop offset="100%" stop-color="#143A6A"/>
+    </linearGradient>
+
+    <!-- 좌측 월계관 (우측은 이를 반전하여 재사용) -->
+    <g id="half-wreath">
+      <!-- 월계관 줄기 -->
+      <path d="M 300 520 C 120 500, 40 320, 80 150" stroke="#8DB287" stroke-width="8" fill="none" stroke-linecap="round"/>
+      
+      <!-- 잎사귀 묶음 -->
+      <g fill="#8DB287">
+        <!-- 1단 -->
+        <path d="M 230 482 Q 180 472 190 512 Q 220 512 230 482" />
+        <path d="M 230 482 Q 210 422 250 442 Q 260 462 230 482" />
+        <!-- 2단 -->
+        <path d="M 160 410 Q 110 390 120 440 Q 150 440 160 410" />
+        <path d="M 160 410 Q 140 350 180 370 Q 190 390 160 410" />
+        <!-- 3단 -->
+        <path d="M 110 320 Q 60 300 70 350 Q 100 350 110 320" />
+        <path d="M 110 320 Q 90 260 130 280 Q 140 300 110 320" />
+        <!-- 4단 -->
+        <path d="M 83 230 Q 33 210 43 260 Q 73 260 83 230" />
+        <path d="M 83 230 Q 63 170 103 190 Q 113 210 83 230" />
+        <!-- 최상단 잎 -->
+        <path d="M 80 150 Q 40 110 70 100 Q 100 120 80 150" />
+      </g>
+    </g>
+  </defs>
+
+  <!-- 좌우 월계관 렌더링 -->
+  <use href="#half-wreath" />
+  <!-- 기준점 600을 잡아 X축 대칭(scale -1)으로 우측 월계관 생성 -->
+  <use href="#half-wreath" transform="translate(600, 0) scale(-1, 1)" />
+
+  <!-- 방패 외곽 테두리 (흰색) -->
+  <path d="M 150 100 Q 225 100 300 80 Q 375 100 450 100 C 450 340, 300 480, 300 480 C 300 480, 150 340, 150 100 Z" fill="#ffffff" filter="url(#shadow)"/>
+  
+  <!-- 방패 내부 (파란색 그라데이션) -->
+  <path d="M 160 110 Q 230 110 300 92 Q 370 110 440 110 C 440 332, 300 465, 300 465 C 300 465, 160 332, 160 110 Z" fill="url(#shieldGrad)" />
+
+  <!-- 대학병원 상징: 의료용 십자가 (가운데 배치) -->
+  <path d="M 265 220 v -45 h 70 v 45 h 45 v 70 h -45 v 45 h -70 v -45 h -45 v -70 h 45 z" fill="#ffffff" />
+  
+  <!-- 효빈대 상징: 십자가 중앙의 새싹 -->
+  <g fill="#8DB287">
+    <!-- 좌측 잎 -->
+    <path d="M 300 270 C 265 270, 240 215, 275 200 C 285 195, 300 225, 300 270 Z" />
+    <!-- 우측 잎 -->
+    <path d="M 300 270 C 335 270, 360 215, 325 200 C 315 195, 300 225, 300 270 Z" />
+  </g>
+
+  <!-- 텍스트 영역 -->
+  <text x="300" y="405" font-family="'Arial', 'Apple SD Gothic Neo', sans-serif" font-weight="900" font-size="46" fill="#ffffff" text-anchor="middle" letter-spacing="2">HBNUH</text>
+  <text x="300" y="435" font-family="'Arial', 'Apple SD Gothic Neo', sans-serif" font-weight="bold" font-size="14" fill="#8DB287" text-anchor="middle" letter-spacing="1">HYOBIN UNIV. HOSPITAL</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <defs>
+    <!-- 1. 부채 바디를 여러 개의 세련된 기하학적 패널로 나누기 위한 음각 마스크 -->
+    <mask id="fanPanelMask">
+      <!-- 기본 베이스 (전체 보임) -->
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      <!-- 부채 살을 나누는 정밀한 방사형 슬롯 타공 (음각선) -->
+      <line x1="50" y1="75" x2="22" y2="35" stroke="black" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="50" y1="75" x2="36" y2="28" stroke="black" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="50" y1="75" x2="50" y2="25" stroke="black" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="50" y1="75" x2="64" y2="28" stroke="black" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="50" y1="75" x2="78" y2="35" stroke="black" stroke-width="2.5" stroke-linecap="round" />
+      <!-- 하단 다이아몬드 조립부와의 시각적 간섭을 막기 위한 중앙 하단 타공 -->
+      <circle cx="50" cy="75" r="7" fill="black" />
+    </mask>
+
+    <!-- 2. 상단 아치 선로를 모노레일 궤도 특유의 블록 형태로 쪼개기 위한 분절 마스크 -->
+    <mask id="monorailTrackMask">
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      <!-- 일정 간격으로 선로 교량을 차단하는 방사형 빔 슬롯 (음각) -->
+      <line x1="50" y1="75" x2="10" y2="25" stroke="black" stroke-width="3.5" />
+      <line x1="50" y1="75" x2="23" y2="15" stroke="black" stroke-width="3.5" />
+      <line x1="50" y1="75" x2="38" y2="8" stroke="black" stroke-width="3.5" />
+      <line x1="50" y1="75" x2="50" y2="5" stroke="black" stroke-width="3.5" />
+      <line x1="50" y1="75" x2="62" y2="8" stroke="black" stroke-width="3.5" />
+      <line x1="50" y1="75" x2="77" y2="15" stroke="black" stroke-width="3.5" />
+      <line x1="50" y1="75" x2="90" y2="25" stroke="black" stroke-width="3.5" />
+    </mask>
+  </defs>
+
+  <!-- [레이어 1] 배경: 부채 상단을 우아하게 감싸 안는 창전 모노레일 아치형 궤도 (분절 마스크 적용) -->
+  <path d="M 12,46 A 40,40 0 0,1 88,46" fill="none" stroke="#33AAFF" stroke-width="6" stroke-linecap="round" mask="url(#monorailTrackMask)" />
+
+  <!-- [레이어 2] 중경: 심세이의 라틴 하이텐션 자아를 표현하는 스패니시 플라멩코 부채 (패널 마스크 적용) -->
+  <path d="M 50,75 L 12,46 A 40,40 0 0,1 88,46 Z" fill="#33AAFF" mask="url(#fanPanelMask)" />
+
+  <!-- [레이어 3] 전면: 타워팰리스급 부촌 아가씨의 상징인 하단 대형 다이아몬드 피벗(Pivot) -->
+  <polygon points="50,65 57,75 50,85 43,75" fill="#33AAFF" />
+
+  <!-- [레이어 4] 외곽: 홍보대사로서의 화려함과 빛남을 묘사한 좌우 대칭형 스파클(Sparkle) 로고 효과 -->
+  <path d="M 14,22 L 16,26 L 20,27 L 16,28 L 14,32 L 12,28 L 8,27 L 12,26 Z" fill="#33AAFF" />
+  <path d="M 86,22 L 88,26 L 92,27 L 88,28 L 86,32 L 84,28 L 80,27 L 84,26 Z" fill="#33AAFF" />
+</svg>

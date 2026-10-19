@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 깔끔하고 굵은 Noto Sans KR 폰트 적용 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&amp;display=swap');
+      .metro-text-ancheon {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 900;
+        font-size: 46px; /* 한글 '안' 자가 링 안에 예쁘게 여백을 두고 들어가도록 크기 조절 */
+        fill: #B2FFDD; /* 안천선 공식 민트색 */
+      }
+    </style>
+  </defs>
+
+  <!-- 안천선 민트색 링 -->
+  <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#B2FFDD" stroke-width="10"/>
+
+  <!-- 아래로 쏠리지 않도록 y좌표를 67로 강제 고정하여 정중앙에 배치 -->
+  <text x="50" y="67" class="metro-text-ancheon" text-anchor="middle">안</text>
+</svg>

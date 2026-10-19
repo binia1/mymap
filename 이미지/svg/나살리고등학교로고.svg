@@ -1,0 +1,13 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="200" cy="200" r="190" fill="#FFFFFF" stroke="#800020" stroke-width="15" />
+  
+  <g transform="translate(200, 200)">
+    <rect x="-15" y="-80" width="30" height="160" fill="#800020" />
+    <rect x="-80" y="-15" width="160" height="30" fill="#800020" />
+    <path d="M-30 -80 L0 -120 L30 -80 Z" fill="#800020" />
+  </g>
+  
+  <text x="200" y="80" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#800020">NASALI HIGH SCHOOL</text>
+  
+  <text x="200" y="340" text-anchor="middle" font-family="Arial" font-size="28" font-weight="bold" fill="#800020">1905</text>
+</svg>

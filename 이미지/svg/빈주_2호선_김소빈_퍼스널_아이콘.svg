@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <defs>
+    <!-- 1. 탕후루 꼬치가 헤드폰 레이어를 지날 때 5px의 투명 공백을 만들기 위한 갭 마스크 -->
+    <mask id="headphoneGapMask">
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      <!-- 탕후루 대각선 경로를 따라 헤드폰 라인을 투명하게 뚫어냄 -->
+      <line x1="12" y1="12" x2="88" y2="88" stroke="black" stroke-width="7" stroke-linecap="round" />
+      <!-- 탕후루 알 3개가 겹치는 영역도 함께 확장 타공 -->
+      <circle cx="34" cy="34" r="13" fill="black" />
+      <circle cx="50" cy="50" r="13" fill="black" />
+      <circle cx="66" cy="66" r="13" fill="black" />
+    </mask>
+    
+    <!-- 2. 기괴한 이목구비를 삭제하고, 오직 설탕 코팅의 미니멀한 광택만 남긴 마스크 -->
+    <mask id="tanghuluGlossMask">
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      <!-- 각 탕후루 알의 상단 하이라이트 광택 슬롯 (음각으로 투명하게 파내어 입체감 부여) -->
+      <ellipse cx="30" cy="30" rx="1.5" ry="3.5" fill="black" transform="rotate(-45 30 30)" />
+      <ellipse cx="46" cy="46" rx="1.5" ry="3.5" fill="black" transform="rotate(-45 46 46)" />
+      <ellipse cx="62" cy="62" rx="1.5" ry="3.5" fill="black" transform="rotate(-45 62 62)" />
+    </mask>
+  </defs>
+
+  <!-- [레이어 1] 배경: 소빈의 무소음 출근 필수템, 에어팟 맥스 헤드폰 (탕후루 관통 갭 마스크 적용) -->
+  <g mask="url(#headphoneGapMask)">
+    <!-- 유려한 곡선의 헤드밴드 아치 -->
+    <path d="M 26,38 A 24,24 0 0,1 74,38" fill="none" stroke="#C455F6" stroke-width="5" stroke-linecap="round" />
+    <!-- 이어컵 연결 스템 고리 -->
+    <line x1="26" y1="38" x2="26" y2="44" stroke="#C455F6" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="74" y1="38" x2="74" y2="44" stroke="#C455F6" stroke-width="2.5" stroke-linecap="round" />
+    <!-- 에어팟 맥스 특유의 둥근 직사각형 이어컵 -->
+    <rect x="20" y="44" width="12" height="22" rx="5" fill="#C455F6" />
+    <rect x="68" y="44" width="12" height="22" rx="5" fill="#C455F6" />
+  </g>
+
+  <!-- [레이어 2] 전면: 헤드폰 프레임을 뚫고 지나가는 매끄러운 대형 탕후루 꼬치 -->
+  <!-- 탕후루 나무 꼬치 스틱 -->
+  <line x1="12" y1="12" x2="88" y2="88" stroke="#C455F6" stroke-width="3" stroke-linecap="round" />
+  
+  <!-- 탕후루 과일 알맹이 세트 (깔끔한 광택 마스크 최종 적용) -->
+  <g mask="url(#tanghuluGlossMask)">
+    <circle cx="34" cy="34" r="10" fill="#C455F6" />
+    <circle cx="50" cy="50" r="10" fill="#C455F6" />
+    <circle cx="66" cy="66" r="10" fill="#C455F6" />
+  </g>
+</svg>

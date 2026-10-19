@@ -1,0 +1,11 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50,40 L250,40 L250,150 C250,220 150,280 150,280 C150,280 50,220 50,150 Z" fill="#006400" />
+  
+  <path d="M50,40 L250,40 L250,150 C250,220 150,280 150,280 C150,280 50,220 50,150 Z" fill="none" stroke="#DAA520" stroke-width="8" />
+  
+  <path d="M150,70 C170,70 185,90 185,120 C185,150 170,170 150,170 C130,170 115,150 115,120 C115,90 130,70 150,70 Z" fill="#FFFFFF" opacity="0.9" />
+  
+  <text x="150" y="215" font-family="serif" font-size="65" fill="#DAA520" text-anchor="middle" font-weight="bold">彬州</text>
+  
+  <path d="M100,240 Q150,220 200,240" stroke="#DAA520" stroke-width="4" fill="none" />
+</svg>

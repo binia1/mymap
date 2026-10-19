@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="100%">
+    <g transform="translate(10, 10)">
+        
+        <!-- 1. 우측 상단 메인 선 (좌상단 가로선부터 우측 세로선까지) -->
+        <path d="M 20 70 
+                 L 190 70 
+                 A 40 40 0 0 1 230 110 
+                 L 230 190" 
+              stroke="#317fc1" stroke-width="28" stroke-linecap="butt" fill="none" />
+
+        <!-- 2. 좌측 하단 메인 물결선 (좌상단 세로선부터 우측 하단 꼬리까지) -->
+        <path d="M 70 20 
+                 L 70 170 
+                 A 40 40 0 0 0 110 210 
+                 C 130 210, 130 190, 150 190 
+                 C 170 190, 170 210, 190 210 
+                 C 210 210, 210 190, 230 190 
+                 C 245 190, 250 205, 265 205" 
+              stroke="#317fc1" stroke-width="28" stroke-linecap="butt" fill="none" />
+
+        <!-- 3. 하단 독립된 파란색 물결 (메인 물결과 정확히 35px 간격 평행) -->
+        <path d="M 70 225 
+                 C 90 225, 90 245, 110 245 
+                 C 130 245, 130 225, 150 225 
+                 C 170 225, 170 245, 190 245 
+                 C 210 245, 210 225, 230 225 
+                 C 245 225, 250 240, 265 240" 
+              stroke="#317fc1" stroke-width="24" stroke-linecap="butt" fill="none" />
+
+        <!-- 4. 중앙 주황색 'ㅂ' 심볼 -->
+        <path d="M 115 90 
+                 L 115 144 
+                 A 16 16 0 0 0 131 160 
+                 L 169 160 
+                 A 16 16 0 0 0 185 144 
+                 L 185 90 
+                 M 115 125 
+                 L 185 125" 
+              stroke="#f19e23" stroke-width="26" stroke-linecap="butt" fill="none" />
+              
+    </g>
+</svg>

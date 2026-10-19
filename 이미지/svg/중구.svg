@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 800" width="100%" height="100%">
+  <!-- 배경 (흰색) -->
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+  <!-- 외곽 모래시계 프레임 (스카이 블루) -->
+  <path d="M 55 30 
+           L 445 30 
+           Q 365 215 290 400 
+           Q 365 585 445 770 
+           L 55 770 
+           Q 135 585 210 400 
+           Q 135 215 55 30 Z" 
+        fill="#4697E8" 
+        stroke="#4697E8" 
+        stroke-width="16" 
+        stroke-linejoin="round"/>
+
+  <!-- 상단 내부 역삼각형 (딥 틸/청록) -->
+  <polygon points="120,95 380,95 250,330" 
+           fill="#115F7D" 
+           stroke="#115F7D" 
+           stroke-width="6" 
+           stroke-linejoin="round"/>
+
+  <!-- 하단 내부 정삼각형 (딥 틸/청록) -->
+  <polygon points="250,470 120,705 380,705" 
+           fill="#115F7D" 
+           stroke="#115F7D" 
+           stroke-width="6" 
+           stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="90" fill="#008A45" stroke="#D4AF37" stroke-width="5" />
+  
+  <path d="M100 40 L120 70 L110 70 L130 110 L100 100 L70 110 L90 70 L80 70 Z" fill="#D4AF37" />
+  
+  <text x="100" y="150" font-family="Arial, sans-serif" font-size="20" fill="white" font-weight="bold" text-anchor="middle">YSU</text>
+  
+  <text x="100" y="170" font-family="sans-serif" font-size="10" fill="white" text-anchor="middle" letter-spacing="2">YAKSAN UNIV.</text>
+</svg>

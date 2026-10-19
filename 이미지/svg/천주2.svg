@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 깔끔하고 굵은 Noto Sans KR 폰트 적용 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&amp;display=swap');
+      .cheonju-text {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 900;
+        font-size: 34px; /* 세 글자가 원 안에 예쁘게 꽉 차도록 크기 조절 */
+        letter-spacing: -2px; /* 둥근 배경 안에 잘 들어맞도록 자간 축소 */
+        fill: #ffffff; /* 흰색 글씨 */
+      }
+    </style>
+  </defs>
+
+  <!-- 천주 1호선 상징색(#00AABB)의 꽉 찬 원형 배경 -->
+  <circle cx="50" cy="50" r="50" fill="#8D6E63"/>
+
+  <!-- 아래로 쏠리지 않도록 y좌표를 65로 강제 고정하여 정중앙에 배치 -->
+  <text x="50" y="65" class="cheonju-text" text-anchor="middle">천주2</text>
+</svg>

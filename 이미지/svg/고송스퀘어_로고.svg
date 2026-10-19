@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" width="100%" height="100%">
+  <defs>
+    <!-- 고급 주상복합을 상징하는 프리미엄 골드 그라데이션 -->
+    <linearGradient id="premiumGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4AF37"/>
+      <stop offset="50%" stop-color="#FFDF73"/>
+      <stop offset="100%" stop-color="#AA7C11"/>
+    </linearGradient>
+    
+    <!-- 토모리(燈)를 상징하는 중앙의 따뜻한 등불 광원 -->
+    <radialGradient id="lanternGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFC000" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#FF8C00" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FF8C00" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 심볼 아이콘 -->
+  <g transform="translate(30, 40)">
+    <!-- 외부 스퀘어 (단단하고 묵직한 주거/상업의 결합) -->
+    <rect x="10" y="10" width="80" height="80" fill="none" stroke="#2B3A42" stroke-width="7" />
+    
+    <!-- 내부 스퀘어 (프리미엄 골드) -->
+    <rect x="26" y="26" width="48" height="48" fill="none" stroke="url(#premiumGold)" stroke-width="4" />
+    
+    <!-- 중심 광원 (길을 잃은 자를 인도하는 등불) -->
+    <circle cx="50" cy="50" r="18" fill="url(#lanternGlow)" />
+    <!-- 등불의 코어 형태 (다이아몬드) -->
+    <path d="M 50 35 L 58 50 L 50 65 L 42 50 Z" fill="url(#premiumGold)" />
+  </g>
+
+  <!-- 메인 영문 텍스트 -->
+  <text x="150" y="95" font-family="'Arial Black', 'Impact', sans-serif" font-size="48" font-weight="900" fill="#2B3A42" letter-spacing="1">
+    GOSONG <tspan fill="url(#premiumGold)">SQUARE</tspan>
+  </text>
+
+  <!-- 서브 한글 텍스트 -->
+  <text x="155" y="130" font-family="'Noto Sans KR', 'Malgun Gothic', sans-serif" font-size="18" font-weight="800" fill="#444444" letter-spacing="4">
+    고송스퀘어
+  </text>
+
+  <!-- 하단 장식선 및 슬로건 -->
+  <line x1="155" y1="145" x2="550" y2="145" stroke="#2B3A42" stroke-width="2" opacity="0.2" />
+  <text x="315" y="162" font-family="'Arial', sans-serif" font-size="10" font-weight="bold" fill="#888888" letter-spacing="1.5">
+    PREMIUM RESIDENTIAL &amp; COMMERCIAL COMPLEX
+  </text>
+</svg>

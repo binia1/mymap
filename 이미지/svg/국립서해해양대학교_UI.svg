@@ -1,0 +1,8 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50,40 L250,40 L250,150 C250,220 150,280 150,280 C150,280 50,220 50,150 Z" fill="#004080" stroke="#F5FFFA" stroke-width="6" />
+  
+  <text x="150" y="160" font-family="Arial, sans-serif" font-weight="bold" font-size="55" fill="#F5FFFA" text-anchor="middle">SNMU</text>
+  
+  <path d="M100,210 Q150,190 200,210" stroke="#F5FFFA" stroke-width="4" fill="none" />
+  <path d="M110,225 Q150,205 190,225" stroke="#F5FFFA" stroke-width="2" fill="none" />
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 글자 굵기를 800으로 하향 조정하고 폰트 크기를 약간 줄여 여백 확보 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@800&amp;display=swap');
+      .maeseong-text {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 800; /* 굵기 800 */
+        font-size: 30px; /* 원 안에 답답하지 않게 쏙 들어가도록 크기 조절 */
+        fill: #ffffff; /* 흰색 글씨 */
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+    </style>
+  </defs>
+
+  <!-- #009688 색상의 꽉 찬 원형 배경 -->
+  <circle cx="50" cy="50" r="50" fill="#bb188d"/>
+
+  <!-- 텍스트를 통으로 묶어서 완벽한 중앙 정렬과 자연스러운 자간 유지 -->
+  <!-- 1행: '매'와 '성' 사이에 띄어쓰기를 주어 밸런스 조정 -->
+  <text x="50" y="34" class="maeseong-text">낭 원</text>
+  
+  <!-- 2행: '매'와 '산' 사이에 띄어쓰기를 주어 밸런스 조정 -->
+  <text x="50" y="69" class="maeseong-text">천 주</text>
+</svg>

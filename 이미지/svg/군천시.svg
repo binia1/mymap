@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%" style="background-color: transparent;">
+  <!-- 뒷배경 노란색 원 -->
+  <circle cx="125" cy="85" r="70" fill="#F5B907" />
+  
+  <!-- 앞배경 청록색 물결/숫자 2 형태 도형 -->
+  <path d="M 5 170 
+           C 40 155 90 110 135 62 
+           Q 138 58 141 63 
+           Q 120 105 102 145 
+           C 130 125 165 130 185 140 
+           C 205 150 200 185 170 185 
+           C 110 190 40 190 5 170 Z" 
+        fill="#008CA0" />
+</svg>

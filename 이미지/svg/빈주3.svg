@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 깔끔하고 굵은 Noto Sans KR 폰트 적용 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&amp;display=swap');
+      .metro-text-black-3 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 900;
+        font-size: 55px;
+        fill: #000000; /* 선명한 검은색 숫자 */
+      }
+    </style>
+  </defs>
+
+  <!-- 빈주 3호선 상징색(#6AE673, 연두색)이 가득 채워진 둥근 모서리 사각형 배경 -->
+  <rect x="8" y="8" width="84" height="84" rx="16" ry="16" fill="#6AE673"/>
+
+  <!-- 아래로 쏠리지 않도록 y좌표를 69로 강제 고정하여 정중앙에 배치 -->
+  <text x="50" y="69" class="metro-text-black-3" text-anchor="middle">3</text>
+</svg>

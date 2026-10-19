@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 150" width="100%" height="100%">
+  <!-- Icon: Abstract 'D' -->
+  <path d="M 40 25 L 70 25 L 70 125 L 40 125 Z" fill="#485EC6" />
+  <path d="M 70 25 C 135 25 155 55 155 75 C 155 95 135 125 70 125 L 70 100 C 115 100 125 85 125 75 C 125 65 115 50 70 50 Z" fill="#FF5800" />
+
+  <!-- Super Nova Star Accents -->
+  <polygon points="120,30 123,40 133,40 125,47 128,57 120,51 112,57 115,47 107,40 117,40" fill="#FF5800" transform="translate(195, -15) scale(0.6)" />
+  <polygon points="120,30 123,40 133,40 125,47 128,57 120,51 112,57 115,47 107,40 117,40" fill="#485EC6" transform="translate(170, -25) scale(0.4)" />
+
+  <!-- Main Text -->
+  <text x="170" y="80" font-family="'Arial Black', 'Impact', sans-serif" font-size="52" font-weight="900" font-style="italic">
+    <tspan fill="#485EC6">Diver</tspan><tspan fill="#FF5800">City</tspan>
+  </text>
+  
+  <!-- Sub Text -->
+  <text x="175" y="115" font-family="'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="24" font-weight="bold" fill="#222222" letter-spacing="5">
+    다이버시티몰
+  </text>
+  <text x="350" y="113" font-family="'Arial', sans-serif" font-size="12" font-weight="bold" fill="#888888" letter-spacing="2">
+    SHOPPING &amp; FITNESS
+  </text>
+</svg>

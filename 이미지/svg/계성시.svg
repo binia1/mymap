@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" style="background-color: transparent;">
+  <!-- 상단 빨간색 도형 -->
+  <path d="M 10 10 H 90 V 58 L 50 32 L 10 58 Z" fill="#E23C32" />
+  
+  <!-- 하단 청록색 도형 -->
+  <path d="M 10 90 H 90 V 76 L 50 50 L 10 76 Z" fill="#1CB3A7" />
+</svg>

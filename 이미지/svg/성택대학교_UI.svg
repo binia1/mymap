@@ -1,0 +1,14 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .st-main { fill: #4B0082; }
+      .st-accent { fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <path class="st-main" d="M40,120 C10,70 80,30 150,80 C220,30 290,70 260,120 C220,90 190,80 150,80 C110,80 80,90 40,120 Z" />
+  
+  <path class="st-main" d="M90,120 L210,120 L200,220 C200,220 150,245 100,220 Z" />
+  
+  <path class="st-accent" d="M150,140 L160,170 L190,170 L165,190 L175,220 L150,200 L125,220 L135,190 L110,170 L140,170 Z" />
+</svg>

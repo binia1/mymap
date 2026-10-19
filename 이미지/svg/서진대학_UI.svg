@@ -1,0 +1,7 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="140" fill="#006633" stroke="#E65A8D" stroke-width="8"/>
+  
+  <path d="M150,60 L170,110 L220,110 L180,140 L195,190 L150,160 L105,190 L120,140 L80,110 L130,110 Z" fill="#E65A8D"/>
+  
+  <text x="150" y="240" font-family="serif" font-size="60" fill="#FFFFFF" text-anchor="middle" font-weight="bold">瑞進</text>
+</svg>

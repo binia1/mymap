@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- 로고 배경 (선택 사항) -->
+  <rect width="100" height="100" fill="#ffffff"/>
+
+  <!-- H 형태 심볼 -->
+  <!-- 좌측 기둥 -->
+  <rect x="20" y="20" width="16" height="60" rx="2" fill="#2B3A55" />
+  
+  <!-- 우측 기둥 -->
+  <rect x="64" y="20" width="16" height="60" rx="2" fill="#2B3A55" />
+  
+  <!-- 중앙 연결 다리 및 포인트 (네이비 & 세련된 스타일) -->
+  <rect x="36" y="44" width="28" height="12" rx="1" fill="#2B3A55" />
+  <rect x="42" y="46" width="16" height="8" rx="1" fill="#C5A880" />
+</svg>

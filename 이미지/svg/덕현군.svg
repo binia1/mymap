@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 520" width="100%" height="100%">
+  <!-- 노란색 산 (우측 배경) -->
+  <path d="M 150,220 
+           L 150,150 
+           C 180,70 220,30 270,30 
+           C 340,30 420,100 445,225 
+           C 425,225 405,220 390,220 Z" 
+        fill="#ECA900" />
+  
+  <!-- 녹색 산 (좌측 전경) -->
+  <path d="M 40,315 
+           C 45,200 80,100 140,100 
+           C 200,100 280,160 390,220 
+           C 265,220 145,290 40,315 Z" 
+        fill="#29A873" />
+  
+  <!-- 파란색 베이스 (하단 물결) -->
+  <path d="M 35,340 
+           C 145,315 265,245 455,245 
+           L 460,370 
+           L 30,370 Z" 
+        fill="#1BA6C7" />
+  
+  <!-- 하단 텍스트 -->
+  <text x="245" y="475" 
+        font-family="'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" 
+        font-size="70" 
+        font-weight="900" 
+        text-anchor="middle" 
+        fill="#141E30" 
+        letter-spacing="2">덕현군</text>
+</svg>

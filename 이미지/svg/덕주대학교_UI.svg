@@ -1,0 +1,11 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="145" fill="#00462A" stroke="#F0B300" stroke-width="10"/>
+  
+  <circle cx="150" cy="150" r="130" fill="none" stroke="#F0B300" stroke-width="2"/>
+  
+  <text x="150" y="165" font-family="serif" font-size="90" fill="#F0B300" text-anchor="middle" font-weight="bold">德州</text>
+  
+  <text x="150" y="220" font-family="sans-serif" font-size="20" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">DEOKJU UNIVERSITY</text>
+  
+  <text x="150" y="90" font-family="sans-serif" font-size="16" fill="#F0B300" text-anchor="middle" letter-spacing="4">1954</text>
+</svg>

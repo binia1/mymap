@@ -1,0 +1,11 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="145" fill="#003366" stroke="#D4AF37" stroke-width="8"/>
+  
+  <circle cx="150" cy="150" r="130" fill="none" stroke="#D4AF37" stroke-width="2"/>
+  
+  <text x="150" y="160" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="#D4AF37" text-anchor="middle">CJNU</text>
+  
+  <text x="150" y="210" font-family="sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">CHEONJU NAT'L UNIV.</text>
+  
+  <path d="M150 50 L165 75 L150 70 L135 75 Z" fill="#D4AF37"/>
+</svg>

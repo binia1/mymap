@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      .logo-blue { 
+        fill: #35B4D6; 
+        stroke: #D15A4F; 
+        stroke-width: 1.5; 
+        stroke-linejoin: round; 
+      }
+      .logo-yellow { 
+        fill: #F8B617; 
+        stroke: #D15A4F; 
+        stroke-width: 1.5; 
+        stroke-linejoin: round; 
+      }
+    </style>
+  </defs>
+  
+  <!-- 오른쪽 아래 노란색 태양/지면 -->
+  <!-- 95의 반지름을 가져 파란색 아치와 정확히 평행한 곡선을 이룹니다. -->
+  <path class="logo-yellow" d="M 87.5 185 A 95 95 0 0 1 185 125 L 185 185 Z" />
+  
+  <!-- 파란색 성 모양 -->
+  <!-- 110의 반지름(A 110 110)으로 하단 아치를 그리며, 깃발과 맞닿는 성벽의 픽셀을 완벽히 정렬했습니다. -->
+  <path class="logo-blue" d="M 13 185 L 18 55 L 55 55 L 55 80 L 75 80 L 75 55 L 122 55 L 122 80 L 145 80 L 145 55 L 185 55 L 185 110 A 110 110 0 0 0 72 185 Z" />
+  
+  <!-- 노란색 깃발 -->
+  <!-- 깃대의 오른쪽 끝(x=122)이 성벽이 아래로 꺾이는 지점과 오차 없이 일치하도록 설계되었습니다. -->
+  <path class="logo-yellow" d="M 114 55 L 114 15 Q 147 25 180 20 Q 151 20 122 40 L 122 55 Z" />
+</svg>

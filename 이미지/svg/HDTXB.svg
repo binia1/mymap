@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- GTX 특유의 속도감을 위해 굵은 영문 이탤릭 폰트 적용 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&amp;display=swap');
+      .hdtx-top {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900;
+        font-style: italic; /* GTX 로고처럼 기울임 적용 */
+        font-size: 27px;
+        letter-spacing: -1.5px;
+        fill: #ffffff;
+      }
+      .hdtx-bottom {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 37px;
+        fill: #ffffff;
+      }
+    </style>
+  </defs>
+
+  <!-- #FB637E 색상의 꽉 찬 원형 배경 -->
+  <circle cx="50" cy="50" r="50" fill="#9d8de2"/>
+
+  <!-- 상단 HDTX 텍스트 (이탤릭체 쏠림 보정) -->
+  <text x="48" y="42" class="hdtx-top" text-anchor="middle" dominant-baseline="middle">HDTX</text>
+  
+  <!-- 하단 A 텍스트 -->
+  <text x="50" y="75" class="hdtx-bottom" text-anchor="middle" dominant-baseline="middle">B</text>
+</svg>

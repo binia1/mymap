@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- 방패 내부 클리핑 패스 -->
+    <clipPath id="innerShieldClip">
+      <path d="M 250 45 C 310 45 400 80 400 80 L 400 280 C 400 370 250 435 250 435 C 250 435 100 370 100 280 L 100 80 C 100 80 190 45 250 45 Z" />
+    </clipPath>
+  </defs>
+
+  <!-- 외각 방패 테두리 (네이비 & 골드) -->
+  <path d="M 250 25 C 320 25 430 65 430 65 L 430 290 C 430 395 250 470 250 470 C 250 470 70 395 70 290 L 70 65 C 70 65 180 25 250 25 Z" fill="#0A2240" />
+  <path d="M 250 37 C 315 37 415 73 415 73 L 415 285 C 415 382 250 452 250 452 C 250 452 85 382 85 285 L 85 73 C 85 73 185 37 250 37 Z" fill="#C59B27" />
+  <path d="M 250 45 C 310 45 400 80 400 80 L 400 280 C 400 370 250 435 250 435 C 250 435 100 370 100 280 L 100 80 C 100 80 190 45 250 45 Z" fill="#FFFFFF" />
+
+  <!-- 상단 개교 연도 1978 -->
+  <text x="250" y="85" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="28" fill="#0A2240" text-anchor="middle">1978</text>
+
+  <!-- 방패 내부 상징 요소를 그룹화 -->
+  <g transform="translate(0, 15)">
+    <!-- 1. 톱니바퀴 (Gear) 배경 -->
+    <g fill="#C59B27" stroke="#0A2240" stroke-width="6" stroke-linejoin="round">
+      <path d="M 250 110 A 110 110 0 1 0 250 330 A 110 110 0 1 0 250 110 Z 
+               M 240 92 L 260 92 L 265 112 L 235 112 Z
+               M 315 112 L 330 125 L 317 141 L 302 128 Z
+               M 363 160 L 375 180 L 356 190 L 344 172 Z
+               M 378 220 L 378 240 L 358 240 L 358 220 Z
+               M 363 280 L 344 268 L 356 250 L 375 260 Z
+               M 315 328 L 302 312 L 317 299 L 330 315 Z
+               M 240 348 L 235 328 L 265 328 L 260 348 Z
+               M 185 328 L 170 315 L 183 299 L 198 312 Z
+               M 137 280 L 125 260 L 144 250 L 156 268 Z
+               M 122 220 L 122 240 L 142 240 L 142 220 Z
+               M 137 160 L 156 172 L 144 190 L 125 180 Z
+               M 185 112 L 198 128 L 183 141 L 170 125 Z" />
+    </g>
+
+    <!-- 톱니바퀴 내측 링 테두리 -->
+    <circle cx="250" cy="220" r="95" fill="none" stroke="#0A2240" stroke-width="7" />
+    <circle cx="250" cy="220" r="75" fill="none" stroke="#5C768D" stroke-width="12" />
+
+    <!-- 2. 오각형 별 (Defense Star) -->
+    <g stroke="#0A2240" stroke-width="5" stroke-linejoin="round">
+      <polygon points="250,135 272,192 335,192 284,228 303,285 250,250 197,285 216,228 165,192 228,192" fill="#C59B27" />
+      <!-- 별 내면 음영 입체감 -->
+      <polygon points="250,135 250,220 335,192" fill="#A27B18" opacity="0.6"/>
+      <polygon points="250,220 303,285 250,250" fill="#A27B18" opacity="0.6"/>
+      <polygon points="250,220 197,285 216,228" fill="#A27B18" opacity="0.6"/>
+    </g>
+
+    <!-- 3. 원자 궤도 (Atomic Orbits - 과학기술) -->
+    <g fill="none" stroke="#0A2240" stroke-width="4">
+      <ellipse cx="250" cy="245" rx="42" ry="16" transform="rotate(-30 250 245)" />
+      <ellipse cx="250" cy="245" rx="42" ry="16" transform="rotate(30 250 245)" />
+      <circle cx="250" cy="245" r="5" fill="#0A2240" />
+      <circle cx="282" cy="230" r="3.5" fill="#0A2240" />
+      <circle cx="218" cy="260" r="3.5" fill="#0A2240" />
+    </g>
+
+    <!-- 4. 스패너 (Spanner Wrench - 정비/기술) -->
+    <g transform="rotate(-38 250 240)">
+      <path d="M 175 234 L 315 234 C 322 234 325 228 322 223 C 315 213 325 200 335 208 C 342 215 350 210 350 220 C 350 235 335 245 320 245 L 180 245 Z" fill="#5C768D" stroke="#0A2240" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M 170 225 L 185 225 L 195 240 L 180 250 Z" fill="#0A2240" />
+    </g>
+
+    <!-- 5. 독수리 (Eagle - 호연지기/국방) -->
+    <g fill="#0A2240" stroke="#0A2240" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- 좌측 날개 깃털 -->
+      <path d="M 250 170 C 230 140 180 100 140 115 C 160 135 180 155 195 180 C 175 165 150 145 130 140 C 145 160 165 180 185 195 C 165 190 145 180 135 180 C 150 195 170 205 190 210 Z" fill="#0A2240" stroke="#FFFFFF" stroke-width="2"/>
+      
+      <!-- 우측 날개 깃털 -->
+      <path d="M 250 170 C 270 140 320 100 360 115 C 340 135 320 155 305 180 C 325 165 350 145 370 140 C 355 160 335 180 315 195 C 335 190 355 180 365 180 C 350 195 330 205 310 210 Z" fill="#0A2240" stroke="#FFFFFF" stroke-width="2"/>
+      
+      <!-- 독수리 머리 & 부리 -->
+      <path d="M 235 170 C 235 155 245 145 250 145 C 255 145 265 155 265 170 C 265 180 258 185 250 185 C 242 185 235 180 235 170 Z" fill="#FFFFFF" stroke="#0A2240" stroke-width="3"/>
+      <path d="M 244 165 C 240 165 236 170 238 175 C 242 178 248 175 250 170 Z" fill="#C59B27" stroke="#0A2240" stroke-width="2"/>
+      <circle cx="253" cy="163" r="2" fill="#0A2240" />
+      
+      <!-- 몸통 및 발톱 -->
+      <path d="M 238 182 L 262 182 L 258 215 L 242 215 Z" fill="#0A2240" />
+      <path d="M 240 212 L 232 225 M 245 215 L 242 228 M 255 215 L 258 228 M 260 212 L 268 225" stroke="#C59B27" stroke-width="4" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54">
+  <defs>
+    <!-- 깔끔하고 굵은 Noto Sans KR 폰트 적용 -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&amp;display=swap');
+      .metro-text-5 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 900;
+        font-size: 55px;
+        fill: #EE0022; /* 5호선 공식 빨간색 */
+      }
+    </style>
+  </defs>
+
+  <!-- 5호선 빨간색 링 -->
+  <!-- CSS border: 5px solid 비율에 맞춘 굵은 테두리와 흰색 배경 -->
+  <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#EE0022" stroke-width="10"/>
+
+  <!-- 아래로 쏠리지 않도록 y좌표를 69로 강제 고정하여 정중앙에 배치 -->
+  <text x="50" y="69" class="metro-text-5" text-anchor="middle">5</text>
+</svg>

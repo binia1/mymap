@@ -1,0 +1,11 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50,40 L250,40 L250,140 C250,220 150,280 150,280 C150,280 50,220 50,140 Z" fill="#DC143C" />
+  
+  <path d="M50,40 L250,40 L250,140 C250,220 150,280 150,280 C150,280 50,220 50,140 Z" fill="none" stroke="#FFD700" stroke-width="8" />
+  
+  <path d="M150,60 C180,60 200,80 200,110 C200,150 150,180 150,180 C150,180 100,150 100,110 C100,80 120,60 150,60 Z" fill="#FFFFFF" opacity="0.9" />
+  
+  <text x="150" y="210" font-family="serif" font-size="60" fill="#FFFFFF" text-anchor="middle" font-weight="bold">索水</text>
+  
+  <circle cx="150" cy="240" r="15" fill="#FFD700" />
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" width="100%" height="100%">
+  
+  <!-- 상단 산/삼각형 형태 (Lime Green) -->
+  <path 
+    d="M 130 530 
+       C 190 530, 250 490, 315 490 
+       C 375 490, 440 580, 500 580 
+       C 560 580, 625 490, 685 490 
+       C 750 490, 810 530, 870 530 
+       L 500 170 Z" 
+    fill="#9CDA24" 
+    stroke="#9CDA24" 
+    stroke-width="50" 
+    stroke-linejoin="round" 
+  />
+
+  <!-- 하단 물결/파도 형태 (Sky Blue) -->
+  <path 
+    d="M 100 685 
+       C 165 685, 235 645, 300 645 
+       C 365 645, 435 735, 500 735 
+       C 565 735, 635 645, 700 645 
+       C 765 645, 835 685, 900 685" 
+    fill="none" 
+    stroke="#25BAFF" 
+    stroke-width="70" 
+    stroke-linecap="round" 
+  />
+  
+</svg>

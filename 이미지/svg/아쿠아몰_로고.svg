@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="100%" height="100%">
+  <defs>
+    <!-- 폭포수 그라데이션 -->
+    <linearGradient id="streamLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#33AAFF" />
+      <stop offset="100%" stop-color="#00A3E0" />
+    </linearGradient>
+    <linearGradient id="streamRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00A3E0" />
+      <stop offset="100%" stop-color="#005BAC" />
+    </linearGradient>
+  </defs>
+
+  <!-- Water stream 'A' (천장에서 쏟아지는 A 모양의 물줄기) -->
+  <g transform="translate(10, 5)">
+    <!-- 왼쪽 물줄기 -->
+    <path d="M 100 25 Q 50 80 40 135 Q 50 145 60 135 Q 80 95 100 65 Z" fill="url(#streamLeft)"/>
+    <!-- 오른쪽 물줄기 -->
+    <path d="M 100 25 Q 150 80 160 135 Q 150 145 140 135 Q 120 95 100 65 Z" fill="url(#streamRight)"/>
+    <!-- A의 가로선 (물결) -->
+    <path d="M 60 100 Q 100 115 140 100 Q 145 108 140 112 Q 100 127 60 112 Z" fill="#00A3E0" opacity="0.8"/>
+    <!-- 튀어오르는 물방울 -->
+    <circle cx="100" cy="85" r="8" fill="#33AAFF" opacity="0.9"/>
+    
+    <!-- Sunshine Star (선샤인 모티브) -->
+    <path d="M 100 5 Q 100 20 115 20 Q 100 20 100 35 Q 100 20 85 20 Q 100 20 100 5 Z" fill="#FFCC11"/>
+  </g>
+
+  <!-- 메인 텍스트 -->
+  <text x="200" y="95" font-family="'Arial Black', 'Impact', sans-serif" font-size="64" font-weight="900" letter-spacing="-1">
+    <tspan fill="#00A3E0">AQUA</tspan> <tspan fill="#222222">MALL</tspan>
+  </text>
+  
+  <!-- 서브 텍스트 (한국어 명칭) -->
+  <text x="205" y="130" font-family="'Noto Sans KR', 'Malgun Gothic', sans-serif" font-size="20" font-weight="800" fill="#555555" letter-spacing="2">
+    창전 아쿠아 스퀘어
+  </text>
+  
+  <!-- 우측 프리미엄 데코레이션 선 -->
+  <rect x="420" y="121" width="125" height="2" fill="#00A3E0" />
+  <text x="420" y="112" font-family="'Arial', sans-serif" font-size="11" font-weight="bold" fill="#00A3E0" letter-spacing="1.5">
+    OCEAN PREMIUM
+  </text>
+</svg>

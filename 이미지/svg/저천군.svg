@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 680" width="100%" height="100%">
+  <!-- 배경 (흰색) -->
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+  <!-- 상단 삼각형 -->
+  <polygon points="250,15 142,162 358,162" 
+           fill="#DE2734" 
+           stroke="#DE2734" 
+           stroke-width="3" 
+           stroke-linejoin="round"/>
+
+  <!-- 중간 삼각형 -->
+  <polygon points="250,178 136,338 364,338" 
+           fill="#DE2734" 
+           stroke="#DE2734" 
+           stroke-width="3" 
+           stroke-linejoin="round"/>
+
+  <!-- 하단 삼각형 (중간 삼각형의 밑변 중앙 꼭짓점에 맞닿음) -->
+  <polygon points="250,338 152,452 348,452" 
+           fill="#DE2734" 
+           stroke="#DE2734" 
+           stroke-width="3" 
+           stroke-linejoin="round"/>
+
+  <!-- 하단 텍스트 -->
+  <text x="250" y="595" 
+        font-family="'Batang', 'Gungsuh', 'Noto Serif KR', 'Nanum Myeongjo', serif" 
+        font-size="110" 
+        font-weight="900" 
+        text-anchor="middle" 
+        fill="#111111" 
+        letter-spacing="10">저천군</text>
+</svg>
