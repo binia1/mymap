@@ -2613,4 +2613,14 @@ var defaultLandmarksData = [
 { name: "애니플러스 스테이지 고송", lat: -4067, lng: 16873, color: "#7799CC", type: "normal" },
 { name: "달빛 소극장", lat: -12868, lng: 16954, color: "#006699", type: "normal" },
 { name: "평당 빌리브 아트홀", lat: -15811, lng: 9081, color: "#DDBBFF", type: "normal" }
+,    {
+        "name": "습지중",
+        "lat": -26760,
+        "lng": 29676,
+        "type": "school",
+        "color": "#7799CC",
+        "image": "개새끼",
+        "phone": "079-344-1391",
+        "desc": "혁신중학교"
+    }
 ];

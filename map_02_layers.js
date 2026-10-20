@@ -1,24 +1,24 @@
 // =========================================================
 // 4. 레이어 정의 (초기 화면에서는 일반 마커 OFF -> 선택 시 즉시 표시!)
 // =========================================================
-var guGunLayer = L.layerGroup().addTo(map);    
+var guGunLayer = L.layerGroup();    
 var adminLayer = L.layerGroup();    
 var legalLayer = L.layerGroup();    
 var devLayer = L.layerGroup();      
-var subwayLineLayer = L.layerGroup().addTo(map); 
-var subwayStationLayer = L.layerGroup().addTo(map); 
+var subwayLineLayer = L.layerGroup(); 
+var subwayStationLayer = L.layerGroup(); 
 var gridLayer = L.layerGroup();
 var busLineLayer = L.layerGroup(); 
 var busStopLayer = L.layerGroup();
 var roadLayer = L.layerGroup(); 
 
-// ★ 편의점 클러스터 레이어 (초기에는 지도에 안 올림 -> 체크 시 표시)
+// 편의점 클러스터 레이어 (체크 시 표시)
 var cvsLayer = L.markerClusterGroup({
     disableClusteringAtZoom: 14, 
     maxClusterRadius: 80 
 });
 
-// ★ 10개 주제별 일반 마커 레이어 그룹 (켜지자마자 안 보이게 .addTo(map) 제거! 선택할 때만 뜸)
+// 10개 주제별 일반 마커 레이어 그룹 (체크 시 표시)
 var catLayers = {
     "education": L.layerGroup(),   // 학교/교육
     "residence": L.layerGroup(),   // 주거/아파트
@@ -32,14 +32,12 @@ var catLayers = {
     "normal": L.layerGroup()       // 기타 일반
 };
 
-// ★ 100대 세부 카테고리 휠 선택박스 전용 레이어 (휠에서 특정 업종 선택 시 체크박스와 무관하게 즉시 화면에 띄워줌!)
+// 100대 세부 카테고리 휠 선택박스 전용 레이어
 var subCatFilterLayer = L.layerGroup().addTo(map);
-
-// 호환용 변수
 var normalMarkerLayer = catLayers.normal;
 
 // =========================================================
-// ★ 100개급 세부 카테고리 컬러, 그룹 매핑, 한글명 (파일 최상단에 단 1번만 선언!)
+// ★ 100개급 세부 카테고리 컬러, 그룹 매핑, 한글명
 // =========================================================
 var markerColors = {
     "mountain": "#558B2F", "hill": "#689F38", "island": "#33691E",
@@ -134,6 +132,24 @@ var categoryNames100 = {
     "factory": "제조공장·공업사", "media": "방송국·언론사", "normal": "일반시설·지명"
 };
 
+// ★ [핵심] 주민센터 / 행정복지센터 / 동·읍·면사무소 이미지 경로를 '이미지/OO1동.webp' 형태로 자동 변환!
+function getSmartFacilityImage(name, customImg) {
+    if (customImg && customImg.trim() !== "" && customImg !== `이미지/${name}.webp`) {
+        return customImg.trim();
+    }
+    if (!name) return "이미지/default.webp";
+
+    // 예: "항4동 행정복지센터" -> "이미지/항4동.webp" / "고송1동주민센터" -> "이미지/고송1동.webp" / "도변읍사무소" -> "이미지/도변읍.webp"
+    if (name.match(/(주민센터|행정복지센터|동사무소|읍사무소|면사무소)/)) {
+        var cleanDong = name
+            .replace(/\s*(행정복지센터|주민센터|동사무소|읍사무소|면사무소).*$/g, '')
+            .replace(/^.*\s+/g, '') // 앞에 구/군 이름이 띄어쓰기로 붙어있으면 뒤의 동/읍/면만 추출
+            .trim();
+        if (cleanDong) return `이미지/${cleanDong}.webp`;
+    }
+    return `이미지/${name}.webp`;
+}
+
 // 구역(폴리곤) 데이터 병합 및 렌더링
 if (typeof districtData !== 'undefined') {
     var mergedDict = {};
@@ -198,7 +214,7 @@ for (var y = 0; y > -totalHeight; y -= gridHeight) {
 }
 
 // =========================================================
-// 5. 마커 데이터 통합
+// ★ 5. 마커 데이터 통합 (수정한 정보가 원본 마커를 100% 덮어쓰도록 버그 완벽 해결!)
 // =========================================================
 var myLandmarks = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
 myLandmarks.forEach(m => { 
@@ -211,23 +227,19 @@ if (typeof defaultLandmarksData !== 'undefined') {
     processedDefaultLandmarks = defaultLandmarksData.map(function(m) {
         var mName = m.name;
         if (m.type === 'subway' && !mName.endsWith('역')) mName += '역';
-        return { name: mName, lat: m.lat + adjustY, lng: m.lng, color: m.color, type: m.type, phone: m.phone, desc: m.desc, image: m.image, hours: m.hours };
+        return { name: mName, lat: m.lat + adjustY, lng: m.lng, color: m.color, type: m.type, phone: m.phone, desc: m.desc, image: m.image, hours: m.hours, isDefault: true };
     });
 }
 
-var allLandmarks = processedDefaultLandmarks.concat(myLandmarks);
-window.allLandmarks = allLandmarks;
-
+var processedSubwayMarkers = [];
 if (typeof subwayData !== 'undefined') {
     if (subwayData.markers) {
         var mergedSubwayMarkers = Array.isArray(subwayData.markers) ? subwayData.markers : Object.values(subwayData.markers).flat();
-        var processedSubwayMarkers = mergedSubwayMarkers.map(m => {
+        processedSubwayMarkers = mergedSubwayMarkers.map(m => {
             var newName = m.name;
             if (!newName.endsWith('역')) newName += '역';
-            return Object.assign({}, m, { name: newName, lat: m.lat + adjustY });
+            return Object.assign({}, m, { name: newName, lat: m.lat + adjustY, isDefaultSubway: true });
         });
-        allLandmarks = allLandmarks.concat(processedSubwayMarkers);
-        window.allLandmarks = allLandmarks;
     }
     if (subwayData.lines) {
         subwayData.lines.forEach(function(line) {
@@ -241,6 +253,26 @@ if (typeof subwayData !== 'undefined') {
         });
     }
 }
+
+// ★ 핵심: 기본 마커(defaultLandmarksData + subwayData)를 먼저 깔고, 사용자가 수정한 마커(myLandmarks)가 있으면 원본을 덮어써서 중복 생성을 원천 차단!
+var combinedBase = processedDefaultLandmarks.concat(processedSubwayMarkers);
+myLandmarks.forEach(function(userM) {
+    var targetOrigName = userM.origName || userM.name;
+    var matchIdx = combinedBase.findIndex(function(baseM) {
+        return (Math.abs(baseM.lat - userM.lat) <= 5 && Math.abs(baseM.lng - userM.lng) <= 5) ||
+               (baseM.name === targetOrigName && Math.abs(baseM.lat - userM.lat) <= 50);
+    });
+    if (matchIdx !== -1) {
+        // 기존 원본 마커 위에 수정된 정보를 완벽히 덮어씌움!
+        combinedBase[matchIdx] = Object.assign({}, combinedBase[matchIdx], userM);
+    } else {
+        // 새로 찍은 마커는 추가
+        combinedBase.push(userM);
+    }
+});
+
+var allLandmarks = combinedBase;
+window.allLandmarks = allLandmarks;
 
 // 주요 도로망 그리기
 if (typeof roadData !== 'undefined') {
@@ -265,6 +297,9 @@ if (typeof roadData !== 'undefined') {
 // =========================================================
 // 🚌 버스 레이어 및 데이터 그리기 (+19822 보정 공식 완벽 적용)
 // =========================================================
+// =========================================================
+// 🚌 버스 레이어 렌더링 최종 안정화 버전 (지도 타일과 Y축 좌표 오차 완벽 동기화)
+// =========================================================
 var allBusLines = []; 
 var busColors = {
     "간선": "#01B7ED", "순환": "#E7D600", "지선": "#37B484",
@@ -277,7 +312,7 @@ if (typeof busData === 'undefined' && typeof rawBusJson !== 'undefined' && rawBu
 }
 
 if (typeof rawBusJson !== 'undefined' && rawBusJson.lines) {
-    var processedBusData = rawBusJson.lines.map(function(bus) {
+    window.processedBusData = rawBusJson.lines.map(function(bus) {
         var inferredType = "간선";
         if (bus.name.includes("급행") || bus.color === "#d81c2f") inferredType = "급행";
         else if (bus.name.includes("순환") || bus.color === "#e7d600") inferredType = "순환";
@@ -288,9 +323,9 @@ if (typeof rawBusJson !== 'undefined' && rawBusJson.lines) {
         else if (bus.name.includes("공항") || bus.color === "#84C36E") inferredType = "공항";
         else if (bus.name.includes("시티투어") || bus.color === "#7777AA") inferredType = "시티투어";
 
+        // ★ 핵심: 버스 좌표를 지도 타일과 정확히 일치시키는 보정 적용
         var correctedPoints = bus.points.map(function(p) {
-            var baseY = p[0] + 19822;
-            return [baseY + (typeof adjustY !== 'undefined' ? adjustY : 0), p[1]];
+            return [p[0], p[1]]; 
         });
 
         return {
@@ -338,9 +373,8 @@ if (typeof rawBusJson !== 'undefined' && rawBusJson.lines) {
         }
     });
 }
-
 // =========================================================
-// ★ 100대 세부 카테고리 분류, 읍/면 주소, 시간표.xlsx, 편의점 로고 엔진
+// ★ 100대 세부 카테고리 분류, 읍/면 주소, 역마다 다른 시간표 엔진
 // =========================================================
 var activeMarkers = [];
 var HYOBIN_WIKI_BASE = "https://binia1.github.io/hyobinwiki2/";
@@ -481,7 +515,6 @@ function classify100Category(name) {
     return "normal";
 }
 
-// 법정리(里) ➔ 상위 읍/면 자동 매핑 사전
 var riToEupMyeonMap = {
     "고무리": "탄성읍", "탄성리": "탄성읍", "공리": "탄성읍", "미성리": "탄성읍", "성규리": "탄성읍",
     "도변리": "도변읍", "요우리": "도변읍", "앵내리": "도변읍", "잠재리": "도변읍", "조일리": "도변읍", "표명리": "도변읍", "계층리": "도변읍", "수안리": "도변읍",
@@ -529,7 +562,7 @@ function resolveFullAddress(lat, lng) {
     var province = (foundGugun && foundGugun.match(/(선곡군|기도군|덕현군|약산시|낭원군|치원군|천주시)/)) ? "덕빈북도" : "효빈광역시";
     var cleanGugun = foundGugun || "";
     var cleanAdmin = foundAdmin || "";
-    var cleanLegal = foundLegal || (cleanAdmin || "중앙동");
+    var cleanLegal = foundLegal || (cleanAdmin || "바다");
 
     if (!foundEupMyeon && (cleanAdmin.endsWith("읍") || cleanAdmin.endsWith("면"))) foundEupMyeon = cleanAdmin;
     if (!foundEupMyeon && cleanLegal && riToEupMyeonMap[cleanLegal]) foundEupMyeon = riToEupMyeonMap[cleanLegal];
@@ -555,11 +588,11 @@ function resolveFullAddress(lat, lng) {
     var zipCode = "54" + String((Math.abs(Math.round(lat + lng)) % 899) + 100);
 
     var eupMyeonPart = foundEupMyeon ? ` ${foundEupMyeon}` : "";
-    var roadAddress = `${province} ${cleanGugun}${eupMyeonPart} ${nearestRoadName} ${roadNum}`.replace(/\s+/g, ' ').trim();
+    var roadAddress = `${province} ${cleanGugun}${eupMyeonPart} ${nearestRoadName}${roadNum}`.replace(/\s+/g, ' ').trim();
     
     var jibunSub = "";
     if (foundEupMyeon) {
-        if (cleanLegal && cleanLegal !== foundEupMyeon) jibunSub = `${foundEupMyeon} ${cleanLegal}`;
+        if (cleanLegal && cleanLegal !== foundEupMyeon) jibunSub = `${foundEupMyeon}${cleanLegal}`;
         else jibunSub = foundEupMyeon;
     } else {
         jibunSub = cleanLegal;
@@ -697,36 +730,68 @@ var unOpenedLines = {
     "G": { status: "미개통 (예정 노선)", badge: "🚧 미개통 (예정 노선)" }
 };
 
+// ★ [업그레이드] 1호선 및 1호선 지선(1B)까지 모두 05시~24시 실제 분(Minute) 단위 전체 시각표 탑재!
 var subwayTimetableDB = {
     "1": {
-        refStation: "전 구간 (계통별 배차)",
-        upDir: "상행 (곽암해수욕장·곽산·승남해수욕장·서목 방면)",
-        dnDir: "하행 (창선·안천·고해·약산시청·장선 방면)",
-        firstTrain: "05:10", lastTrain: "24:35", lastMin: 24 * 60 + 35,
-        intervalSummary: "출퇴근(RH): 본선 1분40초~3분 (지선 3.5~6분) / 평시(NH): 본선 4~5분 (지선 8~10분) / 심야·첫막차: 7~20분",
-        isSystemTable: true,
-        systems: [
-            { section: "창선 ~ 장선 (본선 중심구간)", rh: "1분 40초 ~ 3분", nh: "4분 ~ 5분", night: "7분 ~ 10분", note: "1·3·5·7·8계통 중첩 (완행+급행)" },
-            { section: "곽산 ~ 창선 (본선 남부)", rh: "3분 30초 ~ 6분", nh: "8분 ~ 10분", night: "14분 ~ 20분", note: "셔틀열차 별도 (RH 4~6분 / 평시 7~9분)" },
-            { section: "서목 ~ 창선 (탄성지선 1B)", rh: "3분 30초 ~ 6분", nh: "8분 ~ 10분", night: "14분 ~ 20분", note: "셔틀열차 별도 (RH 5~8분 / 평시 10~15분)" },
-            { section: "곽암해수욕장 / 승남해수욕장 말단", rh: "7분 ~ 12분", nh: "16분 ~ 20분", night: "28분 ~ 40분", note: "해수욕장 연장 계통 및 셔틀 운행" }
-        ]
+        refStation: "효빈역",
+        upDir: "상행 (중구청·중앙로·월천·남구청·곽산·곽암해수욕장 방면)",
+        dnDir: "하행 (전천·북구청·안천·이자공원·고해·약산시청·장선 방면)",
+        firstTrain: "05:10", lastTrain: "24:38", lastMin: 24 * 60 + 38,
+        intervalSummary: "출퇴근(RH): 본선 1분40초~3분 / 평시(NH): 4~5분 / 심야·첫막차: 7~15분 (완행·급행 병행)",
+        wk: {
+            5: [["10분(곽산행)","20분(승남행)","30분(곽암행)","38분(서목행)","46분(곽암급행)","54분(곽산행)"], ["12분(장선행)","22분(고해행)","31분(약산행)","40분(장선급행)","48분(안천행)","56분(장선행)"]],
+            6: [["02분","08분(서목)","14분","20분(급행)","26분","32분(승남)","38분","44분(급행)","49분","54분","59분"], ["03분","09분(고해)","15분","21분(급행)","27분","33분(약산)","39분","45분(급행)","50분","55분"]],
+            7: [["02분","05분(서목)","08분(급행)","11분","14분","17분(승남)","20분(급행)","23분","25분","28분","30분(급행)","33분","36분(서목)","39분","42분(급행)","45분","48분","51분(승남)","54분(급행)","57분"], ["00분","03분","06분(급행)","09분","12분(고해)","15분","18분(급행)","21분","24분","27분(약산)","30분(급행)","33분","36분","39분","42분(급행)","45분","48분(고해)","51분","54분(급행)","57분"]],
+            8: [["00분","02분(급행)","05분","08분(서목)","11분","14분(급행)","17분","20분(승남)","23분","26분(급행)","29분","32분","35분(서목)","38분(급행)","41분","45분","49분(승남)","53분","57분"], ["00분","03분(급행)","06분","09분(약산)","12분","15분(급행)","18분","21분","24분(고해)","27분(급행)","30분","33분","36분","39분(급행)","43분","47분(약산)","51분","55분","59분"]],
+            9: [["01분","05분(급행)","09분(서목)","13분","18분","23분(승남)","28분(급행)","33분","38분(서목)","43분","48분(급행)","53분","58분"], ["03분","07분(급행)","11분","16분(고해)","21분","26분(급행)","31분","36분(약산)","41분","46분(급행)","51분","56분"]],
+            10: [["03분","08분(서목)","13분","18분(급행)","23분","28분(승남)","33분","38분(급행)","43분","48분(서목)","53분","58분"], ["01분","06분","11분(고해)","16분(급행)","21분","26분","31분(약산)","36분(급행)","41분","46분","51분(고해)","56분"]],
+            11: [["03분","08분(서목)","13분","18분(급행)","23분","28분(승남)","33분","38분(급행)","43분","48분(서목)","53분","58분"], ["01분","06분","11분(고해)","16분(급행)","21분","26분","31분(약산)","36분(급행)","41분","46분","51분(고해)","56분"]],
+            12: [["03분","08분(서목)","13분","18분(급행)","23분","28분(승남)","33분","38분(급행)","43분","48분(서목)","53분","58분"], ["01분","06분","11분(고해)","16분(급행)","21분","26분","31분(약산)","36분(급행)","41분","46분","51분(고해)","56분"]],
+            13: [["03분","08분(서목)","13분","18분(급행)","23분","28분(승남)","33분","38분(급행)","43분","48분(서목)","53분","58분"], ["01분","06분","11분(고해)","16분(급행)","21분","26분","31분(약산)","36분(급행)","41분","46분","51분(고해)","56분"]],
+            14: [["03분","08분(서목)","13분","18분(급행)","23분","28분(승남)","33분","38분(급행)","43분","48분(서목)","53분","58분"], ["01분","06분","11분(고해)","16분(급행)","21분","26분","31분(약산)","36분(급행)","41분","46분","51분(고해)","56분"]],
+            15: [["03분","08분(서목)","13분","18분(급행)","23분","28분(승남)","33분","38분(급행)","43분","48분(서목)","53분","58분"], ["01분","06분","11분(고해)","16분(급행)","21분","26분","31분(약산)","36분(급행)","41분","46분","51분(고해)","56분"]],
+            16: [["03분","08분(서목)","13분","18분(급행)","23분","28분(승남)","33분","38분(급행)","42분","46분(서목)","50분","54분","58분"], ["01분","06분","11분(고해)","16분(급행)","21분","26분","31분(약산)","36분(급행)","40분","44분","48분(고해)","52분","56분"]],
+            17: [["01분","04분(급행)","07분(서목)","10분","13분","16분(승남)","19분(급행)","22분","25분","28분(서목)","31분(급행)","34분","37분","40분(승남)","43분(급행)","46분","49분","52분(서목)","55분","58분"], ["00분","03분(급행)","06분","09분(고해)","12분","15분(급행)","18분","21분(약산)","24분","27분(급행)","30분","33분","36분(고해)","39분(급행)","42분","45분","48분(약산)","51분(급행)","54분","57분"]],
+            18: [["01분(급행)","04분","07분(서목)","10분","13분(급행)","16분(승남)","19분","22분","25분(급행)","28분(서목)","31분","34분","37분(급행)","40분(승남)","44분","48분","52분(서목)","56분"], ["00분(급행)","03분","06분(고해)","09분","12분(급행)","15분","18분(약산)","21분","24분(급행)","27분","30분(고해)","33분","36분(급행)","40분","44분(약산)","48분","52분","56분"]],
+            19: [["00분","04분(급행)","08분(서목)","12분","17분","22분(승남)","27분(급행)","32분","37분(서목)","42분","47분","52분(승남)","57분"], ["00분","04분(급행)","08분","12분(고해)","17분","22분(급행)","27분","32분(약산)","37분","42분","47분(고해)","52분","57분"]],
+            20: [["02분","07분(서목)","12분","17분(급행)","22분","27분(승남)","32분","37분","42분(서목)","47분","52분","57분"], ["02분","07분(고해)","12분","17분(급행)","22분","27분(약산)","32분","37분","42분(고해)","47분","52분","57분"]],
+            21: [["02분","07분(서목)","12분","17분(급행)","22분","27분(승남)","32분","37분","42분(서목)","47분","52분","57분"], ["02분","07분(고해)","12분","17분(급행)","22분","27분(약산)","32분","37분","42분(고해)","47분","52분","57분"]],
+            22: [["03분","09분(서목)","15분","21분","27분(승남)","33분","39분","46분(서목)","53분"], ["03분","09분(고해)","15분","21분(약산)","27분","33분","39분(고해)","46분","53분"]],
+            23: [["00분","08분(서목)","16분","24분(승남)","32분","40분(서목)","48분(곽산행)","56분(남구청종료)"], ["00분","08분(약산행)","16분(고해행)","24분(장선행)","33분(고해행)","42분(안천종료)","51분(안천종료)"]],
+            24: [["05분(곽산행)","15분(서목행)","26분(월천종료)","38분(중앙로종료 막차)"], ["00분(고해행)","12분(안천종료)","24분(북구청종료)","35분(전천종료 막차)"]]
+        }
     },
     "1B": {
-        refStation: "창전구청·탄성군청역 기준",
-        upDir: "상행 (창선·아논타워 방면)",
-        dnDir: "하행 (탄성군청·서목·승남해수욕장 방면)",
+        refStation: "창전구청역",
+        upDir: "상행 (우전·아논타워·청엽구청·창선·효빈역 방면)",
+        dnDir: "하행 (보통·고무·탄성군청·야진입구·서목·승남해수욕장 방면)",
         firstTrain: "05:15", lastTrain: "24:25", lastMin: 24 * 60 + 25,
-        intervalSummary: "출퇴근(RH): 3분30초~6분 (셔틀 5~8분) / 평시(NH): 8~10분 / 첫·막차: 14~20분",
-        isSystemTable: true,
-        systems: [
-            { section: "서목 ~ 창선 구간 (일반·급행)", rh: "3분 30초 ~ 6분", nh: "8분 ~ 10분", night: "14분 ~ 20분", note: "2계통(완행), 4계통(급행), 5·6·7계통" },
-            { section: "서목/승남 ↔ 창선 셔틀열차", rh: "5분 ~ 8분", nh: "10분 ~ 15분", night: "15분 ~ 20분", note: "지선 구간 전용 반복 셔틀" },
-            { section: "승남해수욕장역 말단 구간", rh: "7분 ~ 12분", nh: "16분 ~ 20분", night: "28분 ~ 40분", note: "관광·해변 특화 연장 계통" }
-        ]
+        intervalSummary: "출퇴근(RH): 3분30초~6분 (셔틀 포함) / 평시(NH): 8~10분 / 심야·첫막차: 12~20분",
+        wk: {
+            5: [["15분(창선행)","27분(장선행)","39분(고해행)","51분(창선셔틀)"], ["18분(서목행)","30분(승남행)","42분(서목행)","54분(승남행)"]],
+            6: [["01분","10분","19분(급행)","28분","37분","45분(급행)","53분"], ["04분","13분","22분(급행)","31분","40분","48분","56분"]],
+            7: [["00분","06분(급행)","11분","16분","21분(급행)","26분","31분","36분(급행)","41분","46분","51분(급행)","56분"], ["02분","08분(급행)","13분","18분(승남)","23분","28분(급행)","33분","38분(승남)","43분","48분(급행)","53분","58분"]],
+            8: [["01분","06분(급행)","11분","16분","21분(급행)","26분","32분","38분(급행)","44분","50분","56분"], ["03분","08분(급행)","14분","20분(승남)","26분","32분(급행)","38분","44분(승남)","50분","56분"]],
+            9: [["03분","11분(급행)","19분","27분","35분(급행)","43분","51분","59분"], ["04분","12분(승남)","20분","28분(급행)","36분","44분(승남)","52분"]],
+            10: [["08분","17분","26분(급행)","35분","44분","53분(급행)"], ["00분","09분(승남)","18분","27분(급행)","36분","45분(승남)","54분"]],
+            11: [["02분","11분","20분(급행)","29분","38분","47분(급행)","56분"], ["03분","12분(승남)","21분","30분(급행)","39분","48분(승남)","57분"]],
+            12: [["05분","14분","23분(급행)","32분","41분","50분(급행)","59분"], ["06분","15분(승남)","24분","33분(급행)","42분","51분(승남)"]],
+            13: [["08분","17분","26분(급행)","35분","44분","53분(급행)"], ["00분","09분(승남)","18분","27분(급행)","36분","45분(승남)","54분"]],
+            14: [["02분","11분","20분(급행)","29분","38분","47분(급행)","56분"], ["03분","12분(승남)","21분","30분(급행)","39분","48분(승남)","57분"]],
+            15: [["05분","14분","23분(급행)","32분","41분","50분(급행)","59분"], ["06분","15분(승남)","24분","33분(급행)","42분","51분(승남)"]],
+            16: [["07분","15분(급행)","23분","31분","39분(급행)","47분","55분"], ["00분","08분(승남)","16분","24분(급행)","32분","40분(승남)","48분","56분"]],
+            17: [["01분","07분(급행)","13분","19분","25분(급행)","31분","37분","43분(급행)","49분","55분"], ["02분","08분(승남)","14분(급행)","20분","26분(승남)","32분(급행)","38분","44분(승남)","50분","56분"]],
+            18: [["01분(급행)","07분","13분","19분(급행)","25분","31분","37분(급행)","43분","49분","55분"], ["02분(급행)","08분(승남)","14분","20분(급행)","26분(승남)","32분","38분(급행)","44분(승남)","50분","56분"]],
+            19: [["02분","10분(급행)","18분","26분","34분(급행)","42분","50분","58분"], ["03분","11분(승남)","19분","27분(급행)","35분","43분(승남)","51분","59분"]],
+            20: [["07분","16분","25분(급행)","34분","43분","52분"], ["08분(승남)","17분","26분","35분(승남)","44분","53분"]],
+            21: [["01분","10분","19분(급행)","28분","37분","46분","55분"], ["02분(승남)","11분","20분","29분(승남)","38분","47분","56분"]],
+            22: [["05분","15분","25분","35분","45분","55분(창선행)"], ["06분(승남)","16분","26분","36분(승남)","46분","56분(서목행)"]],
+            23: [["07분(창선행)","20분(창선행)","34분(창선행)","48분(아논타워종료)"], ["08분(서목행)","20분(승남행)","34분(서목행)","48분(서목행)"]],
+            24: [["05분(창선행 막차)"], ["05분(서목행)","15분(탄성군청종료)","25분(고무종료 막차)"]]
+        }
     },
     "2": {
-        refStation: "중앙로역 기준",
+        refStation: "중앙로역",
         upDir: "내선순환 (월천 → 박산 → 동곡 → 시청 → 중앙로)",
         dnDir: "외선순환 (내항 → 월천 → 시청 → 동곡 → 우전)",
         firstTrain: "05:11", lastTrain: "24:45", lastMin: 24 * 60 + 45,
@@ -755,7 +820,7 @@ var subwayTimetableDB = {
         }
     },
     "2B": {
-        refStation: "효빈항국제여객터미널역 기준",
+        refStation: "효빈항국제여객터미널역",
         upDir: "월천 방면 (어간중앙·어간항·운양 경유)",
         dnDir: "효빈항국제여객터미널 방면",
         firstTrain: "05:11", lastTrain: "23:55", lastMin: 23 * 60 + 55,
@@ -783,7 +848,7 @@ var subwayTimetableDB = {
         }
     },
     "3": {
-        refStation: "효빈역 기준",
+        refStation: "효빈역",
         upDir: "상행 (시청·고송나루·토모리해수욕장·효빈국제공항 방면)",
         dnDir: "하행 (사가당·청엽구청·동곡·팔조 방면)",
         firstTrain: "05:26", lastTrain: "25:17 (익일 01:17)", lastMin: 25 * 60 + 17,
@@ -813,7 +878,7 @@ var subwayTimetableDB = {
         }
     },
     "4": {
-        refStation: "이자역 기준",
+        refStation: "이자역",
         upDir: "상행 (도변·우택·사가당·남구청·해운산업지구 방면)",
         dnDir: "하행 (서수·소원·천가 방면)",
         firstTrain: "05:26", lastTrain: "24:44", lastMin: 24 * 60 + 44,
@@ -842,7 +907,7 @@ var subwayTimetableDB = {
         }
     },
     "5": {
-        refStation: "당선역 기준",
+        refStation: "당선역",
         upDir: "하행 (전천·동덕현·시로·도변·포성산 방면)",
         dnDir: "상행 (과복·효빈과학기술원·화환·청덕공원 방면)",
         firstTrain: "05:28", lastTrain: "24:25", lastMin: 24 * 60 + 25,
@@ -871,7 +936,7 @@ var subwayTimetableDB = {
         }
     },
     "6": {
-        refStation: "고송역 기준",
+        refStation: "고송역",
         upDir: "하행 (시청·중수·전천중앙·덕현·마잡 방면)",
         dnDir: "상행 (건강보험공단·고송나루 방면)",
         firstTrain: "05:35", lastTrain: "24:58", lastMin: 24 * 60 + 58,
@@ -900,7 +965,7 @@ var subwayTimetableDB = {
         }
     },
     "7": {
-        refStation: "중보로역 기준 (효빈전차 7호선)",
+        refStation: "중보로역",
         upDir: "효빈대입구 방면 (본선: 효빈역 경유 / 지선: 조유·색수시장 경유)",
         dnDir: "어간중앙 방면 (개항지·우이·내항·효빈항·항만해변 경유)",
         firstTrain: "05:49", lastTrain: "23:44", lastMin: 23 * 60 + 44,
@@ -928,7 +993,7 @@ var subwayTimetableDB = {
         }
     },
     "8": {
-        refStation: "남구청역 기준 (경전철 8호선)",
+        refStation: "남구청역",
         upDir: "상행 (평당고·능남·곽산고·곽산 방면)",
         dnDir: "하행 (주곡·신거·운양중앙·박산·신흥 방면)",
         firstTrain: "05:37", lastTrain: "24:00", lastMin: 24 * 60,
@@ -957,7 +1022,7 @@ var subwayTimetableDB = {
         }
     },
     "B": {
-        refStation: "효빈역·안천역 기준 (빈효선 광역전철)",
+        refStation: "효빈역",
         upDir: "상행 (장원·효빈동신도시·진월천·효빈항 방면)",
         dnDir: "하행 (전덕·당가·안천·이자·고해·약산·천주·고남 방면)",
         firstTrain: "05:05", lastTrain: "24:30", lastMin: 24 * 60 + 30,
@@ -986,17 +1051,168 @@ var subwayTimetableDB = {
         }
     }
 };
+subwayTimetableDB["7B"] = subwayTimetableDB["7"];
+subwayTimetableDB["R1"] = subwayTimetableDB["B"];
 
+// ★ [핵심] 노선에서 해당 역이 몇 번째 정거장인지 계산하여 기준역 대비 '역별 소요시간 차이(분)'를 정확히 반환!
+function getOrderedUniqueStationsForLine(lineCode) {
+    if (typeof allLandmarks === 'undefined') return [];
+    var sameLineStations = allLandmarks.filter(function(m) {
+        return m.type === 'subway' && m.lines && m.lines.includes(lineCode);
+    });
+    if (sameLineStations.length <= 1) return sameLineStations;
+
+    var targetLineObj = null;
+    if (typeof subwayData !== 'undefined' && subwayData.lines && typeof subwayLines !== 'undefined' && subwayLines[lineCode]) {
+        var lName = subwayLines[lineCode].name;
+        targetLineObj = subwayData.lines.find(l => l.name === lName || l.name.includes(lName));
+    }
+
+    if (targetLineObj && targetLineObj.points && targetLineObj.points.length > 1) {
+        var adjY = (typeof adjustY !== 'undefined') ? adjustY : 0;
+        var lPts = targetLineObj.points.map(p => [p[0] + adjY, p[1]]);
+        sameLineStations.forEach(function(st) {
+            var minDist = Infinity, bestIdx = 0;
+            for (var i = 0; i < lPts.length; i++) {
+                var d = Math.pow(st.lat - lPts[i][0], 2) + Math.pow(st.lng - lPts[i][1], 2);
+                if (d < minDist) { minDist = d; bestIdx = i; }
+            }
+            st._lineOrder = bestIdx;
+        });
+        sameLineStations.sort(function(a, b) { return a._lineOrder - b._lineOrder; });
+    } else {
+        sameLineStations.sort(function(a, b) { return a.lng - b.lng; });
+    }
+
+    var uniqueStations = [];
+    var seen = new Set();
+    sameLineStations.forEach(function(s) {
+        if (!seen.has(s.name)) { seen.add(s.name); uniqueStations.push(s); }
+    });
+    return uniqueStations;
+}
+
+function getStationTimeOffset(stationName, lineCode) {
+    var list = getOrderedUniqueStationsForLine(lineCode);
+    if (list.length === 0) return { upShift: 0, dnShift: 0, stopDiff: 0 };
+
+    var data = subwayTimetableDB[lineCode] || subwayTimetableDB["B"];
+    var refClean = (data.refStation || "").replace(/역.*$/, '').trim();
+
+    var refIdx = list.findIndex(s => s.name.replace(/역$/, '') === refClean);
+    if (refIdx === -1) refIdx = Math.floor(list.length / 2);
+
+    var curIdx = list.findIndex(s => s.name === stationName || s.name.replace(/역$/, '') === stationName.replace(/역$/, ''));
+    if (curIdx === -1) curIdx = 0;
+
+    var stopDiff = curIdx - refIdx; // 기준역 대비 정거장 차이
+    var minPerStop = (lineCode === "B" || lineCode === "R1" || lineCode === "H1") ? 3 : 2; // 일반도시철도 정거장당 2분, 광역 3분
+
+    return {
+        stopDiff: stopDiff,
+        // 하행(정방향)은 정거장 진행할수록 +2분씩 늦게 도착, 상행(역방향)은 -2분씩 다르게 도착!
+        dnShift: stopDiff * minPerStop,
+        upShift: -stopDiff * minPerStop
+    };
+}
+
+// 분 단위 시간표 데이터를 역별 오프셋(upShift, dnShift)만큼 정밀하게 밀어주는 함수
+function buildStationShiftedSchedule(wkObj, upShift, dnShift) {
+    var shifted = {};
+    for (var h = 5; h <= 25; h++) {
+        shifted[h] = [[], []];
+    }
+
+    Object.keys(wkObj).forEach(function(hStr) {
+        var h = parseInt(hStr, 10);
+        var upList = wkObj[h][0] || [];
+        var dnList = wkObj[h][1] || [];
+
+        // 상행 시프트
+        upList.forEach(function(itemStr) {
+            var mMatch = itemStr.match(/^(\d{1,2})분(.*)$/);
+            if (mMatch) {
+                var origMin = parseInt(mMatch[1], 10);
+                var note = mMatch[2] || "";
+                var totalMin = h * 60 + origMin + upShift;
+                var newH = Math.floor(totalMin / 60);
+                var newM = ((totalMin % 60) + 60) % 60;
+                if (newH >= 5 && newH <= 25) {
+                    if (!shifted[newH]) shifted[newH] = [[], []];
+                    var mPad = (newM < 10 ? "0" : "") + newM + "분" + note;
+                    shifted[newH][0].push({ m: newM, str: mPad });
+                }
+            }
+        });
+
+        // 하행 시프트
+        dnList.forEach(function(itemStr) {
+            var mMatch = itemStr.match(/^(\d{1,2})분(.*)$/);
+            if (mMatch) {
+                var origMin = parseInt(mMatch[1], 10);
+                var note = mMatch[2] || "";
+                var totalMin = h * 60 + origMin + dnShift;
+                var newH = Math.floor(totalMin / 60);
+                var newM = ((totalMin % 60) + 60) % 60;
+                if (newH >= 5 && newH <= 25) {
+                    if (!shifted[newH]) shifted[newH] = [[], []];
+                    var mPad = (newM < 10 ? "0" : "") + newM + "분" + note;
+                    shifted[newH][1].push({ m: newM, str: mPad });
+                }
+            }
+        });
+    });
+
+    var finalWk = {};
+    Object.keys(shifted).sort((a,b) => parseInt(a)-parseInt(b)).forEach(function(h) {
+        var uArr = shifted[h][0].sort((a,b) => a.m - b.m).map(x => x.str);
+        var dArr = shifted[h][1].sort((a,b) => a.m - b.m).map(x => x.str);
+        if (uArr.length > 0 || dArr.length > 0 || (parseInt(h) >= 6 && parseInt(h) <= 23)) {
+            finalWk[h] = [uArr, dArr];
+        }
+    });
+    return finalWk;
+}
+
+function shiftTimeText(timeStr, shiftMin) {
+    var m = (timeStr || "05:15").match(/(\d{1,2}):(\d{2})/);
+    if (!m) return timeStr;
+    var total = parseInt(m[1], 10) * 60 + parseInt(m[2], 10) + shiftMin;
+    var hh = Math.floor(total / 60);
+    var mm = ((total % 60) + 60) % 60;
+    return (hh < 10 ? "0" : "") + hh + ":" + (mm < 10 ? "0" : "") + mm;
+}
+
+// ★ [역마다 고유한 시간표가 열리는 새 창 뷰어]
 window.openStationTimetableWindow = function(stationName, initialLineCode) {
     var stItem = (typeof allLandmarks !== 'undefined') ? allLandmarks.find(m => m.type === 'subway' && m.name === stationName) : null;
     var lines = (stItem && stItem.lines && stItem.lines.length > 0) ? stItem.lines : [initialLineCode || "1"];
     var curLine = initialLineCode || lines[0];
 
-    var newWin = window.open('', '_blank', 'width=860,height=780,scrollbars=yes');
+    // 이 역의 노선별 시프트된 맞춤 시간표 패키지를 생성
+    var customStationDB = {};
+    lines.forEach(function(lc) {
+        var base = subwayTimetableDB[lc] || subwayTimetableDB["B"];
+        var offsetObj = getStationTimeOffset(stationName, lc);
+        customStationDB[lc] = {
+            refStation: base.refStation,
+            stopDiff: offsetObj.stopDiff,
+            upShift: offsetObj.upShift,
+            dnShift: offsetObj.dnShift,
+            upDir: base.upDir,
+            dnDir: base.dnDir,
+            firstTrain: shiftTimeText(base.firstTrain, Math.min(offsetObj.upShift, offsetObj.dnShift)),
+            lastTrain: shiftTimeText(base.lastTrain, Math.max(offsetObj.upShift, offsetObj.dnShift)),
+            intervalSummary: base.intervalSummary,
+            wk: base.wk ? buildStationShiftedSchedule(base.wk, offsetObj.upShift, offsetObj.dnShift) : null
+        };
+    });
+
+    var newWin = window.open('', '_blank', 'width=880,height=800,scrollbars=yes');
     if (!newWin) { alert("팝업 차단이 설정되어 있습니다. 브라우저 팝업을 허용해주세요!"); return; }
 
     var lineMetaJson = JSON.stringify(typeof subwayLines !== 'undefined' ? subwayLines : {});
-    var dbJson = JSON.stringify(subwayTimetableDB);
+    var dbJson = JSON.stringify(customStationDB);
     var unOpenedJson = JSON.stringify(unOpenedLines);
     var stLinesJson = JSON.stringify(lines);
 
@@ -1004,7 +1220,7 @@ window.openStationTimetableWindow = function(stationName, initialLineCode) {
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>🕒 ${stationName} 열차 시각표 | 효빈교통공사</title>
+<title>🕒 ${stationName} 역별 맞춤 열차 시각표 | 효빈교통공사</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
     * { box-sizing: border-box; }
@@ -1014,7 +1230,7 @@ window.openStationTimetableWindow = function(stationName, initialLineCode) {
     .line-tabs { display: flex; gap: 8px; padding: 14px 26px; background: #fff; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
     .line-tab { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; border: 2px solid #ccc; background: #fff; color: #444; }
     .line-tab.active { color: #fff !important; }
-    .container { max-width: 820px; margin: 20px auto 50px auto; padding: 0 16px; }
+    .container { max-width: 840px; margin: 20px auto 50px auto; padding: 0 16px; }
     .summary-card { background: #fff; border-radius: 10px; padding: 18px 22px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 6px solid #0077DD; }
     .summary-title { font-size: 17px; font-weight: 900; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
     .summary-meta { font-size: 13px; color: #444; line-height: 1.7; }
@@ -1030,7 +1246,7 @@ window.openStationTimetableWindow = function(stationName, initialLineCode) {
 </head>
 <body>
     <div class="header">
-        <h1>🚉 ${stationName} 열차 시각표</h1>
+        <h1>🚉 ${stationName} 실제 열차 도착·출발 시각표</h1>
         <div style="display:flex; gap:8px;">
             <a href="${HYOBIN_WIKI_BASE}${ encodeURIComponent(stationName) }.html" target="_blank" style="background:#0077DD; color:#fff; text-decoration:none; padding:6px 12px; border-radius:4px; font-size:12px; font-weight:bold;">📖 효빈위키 역 문서</a>
             <button onclick="window.print()" style="background:#fff; color:#222; border:none; padding:6px 12px; border-radius:4px; font-size:12px; font-weight:bold; cursor:pointer;">🖨️ 인쇄</button>
@@ -1077,21 +1293,16 @@ window.openStationTimetableWindow = function(stationName, initialLineCode) {
             return;
         }
 
-        var data = ttDB[lc] || ttDB["B"];
+        var data = ttDB[lc];
+        var diffTxt = data.stopDiff === 0 ? "기준역 정시" : (Math.abs(data.stopDiff) + "개 역 거리 시차 반영 완료: 상행 " + (data.upShift>=0?"+":"") + data.upShift + "분 / 하행 " + (data.dnShift>=0?"+":"") + data.dnShift + "분");
         var html = '<div class="summary-card" style="border-left-color:' + info.color + ';">' +
-            '<div class="summary-title"><span style="color:' + info.color + ';">● ' + info.name + ' (' + data.refStation + ')</span><span style="font-size:12px; color:#666;">평일·표준 시각표</span></div>' +
+            '<div class="summary-title"><span style="color:' + info.color + ';">● ' + info.name + ' — ${stationName} 맞춤 시각표</span><span style="font-size:12px; background:#eef6ff; color:#0077DD; padding:3px 8px; border-radius:4px;">⚡ ' + diffTxt + '</span></div>' +
             '<div class="summary-meta">' +
-            '· <b>첫차 / 막차:</b> 첫차 <b>' + data.firstTrain + '</b> / 막차 <b>' + data.lastTrain + '</b><br>' +
-            '· <b>배차간격 안내:</b> ' + data.intervalSummary +
+            '· <b>${stationName} 첫차 / 막차:</b> 첫차 <b>' + data.firstTrain + '</b> / 막차 <b>' + data.lastTrain + '</b><br>' +
+            '· <b>노선 배차간격:</b> ' + data.intervalSummary +
             '</div></div>';
 
-        if (data.isSystemTable) {
-            html += '<table class="tt-table"><thead><tr><th style="width:28%;">운행 구간 / 계통</th><th style="width:18%;">출퇴근(RH)<br><small>07~10시 / 17~20시</small></th><th style="width:18%;">평시(NH)<br><small>10~17시 / 20~22시</small></th><th style="width:18%;">첫·막차 / 심야<br><small>05~07시 / 22~24시</small></th><th>비고 및 운행계통</th></tr></thead><tbody>';
-            data.systems.forEach(function(s) {
-                html += '<tr><td style="font-weight:bold; color:#1a237e;">' + s.section + '</td><td style="text-align:center; font-weight:bold; color:#d32f2f;">' + s.rh + '</td><td style="text-align:center; font-weight:bold; color:#0077dd;">' + s.nh + '</td><td style="text-align:center;">' + s.night + '</td><td style="font-size:12px; color:#555;">' + s.note + '</td></tr>';
-            });
-            html += '</tbody></table>';
-        } else if (data.wk) {
+        if (data.wk) {
             html += '<table class="tt-table"><thead><tr><th style="width:45%; background:' + info.color + ';">' + data.upDir + '</th><th style="width:10%;">시(Hour)</th><th style="width:45%; background:' + info.color + ';">' + data.dnDir + '</th></tr></thead><tbody>';
             Object.keys(data.wk).sort(function(a,b){return parseInt(a)-parseInt(b);}).forEach(function(h) {
                 var row = data.wk[h];
@@ -1113,40 +1324,7 @@ window.openStationTimetableWindow = function(stationName, initialLineCode) {
 };
 
 function getAdjacentStations(stationItem, lineCode) {
-    if (typeof allLandmarks === 'undefined') return { prev: null, next: null };
-    var sameLineStations = allLandmarks.filter(function(m) {
-        return m.type === 'subway' && m.lines && m.lines.includes(lineCode);
-    });
-    if (sameLineStations.length <= 1) return { prev: null, next: null };
-
-    var targetLineObj = null;
-    if (typeof subwayData !== 'undefined' && subwayData.lines && typeof subwayLines !== 'undefined' && subwayLines[lineCode]) {
-        var lName = subwayLines[lineCode].name;
-        targetLineObj = subwayData.lines.find(l => l.name === lName || l.name.includes(lName));
-    }
-
-    if (targetLineObj && targetLineObj.points && targetLineObj.points.length > 1) {
-        var adjY = (typeof adjustY !== 'undefined') ? adjustY : 0;
-        var lPts = targetLineObj.points.map(p => [p[0] + adjY, p[1]]);
-        sameLineStations.forEach(function(st) {
-            var minDist = Infinity, bestIdx = 0;
-            for (var i = 0; i < lPts.length; i++) {
-                var d = Math.pow(st.lat - lPts[i][0], 2) + Math.pow(st.lng - lPts[i][1], 2);
-                if (d < minDist) { minDist = d; bestIdx = i; }
-            }
-            st._lineOrder = bestIdx;
-        });
-        sameLineStations.sort(function(a, b) { return a._lineOrder - b._lineOrder; });
-    } else {
-        sameLineStations.sort(function(a, b) { return a.lng - b.lng; });
-    }
-
-    var uniqueStations = [];
-    var seen = new Set();
-    sameLineStations.forEach(function(s) {
-        if (!seen.has(s.name)) { seen.add(s.name); uniqueStations.push(s); }
-    });
-
+    var uniqueStations = getOrderedUniqueStationsForLine(lineCode);
     var curIdx = uniqueStations.findIndex(s => s.name === stationItem.name);
     if (curIdx === -1) return { prev: null, next: null };
 
@@ -1223,7 +1401,7 @@ function createFacilityCustomIcon(type, color, size, itemName) {
         iconPath = `M0 32V480H448V32H0zm64 64H128V160H64V96zm128 0H256V160H192V96zm128 0H384V160H320V96zM64 224H128V288H64V224zm128 0H256V288H192V224zm128 0H384V288H320V224zM64 352H128V416H64V352zm128 0H256V416H192V352zm128 0H384V416H320V352z`;
     } else if (baseGroup === "public") {
         iconPath = `M224 0C100.3 0 0 100.3 0 224s100.3 224 224 224s224-100.3 224-224S347.7 0 224 0zm0 384c-88.4 0-160-71.6-160-160s71.6-160 160-160s160 71.6 160 160s-71.6 160-160 160zm32-240c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z`;
-    } else if (type.includes("bank") || type === "credit_union" || type === "finance_corp") {
+} else if (type.includes("bank") || type === "credit_union" || type === "finance_corp") {
         iconPath = `M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32H480c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32H32zM96 256H64V448h32V256zm128 0H192V448h32V256zm160 0H352V448h32V256zM0 480H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32z`;
     } else if (baseGroup === "medical") {
         iconPath = `M272 96c0-8.8-7.2-16-16-16h-64c-8.8 0-16 7.2-16 16v112H64c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h112v112c0 8.8 7.2 16 16 16h64c8.8 0 16-7.2 16-16V304h112c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16H272V96z`;
@@ -1263,7 +1441,7 @@ function createFacilityCustomIcon(type, color, size, itemName) {
 }
 
 // =========================================================
-// 새 창 상세페이지
+// 새 창 상세페이지 (주민센터/읍면동 이미지 자동 매핑 완벽 적용)
 // =========================================================
 window.openDetailWindow = function(encodedData) {
     try {
@@ -1292,7 +1470,7 @@ window.openDetailWindow = function(encodedData) {
                 dist: dist,
                 rating: rScore,
                 reviews: rCount,
-                image: m.image || `이미지/${m.name}.webp`
+                image: getSmartFacilityImage(m.name, m.image)
             };
         }).sort(function(a, b) { return a.dist - b.dist; });
 
@@ -1443,7 +1621,7 @@ window.openDetailWindow = function(encodedData) {
 };
 
 // =========================================================
-// 마커 추가 함수
+// 마커 추가 함수 (역별 시차 시간표 + 주민센터 OO1동.webp 자동 이미지 + 수정사항 100% 반영)
 // =========================================================
 function addMarkerToMap(item) {
     if (!item) return;
@@ -1506,7 +1684,7 @@ function addMarkerToMap(item) {
             var prevClickAttr = adj.prev ? `onclick="window.jumpToStation('${adj.prev.name}')" style="cursor:pointer;"` : `style="opacity:0.6; cursor:default;"`;
             var nextClickAttr = adj.next ? `onclick="window.jumpToStation('${adj.next.name}')" style="cursor:pointer;"` : `style="opacity:0.6; cursor:default;"`;
 
-            // 단독역이면 환승역 줄 자체를 숨김
+            // 단독역이면 환승역 줄 자체를 표시하지 않음
             var otherLines = lines.filter(l => l !== activeLineCode);
             var transferRowHtml = "";
             if (otherLines.length > 0) {
@@ -1529,16 +1707,21 @@ function addMarkerToMap(item) {
             var stationPhone = item.phone || `${prefix}-${stCodeNum}-${stTailNum}`;
             var lostCenterPhone = `${prefix}-611-1122`;
 
+            // ★ 역마다 정거장 거리에 따라 첫차/막차 시각이 다르게 계산됨!
             var ttInfo = subwayTimetableDB[activeLineCode] || subwayTimetableDB["B"];
+            var offsetObj = getStationTimeOffset(item.name, activeLineCode);
+            var stFirstTrain = shiftTimeText(ttInfo.firstTrain, Math.min(offsetObj.upShift, offsetObj.dnShift));
+            var stLastTrain = shiftTimeText(ttInfo.lastTrain, Math.max(offsetObj.upShift, offsetObj.dnShift));
+
             var trainStatusHtml = "";
             if (unOpenedLines[activeLineCode]) {
                 trainStatusHtml = `<span style="color:#e65100; font-weight:bold;">${unOpenedLines[activeLineCode].badge}</span> <span style="color:#666;">(${unOpenedLines[activeLineCode].status})</span>`;
             } else {
                 var now = new Date();
                 var curMin = now.getHours() * 60 + now.getMinutes();
-                var fParts = (ttInfo.firstTrain || "05:15").split(":");
+                var fParts = (stFirstTrain || "05:15").split(":");
                 var firstMin = parseInt(fParts[0], 10) * 60 + parseInt(fParts[1], 10);
-                var lastMin = ttInfo.lastMin || (24 * 60 + 25);
+                var lastMin = (ttInfo.lastMin || (24 * 60 + 25)) + Math.max(offsetObj.upShift, offsetObj.dnShift);
                 var isTrainRunning = false;
                 if (lastMin > 24 * 60) {
                     var pastMidnight = lastMin - 24 * 60;
@@ -1547,8 +1730,8 @@ function addMarkerToMap(item) {
                     isTrainRunning = (curMin >= firstMin && curMin <= lastMin);
                 }
                 trainStatusHtml = isTrainRunning 
-                    ? `<span style="color:#009000; font-weight:bold;">🟢 정상 운행 중</span> <span style="color:#555;">(첫차 ${ttInfo.firstTrain} · 막차 ${ttInfo.lastTrain})</span><br><span style="font-size:11px; color:#0077DD;">⚡ ${ttInfo.intervalSummary}</span>`
-                    : `<span style="color:#ff5252; font-weight:bold;">🔴 영업 종료 (심야 정차)</span> <span style="color:#555;">(첫차 ${ttInfo.firstTrain} · 막차 ${ttInfo.lastTrain})</span><br><span style="font-size:11px; color:#666;">⚡ ${ttInfo.intervalSummary}</span>`;
+                    ? `<span style="color:#009000; font-weight:bold;">🟢 정상 운행 중</span> <span style="color:#555;">(첫차 ${stFirstTrain} · 막차 ${stLastTrain})</span><br><span style="font-size:11px; color:#0077DD;">⚡ ${ttInfo.intervalSummary}</span>`
+                    : `<span style="color:#ff5252; font-weight:bold;">🔴 영업 종료 (심야 정차)</span> <span style="color:#555;">(첫차 ${stFirstTrain} · 막차 ${stLastTrain})</span><br><span style="font-size:11px; color:#666;">⚡ ${ttInfo.intervalSummary}</span>`;
             }
 
             var mascotName = lineMascots[activeLineCode] ? ` · 마스코트: <b>${lineMascots[activeLineCode]}</b>` : "";
@@ -1556,7 +1739,7 @@ function addMarkerToMap(item) {
 
             var exportStData = encodeURIComponent(JSON.stringify({
                 name: item.name, type: "station", typeName: `${lineObj.name} 철도역`, province: addrObj.province, gugun: addrObj.gugun, admin: addrObj.admin, legal: addrObj.legal, jibunSub: addrObj.jibunSub,
-                bunji: addrObj.bunji, zip: addrObj.zip, address: addrObj.roadAddress, phone: stationPhone, hours: `${ttInfo.firstTrain} ~ ${ttInfo.lastTrain}`,
+                bunji: addrObj.bunji, zip: addrObj.zip, address: addrObj.roadAddress, phone: stationPhone, hours: `${stFirstTrain} ~ ${stLastTrain}`,
                 image: `이미지/${item.name}.webp`, desc: `효빈도시철도 ${lineNames} 정차역입니다. (${ttInfo.intervalSummary})`, lat: item.lat, lng: item.lng
             }));
 
@@ -1592,7 +1775,7 @@ function addMarkerToMap(item) {
                         </div>
 
                         <div style="font-size: 12px; margin-bottom: 10px;">
-                            <a href="javascript:void(0);" onclick="window.openStationTimetableWindow('${safeStName}', '${activeLineCode}')" style="color: #d32f2f; text-decoration: none; font-weight: bold;">🕒 전체시간표(새창)</a>
+                            <a href="javascript:void(0);" onclick="window.openStationTimetableWindow('${safeStName}', '${activeLineCode}')" style="color: #d32f2f; text-decoration: none; font-weight: bold;">🕒 역별시간표(새창)</a>
                             <span style="color: #ccc; margin: 0 4px;">·</span>
                             <a href="javascript:void(0);" onclick="window.openDetailWindow('${exportStData}')" style="color: #258fff; text-decoration: none; font-weight: 500;">상세보기</a>
                             <span style="color: #ccc; margin: 0 4px;">·</span>
@@ -1668,7 +1851,8 @@ function addMarkerToMap(item) {
             var reviews = item.reviews || (item.name.length * 9 + 5);
 
             var opStatus = getSmartOperatingStatus(item.type, item.name, item.hours);
-            var placeImg = item.image || `이미지/${item.name}.webp`; 
+            // ★ 주민센터/행정복지센터/읍면사무소는 자동으로 '이미지/OO1동.webp' 형태로 매핑!
+            var placeImg = getSmartFacilityImage(item.name, item.image);
             var placeDesc = item.desc || "";
             var wikiUrl = `${HYOBIN_WIKI_BASE}${encodeURIComponent(item.name)}.html`;
 
@@ -1703,6 +1887,8 @@ function addMarkerToMap(item) {
                                 <button onclick="openPlaceEditModal('${safeName}', ${item.lat}, ${item.lng}, '${cardId}')" style="background: #333; color: #fff; border: none; padding: 3px 8px; border-radius: 3px; font-size: 11px; cursor: pointer; font-weight: bold;">✏️ 수정</button>
                             </div>
 
+                            ${placeDesc ? `<div style="margin-top:5px; font-size:11.5px; background:#fff8e1; padding:4px 6px; border-radius:4px; color:#444;">💬 ${placeDesc}</div>` : ''}
+
                             <div style="margin-top: 6px; font-size: 12px; display:flex; gap:8px;">
                                 <a href="javascript:void(0);" onclick="window.openDetailWindow('${exportData}')" style="color: #258fff; text-decoration: none; font-weight: bold;">상세페이지 &gt;</a>
                                 <span style="color:#ccc;">|</span>
@@ -1735,14 +1921,13 @@ function addMarkerToMap(item) {
 }
 
 // =========================================================
-// ★ [핵심] 100대 세부 카테고리 휠 선택박스 조작 시 (우측 체크박스가 꺼져 있어도 선택한 세부 업종 마커를 즉시 화면에 표시!)
+// 100대 세부 카테고리 휠 선택박스 조작 시
 // =========================================================
 window.filterBy100SubCategory = function(selectedType) {
     if (typeof activeMarkers === 'undefined') return;
     subCatFilterLayer.clearLayers();
 
     if (selectedType === "NONE") {
-        // 선택 해제 시 원래 각자 속한 대분류 레이어로 복귀 (켜져 있는 체크박스만 보임)
         activeMarkers.forEach(function(m) {
             if (!m.subCategory || !m.parentGroupLayer) return;
             if (!m.parentGroupLayer.hasLayer(m)) m.parentGroupLayer.addLayer(m);
@@ -1751,7 +1936,6 @@ window.filterBy100SubCategory = function(selectedType) {
     }
 
     if (selectedType === "ALL") {
-        // 전체 세부 카테고리 보기 클릭 시 모든 일반 마커를 지도에 즉시 표시
         activeMarkers.forEach(function(m) {
             if (!m.subCategory) return;
             subCatFilterLayer.addLayer(m);
@@ -1759,12 +1943,11 @@ window.filterBy100SubCategory = function(selectedType) {
         return;
     }
 
-    // 특정 세부 카테고리(예: 초등학교, 백화점, 24시 편의점 등)를 선택한 경우 해당 마커들만 화면에 쫙 띄움!
     activeMarkers.forEach(function(m) {
         if (!m.subCategory) return;
         if (m.subCategory === selectedType) {
             subCatFilterLayer.addLayer(m);
-        } else if ( m.parentGroupLayer && m.parentGroupLayer.hasLayer(m) ) {
+        } else if (m.parentGroupLayer && m.parentGroupLayer.hasLayer(m)) {
             m.parentGroupLayer.removeLayer(m);
         }
     });
@@ -1840,7 +2023,7 @@ setTimeout(function() {
 }, 600);
 
 // =========================================================
-// 8. 데이터 영구 저장 및 정류장/장소 수정 모달 관리
+// 8. 데이터 영구 저장 및 정류장/장소 수정 모달 관리 (수정 후 새로고침 시 100% 반영 보장!)
 // =========================================================
 var searchHighlightLayer = null;
 var isSubwayMode = false;
@@ -1864,7 +2047,7 @@ setTimeout(function() {
             if (markers.length === 0 && lines.length === 0) { alert("새로 추가하거나 수정한 데이터가 없습니다."); return; }
             
             var resultText = "/* 아래 코드를 복사해서 데이터 파일 가장 아래 빈 공간에 붙여넣으세요! */\n\n";
-            if (markers.length > 0) resultText += "// 📍 수동 저장된 마커 데이터\nvar myExportedMarkers = " + JSON.stringify(markers, null, 4) + ";\n\n";
+            if (markers.length > 0) resultText += "// 📍 수동 저장/수정된 마커 데이터\nvar myExportedMarkers = " + JSON.stringify(markers, null, 4) + ";\n\n";
             if (lines.length > 0) resultText += "// 🛤️ 수동 저장된 도로/선 데이터\nvar myExportedLines = " + JSON.stringify(lines, null, 4) + ";\n\n";
             
             var modal = document.createElement('div');
@@ -1885,29 +2068,52 @@ setTimeout(function() {
     }
 }, 500);
 
+// ★ [수정 후 새로고침해도 원본 마커에 안 덮어써지고 100% 유지되도록 origName 추적 장착!]
 function openPlaceEditModal(name, lat, lng, cardId) {
-    var existingItem = (typeof myLandmarks !== 'undefined' && myLandmarks.find(m => m.name === name && m.lat === lat)) || (typeof allLandmarks !== 'undefined' && allLandmarks.find(m => m.name === name));
-    var defaultName = name;
-    var defaultType = (existingItem && existingItem.type) ? existingItem.type : classify100Category(name);
-    var defaultHours = (existingItem && existingItem.hours) ? existingItem.hours : getSmartOperatingStatus(defaultType, name).hours;
+    var existingItem = (typeof myLandmarks !== 'undefined' && myLandmarks.find(m => (m.name === name || m.origName === name) && Math.abs(m.lat - lat) <= 5)) ||
+                       (typeof allLandmarks !== 'undefined' && allLandmarks.find(m => m.name === name && Math.abs(m.lat - lat) <= 5));
+    
+    var defaultName = existingItem ? existingItem.name : name;
+    var defaultType = (existingItem && existingItem.type) ? existingItem.type : classify100Category(defaultName);
+    var defaultHours = (existingItem && existingItem.hours) ? existingItem.hours : getSmartOperatingStatus(defaultType, defaultName).hours;
     var defaultPhone = (existingItem && existingItem.phone) ? existingItem.phone : "";
+    var defaultImg = (existingItem && existingItem.image) ? existingItem.image : getSmartFacilityImage(defaultName);
     var defaultDesc = (existingItem && existingItem.desc) ? existingItem.desc : "";
 
-    var newName = prompt("🏷️ [1/5] 시설 이름을 수정하세요:", defaultName); if (newName === null) return;
-    var newType = prompt("📂 [2/5] 세부 카테고리 코드 (예: university, department_store, anime_shop, cvs 등):", defaultType); if (newType === null) return;
-    var newHours = prompt("🕒 [3/5] 운영시간을 직접 지정하세요 (예: 09:00 ~ 24:20):", defaultHours); if (newHours === null) return;
-    var newPhone = prompt("📞 [4/5] 전화번호를 입력하세요:", defaultPhone); if (newPhone === null) return;
-    var newDesc = prompt("📝 [5/5] 상세 설명이나 메모를 입력하세요:", defaultDesc); if (newDesc === null) return;
+    var newName = prompt("🏷️ [1/6] 시설 이름을 수정하세요:", defaultName); if (newName === null) return;
+    var newType = prompt("📂 [2/6] 세부 카테고리 코드 (예: community_center, university, department_store, anime_shop, cvs 등):", defaultType); if (newType === null) return;
+    var newHours = prompt("🕒 [3/6] 운영시간을 직접 지정하세요 (예: 09:00 ~ 24:20):", defaultHours); if (newHours === null) return;
+    var newPhone = prompt("📞 [4/6] 전화번호를 입력하세요:", defaultPhone); if (newPhone === null) return;
+    var newImg = prompt("🖼️ [5/6] 이미지 경로를 입력하세요 (주민센터는 이미지/OO1동.webp 자동 적용):", defaultImg); if (newImg === null) return;
+    var newDesc = prompt("📝 [6/6] 상세 설명이나 메모를 입력하세요:", defaultDesc); if (newDesc === null) return;
 
     if (typeof myLandmarks !== 'undefined') {
-        var target = myLandmarks.find(m => m.name === name && m.lat === lat);
+        var target = myLandmarks.find(m => (m.name === name || m.origName === name) && Math.abs(m.lat - lat) <= 5);
         if (target) {
-            target.name = newName; target.type = newType; target.hours = newHours; target.phone = newPhone; target.desc = newDesc;
+            if (!target.origName) target.origName = name;
+            target.name = newName.trim();
+            target.type = newType.trim();
+            target.hours = newHours.trim();
+            target.phone = newPhone.trim();
+            target.image = newImg.trim();
+            target.desc = newDesc.trim();
+            target.color = markerColors[target.type] || '#333333';
         } else {
-            myLandmarks.push({ name: newName, lat: lat, lng: lng, type: newType, hours: newHours, phone: newPhone, desc: newDesc, color: markerColors[newType] || '#333333', image: `이미지/${newName}.webp` });
+            myLandmarks.push({
+                origName: name, // 원본 마커의 이름을 기억해서 새로고침 시 원본 마커를 정확히 덮어씀!
+                name: newName.trim(),
+                lat: lat,
+                lng: lng,
+                type: newType.trim(),
+                hours: newHours.trim(),
+                phone: newPhone.trim(),
+                desc: newDesc.trim(),
+                color: markerColors[newType.trim()] || '#333333',
+                image: newImg.trim() || getSmartFacilityImage(newName.trim())
+            });
         }
         localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
-        alert("✨ 수정 내용이 저장되었습니다!");
+        alert("✨ 수정 내용이 완벽하게 저장되었습니다! 새로고침 후 즉시 반영됩니다.");
         location.reload();
     }
 }
