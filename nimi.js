@@ -342,7 +342,7 @@ var subwayData = {
     { "name": "우택중앙역", "lat": -10568, "lng": 25505, "type": "subway", "lines": ["c"] },
     { "name": "우택역", "lat": -9890, "lng": 25523, "type": "subway", "lines": ["c"] },
     { "name": "하성천역", "lat": -9409, "lng": 25070, "type": "subway", "lines": ["c"] },
-    { "name": "덕현중앙역(2027예정)역", "lat": -9427, "lng": 23577, "type": "subway", "lines": ["5", "c", "B"] },
+    { "name": "덕현중앙역", "lat": -9427, "lng": 23577, "type": "subway", "lines": ["5", "c", "B"] },
     { "name": "전덕역", "lat": -9468, "lng": 22653, "type": "subway", "lines": ["c"] },
     { "name": "효빈역", "lat": -9947, "lng": 20621, "type": "subway", "lines": ["c"] },
     { "name": "사능역", "lat": -8993, "lng": 19886, "type": "subway", "lines": ["c"] },

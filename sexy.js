@@ -603,7 +603,7 @@ const subwayData = {
             ]
         },
         {
-            "name": "덕현중앙역(2027예정)역",
+            "name": "덕현중앙역",
             "lat": -9427,
             "lng": 23577,
             "type": "subway",
@@ -2191,7 +2191,7 @@ const subwayData = {
             "lng": 17833,
             "type": "subway",
             "lines": [
-                "7"
+                "7B"
             ]
         }
     ],

@@ -606,6 +606,15 @@ function resolveFullAddress(lat, lng) {
 }
 
 function getSmartOperatingStatus(type, name, customHours) {
+    // ★ [추가] 이름이나 커스텀 영업시간에 '폐점'이 포함된 경우 최우선 처리
+    if ((name && name.includes("폐점")) || (customHours && customHours.includes("폐점"))) {
+        return { 
+            badge: '<span style="color:#888888; font-weight:900; text-decoration:line-through;">폐업/폐점</span>', 
+            hours: "현재 영업을 종료(폐점)한 점포입니다.", 
+            isOpen: false 
+        };
+    }
+
     var now = new Date();
     var day = now.getDay();
     var isWeekend = (day === 0 || day === 6);
@@ -723,12 +732,18 @@ var lineMascots = {
 };
 
 var unOpenedLines = {
-    "c": { status: "2027년 9월 개통 예정", badge: "🚧 미개통 (2027.09 개통예정)" },
+    "c": { status: "1구간: 2027.09.29 개통 예정 / 2·3구간: 개통 미정", badge: "🚧 미개통 (27.09 부분개통)" },
     "y": { status: "미개통 (계획·추진 중)", badge: "🚧 미개통 (건설 계획중)" },
     "7c": { status: "폐선 구간 (구 효빈전차)", badge: "🏛️ 폐선 (역사보존구간)" },
     "9": { status: "미개통 (예정 노선)", badge: "🚧 미개통 (예정 노선)" },
     "G": { status: "미개통 (예정 노선)", badge: "🚧 미개통 (예정 노선)" }
 };
+
+// ★ [수정] 정확한 역 이름만 입력 (포성산 제외, 원전·남소·야진·하미·선곡·덕현중앙·과복 추가)
+var specificUnopenedStations = [
+    "원전", "남소", "야진", "하미", "선곡", "덕현중앙", "과복", 
+    "청능", "시청(창전선)", "고송강변", "고송경찰서", "북고송", "토모리해수욕장"
+];
 
 // ★ [업그레이드] 1호선 및 1호선 지선(1B)까지 모두 05시~24시 실제 분(Minute) 단위 전체 시각표 탑재!
 var subwayTimetableDB = {
@@ -1441,12 +1456,77 @@ function createFacilityCustomIcon(type, color, size, itemName) {
 }
 
 // =========================================================
-// 새 창 상세페이지 (주민센터/읍면동 이미지 자동 매핑 완벽 적용)
+// ★ [핵심 엔진] 별점과 업종에 맞춰 자동으로 방문자 리뷰를 생성하는 함수
+// (마커 클릭 시 및 상세페이지 열람 시 설명이 비어있으면 100% 자동 작동!)
+// =========================================================
+function generateAutoReview(ratingScore, type, name) {
+    var score = parseFloat(ratingScore);
+    if (isNaN(score)) score = 4.2;
+
+    // 특정 카테고리별 맞춤형 고증 리뷰 (높은 별점일 때 우선 적용)
+    if (score >= 4.0) {
+        if (type === "cvs") return "매장이 쾌적하고 물건 종류가 다양해서 자주 이용하는 편의점입니다. 점원분도 친절해요!";
+        if (type === "apartment" || type === "public_apt" || type === "officetel") return "단지 조경과 관리가 깔끔하게 잘 되어 있고, 대중교통 접근성이 뛰어나 살기 좋은 곳입니다.";
+        if (type === "community_center" || type === "city_hall" || type === "gu_office" || type === "gun_office") return "직원분들이 민원 처리를 빠르고 친절하게 도와주셔서 기분 좋게 업무를 보고 왔습니다.";
+        if (type && type.includes("school")) return "교정이 깔끔하고 면학 분위기가 잘 조성되어 있는 효빈의 자랑스러운 학교입니다.";
+        if (type === "university" || type === "college" || type === "univ_building") return "캠퍼스 시설이 훌륭하고 산책하기에도 참 좋습니다. 학생들과 지역 주민 모두에게 사랑받는 공간이에요.";
+        if (type && (type.includes("hospital") || type === "dental" || type === "oriental_med" || type === "pharmacy")) return "원장님과 간호사분들이 과잉진료 없이 꼼꼼하고 친절하게 설명해 주셔서 믿고 방문합니다.";
+        if (type === "anime_shop" || type === "anime_stage" || type === "anime_museum") return "굿즈 라인업이 미쳤습니다! 효빈광역시 덕후들의 성지답게 볼거리가 정말 풍부해요. 최고! 👍";
+        if (type === "cafe" || type === "bakery") return "커피 향도 너무 좋고 디저트가 진짜 맛있어요! 매장 인테리어가 예뻐서 자주 찾게 됩니다.";
+    }
+
+    // 점수대별 랜덤 리뷰 풀 (시설 이름 기반으로 고정된 문구가 나오도록 처리하여 깜빡임 방지)
+    var reviews = [];
+    if (score >= 4.5) {
+        reviews = [
+            "정말 훌륭합니다! 시설도 깔끔하고 무조건 다시 방문하고 싶어요. 👍",
+            "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
+            "기대 이상이었어요. 주변 지인들에게도 적극 추천하고 싶은 곳입니다!",
+            "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요."
+        ];
+    } else if (score >= 3.5) {
+        reviews = [
+            "전반적으로 무난하고 깔끔한 곳입니다. 기본에 충실해서 자주 찾게 되네요.",
+            "가성비가 좋고 위치도 찾기 쉬워서 방문하기 나쁘지 않습니다. 🙂",
+            "평범하지만 딱히 흠잡을 데 없는 곳입니다. 나름 만족스럽게 이용했어요.",
+            "크게 불편한 점 없이 무난하게 잘 이용하고 갑니다."
+        ];
+    } else if (score >= 2.0) {
+        reviews = [
+            "조금 아쉬운 부분이 있네요. 전반적인 시설이나 서비스 개선이 필요해 보입니다. 🤔",
+            "기대했던 것보다는 평범했어요. 다음에는 더 좋아지길 바랍니다.",
+            "한 번쯤은 가볼 만하지만 두 번 방문할지는 조금 고민되네요."
+        ];
+    } else {
+        reviews = [
+            "솔직히 많이 실망했습니다. 개인적으로는 추천하지 않아요. 👎",
+            "서비스와 시설 모두 기대 이하입니다. 빠른 개선이 시급해 보입니다.",
+            "최악의 경험이었어요. 귀한 시간과 돈이 아깝다는 생각이 듭니다."
+        ];
+    }
+
+    var seed = name ? (name.length + name.charCodeAt(0)) : Math.floor(Math.random() * 10);
+    return reviews[seed % reviews.length];
+}
+
+// =========================================================
+// 새 창 상세페이지 (별점 및 자동 방문자 리뷰 UI 100% 무조건 출력)
 // =========================================================
 window.openDetailWindow = function(encodedData) {
     try {
         var data = JSON.parse(decodeURIComponent(encodedData));
         var opInfo = getSmartOperatingStatus(data.type || "normal", data.name, data.hours);
+
+        var finalRating = data.rating || (4.1 + ((data.name ? data.name.length : 3) % 9) * 0.1).toFixed(1);
+        var parsedRating = Math.round(parseFloat(finalRating));
+        if (parsedRating > 5) parsedRating = 5;
+        if (parsedRating < 0) parsedRating = 0;
+        var starDisplay = "★".repeat(parsedRating) + "☆".repeat(5 - parsedRating);
+
+        // ★ 핵심: 저장된 리뷰(desc)가 없으면 자동으로 생성해서 무조건 띄움!
+        var finalReviewText = (data.desc && data.desc.trim() !== "") 
+            ? data.desc 
+            : generateAutoReview(finalRating, data.type, data.name);
 
         var newWin = window.open('', '_blank');
         if (!newWin) { alert("팝업 차단이 설정되어 있습니다. 브라우저에서 팝업을 허용해주세요!"); return; }
@@ -1460,8 +1540,8 @@ window.openDetailWindow = function(encodedData) {
             return m.name && m.type !== 'subway' && m.type !== 'busStop' && m.name !== data.name;
         }).map(function(m) {
             var dist = Math.sqrt(Math.pow(m.lat - currentLat, 2) + Math.pow(m.lng - currentLng, 2));
-            var rScore = (3.8 + ((m.name.length * 3) % 12) * 0.1).toFixed(1);
-            var rCount = (m.name.length * 43) + 12;
+            var rScore = m.rating || (3.8 + ((m.name.length * 3) % 12) * 0.1).toFixed(1);
+            var rCount = m.reviews || ((m.name.length * 43) + 12);
             var mType = classify100Category(m.name);
             return {
                 name: m.name,
@@ -1582,7 +1662,19 @@ window.openDetailWindow = function(encodedData) {
                     <div class="info-row"><div class="info-icon">📍</div><div class="info-text"><b>도로명주소:</b> ${data.address} ${data.zip ? `(우)${data.zip}` : ''}<br><span style="color:#888; font-size:13px;"><b>지번주소:</b> ${data.province} ${gugunName} ${data.jibunSub || data.legal} ${data.bunji || ''}</span></div></div>
                     <div class="info-row"><div class="info-icon">📞</div><div class="info-text"><b>대표전화:</b> ${data.phone}</div></div>
                     <div class="info-row"><div class="info-icon">📖</div><div class="info-text"><b>효빈위키:</b> <a href="${wikiUrl}" target="_blank" style="color:#0077DD; font-weight:bold;">${wikiUrl}</a></div></div>
-                    ${data.desc ? `<div class="info-row"><div class="info-icon">💬</div><div class="info-text" style="background:#f8f9fa; padding:10px; border-radius:6px;">${data.desc}</div></div>` : ''}
+                    
+                    <div style="margin-top: 24px; border-top: 1px solid #f4f4f4; padding-top: 24px;">
+                        <div style="font-size:15px; font-weight:700; margin-bottom:12px; color:#222;">💬 최근 방문자 베스트 리뷰</div>
+                        <div style="background:#f8f9fa; border:1px solid #e5e5e5; border-radius:8px; padding:16px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                                <div style="width:30px; height:30px; background:#0077DD; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:bold;">효빈</div>
+                                <div style="font-size:13px; font-weight:700; color:#333;">효빈광역시 시민</div>
+                                <div style="font-size:13px; color:#ff5252; letter-spacing:-1px;">${starDisplay}</div>
+                                <div style="font-size:12px; color:#888; margin-left:auto;">${finalRating}점</div>
+                            </div>
+                            <div style="font-size:14px; color:#222; line-height:1.6;">${finalReviewText}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="tab-pane-rank" class="tab-content">
@@ -1621,7 +1713,7 @@ window.openDetailWindow = function(encodedData) {
 };
 
 // =========================================================
-// 마커 추가 함수 (역별 시차 시간표 + 주민센터 OO1동.webp 자동 이미지 + 수정사항 100% 반영)
+// 마커 추가 함수 (모든 시설 클릭 시 자동 리뷰 100% 표시되도록 개선!)
 // =========================================================
 function addMarkerToMap(item) {
     if (!item) return;
@@ -1640,7 +1732,7 @@ function addMarkerToMap(item) {
 
     // [1] 지하철역 마커
     if (item.type === 'subway') {
-        var lines = item.lines || ["1"]; 
+        var lines = item.lines || ["1"];
         var isTransfer = lines.length >= 2; 
         var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(item.name);
         var isMajor = (isTransfer || isManualMajor) ? "major-station" : "normal-station";
@@ -1661,8 +1753,11 @@ function addMarkerToMap(item) {
         
         if (typeof subwayStationLayer !== 'undefined') marker.addTo(subwayStationLayer); 
         var lineNames = lines.map(lid => subwayLines[lid] ? subwayLines[lid].name : "").filter(Boolean).join(", ");
-        var isUnopenedSt = lines.every(l => unOpenedLines[l]);
-        marker.bindTooltip(`<b>🚉 ${item.name}</b> ${isUnopenedSt ? '<span style="color:#e65100; font-size:10px;">(미개통/폐선)</span>' : ''}<br><span style="font-size:11px; color:#555;">경유: ${lineNames}</span>`, { offset: [0, -10], direction: 'top' });
+        
+        var cleanStationNameForCheck = item.name.replace(/역$/, "").trim();
+        var isUnopenedSt = lines.every(l => unOpenedLines[l]) || specificUnopenedStations.includes(cleanStationNameForCheck);
+        
+        marker.bindTooltip(`<b>🚉 ${item.name}</b> ${isUnopenedSt ? '<span style="color:#e65100; font-size:10px; font-weight:bold;">(🚧 미개통/공사중)</span>' : ''}<br><span style="font-size:11px; color:#555;">경유: ${lineNames}</span>`, { offset: [0, -10], direction: 'top' });
 
         marker.on('click', function(e) {
             L.DomEvent.stopPropagation(e);
@@ -1684,7 +1779,6 @@ function addMarkerToMap(item) {
             var prevClickAttr = adj.prev ? `onclick="window.jumpToStation('${adj.prev.name}')" style="cursor:pointer;"` : `style="opacity:0.6; cursor:default;"`;
             var nextClickAttr = adj.next ? `onclick="window.jumpToStation('${adj.next.name}')" style="cursor:pointer;"` : `style="opacity:0.6; cursor:default;"`;
 
-            // 단독역이면 환승역 줄 자체를 표시하지 않음
             var otherLines = lines.filter(l => l !== activeLineCode);
             var transferRowHtml = "";
             if (otherLines.length > 0) {
@@ -1707,14 +1801,15 @@ function addMarkerToMap(item) {
             var stationPhone = item.phone || `${prefix}-${stCodeNum}-${stTailNum}`;
             var lostCenterPhone = `${prefix}-611-1122`;
 
-            // ★ 역마다 정거장 거리에 따라 첫차/막차 시각이 다르게 계산됨!
             var ttInfo = subwayTimetableDB[activeLineCode] || subwayTimetableDB["B"];
             var offsetObj = getStationTimeOffset(item.name, activeLineCode);
             var stFirstTrain = shiftTimeText(ttInfo.firstTrain, Math.min(offsetObj.upShift, offsetObj.dnShift));
             var stLastTrain = shiftTimeText(ttInfo.lastTrain, Math.max(offsetObj.upShift, offsetObj.dnShift));
 
             var trainStatusHtml = "";
-            if (unOpenedLines[activeLineCode]) {
+            if (isUnopenedSt) {
+                trainStatusHtml = `<span style="color:#e65100; font-weight:bold;">🚧 미개통 (공사 및 계획중)</span> <span style="color:#666;">(여객 영업을 하지 않는 역입니다.)</span>`;
+            } else if (unOpenedLines[activeLineCode]) {
                 trainStatusHtml = `<span style="color:#e65100; font-weight:bold;">${unOpenedLines[activeLineCode].badge}</span> <span style="color:#666;">(${unOpenedLines[activeLineCode].status})</span>`;
             } else {
                 var now = new Date();
@@ -1740,7 +1835,8 @@ function addMarkerToMap(item) {
             var exportStData = encodeURIComponent(JSON.stringify({
                 name: item.name, type: "station", typeName: `${lineObj.name} 철도역`, province: addrObj.province, gugun: addrObj.gugun, admin: addrObj.admin, legal: addrObj.legal, jibunSub: addrObj.jibunSub,
                 bunji: addrObj.bunji, zip: addrObj.zip, address: addrObj.roadAddress, phone: stationPhone, hours: `${stFirstTrain} ~ ${stLastTrain}`,
-                image: `이미지/${item.name}.webp`, desc: `효빈도시철도 ${lineNames} 정차역입니다. (${ttInfo.intervalSummary})`, lat: item.lat, lng: item.lng
+                rating: "4.6", reviews: 85,
+                image: `이미지/${item.name}.webp`, desc: `효빈도시철도 ${lineNames} 정차역입니다. 역사가 쾌적하고 환승 및 이동 동선이 편리합니다. (${ttInfo.intervalSummary})`, lat: item.lat, lng: item.lng
             }));
 
             var safeStName = item.name.replace(/'/g, "\\'");
@@ -1850,10 +1946,19 @@ function addMarkerToMap(item) {
             var ratingCount = (item.name.length * 3) + 2;
             var reviews = item.reviews || (item.name.length * 9 + 5);
 
+            var parsedRating = Math.round(parseFloat(rating));
+            if (parsedRating > 5) parsedRating = 5;
+            if (parsedRating < 0) parsedRating = 0;
+            var starDisplay = "★".repeat(parsedRating) + "☆".repeat(5 - parsedRating);
+
             var opStatus = getSmartOperatingStatus(item.type, item.name, item.hours);
-            // ★ 주민센터/행정복지센터/읍면사무소는 자동으로 '이미지/OO1동.webp' 형태로 매핑!
             var placeImg = getSmartFacilityImage(item.name, item.image);
-            var placeDesc = item.desc || "";
+            
+            // ★ [핵심 해결!] 사용자가 직접 입력한 리뷰(desc)가 없더라도 무조건 자동 리뷰 생성 엔진을 돌려서 띄움!
+            var placeDesc = (item.desc && item.desc.trim() !== "") 
+                ? item.desc 
+                : generateAutoReview(rating, item.type, item.name);
+                
             var wikiUrl = `${HYOBIN_WIKI_BASE}${encodeURIComponent(item.name)}.html`;
 
             var exportData = encodeURIComponent(JSON.stringify({
@@ -1873,7 +1978,7 @@ function addMarkerToMap(item) {
                             </div>
                             <div style="font-size: 12px; margin-bottom: 4px;">
                                 <span style="color: #ff5252; font-weight: bold;">${rating}</span>
-                                <span style="color: #ff5252; font-size: 11px; letter-spacing: -1px;">★★★★★</span>
+                                <span style="color: #ff5252; font-size: 11px; letter-spacing: -1px;">${starDisplay}</span>
                                 <span style="color: #888;">(${ratingCount}건)</span>
                                 <span style="color: #ddd; margin: 0 3px;">|</span>
                                 <span style="color: #888;">리뷰 ${reviews}</span>
@@ -1887,7 +1992,9 @@ function addMarkerToMap(item) {
                                 <button onclick="openPlaceEditModal('${safeName}', ${item.lat}, ${item.lng}, '${cardId}')" style="background: #333; color: #fff; border: none; padding: 3px 8px; border-radius: 3px; font-size: 11px; cursor: pointer; font-weight: bold;">✏️ 수정</button>
                             </div>
 
-                            ${placeDesc ? `<div style="margin-top:5px; font-size:11.5px; background:#fff8e1; padding:4px 6px; border-radius:4px; color:#444;">💬 ${placeDesc}</div>` : ''}
+                            <div style="margin-top:6px; font-size:11.5px; background:#fff8e1; border:1px solid #ffe082; padding:5px 7px; border-radius:4px; color:#333; line-height:1.4;">
+                                💬 <b>방문자 리뷰:</b> ${placeDesc}
+                            </div>
 
                             <div style="margin-top: 6px; font-size: 12px; display:flex; gap:8px;">
                                 <a href="javascript:void(0);" onclick="window.openDetailWindow('${exportData}')" style="color: #258fff; text-decoration: none; font-weight: bold;">상세페이지 &gt;</a>
@@ -2023,7 +2130,7 @@ setTimeout(function() {
 }, 600);
 
 // =========================================================
-// 8. 데이터 영구 저장 및 정류장/장소 수정 모달 관리 (수정 후 새로고침 시 100% 반영 보장!)
+// 8. 데이터 영구 저장 및 정류장/장소 수정 모달 관리
 // =========================================================
 var searchHighlightLayer = null;
 var isSubwayMode = false;
@@ -2067,56 +2174,6 @@ setTimeout(function() {
         existingContainer.appendChild(exportBtn);
     }
 }, 500);
-
-// ★ [수정 후 새로고침해도 원본 마커에 안 덮어써지고 100% 유지되도록 origName 추적 장착!]
-function openPlaceEditModal(name, lat, lng, cardId) {
-    var existingItem = (typeof myLandmarks !== 'undefined' && myLandmarks.find(m => (m.name === name || m.origName === name) && Math.abs(m.lat - lat) <= 5)) ||
-                       (typeof allLandmarks !== 'undefined' && allLandmarks.find(m => m.name === name && Math.abs(m.lat - lat) <= 5));
-    
-    var defaultName = existingItem ? existingItem.name : name;
-    var defaultType = (existingItem && existingItem.type) ? existingItem.type : classify100Category(defaultName);
-    var defaultHours = (existingItem && existingItem.hours) ? existingItem.hours : getSmartOperatingStatus(defaultType, defaultName).hours;
-    var defaultPhone = (existingItem && existingItem.phone) ? existingItem.phone : "";
-    var defaultImg = (existingItem && existingItem.image) ? existingItem.image : getSmartFacilityImage(defaultName);
-    var defaultDesc = (existingItem && existingItem.desc) ? existingItem.desc : "";
-
-    var newName = prompt("🏷️ [1/6] 시설 이름을 수정하세요:", defaultName); if (newName === null) return;
-    var newType = prompt("📂 [2/6] 세부 카테고리 코드 (예: community_center, university, department_store, anime_shop, cvs 등):", defaultType); if (newType === null) return;
-    var newHours = prompt("🕒 [3/6] 운영시간을 직접 지정하세요 (예: 09:00 ~ 24:20):", defaultHours); if (newHours === null) return;
-    var newPhone = prompt("📞 [4/6] 전화번호를 입력하세요:", defaultPhone); if (newPhone === null) return;
-    var newImg = prompt("🖼️ [5/6] 이미지 경로를 입력하세요 (주민센터는 이미지/OO1동.webp 자동 적용):", defaultImg); if (newImg === null) return;
-    var newDesc = prompt("📝 [6/6] 상세 설명이나 메모를 입력하세요:", defaultDesc); if (newDesc === null) return;
-
-    if (typeof myLandmarks !== 'undefined') {
-        var target = myLandmarks.find(m => (m.name === name || m.origName === name) && Math.abs(m.lat - lat) <= 5);
-        if (target) {
-            if (!target.origName) target.origName = name;
-            target.name = newName.trim();
-            target.type = newType.trim();
-            target.hours = newHours.trim();
-            target.phone = newPhone.trim();
-            target.image = newImg.trim();
-            target.desc = newDesc.trim();
-            target.color = markerColors[target.type] || '#333333';
-        } else {
-            myLandmarks.push({
-                origName: name, // 원본 마커의 이름을 기억해서 새로고침 시 원본 마커를 정확히 덮어씀!
-                name: newName.trim(),
-                lat: lat,
-                lng: lng,
-                type: newType.trim(),
-                hours: newHours.trim(),
-                phone: newPhone.trim(),
-                desc: newDesc.trim(),
-                color: markerColors[newType.trim()] || '#333333',
-                image: newImg.trim() || getSmartFacilityImage(newName.trim())
-            });
-        }
-        localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
-        alert("✨ 수정 내용이 완벽하게 저장되었습니다! 새로고침 후 즉시 반영됩니다.");
-        location.reload();
-    }
-}
 
 var currentEditMarker = null; var currentEditItem = null;
 function scanNearbyBuses(lat, lng, margin = 150) {
@@ -2193,3 +2250,70 @@ function deleteEditBusStop() {
 allLandmarks.forEach(function(item) {
     addMarkerToMap(item);
 });
+
+// ★ [수정] 별점을 먼저 받고, 그 점수를 바탕으로 리뷰를 자동 완성해주는 모달 함수
+function openPlaceEditModal(name, lat, lng, cardId) {
+    var existingItem = (typeof myLandmarks !== 'undefined' && myLandmarks.find(m => (m.name === name || m.origName === name) && Math.abs(m.lat - lat) <= 5)) ||
+                       (typeof allLandmarks !== 'undefined' && allLandmarks.find(m => m.name === name && Math.abs(m.lat - lat) <= 5));
+    
+    var defaultName = existingItem ? existingItem.name : name;
+    var defaultType = (existingItem && existingItem.type) ? existingItem.type : classify100Category(defaultName);
+    var defaultHours = (existingItem && existingItem.hours) ? existingItem.hours : getSmartOperatingStatus(defaultType, defaultName).hours;
+    var defaultPhone = (existingItem && existingItem.phone) ? existingItem.phone : "";
+    var defaultImg = (existingItem && existingItem.image) ? existingItem.image : getSmartFacilityImage(defaultName);
+    var defaultDesc = (existingItem && existingItem.desc) ? existingItem.desc : "";
+    
+    var defaultRating = (existingItem && existingItem.rating) ? existingItem.rating : (4.1 + (defaultName.length % 9) * 0.1).toFixed(1);
+    var defaultReviews = (existingItem && existingItem.reviews) ? existingItem.reviews : (defaultName.length * 9 + 5);
+
+    var newName = prompt("🏷️ [1/8] 시설 이름을 수정하세요:", defaultName); if (newName === null) return;
+    var newType = prompt("📂 [2/8] 세부 카테고리 코드 (예: community_center, university, cvs 등):", defaultType); if (newType === null) return;
+    var newHours = prompt("🕒 [3/8] 운영시간을 직접 지정하세요 (예: 09:00 ~ 24:20):", defaultHours); if (newHours === null) return;
+    var newPhone = prompt("📞 [4/8] 전화번호를 입력하세요:", defaultPhone); if (newPhone === null) return;
+    var newImg = prompt("🖼️ [5/8] 이미지 경로를 입력하세요:", defaultImg); if (newImg === null) return;
+    
+    var newRating = prompt("⭐ [6/8] 별점을 수정하세요 (예: 4.5):", defaultRating); if (newRating === null) return;
+    var newReviews = prompt("💬 [7/8] 리뷰 개수를 수정하세요 (숫자만 입력, 예: 125):", defaultReviews); if (newReviews === null) return;
+
+    // ★ 별점을 바꾸면 그 새로운 별점에 맞는 자동 리뷰를 추천해 줌!
+    var autoReviewTxt = generateAutoReview(newRating, newType.trim(), newName.trim());
+    var defaultDescPrompt = (defaultDesc && defaultRating === newRating.trim()) ? defaultDesc : autoReviewTxt;
+
+    var newDesc = prompt("📝 [8/8] 상세 메모나 리뷰를 입력하세요:\n(비워두거나 그대로 확인을 누르면 별점에 맞춘 자동 리뷰가 적용됩니다.)", defaultDescPrompt); 
+    if (newDesc === null) return;
+    if (newDesc.trim() === "") newDesc = autoReviewTxt;
+
+    if (typeof myLandmarks !== 'undefined') {
+        var target = myLandmarks.find(m => (m.name === name || m.origName === name) && Math.abs(m.lat - lat) <= 5);
+        if (target) {
+            if (!target.origName) target.origName = name;
+            target.name = newName.trim();
+            target.type = newType.trim();
+            target.hours = newHours.trim();
+            target.phone = newPhone.trim();
+            target.image = newImg.trim();
+            target.desc = newDesc.trim();
+            target.rating = newRating.trim();   
+            target.reviews = newReviews.trim(); 
+            target.color = markerColors[target.type] || '#333333';
+        } else {
+            myLandmarks.push({
+                origName: name, 
+                name: newName.trim(),
+                lat: lat,
+                lng: lng,
+                type: newType.trim(),
+                hours: newHours.trim(),
+                phone: newPhone.trim(),
+                desc: newDesc.trim(),
+                rating: newRating.trim(),       
+                reviews: newReviews.trim(),     
+                color: markerColors[newType.trim()] || '#333333',
+                image: newImg.trim() || getSmartFacilityImage(newName.trim())
+            });
+        }
+        localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
+        alert("✨ 자동 리뷰와 함께 수정 내용이 저장되었습니다! 새로고침 후 즉시 반영됩니다.");
+        location.reload();
+    }
+}

@@ -1,5 +1,5 @@
 // =========================================================
-// 8. 검색, 파일관리, 노선도 모드 (map_04_ui.js - 초기 OFF & 선택 시 즉시 표시 완벽판)
+// 8. 검색, 파일관리, 노선도 모드 (map_04_ui.js - 미개통 노선/역 길찾기 100% 원천 차단 완벽판)
 // =========================================================
 var searchHighlightLayer = null;
 var isSubwayMode = false;
@@ -214,6 +214,7 @@ map.on('click', function() {
 
 // =========================================================
 // ★ [무결점 길찾기 엔진] 카카오맵 스타일 (대중교통 / 자동차 / 도보)
+// - 미개통 노선(창전선 c, 청엽선 y 등) 및 미개통역(과복, 덕현중앙, 하미 등) 100% 원천 배제!
 // - 작은 골목길 L자(직각) 자동 스냅 + 실제 도로망(roadData) 다익스트라 탐색
 // - 지하철(subwayData) 직통/환승 & 시내버스(processedBusData) 실제 노선 추적
 // =========================================================
@@ -227,6 +228,53 @@ map.on('click', function() {
         roadGraph: null,
         routes: []
     };
+
+    // ★ [핵심 차단 필터 1] 현재 실제로 개통되어 열차가 다니는 노선인지 판별
+    var openedValidLines = new Set(["1", "1B", "2", "2B", "3", "4", "5", "6", "7", "7B", "8", "B", "R1", "H1"]);
+    var blockedLineCodes = new Set(["c", "y", "7c", "9", "G", "창전", "청엽"]);
+
+    function isLineTrulyOpened(lineCode) {
+        if (!lineCode) return false;
+        var lc = String(lineCode).trim();
+        if (blockedLineCodes.has(lc)) return false;
+        if (typeof unOpenedLines !== 'undefined' && unOpenedLines[lc]) return false;
+        // 만약 subwayLines에 정의된 노선 이름에 '미개통', '예정', '창전', '청엽', '폐선'이 들어가면 무조건 차단
+        if (typeof subwayLines !== 'undefined' && subwayLines[lc] && subwayLines[lc].name) {
+            if (subwayLines[lc].name.match(/(창전|청엽|미개통|예정|폐선|전차)/)) return false;
+        }
+        return openedValidLines.has(lc) || !blockedLineCodes.has(lc);
+    }
+
+    // ★ [핵심 차단 필터 2] 역 자체가 현재 영업 중인 개통역인지 판별
+    var fallbackUnopenedStations = [
+        "원전", "남소", "야진", "하미", "선곡", "덕현중앙", "과복", 
+        "청능", "시청(창전선)", "고송강변", "고송경찰서", "북고송",
+        "신팔조", "쌍엽중앙", "신쌍엽", "창엽", "신창전", "칠심중앙", "진백중앙", "우택중앙", "효빈대병원"
+    ];
+
+    function isStationTrulyOpened(st) {
+        if (!st || st.type !== 'subway' || !st.name) return false;
+        var cleanName = st.name.replace(/역$/, "").trim();
+
+        // 1) map_02_layers.js의 specificUnopenedStations에 해당하면 즉시 차단 (단, 3호선 토모리해수욕장역은 3호선으로 정상 영업 중이므로 예외 처리)
+        var unOpenedList = (typeof specificUnopenedStations !== 'undefined') ? specificUnopenedStations : fallbackUnopenedStations;
+        if (cleanName !== "토모리해수욕장") {
+            if (unOpenedList.includes(cleanName) || fallbackUnopenedStations.includes(cleanName)) {
+                return false;
+            }
+        }
+
+        // 2) 이 역을 지나는 노선 중 '실제 개통된 노선'이 최소 1개 이상 있어야만 개통역으로 인정!
+        if (!st.lines || !Array.isArray(st.lines) || st.lines.length === 0) return false;
+        var validLines = st.lines.filter(isLineTrulyOpened);
+        return validLines.length > 0;
+    }
+
+    // 역이 보유한 노선 목록 중 '개통된 노선 코드'만 깨끗하게 걸러서 반환
+    function getStationOpenedLines(st) {
+        if (!st || !st.lines || !Array.isArray(st.lines)) return [];
+        return st.lines.filter(isLineTrulyOpened);
+    }
 
     // 1. 픽셀 좌표 거리를 실제 미터(m) 단위로 변환 (효빈시 스케일 맞춤)
     function calcRealMeters(lat1, lng1, lat2, lng2) {
@@ -355,7 +403,6 @@ map.on('click', function() {
             if (asStart) {
                 navState.end = pt;
                 document.getElementById('nav-end-input').value = pt.name;
-                // 출발지가 비어있으면 현재 지도 중심이나 효빈역을 기본 출발지로 추천하지 않고 사용자 선택 유도
                 window.enableNavMapPick('start');
             } else {
                 navState.start = pt;
@@ -388,14 +435,20 @@ map.on('click', function() {
         if (navState.start && navState.end) window.executeNavigation();
     };
 
-    // 5. 검색창 자동완성 및 지도 클릭 지정 기능
+    // 5. 검색창 자동완성 및 지도 클릭 지정 기능 (미개통역은 검색창에서도 표시 구분)
     window.searchNavPlace = function(type, keyword) {
         var box = document.getElementById(type === 'start' ? 'nav-start-suggest' : 'nav-end-suggest');
         if (!box) return;
         var kw = (keyword || "").trim().toLowerCase();
         if (!kw || typeof allLandmarks === 'undefined') { box.style.display = 'none'; return; }
 
-        var matches = allLandmarks.filter(m => m.name && m.name.toLowerCase().includes(kw)).slice(0, 8);
+        var matches = allLandmarks.filter(function(m) {
+            if (!m.name || !m.name.toLowerCase().includes(kw)) return false;
+            // 미개통 지하철역은 길찾기 자동완성에서도 제외하여 혼선 방지
+            if (m.type === 'subway' && !isStationTrulyOpened(m)) return false;
+            return true;
+        }).slice(0, 8);
+
         if (matches.length === 0) { box.style.display = 'none'; return; }
 
         box.innerHTML = matches.map(function(m) {
@@ -501,7 +554,6 @@ map.on('click', function() {
 
     // =========================================================
     // 6. 🚗 [자동차 다익스트라(Dijkstra) 도로망 그래프 빌더]
-    // - roadData의 실제 도로 좌표들과 교차로를 연결하여 정밀 네비게이션 그래프 생성!
     // =========================================================
     function getRoadGraph() {
         if (navState.roadGraph) return navState.roadGraph;
@@ -524,7 +576,7 @@ map.on('click', function() {
         function addEdge(u, v, rName, isExpress) {
             if (u === v) return;
             var dist = calcRealMeters(nodes[u].lat, nodes[u].lng, nodes[v].lat, nodes[v].lng);
-            var weight = isExpress ? dist * 0.65 : dist; // 고속도로/대로 가중치 우대
+            var weight = isExpress ? dist * 0.65 : dist;
             adj[u].push({ to: v, weight: weight, dist: dist, roadName: rName });
             adj[v].push({ to: u, weight: weight, dist: dist, roadName: rName });
         }
@@ -547,7 +599,6 @@ map.on('click', function() {
             });
         }
 
-        // 서로 교차하거나 맞닿아 있는 다른 도로 노드끼리 환승(교차로) 자동 연결 (반경 450 이내)
         for (var i = 0; i < nodes.length; i++) {
             for (var j = i + 1; j < nodes.length; j++) {
                 var dLat = Math.abs(nodes[i].lat - nodes[j].lat);
@@ -570,7 +621,6 @@ map.on('click', function() {
         var g = getRoadGraph();
         if (g.nodes.length === 0) return null;
 
-        // 출발지 / 도착지에서 가장 가까운 실제 도로 진입점 찾기
         var sNode = 0, eNode = 0, minSD = Infinity, minED = Infinity;
         for (var i = 0; i < g.nodes.length; i++) {
             var ds = calcRealMeters(startPt.lat, startPt.lng, g.nodes[i].lat, g.nodes[i].lng);
@@ -579,7 +629,6 @@ map.on('click', function() {
             if (de < minED) { minED = de; eNode = i; }
         }
 
-        // 다익스트라 최단 경로 탐색
         var N = g.nodes.length;
         var distArr = new Array(N).fill(Infinity);
         var prevArr = new Array(N).fill(-1);
@@ -618,14 +667,11 @@ map.on('click', function() {
                 curr = prevArr[curr];
             }
         } else {
-            // 만약 섬(도서) 지역 등 도로망이 완전히 끊긴 곳이면 L자 보정 경로로 연결
             mainRoadCoords = makeAlleyPath([g.nodes[sNode].lat, g.nodes[sNode].lng], [g.nodes[eNode].lat, g.nodes[eNode].lng]);
             usedRoads = [g.nodes[sNode].roadName || "연결도로"];
         }
 
-        // 출발지 ➔ 첫 도로 진입점 (ㄱ자 골목길 스냅)
         var startAlley = makeAlleyPath([startPt.lat, startPt.lng], mainRoadCoords[0]);
-        // 마지막 도로 진출점 ➔ 도착지 (ㄱ자 골목길 스냅)
         var endAlley = makeAlleyPath(mainRoadCoords[mainRoadCoords.length - 1], [endPt.lat, endPt.lng]);
 
         var totalMeter = minSD + minED;
@@ -633,7 +679,7 @@ map.on('click', function() {
             totalMeter += calcRealMeters(mainRoadCoords[i][0], mainRoadCoords[i][1], mainRoadCoords[i+1][0], mainRoadCoords[i+1][1]);
         }
 
-        var durationMin = Math.max(2, Math.round(totalMeter / 550)); // 시내 평균 33km/h(분당 550m)
+        var durationMin = Math.max(2, Math.round(totalMeter / 550));
         var taxiFare = 4800 + Math.max(0, Math.ceil((totalMeter - 1600) / 131) * 100);
 
         return {
@@ -656,20 +702,52 @@ map.on('click', function() {
         };
     }
 
-    // =========================================================
-    // 7. 🚇🚌 [대중교통 길찾기 (지하철 직통 / 지하철 1회 환승 / 시내버스 직통)]
+// =========================================================
+    // 7. 🚇🚌 [대중교통 길찾기 - 순환선 양방향(내선/외선) 최단거리 자동선택 완벽판]
     // =========================================================
     function getSubwaySegmentCoords(lineCode, st1, st2) {
-        var list = (typeof getOrderedUniqueStationsForLine === 'function') ? getOrderedUniqueStationsForLine(lineCode) : [];
+        var rawList = (typeof getOrderedUniqueStationsForLine === 'function') ? getOrderedUniqueStationsForLine(lineCode) : [];
+        var list = rawList.filter(isStationTrulyOpened);
+
         var idx1 = list.findIndex(s => s.name === st1.name);
         var idx2 = list.findIndex(s => s.name === st2.name);
-        var stopCount = (idx1 !== -1 && idx2 !== -1) ? Math.abs(idx1 - idx2) : 3;
-
+        
+        // 만약 순환선(2호선 등)이고 양쪽 다 역이 존재한다면, 순방향과 역방향 중 정거장이 더 적은 쪽을 선택!
+        var isCircularLine = (lineCode === "2" || lineCode === "2B" || (typeof subwayLines !== 'undefined' && subwayLines[lineCode] && subwayLines[lineCode].name && subwayLines[lineCode].name.includes("순환")));
+        
         var stationCoords = [];
-        if (idx1 !== -1 && idx2 !== -1) {
-            var s = Math.min(idx1, idx2), e = Math.max(idx1, idx2);
-            for (var i = s; i <= e; i++) stationCoords.push([list[i].lat, list[i].lng]);
-            if (idx1 > idx2) stationCoords.reverse();
+        var stopCount = 3;
+
+        if (idx1 !== -1 && idx2 !== -1 && list.length > 2) {
+            if (isCircularLine) {
+                var len = list.length;
+                // 정방향 거리
+                var forwardStops = (idx2 >= idx1) ? (idx2 - idx1) : (len - idx1 + idx2);
+                // 역방향 거리
+                var backwardStops = (idx1 >= idx2) ? (idx1 - idx2) : (len - idx2 + idx1);
+
+                if (forwardStops <= backwardStops) {
+                    // 정방향(순환) 진행
+                    stopCount = forwardStops;
+                    for (var k = 0; k <= forwardStops; k++) {
+                        var curIdx = (idx1 + k) % len;
+                        stationCoords.push([list[curIdx].lat, list[curIdx].lng]);
+                    }
+                } else {
+                    // 역방향(반대 순환) 진행
+                    stopCount = backwardStops;
+                    for (var k = 0; k <= backwardStops; k++) {
+                        var curIdx = (idx1 - k + len) % len;
+                        stationCoords.push([list[curIdx].lat, list[curIdx].lng]);
+                    }
+                }
+            } else {
+                // 일반 선형 노선
+                stopCount = Math.abs(idx1 - idx2);
+                var s = Math.min(idx1, idx2), e = Math.max(idx1, idx2);
+                for (var i = s; i <= e; i++) stationCoords.push([list[i].lat, list[i].lng]);
+                if (idx1 > idx2) stationCoords.reverse();
+            }
         } else {
             stationCoords = [[st1.lat, st1.lng], [st2.lat, st2.lng]];
         }
@@ -678,22 +756,22 @@ map.on('click', function() {
 
     function computeTransitRoutes(startPt, endPt) {
         var results = [];
-        var openedSubways = (typeof allLandmarks !== 'undefined') ? allLandmarks.filter(function(m) {
-            if (m.type !== 'subway' || !m.lines) return false;
-            return m.lines.some(l => typeof unOpenedLines === 'undefined' || !unOpenedLines[l]);
-        }) : [];
+        var openedSubways = (typeof allLandmarks !== 'undefined') ? allLandmarks.filter(isStationTrulyOpened) : [];
 
-        // [A] 지하철 탐색 (출발지/도착지에서 가장 가까운 개통 역 4개씩 추출)
         if (openedSubways.length > 0) {
             var startStations = openedSubways.map(s => ({ st: s, d: calcRealMeters(startPt.lat, startPt.lng, s.lat, s.lng) })).sort((a,b) => a.d - b.d).slice(0, 4);
             var endStations = openedSubways.map(s => ({ st: s, d: calcRealMeters(endPt.lat, endPt.lng, s.lat, s.lng) })).sort((a,b) => a.d - b.d).slice(0, 4);
 
-            // 1) 직통 지하철 노선 확인
+            // 1) 직통 지하철 노선 확인 (순환선 양방향 최단거리 적용)
             for (var i = 0; i < startStations.length; i++) {
                 for (var j = 0; j < endStations.length; j++) {
                     var sSt = startStations[i].st, eSt = endStations[j].st;
                     if (sSt.name === eSt.name) continue;
-                    var commonLines = sSt.lines.filter(l => eSt.lines.includes(l) && (!unOpenedLines || !unOpenedLines[l]));
+
+                    var sOpenLines = getStationOpenedLines(sSt);
+                    var eOpenLines = getStationOpenedLines(eSt);
+                    var commonLines = sOpenLines.filter(l => eOpenLines.includes(l));
+
                     if (commonLines.length > 0) {
                         var lc = commonLines[0];
                         var lInfo = (typeof subwayLines !== 'undefined' && subwayLines[lc]) ? subwayLines[lc] : { name: lc + "호선", color: "#0077DD" };
@@ -704,7 +782,7 @@ map.on('click', function() {
 
                         results.push({
                             title: `🚇 ${lInfo.name} 직통 (${sSt.name} ➔ ${eSt.name})`,
-                            badge: "⚡ 지하철 직통",
+                            badge: "⚡ 지하철 최단직통",
                             timeMin: totalMin,
                             distMeter: walkS + walkE + railMeter,
                             costText: "교통카드 1,500원",
@@ -730,14 +808,17 @@ map.on('click', function() {
             // 2) 1회 환승 지하철 경로 확인
             if (results.length === 0) {
                 var sSt = startStations[0].st, eSt = endStations[0].st;
+                var sOpenLines = getStationOpenedLines(sSt);
+                var eOpenLines = getStationOpenedLines(eSt);
                 var bestTransfer = null, bestTotalStops = 999;
 
-                sSt.lines.forEach(function(l1) {
-                    if (unOpenedLines && unOpenedLines[l1]) return;
-                    eSt.lines.forEach(function(l2) {
-                        if (l1 === l2 || (unOpenedLines && unOpenedLines[l2])) return;
-                        // l1과 l2를 모두 지나는 환승역 찾기
-                        var tStations = openedSubways.filter(m => m.lines.includes(l1) && m.lines.includes(l2));
+                sOpenLines.forEach(function(l1) {
+                    eOpenLines.forEach(function(l2) {
+                        if (l1 === l2) return;
+                        var tStations = openedSubways.filter(function(m) {
+                            var mOpenLines = getStationOpenedLines(m);
+                            return mOpenLines.includes(l1) && mOpenLines.includes(l2);
+                        });
                         tStations.forEach(function(tSt) {
                             var seg1 = getSubwaySegmentCoords(l1, sSt, tSt);
                             var seg2 = getSubwaySegmentCoords(l2, tSt, eSt);
@@ -753,7 +834,7 @@ map.on('click', function() {
                     var info1 = subwayLines[bestTransfer.l1] || { name: bestTransfer.l1 + "호선", color: "#0077DD" };
                     var info2 = subwayLines[bestTransfer.l2] || { name: bestTransfer.l2 + "호선", color: "#00CCAA" };
                     var walkS = startStations[0].d, walkE = endStations[0].d;
-                    var totalMin = Math.round((walkS + walkE) / 65) + (bestTotalStops * 2) + 7; // 환승 보행 4분 포함
+                    var totalMin = Math.round((walkS + walkE) / 65) + (bestTotalStops * 2) + 7;
                     var railMeter = calcRealMeters(sSt.lat, sSt.lng, bestTransfer.tSt.lat, bestTransfer.tSt.lng) + calcRealMeters(bestTransfer.tSt.lat, bestTransfer.tSt.lng, eSt.lat, eSt.lng);
 
                     results.push({
@@ -780,7 +861,7 @@ map.on('click', function() {
             }
         }
 
-        // [B] 🚌 시내버스 노선(`processedBusData`) 직통 탐색
+        // [B] 🚌 시내버스 노선 직통 탐색
         if (typeof processedBusData !== 'undefined' && Array.isArray(processedBusData)) {
             var bestBus = null, bestScore = Infinity;
             processedBusData.forEach(function(bus) {
@@ -834,7 +915,6 @@ map.on('click', function() {
             }
         }
 
-        // 만약 너무 가까워서 대중교통보다 도보가 빠르거나 노선이 안 잡히면 도보 결합 안내 추가
         if (results.length === 0) {
             results.push(computeWalkRoute(startPt, endPt));
         }
@@ -847,7 +927,6 @@ map.on('click', function() {
     function computeWalkRoute(startPt, endPt) {
         var carBase = computeCarRoute(startPt, endPt);
         var directMeter = calcRealMeters(startPt.lat, startPt.lng, endPt.lat, endPt.lng);
-        // 도보는 큰 도로 우회보다 직각 골목길(맨해튼 그리드)이 더 가까우면 골목 우선!
         var walkPts = [];
         var walkMeter = 0;
 
@@ -867,7 +946,7 @@ map.on('click', function() {
             walkMeter = Math.round(directMeter * 1.28);
         }
 
-        var walkMin = Math.max(1, Math.round(walkMeter / 67)); // 분속 67m (시속 4km)
+        var walkMin = Math.max(1, Math.round(walkMeter / 67));
         var kcal = Math.round(walkMin * 4.2);
 
         return {
@@ -922,12 +1001,10 @@ map.on('click', function() {
             if (!dl.pts || dl.pts.length < 2) return;
             allPts = allPts.concat(dl.pts);
 
-            // 외곽선(하얀 테두리) 먼저 그려서 가독성 극대화
             L.polyline(dl.pts, { color: "#ffffff", weight: dl.weight + 4, opacity: 0.9, interactive: false }).addTo(navLayer);
             L.polyline(dl.pts, { color: dl.color, weight: dl.weight, dashArray: dl.dash, opacity: 0.95, interactive: false }).addTo(navLayer);
         });
 
-        // 출발지 / 도착지 카카오맵 스타일 배지 마커
         var startIcon = L.divIcon({
             className: '',
             html: `<div style="background:#00c853; color:#fff; font-weight:900; font-size:12px; padding:4px 10px; border-radius:16px; border:2.5px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,0.4); white-space:nowrap;">🟢 출발: ${navState.start.name}</div>`,
