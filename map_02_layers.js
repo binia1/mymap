@@ -216,6 +216,9 @@ for (var y = 0; y > -totalHeight; y -= gridHeight) {
 // =========================================================
 // ★ 5. 마커 데이터 통합 (수정한 정보가 원본 마커를 100% 덮어쓰도록 버그 완벽 해결!)
 // =========================================================
+// =========================================================
+// ★ 5. 마커 데이터 통합 (파일에 적은 rating, reviews가 100% 반영되도록 누락 버그 해결!)
+// =========================================================
 var myLandmarks = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
 myLandmarks.forEach(m => { 
     if(!m.type) m.type = 'normal'; 
@@ -227,10 +230,17 @@ if (typeof defaultLandmarksData !== 'undefined') {
     processedDefaultLandmarks = defaultLandmarksData.map(function(m) {
         var mName = m.name;
         if (m.type === 'subway' && !mName.endsWith('역')) mName += '역';
-        return { name: mName, lat: m.lat + adjustY, lng: m.lng, color: m.color, type: m.type, phone: m.phone, desc: m.desc, image: m.image, hours: m.hours, isDefault: true };
+        // ★ 핵심 해결: Object.assign을 사용하여 rating, reviews 등 데이터 파일에 적힌 모든 속성을 하나도 빠짐없이 그대로 가져옴!
+        return Object.assign({}, m, {
+            name: mName,
+            lat: m.lat + adjustY,
+            lng: m.lng,
+            rating: m.rating,     // 파일에 적은 별점 보존!
+            reviews: m.reviews,   // 파일에 적은 리뷰수 보존!
+            isDefault: true
+        });
     });
 }
-
 var processedSubwayMarkers = [];
 if (typeof subwayData !== 'undefined') {
     if (subwayData.markers) {
@@ -1459,74 +1469,185 @@ function createFacilityCustomIcon(type, color, size, itemName) {
 // ★ [핵심 엔진] 별점과 업종에 맞춰 자동으로 방문자 리뷰를 생성하는 함수
 // (마커 클릭 시 및 상세페이지 열람 시 설명이 비어있으면 100% 자동 작동!)
 // =========================================================
+// =========================================================
+// ★ [핵심 엔진] 별점과 업종에 맞춰 자동으로 방문자 리뷰(단일 & 다중 리스트)를 생성하는 함수
+// =========================================================
 function generateAutoReview(ratingScore, type, name) {
+    var list = generateMultipleReviews(ratingScore, type, name, "");
+    return list[0].text;
+}
+
+// 상세페이지용 다중 리뷰(5~6개) 자동 생성기
+function generateMultipleReviews(ratingScore, type, name, customDesc) {
     var score = parseFloat(ratingScore);
     if (isNaN(score)) score = 4.2;
 
-    // 특정 카테고리별 맞춤형 고증 리뷰 (높은 별점일 때 우선 적용)
-    if (score >= 4.0) {
-        if (type === "cvs") return "매장이 쾌적하고 물건 종류가 다양해서 자주 이용하는 편의점입니다. 점원분도 친절해요!";
-        if (type === "apartment" || type === "public_apt" || type === "officetel") return "단지 조경과 관리가 깔끔하게 잘 되어 있고, 대중교통 접근성이 뛰어나 살기 좋은 곳입니다.";
-        if (type === "community_center" || type === "city_hall" || type === "gu_office" || type === "gun_office") return "직원분들이 민원 처리를 빠르고 친절하게 도와주셔서 기분 좋게 업무를 보고 왔습니다.";
-        if (type && type.includes("school")) return "교정이 깔끔하고 면학 분위기가 잘 조성되어 있는 효빈의 자랑스러운 학교입니다.";
-        if (type === "university" || type === "college" || type === "univ_building") return "캠퍼스 시설이 훌륭하고 산책하기에도 참 좋습니다. 학생들과 지역 주민 모두에게 사랑받는 공간이에요.";
-        if (type && (type.includes("hospital") || type === "dental" || type === "oriental_med" || type === "pharmacy")) return "원장님과 간호사분들이 과잉진료 없이 꼼꼼하고 친절하게 설명해 주셔서 믿고 방문합니다.";
-        if (type === "anime_shop" || type === "anime_stage" || type === "anime_museum") return "굿즈 라인업이 미쳤습니다! 효빈광역시 덕후들의 성지답게 볼거리가 정말 풍부해요. 최고! 👍";
-        if (type === "cafe" || type === "bakery") return "커피 향도 너무 좋고 디저트가 진짜 맛있어요! 매장 인테리어가 예뻐서 자주 찾게 됩니다.";
-    }
+    var reviewers = [
+        { nick: "효빈토박이", badge: "효빈시민 인증", avatarBg: "#0077DD" },
+        { nick: "고송동불주먹", badge: "지역 주민", avatarBg: "#37B484" },
+        { nick: "전천역통근러", badge: "실방문자", avatarBg: "#FF5800" },
+        { nick: "치카리코오시", badge: "프로리뷰어", avatarBg: "#E040FB" },
+        { nick: "평당동관찰자", badge: "동네 이웃", avatarBg: "#455A64" },
+        { nick: "하루빈사랑해", badge: "우수회원", avatarBg: "#0097A7" }
+    ];
 
-    // 점수대별 랜덤 리뷰 풀 (시설 이름 기반으로 고정된 문구가 나오도록 처리하여 깜빡임 방지)
-    var reviews = [];
-    if (score >= 4.5) {
-        reviews = [
-            "정말 훌륭합니다! 시설도 깔끔하고 무조건 다시 방문하고 싶어요. 👍",
-            "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
-            "기대 이상이었어요. 주변 지인들에게도 적극 추천하고 싶은 곳입니다!",
-            "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요."
-        ];
-    } else if (score >= 3.5) {
-        reviews = [
-            "전반적으로 무난하고 깔끔한 곳입니다. 기본에 충실해서 자주 찾게 되네요.",
-            "가성비가 좋고 위치도 찾기 쉬워서 방문하기 나쁘지 않습니다. 🙂",
+    var dates = ["방금 전", "2시간 전", "어제", "3일 전", "2026.10.15.", "2026.10.09."];
+    var pool = [];
+
+    if (score >= 4.2) {
+        if (type === "apartment" || type === "public_apt" || type === "officetel") {
+            pool = [
+                "단지 조경과 관리가 깔끔하게 잘 되어 있고, 대중교통 접근성이 뛰어나 살기 좋은 곳입니다.",
+                "주차장도 넉넉하고 경비실 직원분들이 늘 친절하셔서 입주민 만족도가 아주 높아요.",
+                "주변에 상권이랑 학군이 잘 갖춰져 있어서 효빈시 내에서 실거주하기 정말 좋은 단지입니다.",
+                "산책로가 잘 되어 있고 동간 거리가 넓어서 일조량이 끝내줍니다. 추천해요!",
+                "분리수거장이나 커뮤니티 시설이 늘 청결하게 유지됩니다. 살면서 불편한 점이 없네요."
+            ];
+        } else if (type === "anime_shop" || type === "anime_stage" || type === "anime_museum") {
+            pool = [
+                "굿즈 라인업이 미쳤습니다! 효빈광역시 덕후들의 성지답게 볼거리가 정말 풍부해요. 최고! 👍",
+                "네소베리랑 아크릴 스탠드 재고가 넉넉해서 눈 돌아갑니다ㅋㅋㅋ 월급 루팡 당하고 갑니다!",
+                "매장 브금 선곡부터 디스플레이까지 사장님이 진짜배기 오타쿠신 게 느껴져요. 필수 방문 코스!",
+                "한정판 콜라보 굿즈 구하러 왔는데 상태도 깨끗하고 직원분들도 너무 친절하십니다.",
+                "타 지역에서 효빈시 놀러 올 때마다 무조건 들르는 성지입니다. 별 다섯 개도 모자라요!"
+            ];
+        } else {
+            pool = [
+                "정말 훌륭합니다! 시설도 깔끔하고 무조건 다시 방문하고 싶어요. 👍",
+                "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
+                "기대 이상이었어요. 주변 지인들에게도 적극 추천하고 싶은 곳입니다!",
+                "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요.",
+                "대중교통으로 찾아오기도 편하고 내부 관리가 정말 잘 되어 있습니다. 강추합니다!"
+            ];
+        }
+    } else if (score >= 3.0) {
+        pool = [
+            "전반적으로 무난하고 깔끔한 곳입니다. 기본에 충실해서 종종 이용하게 되네요.",
+            "가성비가 괜찮고 위치도 찾기 쉬워서 방문하기 나쁘지 않습니다. 🙂",
             "평범하지만 딱히 흠잡을 데 없는 곳입니다. 나름 만족스럽게 이용했어요.",
-            "크게 불편한 점 없이 무난하게 잘 이용하고 갑니다."
+            "크게 불편한 점 없이 무난하게 잘 이용하고 갑니다.",
+            "장단점이 있지만 근처에 오면 한 번쯤 들러볼 만한 수준입니다."
         ];
     } else if (score >= 2.0) {
-        reviews = [
+        pool = [
             "조금 아쉬운 부분이 있네요. 전반적인 시설이나 서비스 개선이 필요해 보입니다. 🤔",
-            "기대했던 것보다는 평범했어요. 다음에는 더 좋아지길 바랍니다.",
-            "한 번쯤은 가볼 만하지만 두 번 방문할지는 조금 고민되네요."
+            "기대했던 것보다는 별로였어요. 관리가 좀 더 체계적으로 되면 좋겠습니다.",
+            "한 번쯤은 가볼 만하지만 굳이 멀리서 찾아올 정도인지는 모르겠네요...",
+            "응대가 다소 불친절해서 기분이 좀 그랬습니다. 개선 부탁드려요.",
+            "소문 듣고 갔는데 명성에 비하면 관리가 영 허술합니다."
         ];
     } else {
-        reviews = [
-            "솔직히 많이 실망했습니다. 개인적으로는 추천하지 않아요. 👎",
-            "서비스와 시설 모두 기대 이하입니다. 빠른 개선이 시급해 보입니다.",
-            "최악의 경험이었어요. 귀한 시간과 돈이 아깝다는 생각이 듭니다."
-        ];
+        // ★ 1점대 (예: 1.1점 평당 아르티엠 아파트 등) 매운맛 혹평 리뷰 풀!
+        if (type === "apartment" || type === "public_apt" || type === "officetel") {
+            pool = [
+                "외지인한테 바가지 씌우고 텃세 부리는 걸로 악명 높은 곳입니다. 계약 전에 무조건 걸러야 해요.",
+                "주차 전쟁에 층간소음도 심각한데 입주자 모임 텃세까지 장난 아닙니다. 절대 비추합니다. 👎",
+                "집값 담합이랑 허위 매물 장난질이 너무 심해요. 부동산 사기 안 당하게 진짜 조심하세요!",
+                "동네 분위기 자체가 너무 폐쇄적이고 배타적입니다. 별 1개 주기도 아까운 수준이에요.",
+                "관리비 내역도 불투명하고 시설 노후화도 방치되어 있습니다. 이사 오실 분들 다시 생각해보세요."
+            ];
+        } else {
+            pool = [
+                "솔직히 많이 실망했습니다. 개인적으로는 절대 추천하지 않아요. 👎",
+                "서비스와 시설 모두 기대 이하입니다. 총체적인 개선이 시급해 보입니다.",
+                "최악의 경험이었어요. 귀한 시간과 돈이 아깝다는 생각밖에 안 듭니다.",
+                "별 1개도 아깝습니다. 왜 평점이 이렇게 낮은지 직접 겪어보니 단번에 이해되네요.",
+                "다시는 근처에도 안 갈 것 같습니다. 이용하실 분들은 다른 곳 알아보시는 걸 추천합니다."
+            ];
+        }
     }
 
-    var seed = name ? (name.length + name.charCodeAt(0)) : Math.floor(Math.random() * 10);
-    return reviews[seed % reviews.length];
+    var resultList = [];
+    var baseStar = Math.max(1, Math.min(5, Math.round(score)));
+
+    // 1번 리뷰: 사용자가 직접 지정한 desc가 있으면 1순위로 고정 등록!
+    if (customDesc && customDesc.trim() !== "") {
+        resultList.push({
+            nick: "효빈광역시 시민",
+            badge: "👑 베스트 리뷰",
+            avatarBg: "#d32f2f",
+            star: baseStar,
+            scoreTxt: score.toFixed(1),
+            date: "최근 작성",
+            text: customDesc.trim(),
+            likes: Math.floor((name ? name.length : 5) * 7) + 24
+        });
+    }
+
+    // 나머지 추가 리뷰 5개 생성
+    var seed = name ? (name.length + name.charCodeAt(0)) : 3;
+    for (var i = 0; i < 5; i++) {
+        var rIdx = (seed + i) % reviewers.length;
+        var pIdx = (seed + i) % pool.length;
+        // 만약 사용자 지정 desc와 똑같은 문구면 건너뜀
+        if (customDesc && pool[pIdx] === customDesc.trim()) continue;
+
+        // 점수에 약간의 현실적인 편차 부여 (1점대면 1~2점, 4점대면 4~5점)
+        var indivStar = baseStar;
+        if (score < 2.0) indivStar = (i % 4 === 0) ? 2 : 1;
+        else if (score >= 4.3) indivStar = (i % 3 === 0) ? 4 : 5;
+
+        resultList.push({
+            nick: reviewers[rIdx].nick,
+            badge: reviewers[rIdx].badge,
+            avatarBg: reviewers[rIdx].avatarBg,
+            star: indivStar,
+            scoreTxt: indivStar.toFixed(1),
+            date: dates[i % dates.length],
+            text: pool[pIdx],
+            likes: ((seed * (i + 2)) % 19) + 2
+        });
+    }
+
+    return resultList;
 }
 
 // =========================================================
-// 새 창 상세페이지 (별점 및 자동 방문자 리뷰 UI 100% 무조건 출력)
+// 새 창 상세페이지 (별점 100% 연동 + 다중 방문자 리뷰 리스트 출력!)
 // =========================================================
 window.openDetailWindow = function(encodedData) {
     try {
         var data = JSON.parse(decodeURIComponent(encodedData));
         var opInfo = getSmartOperatingStatus(data.type || "normal", data.name, data.hours);
 
-        var finalRating = data.rating || (4.1 + ((data.name ? data.name.length : 3) % 9) * 0.1).toFixed(1);
+        var finalRating = (data.rating !== undefined && data.rating !== "") 
+            ? parseFloat(data.rating).toFixed(1) 
+            : (4.1 + ((data.name ? data.name.length : 3) % 9) * 0.1).toFixed(1);
+        var finalReviewsCount = (data.reviews !== undefined && data.reviews !== "") 
+            ? data.reviews 
+            : ((data.name ? data.name.length : 5) * 9 + 5);
+
         var parsedRating = Math.round(parseFloat(finalRating));
         if (parsedRating > 5) parsedRating = 5;
         if (parsedRating < 0) parsedRating = 0;
         var starDisplay = "★".repeat(parsedRating) + "☆".repeat(5 - parsedRating);
 
-        // ★ 핵심: 저장된 리뷰(desc)가 없으면 자동으로 생성해서 무조건 띄움!
-        var finalReviewText = (data.desc && data.desc.trim() !== "") 
-            ? data.desc 
-            : generateAutoReview(finalRating, data.type, data.name);
+        // ★ 상세페이지용 다중 리뷰 리스트(5~6개) 생성!
+        var reviewList = generateMultipleReviews(finalRating, data.type, data.name, data.desc);
+        var multiReviewsHtml = reviewList.map(function(rv, idx) {
+            var rvStars = "★".repeat(rv.star) + "☆".repeat(5 - rv.star);
+            var isBest = (idx === 0 && data.desc && data.desc.trim() !== "");
+            return `
+                <div style="background:${isBest ? '#fff8e1' : '#f8f9fa'}; border:1px solid ${isBest ? '#ffe082' : '#e5e5e5'}; border-radius:8px; padding:15px 16px; margin-bottom:10px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                        <div style="width:30px; height:30px; background:${rv.avatarBg}; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:bold;">${rv.nick.substring(0,2)}</div>
+                        <div>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <span style="font-size:13.5px; font-weight:700; color:#222;">${rv.nick}</span>
+                                <span style="font-size:10.5px; background:${isBest ? '#ff5252' : '#e9ecef'}; color:${isBest ? '#fff' : '#555'}; padding:1px 6px; border-radius:4px; font-weight:bold;">${rv.badge}</span>
+                            </div>
+                            <div style="font-size:11.5px; color:#888; margin-top:1px;">
+                                <span style="color:#ff5252; letter-spacing:-1px;">${rvStars}</span> <b>${rv.scoreTxt}점</b> · ${rv.date}
+                            </div>
+                        </div>
+                        <div style="margin-left:auto; font-size:11.5px; color:#666; background:#fff; border:1px solid #ddd; padding:3px 8px; border-radius:12px;">
+                            👍 공감 ${rv.likes}
+                        </div>
+                    </div>
+                    <div style="font-size:13.5px; color:#222; line-height:1.6; padding-left:2px;">${rv.text}</div>
+                </div>
+            `;
+        }).join('');
 
         var newWin = window.open('', '_blank');
         if (!newWin) { alert("팝업 차단이 설정되어 있습니다. 브라우저에서 팝업을 허용해주세요!"); return; }
@@ -1540,8 +1661,8 @@ window.openDetailWindow = function(encodedData) {
             return m.name && m.type !== 'subway' && m.type !== 'busStop' && m.name !== data.name;
         }).map(function(m) {
             var dist = Math.sqrt(Math.pow(m.lat - currentLat, 2) + Math.pow(m.lng - currentLng, 2));
-            var rScore = m.rating || (3.8 + ((m.name.length * 3) % 12) * 0.1).toFixed(1);
-            var rCount = m.reviews || ((m.name.length * 43) + 12);
+            var rScore = (m.rating !== undefined && m.rating !== "") ? parseFloat(m.rating).toFixed(1) : (3.8 + ((m.name.length * 3) % 12) * 0.1).toFixed(1);
+            var rCount = (m.reviews !== undefined && m.reviews !== "") ? m.reviews : ((m.name.length * 43) + 12);
             var mType = classify100Category(m.name);
             return {
                 name: m.name,
@@ -1560,7 +1681,7 @@ window.openDetailWindow = function(encodedData) {
         function buildRankHtml(list) {
             if (list.length === 0) return `<div style="padding:30px; text-align:center; color:#888;">주변에 등록된 장소가 없습니다.</div>`;
             return list.map(function(item, idx) {
-                var stars = "★".repeat(Math.round(parseFloat(item.rating))) + "☆".repeat(5 - Math.round(parseFloat(item.rating)));
+                var stars = "★".repeat(Math.max(0, Math.min(5, Math.round(parseFloat(item.rating))))) + "☆".repeat(5 - Math.max(0, Math.min(5, Math.round(parseFloat(item.rating)))));
                 return `
                 <div class="rank-item">
                     <div class="rank-num">${idx + 1}</div>
@@ -1590,7 +1711,7 @@ window.openDetailWindow = function(encodedData) {
 <head>
     <meta charset="UTF-8">
     <title>${data.name} | 효빈맵 상세페이지</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Noto Sans KR', sans-serif; margin: 0; background: #f4f5f7; color: #222; }
@@ -1600,7 +1721,7 @@ window.openDetailWindow = function(encodedData) {
         .main-wrap { max-width: 640px; margin: 20px auto 60px auto; position: relative; }
         .card-box { background: #fff; border-radius: 12px; border: 1px solid #e5e5e5; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 14px; }
         .place-header { padding: 28px 28px 20px 28px; }
-        .place-title { font-size: 24px; font-weight: 700; margin: 0 0 6px 0; display: flex; align-items: baseline; gap: 8px; }
+        .place-title { font-size: 24px; font-weight: 700; margin: 0 0 6px 0; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
         .place-cat { font-size: 13px; color: #0077DD; font-weight: 700; background: #eef6ff; padding: 2px 8px; border-radius: 4px; }
         .place-status { font-size: 13.5px; color: #222; margin: 10px 0 16px 0; }
         .pill-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
@@ -1642,6 +1763,11 @@ window.openDetailWindow = function(encodedData) {
         <div class="card-box">
             <div class="place-header">
                 <h1 class="place-title">${data.name} <span class="place-cat">${data.typeName}</span></h1>
+                <div style="font-size:15px; margin:8px 0;">
+                    <span style="color:#ff5252; font-weight:900; font-size:18px;">${finalRating}</span>
+                    <span style="color:#ff5252; letter-spacing:-1px;">${starDisplay}</span>
+                    <span style="color:#666; font-size:13.5px; margin-left:4px;">방문자 리뷰 <b>${finalReviewsCount}</b>건</span>
+                </div>
                 <div class="place-status">${opInfo.badge} · ${opInfo.hours}</div>
                 <div class="pill-actions">
                     <a href="${wikiUrl}" target="_blank" class="pill-btn blue">📖 효빈위키 문서 보기</a>
@@ -1653,7 +1779,7 @@ window.openDetailWindow = function(encodedData) {
                 <img src="${data.image}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22220%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23dfe4ea%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2216%22 fill=%22%23747d8c%22 font-weight=%22bold%22 text-anchor=%22middle%22 dy=%22.3em%22>🏢 ${data.name} (${data.image})</text></svg>'">
             </div>
             <div class="tab-menu">
-                <div id="tab-btn-home" class="tab-item active" onclick="switchDetailTab('home')">상세 홈</div>
+                <div id="tab-btn-home" class="tab-item active" onclick="switchDetailTab('home')">상세 홈 · 리뷰(${finalReviewsCount})</div>
                 <div id="tab-btn-rank" class="tab-item" onclick="switchDetailTab('rank')">주변 랭킹</div>
             </div>
             <div id="tab-pane-home" class="tab-content active">
@@ -1663,17 +1789,12 @@ window.openDetailWindow = function(encodedData) {
                     <div class="info-row"><div class="info-icon">📞</div><div class="info-text"><b>대표전화:</b> ${data.phone}</div></div>
                     <div class="info-row"><div class="info-icon">📖</div><div class="info-text"><b>효빈위키:</b> <a href="${wikiUrl}" target="_blank" style="color:#0077DD; font-weight:bold;">${wikiUrl}</a></div></div>
                     
-                    <div style="margin-top: 24px; border-top: 1px solid #f4f4f4; padding-top: 24px;">
-                        <div style="font-size:15px; font-weight:700; margin-bottom:12px; color:#222;">💬 최근 방문자 베스트 리뷰</div>
-                        <div style="background:#f8f9fa; border:1px solid #e5e5e5; border-radius:8px; padding:16px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-                                <div style="width:30px; height:30px; background:#0077DD; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:bold;">효빈</div>
-                                <div style="font-size:13px; font-weight:700; color:#333;">효빈광역시 시민</div>
-                                <div style="font-size:13px; color:#ff5252; letter-spacing:-1px;">${starDisplay}</div>
-                                <div style="font-size:12px; color:#888; margin-left:auto;">${finalRating}점</div>
-                            </div>
-                            <div style="font-size:14px; color:#222; line-height:1.6;">${finalReviewText}</div>
+                    <div style="margin-top: 24px; border-top: 2px solid #f0f2f5; padding-top: 24px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                            <div style="font-size:16px; font-weight:900; color:#222;">💬 시민 방문자 리뷰 <span style="color:#ff5252;">${finalReviewsCount}</span></div>
+                            <div style="font-size:13px; font-weight:700; color:#ff5252;">평균 ★ ${finalRating} / 5.0</div>
                         </div>
+                        ${multiReviewsHtml}
                     </div>
                 </div>
             </div>
@@ -1711,7 +1832,6 @@ window.openDetailWindow = function(encodedData) {
         console.error("상세페이지 오류:", e);
     }
 };
-
 // =========================================================
 // 마커 추가 함수 (모든 시설 클릭 시 자동 리뷰 100% 표시되도록 개선!)
 // =========================================================
@@ -2153,14 +2273,23 @@ setTimeout(function() {
             var lines = JSON.parse(localStorage.getItem('hyobin_lines')) || [];
             if (markers.length === 0 && lines.length === 0) { alert("새로 추가하거나 수정한 데이터가 없습니다."); return; }
             
+            // ★ 핵심: 선(lines)은 건드리지 않고, 마커(markers)만 추출할 때 lat에 자동으로 +19822를 더함!
+            var shiftedMarkers = markers.map(function(m) {
+                var copyM = Object.assign({}, m);
+                if (typeof copyM.lat === 'number') {
+                    copyM.lat = Math.round(copyM.lat + 19822);
+                }
+                return copyM;
+            });
+
             var resultText = "/* 아래 코드를 복사해서 데이터 파일 가장 아래 빈 공간에 붙여넣으세요! */\n\n";
-            if (markers.length > 0) resultText += "// 📍 수동 저장/수정된 마커 데이터\nvar myExportedMarkers = " + JSON.stringify(markers, null, 4) + ";\n\n";
-            if (lines.length > 0) resultText += "// 🛤️ 수동 저장된 도로/선 데이터\nvar myExportedLines = " + JSON.stringify(lines, null, 4) + ";\n\n";
+            if (shiftedMarkers.length > 0) resultText += "// 📍 수동 저장/수정된 마커 데이터 (lat +19822 자동 보정 완료)\nvar myExportedMarkers = " + JSON.stringify(shiftedMarkers, null, 4) + ";\n\n";
+            if (lines.length > 0) resultText += "// 🛤️ 수동 저장된 도로/선 데이터 (원본 좌표 유지)\nvar myExportedLines = " + JSON.stringify(lines, null, 4) + ";\n\n";
             
             var modal = document.createElement('div');
             modal.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; box-shadow:0 0 20px rgba(0,0,0,0.5); z-index:9999; width:600px; height:500px; display:flex; flex-direction:column; border-radius:8px;';
             modal.innerHTML = `
-                <h3 style="margin-top:0; color:#0077DD; border-bottom:2px solid #0077DD; padding-bottom:10px;">💾 데이터 코드 추출기</h3>
+                <h3 style="margin-top:0; color:#0077DD; border-bottom:2px solid #0077DD; padding-bottom:10px;">💾 데이터 코드 추출기 (마커 lat +19822 자동 적용)</h3>
                 <textarea id="code-textarea" style="flex:1; width:100%; font-family:monospace; font-size:12px; padding:10px; border:1px solid #ccc; resize:none;" readonly></textarea>
                 <div style="text-align:right; margin-top:15px;">
                     <button id="copy-export-btn" style="padding:10px 20px; background:#333; color:#fff; border:none; cursor:pointer; border-radius:4px; font-weight:bold; margin-right:5px;">전체 복사</button>
@@ -2174,7 +2303,6 @@ setTimeout(function() {
         existingContainer.appendChild(exportBtn);
     }
 }, 500);
-
 var currentEditMarker = null; var currentEditItem = null;
 function scanNearbyBuses(lat, lng, margin = 150) {
     var foundBuses = [];
