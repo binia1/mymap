@@ -363,8 +363,34 @@ var defaultLandmarksData = [
 { name: "남동초등학교", lat: -12878, lng: 19083, color: "#006699", type: "normal" },
 { name: "모카중학교", lat: -13085, lng: 19247, color: "#006699", type: "normal" },
 { name: "색수중학교", lat: -12943, lng: 19577, color: "#006699", type: "normal" },
-{ name: "비마중학교", lat: -12711, lng: 19568, color: "#006699", type: "normal" },
-{ name: "서북중학교", lat: -13268, lng: 19000, color: "#006699", type: "normal" },
+    {
+        "name": "비마중학교",
+        "lat": -12711,
+        "lng": 19568,
+        "type": "middle_school",
+        "hours": "09:00 ~ 18:00",
+        "phone": "079-771-2570",
+        "desc": "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요.",
+        "rating": "4.6",
+        "reviews": "50",
+        "color": "#FFB300",
+        "image": "이미지/비마중학교.webp"
+    },
+        {
+        "name": "수미산",
+        "lat": -1259,
+        "lng": 24903,
+        "color": "#558B2F",
+        "type": "mountain"
+    },
+    {
+        "name": "포상도항",
+        "lat": -1741,
+        "lng": 24480,
+        "color": "#333333",
+        "type": "normal"
+    }
+    ,{ name: "서북중학교", lat: -13268, lng: 19000, color: "#006699", type: "normal" },
 { name: "색수초등학교", lat: -13199, lng: 19777, color: "#006699", type: "normal" },
 { name: "비마고등학교", lat: -12700, lng: 20030, color: "#006699", type: "normal" },
 { name: "언산초등학교", lat: -12786, lng: 20172, color: "#006699", type: "normal" },
@@ -1226,8 +1252,21 @@ var defaultLandmarksData = [
 { name: "중앙도서관(23)", lat: -7086, lng: 18883, color: "#7799CC", type: "normal" },
 { name: "방도도서관(36)", lat: -6866, lng: 18827, color: "#7799CC", type: "normal" },
 { name: "맥도날드 포산DT", lat: -4966, lng: 23753, color: "#7799CC", type: "normal" },
-{ name: "맥도날드 효빈이마트", lat: -10658, lng: 18495, color: "#BB9955", type: "normal" },
-{ name: "천왕사(절)", lat: -6942, lng: 20575, color: "#7799CC", type: "normal" },
+    {
+        "origName": "맥도날드 효빈이마트",
+        "name": "맥도날드 효빈이마트점",
+        "lat": -10658,
+        "lng": 18495,
+        "type": "fastfood",
+        "hours": "10:00 ~ 23:00 (매월 2·4주 일요일 휴무)",
+        "phone": "079-242-1497",
+        "desc": "정말 훌륭합니다! 시설도 깔끔하고 무조건 다시 방문하고 싶어요. 👍",
+        "rating": "4.8",
+        "reviews": "95",
+        "color": "#FF5252",
+        "image": "이미지/맥도날드 효빈이마트점.webp"
+    },
+    { name: "천왕사(절)", lat: -6942, lng: 20575, color: "#7799CC", type: "normal" },
 { name: "맥도날드 우전DT", lat: -12594, lng: 23603, color: "#006699", type: "normal" },
 { name: "맥도날드 청엽DT", lat: -11106, lng: 22359, color: "#006699", type: "normal" },
 { name: "맥도날드 쌍엽DT", lat: -13466, lng: 23143, color: "#33AAFF", type: "normal" },
@@ -1295,8 +1334,20 @@ var defaultLandmarksData = [
 { name: "토네호텔", lat: -9370, lng: 17660, color: "#BB9955", type: "normal" },
 { name: "베스랑", lat: -9432, lng: 17768, color: "#BB9955", type: "normal" },
 { name: "조유주공아파트", lat: -9009, lng: 17794, color: "#BB9955", type: "normal" },
-{ name: "족포초(폐교)", lat: -8345, lng: 17409, color: "#00AABB", type: "normal" },
-{ name: "북구서부어린이회관", lat: -8886, lng: 18616, color: "#7799CC", type: "normal" },
+    {
+        "name": "족포초등학교(폐교)",
+        "lat": -8345,
+        "lng": 17409,
+        "type": "elementary_school",
+        "hours": "폐교",
+        "phone": "079-666-3712",
+        "desc": "역대 최악의 막장 카르텔 학교, 학교폭력을 방관하는 학교, 학생들 뿐만 아니라 학부모와 교사마저 최악이었던 막장학교",
+        "rating": "1.0",
+        "reviews": "100",
+        "color": "#FFCA28",
+        "image": "이미지/족포초등학교.webp"
+    },
+    { name: "북구서부어린이회관", lat: -8886, lng: 18616, color: "#7799CC", type: "normal" },
 { name: "중구 민방위교육장", lat: -9117, lng: 18896, color: "#BB9955", type: "normal" },
 { name: "효빈행복주택 아파트", lat: -9370, lng: 18246, color: "#BB9955", type: "normal" },
 { name: "베르데 디두타", lat: -10121, lng: 17902, color: "#BB9955", type: "normal" },
@@ -1722,9 +1773,9 @@ var defaultLandmarksData = [
 { name: "사노 팔레트 아파트", lat: -12313, lng: 20988, color: "#006699", type: "normal" },
 { name: "비마 푸르지오 아파트 2단지", lat: -12383, lng: 20679, color: "#006699", type: "normal" },
 { name: "비마 푸르지오 아파트 1단지", lat: -12718, lng: 20625, color: "#006699", type: "normal" },
-{ name: "비마 쓰리와이 3단지", lat: -12378, lng: 20383, color: "#006699", type: "normal" },
-{ name: "비마 쓰리와이 2단지", lat: -12393, lng: 20164, color: "#006699", type: "normal" },
-{ name: "비마 쓰리와이 1단지", lat: -12011, lng: 20748, color: "#006699", type: "normal" },
+{ name: "비마 쓰리와이 아파트3단지", lat: -12378, lng: 20383, color: "#006699", type: "normal" },
+{ name: "비마 쓰리와이 아파트2단지", lat: -12393, lng: 20164, color: "#006699", type: "normal" },
+{ name: "비마 쓰리와이 아파트1단지", lat: -12011, lng: 20748, color: "#006699", type: "normal" },
 { name: "비마 금광 베네스타 아파트", lat: -12078, lng: 20470, color: "#006699", type: "normal" },
 { name: "비마 베르데 아파트", lat: -12048, lng: 20268, color: "#006699", type: "normal" },
 { name: "비마 로젤리아 아파트", lat: -12393, lng: 19933, color: "#006699", type: "normal" },
@@ -2387,7 +2438,9 @@ var defaultLandmarksData = [
 { name: "안천세이플아파트", lat: -9838, lng: 31972, color: "#AA66DD", type: "normal"},
 { name: "화소산단", lat: -4768, lng: 62035, color: "#F8C8C4", type: "normal"},
 { name: "역성지구", lat: -6709, lng: 57611, color: "#F8C8C4", type: "normal"},
-{ name: "보녕고등학교", lat: -8033, lng: 58168, color: "#F8C8C4", type: "normal"},
+{ name: "보녕중학교", lat: -8033, lng: 58168, color: "#F8C8C4", type: "normal"},
+{ name: "약산남고등학교", lat: -8033, lng: 58168, color: "#F8C8C4", type: "normal"},
+{ name: "약산여자고등학교", lat: -8033, lng: 58168, color: "#F8C8C4", type: "normal"},
 { name: "약산제약단지", lat: -5196, lng: 59059, color: "#F8C8C4", type: "normal"},
 { name: "약산미디어단지", lat: -6694, lng: 59177, color: "#F8C8C4", type: "normal"},
 { name: "효빈광역시 인재개발원", lat: -11127, lng: 36904, color: "#AA66DD", type: "normal"},
@@ -2426,7 +2479,6 @@ var defaultLandmarksData = [
 { name: "효빈대 공대지구", lat: -7470, lng: 18053, color: "#00AABB", type: "normal"},
 { name: "효빈대병원 내부", lat: -8119, lng: 18443, color: "#7799CC", type: "normal"},
 { name: "효빈성 북문남부", lat: -8777, lng: 18127, color: "#7799CC", type: "normal"},
-{ name: "고송골든체시움", lat: -2724, lng: 16084, color: "#7799CC", type: "normal"},
 { name: "효빈종합운동장 북부", lat: -6236, lng: 21657, color: "#7799CC", type: "normal"},
 { name: "평안명대 후문", lat: -6325, lng: 23267, color: "#7799CC", type: "normal"},
 { name: "HJ몰 서문", lat: -6495, lng: 24230, color: "#7799CC", type: "normal"},
@@ -2652,7 +2704,6 @@ var defaultLandmarksData = [
 { name: "효빈 e스포츠 아레나", lat: -5050, lng: 18579, color: "#7799CC", type: "normal" },
 { name: "효빈 슈퍼 아레나", lat: -12854, lng: 17317, color: "#006699", type: "normal" },
 { name: "효빈사격장", lat: -11873, lng: 12892, color: "#DDBBFF", type: "normal" },
-{ name: "효빈광역시 양궁장", lat: -11951, lng: 27407, color: "#33AAFF", type: "normal" },
 { name: "효빈 실내빙상경기장", lat: -10872, lng: 24110, color: "#006699", type: "normal" },
 { name: "효빈실내체육관", lat: -15721, lng: 9003, color: "#DDBBFF", type: "normal" },
 { name: "안천 스틸야드", lat: -11374, lng: 36446, color: "#AA66DD", type: "normal" },
@@ -3383,5 +3434,1836 @@ var defaultLandmarksData = [
         "lng": 20418,
         "color": "#00C853",
         "type": "cvs"
+    },
+        {
+        "name": "효빈만화애니메이션도서관",
+        "lat": -5082,
+        "lng": 21289,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "중수도서관",
+        "lat": -6751,
+        "lng": 24590,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈도서관",
+        "lat": -11452,
+        "lng": 17451,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립중앙도서관",
+        "lat": -9559,
+        "lng": 17381,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립덕현도서관",
+        "lat": -9902,
+        "lng": 22034,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립당선도서관",
+        "lat": -6427,
+        "lng": 18111,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립도서관항동분관",
+        "lat": -11713,
+        "lng": 11846,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립평당도서관",
+        "lat": -15096,
+        "lng": 9301,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립오내도서관",
+        "lat": -7097,
+        "lng": 23714,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립창전도서관",
+        "lat": -13789,
+        "lng": 24499,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립청엽도서관",
+        "lat": -11033,
+        "lng": 22022,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립비마도서관",
+        "lat": -12566,
+        "lng": 20935,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립안천도서관",
+        "lat": -8751,
+        "lng": 31600,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "효빈광역시립탄성도서관(예정)",
+        "lat": -16695,
+        "lng": 30389,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "중구립도서관",
+        "lat": -9616,
+        "lng": 18209,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "중구효빈전차도서관",
+        "lat": -9922,
+        "lng": 16805,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "동구립사가당도서관",
+        "lat": -10493,
+        "lng": 22375,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "전천도서관",
+        "lat": -8354,
+        "lng": 21262,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "서구립도서관",
+        "lat": -5461,
+        "lng": 15611,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "사복도서관",
+        "lat": -5864,
+        "lng": 17268,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "청덕도서관",
+        "lat": -4650,
+        "lng": 15140,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "과진과학도서관",
+        "lat": -6170,
+        "lng": 15432,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "평당평산도서관",
+        "lat": -14233,
+        "lng": 10783,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "어간도서관",
+        "lat": -10363,
+        "lng": 5370,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "남구해양도서관",
+        "lat": -10705,
+        "lng": 8615,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "고송도서관",
+        "lat": -4477,
+        "lng": 16993,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "북구청도서관(예정)",
+        "lat": -5754,
+        "lng": 25187,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "칠심도서관",
+        "lat": -12807,
+        "lng": 25946,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "쌍엽도서관",
+        "lat": -13597,
+        "lng": 22640,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "창전문화도서관",
+        "lat": -14341,
+        "lng": 25156,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "청엽구청도서관",
+        "lat": -11476,
+        "lng": 22601,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "우전도서관",
+        "lat": -12722,
+        "lng": 23751,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "안천팔망성도서관",
+        "lat": -9558,
+        "lng": 32691,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "당가도서관",
+        "lat": -8558,
+        "lng": 29742,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "이자도서관",
+        "lat": -8144,
+        "lng": 38316,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "이자공원도서관",
+        "lat": -8861,
+        "lng": 37776,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "탄성군립도서관",
+        "lat": -13325,
+        "lng": 33427,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "탄성군청작은도서관",
+        "lat": -16709,
+        "lng": 32354,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "앵내도서관",
+        "lat": -11788,
+        "lng": 37857,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "탄성군청소년센터작은도서관",
+        "lat": -11953,
+        "lng": 32931,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "서목읍작은도서관",
+        "lat": -20371,
+        "lng": 31506,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "고해읍작은도서관",
+        "lat": -8114,
+        "lng": 45038,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "소원장난감도서관",
+        "lat": -5560,
+        "lng": 40691,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "도향면작은도서관",
+        "lat": -8977,
+        "lng": 50618,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "정근면작은도서관",
+        "lat": -6612,
+        "lng": 54645,
+        "color": "#00838F",
+        "type": "library"
+    },
+    {
+        "name": "흑택아이스크림도서관",
+        "lat": -12286,
+        "lng": 30932,
+        "color": "#00838F",
+        "type": "library"
+    },
+        {
+        "name": "염곡초등학교",
+        "lat": 4011,
+        "lng": 17174,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "염곡중학교",
+        "lat": 3156,
+        "lng": 16289,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "염곡고등학교",
+        "lat": 2747,
+        "lng": 15175,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "경택초등학교",
+        "lat": 2770,
+        "lng": 17702,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "주양초등학교",
+        "lat": 1281,
+        "lng": 15821,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "중천초등학교",
+        "lat": 2669,
+        "lng": 14316,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "주양중학교",
+        "lat": 2460,
+        "lng": 17130,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "신산고등학교",
+        "lat": 758,
+        "lng": 16134,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "주길항공과학고",
+        "lat": 5812,
+        "lng": 15044,
+        "color": "#FF8F00",
+        "type": "special_high"
+    },
+    {
+        "name": "주길초등학교",
+        "lat": 5882,
+        "lng": 14540,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "하늘빛초등학교",
+        "lat": 4849,
+        "lng": 18601,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "산형초등학교",
+        "lat": -8617,
+        "lng": 55367,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "산형중학교",
+        "lat": -8332,
+        "lng": 55646,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "산형고등학교",
+        "lat": -8359,
+        "lng": 55701,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "탄미중학교",
+        "lat": -8161,
+        "lng": 56924,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "탄미고등학교",
+        "lat": -8157,
+        "lng": 57011,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "체신초등학교",
+        "lat": -8541,
+        "lng": 56944,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "대염초등학교",
+        "lat": -9498,
+        "lng": 56015,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "매목초등학교",
+        "lat": -8965,
+        "lng": 54326,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "염원초등학교",
+        "lat": -10174,
+        "lng": 58191,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "북천초등학교",
+        "lat": -9996,
+        "lng": 59789,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "소망고등학교",
+        "lat": -10567,
+        "lng": 60757,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "삼미중학교",
+        "lat": -10501,
+        "lng": 61120,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "약산초등학교",
+        "lat": -8946,
+        "lng": 59058,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "약산북초등학교",
+        "lat": -6976,
+        "lng": 58476,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "보녕초등학교",
+        "lat": -7691,
+        "lng": 58980,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "주남중학교",
+        "lat": -6574,
+        "lng": 60208,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "우부초등학교",
+        "lat": -7386,
+        "lng": 60416,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "우부중학교",
+        "lat": -8154,
+        "lng": 60504,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "하수구초등학교",
+        "lat": -8878,
+        "lng": 60632,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "상수구초등학교",
+        "lat": -8218,
+        "lng": 61032,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "우부고등학교",
+        "lat": -9566,
+        "lng": 60904,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "석동고등학교",
+        "lat": -6958,
+        "lng": 56980,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "석동초등학교",
+        "lat": -7030,
+        "lng": 57092,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "석동중학교",
+        "lat": -7738,
+        "lng": 56956,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "수랑초등학교",
+        "lat": -5894,
+        "lng": 57608,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "기랑초등학교",
+        "lat": -4750,
+        "lng": 59832,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+
+    {
+        "name": "광정초등학교",
+        "lat": -6318,
+        "lng": 62620,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "홍하초등학교",
+        "lat": -4442,
+        "lng": 66140,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },    {
+        "name": "화소초등학교'",
+        "lat": -3375,
+        "lng": 66864,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "화소중학교",
+        "lat": -2835,
+        "lng": 67322,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "화소고등학교",
+        "lat": -6257,
+        "lng": 60004,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "근강초등학교",
+        "lat": -3009,
+        "lng": 70688,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "근강중학교",
+        "lat": -4231,
+        "lng": 72306,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "조소초등학교",
+        "lat": -3463,
+        "lng": 74370,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "장곡초등학교",
+        "lat": -4500,
+        "lng": 76631,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "덕북도립대학교",
+        "lat": -5598,
+        "lng": 76664,
+        "color": "#E65100",
+        "type": "university"
+    },
+    {
+        "name": "무기중학교",
+        "lat": -5150,
+        "lng": 79081,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "공천초등학교",
+        "lat": -4513,
+        "lng": 75319,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "장곡중학교",
+        "lat": -5384,
+        "lng": 73999,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "장곡고등학교",
+        "lat": -3434,
+        "lng": 75176,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "무기고등학교",
+        "lat": -3265,
+        "lng": 76410,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "궁하초등학교",
+        "lat": -2031,
+        "lng": 76066,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "궁하고등학교",
+        "lat": -1901,
+        "lng": 76423,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "궁하서초등학교",
+        "lat": -1602,
+        "lng": 75449,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "아이초등학교",
+        "lat": -432,
+        "lng": 75962,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "아이다쾌초등학교",
+        "lat": 471,
+        "lng": 76046,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "아이중학교",
+        "lat": 198,
+        "lng": 75754,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "궁하제일고등학교",
+        "lat": -653,
+        "lng": 74812,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "궁하남중학교",
+        "lat": -881,
+        "lng": 74370,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "서팔고등학교",
+        "lat": 1796,
+        "lng": 75884,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "서팔초등학교",
+        "lat": 1641,
+        "lng": 75585,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "견산초등학교",
+        "lat": 1127,
+        "lng": 76235,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "서팔북초등학교",
+        "lat": 1491,
+        "lng": 74168,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "궁하여자고등학교",
+        "lat": 2349,
+        "lng": 75988,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "아이서중학교",
+        "lat": 360,
+        "lng": 74773,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "과림중학교",
+        "lat": 4454,
+        "lng": 75332,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "대수초등학교",
+        "lat": 2693,
+        "lng": 76040,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "과림고등학교",
+        "lat": 5689,
+        "lng": 75449,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "시곡초등학교",
+        "lat": 8197,
+        "lng": 74870,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "사야초등학교",
+        "lat": 10088,
+        "lng": 75013,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "산취고등학교",
+        "lat": 10192,
+        "lng": 75176,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "대뢰고등학교",
+        "lat": 11570,
+        "lng": 74552,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "청선고등학교",
+        "lat": 10588,
+        "lng": 75669,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "청선중학교",
+        "lat": 9945,
+        "lng": 76326,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "빈전초등학교",
+        "lat": 11741,
+        "lng": 75604,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "평온초등학교",
+        "lat": 14600,
+        "lng": 75481,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "천주중앙중학교",
+        "lat": 12339,
+        "lng": 75247,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "대뢰초등하교",
+        "lat": 11485,
+        "lng": 75311,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "대뢰중학교",
+        "lat": 11413,
+        "lng": 74647,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "대뢰초등학교",
+        "lat": 11451,
+        "lng": 75329,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "성지초등학교",
+        "lat": 12360,
+        "lng": 75916,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "관아초등학교",
+        "lat": 13736,
+        "lng": 75882,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "천주초등학교",
+        "lat": 13663,
+        "lng": 75088,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "천주고등학교",
+        "lat": 15205,
+        "lng": 75213,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "천주중학교",
+        "lat": 14107,
+        "lng": 75882,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "내덕초등학교",
+        "lat": 19346,
+        "lng": 74964,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "내덕중학교",
+        "lat": 18600,
+        "lng": 74793,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+    {
+        "name": "부진고등학교",
+        "lat": 19608,
+        "lng": 71440,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+    {
+        "name": "부진초등학교",
+        "lat": 19698,
+        "lng": 70651,
+        "color": "#FFCA28",
+        "type": "elementary_school"
+    },
+    {
+        "name": "부진중학교",
+        "lat": 19299,
+        "lng": 70381,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },    {
+        "name": "남효빈운동장",
+        "lat": -14046,
+        "lng": 8418,
+        "color": "#039BE5",
+        "type": "sports"
+    },
+    {
+        "name": "효빈역광장",
+        "lat": -9768,
+        "lng": 20805,
+        "color": "#8BC34A",
+        "type": "square"
+    },
+    {
+        "name": "효빈광장",
+        "lat": -4944,
+        "lng": 18595,
+        "color": "#8BC34A",
+        "type": "square"
+    },
+    {
+        "name": "안천종합운동장",
+        "lat": -8735,
+        "lng": 34300,
+        "color": "#0277BD",
+        "type": "stadium"
+    },
+    {
+        "name": "탄성군민종합운동장",
+        "lat": -17561,
+        "lng": 31544,
+        "color": "#0277BD",
+        "type": "stadium"
+    },
+    {
+        "name": "효빈종합운동장 야구장",
+        "lat": -5959,
+        "lng": 21655,
+        "color": "#0277BD",
+        "type": "stadium"
+    },
+    {
+        "name": "효빈월드컵경기장",
+        "lat": -6015,
+        "lng": 21872,
+        "color": "#333333",
+        "type": "normal"
+    },     {
+        "name": "효빈 실내빙상경기장",
+        "lat": -10874,
+        "lng": 24114,
+        "color": "#00B0FF",
+        "type": "ice_rink"
+    },    {
+        "name": "효빈광역시 양궁장",
+        "lat": -13404,
+        "lng": 27230,
+        "color": "#039BE5",
+        "type": "sports"
+    },
+        {
+        "name": "롯데리아 효빈중앙로점",
+        "lat": -9910,
+        "lng": 16778,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 내항점",
+        "lat": -10703,
+        "lng": 13326,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 효빈역점",
+        "lat": -9991,
+        "lng": 20528,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 사가당점",
+        "lat": -10563,
+        "lng": 20942,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 덕현점",
+        "lat": -9868,
+        "lng": 23887,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 전천점",
+        "lat": -8745,
+        "lng": 22798,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 과진점",
+        "lat": -5431,
+        "lng": 16441,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 청덕점",
+        "lat": -5653,
+        "lng": 13104,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 효빈대점",
+        "lat": -7298,
+        "lng": 17980,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 당선점",
+        "lat": -6628,
+        "lng": 17906,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 북문점",
+        "lat": -8337,
+        "lng": 17465,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 효빈과기원점",
+        "lat": -6197,
+        "lng": 15022,
+        "color": "#E65100",
+        "type": "university"
+    },
+    {
+        "name": "롯데리아 사복점",
+        "lat": -5850,
+        "lng": 17815,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 효빈항역점",
+        "lat": -11459,
+        "lng": 9748,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 월천점",
+        "lat": -11631,
+        "lng": 12664,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 평당롯데마트점",
+        "lat": -15512,
+        "lng": 9051,
+        "color": "#F57C00",
+        "type": "hypermarket"
+    },
+    {
+        "name": "롯데리아 곽산점",
+        "lat": -17159,
+        "lng": 7897,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 고당역점",
+        "lat": -13778,
+        "lng": 11420,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 어간점",
+        "lat": -10851,
+        "lng": 6343,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 항동점",
+        "lat": -8505,
+        "lng": 2164,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 운양점",
+        "lat": -12114,
+        "lng": 9679,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 고송역점",
+        "lat": -3956,
+        "lng": 16795,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 효빈시청점",
+        "lat": -5318,
+        "lng": 18780,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 고송점",
+        "lat": -5015,
+        "lng": 18029,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 진희점",
+        "lat": -5192,
+        "lng": 21161,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 포산점",
+        "lat": -5222,
+        "lng": 23744,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 청능점",
+        "lat": -5897,
+        "lng": 18952,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 소조점",
+        "lat": -6923,
+        "lng": 19063,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 오내점",
+        "lat": -7406,
+        "lng": 23887,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 중수점",
+        "lat": -6458,
+        "lng": 24421,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 등기점",
+        "lat": -5978,
+        "lng": 26457,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 북구청점",
+        "lat": -5840,
+        "lng": 24810,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 사능점",
+        "lat": -8534,
+        "lng": 19580,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 천왕사점",
+        "lat": -7278,
+        "lng": 21176,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 효빈터미널점",
+        "lat": -7869,
+        "lng": 20161,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 남전점",
+        "lat": -6894,
+        "lng": 25426,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 청엽점",
+        "lat": -11676,
+        "lng": 21949,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 청엽홈 플러스점",
+        "lat": -12530,
+        "lng": 22099,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 마잡점",
+        "lat": -13776,
+        "lng": 19501,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 헌이송역점",
+        "lat": -13741,
+        "lng": 18049,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 사노점",
+        "lat": -11732,
+        "lng": 20777,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "효빈동물원",
+        "lat": -11229,
+        "lng": 20233,
+        "color": "#43A047",
+        "type": "zoo"
+    },
+    {
+        "name": "롯데리아 비마점",
+        "lat": -12647,
+        "lng": 20402,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 우전점",
+        "lat": -12756,
+        "lng": 23761,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 우택점",
+        "lat": -10825,
+        "lng": 24973,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 입동점",
+        "lat": -12726,
+        "lng": 15719,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 동리점",
+        "lat": -11727,
+        "lng": 18701,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 등동점",
+        "lat": -12655,
+        "lng": 16889,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 남부터미널점",
+        "lat": -12751,
+        "lng": 22340,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 창전점",
+        "lat": -13931,
+        "lng": 24421,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 창전구청점",
+        "lat": -14319,
+        "lng": 24978,
+        "color": "#FF5252",
+        "type": "fastfood",
+        "origName": "롯데리아 창전점",
+        "hours": "08:00 ~ 23:00",
+        "phone": "079-897-3832",
+        "image": "이미지/롯데리아 창전점.webp",
+        "desc": "정말 훌륭합니다! 시설도 깔끔하고 무조건 다시 방문하고 싶어요. 👍",
+        "rating": "4.3",
+        "reviews": "77"
+    },
+    {
+        "name": "롯데리아 유류점",
+        "lat": -13039,
+        "lng": 24638,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 칠심점",
+        "lat": -12756,
+        "lng": 25924,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 쌍엽점",
+        "lat": -14162,
+        "lng": 22683,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 동곡점",
+        "lat": -14548,
+        "lng": 21170,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 팔조점",
+        "lat": -15950,
+        "lng": 21813,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 시로점",
+        "lat": -12584,
+        "lng": 27210,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 안천점",
+        "lat": -8503,
+        "lng": 30919,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 당가점",
+        "lat": -8374,
+        "lng": 29684,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 이자점",
+        "lat": -8284,
+        "lng": 38211,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 효빈대이자캠점",
+        "lat": -7405,
+        "lng": 37079,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 탄자점",
+        "lat": -9762,
+        "lng": 37008,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 제택점",
+        "lat": -8930,
+        "lng": 32586,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 창건점",
+        "lat": -10484,
+        "lng": 35713,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 성저점",
+        "lat": -10622,
+        "lng": 38047,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 영색무점",
+        "lat": -8300,
+        "lng": 39928,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 하가점",
+        "lat": -9440,
+        "lng": 29656,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 흑택점",
+        "lat": -13106,
+        "lng": 31084,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 고해점",
+        "lat": -8108,
+        "lng": 44548,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 서목점",
+        "lat": -20828,
+        "lng": 29964,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 탄성점",
+        "lat": -16689,
+        "lng": 33140,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "롯데리아 앵내점",
+        "lat": -12370,
+        "lng": 36984,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 효빈성앞점",
+        "lat": -10122,
+        "lng": 18373,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 효빈은행점",
+        "lat": -10420,
+        "lng": 17312,
+        "color": "#0288D1",
+        "type": "bank"
+    },
+    {
+        "name": "맘스터치 신덕점",
+        "lat": -10571,
+        "lng": 19283,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 내조점",
+        "lat": -9781,
+        "lng": 18890,
+        "color": "#FF5252",
+        "type": "fastfood",
+        "origName": "맘스터치 신덕점",
+        "hours": "08:00 ~ 23:00",
+        "phone": "079-245-1892",
+        "image": "이미지/맘스터치 신덕점.webp",
+        "desc": "대중교통으로 찾아오기도 편하고 내부 관리가 정말 잘 되어 있습니다. 강추합니다!",
+        "rating": "4.9",
+        "reviews": "77"
+    },
+    {
+        "name": "맘스터치 약맥점",
+        "lat": -11026,
+        "lng": 14954,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 효빈역점",
+        "lat": -9946,
+        "lng": 20255,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 전덕역점",
+        "lat": -9549,
+        "lng": 23001,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 전천점",
+        "lat": -8943,
+        "lng": 22168,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 사가당점",
+        "lat": -10785,
+        "lng": 20790,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 덕현점",
+        "lat": -9518,
+        "lng": 25001,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 효빈대정문점",
+        "lat": -7790,
+        "lng": 18013,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 효빈과기원점",
+        "lat": -6051,
+        "lng": 14952,
+        "color": "#E65100",
+        "type": "university"
+    },
+    {
+        "name": "맘스터치 당선중앙점",
+        "lat": -7624,
+        "lng": 16942,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 사복점",
+        "lat": -5735,
+        "lng": 17405,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 당선점",
+        "lat": -6817,
+        "lng": 17350,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 휴소도점",
+        "lat": -5049,
+        "lng": 12886,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 청덕점",
+        "lat": -4805,
+        "lng": 15248,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 과진점",
+        "lat": -5860,
+        "lng": 16420,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+        {
+        "name": "효빈해양경찰서 창전파출소 부리도출장소",
+        "lat": -19170,
+        "lng": 23612,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 중수파출소 포상도출장소",
+        "lat": -1645,
+        "lng": 24724,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 중수파출소 곡진출장소",
+        "lat": -5436,
+        "lng": 30058,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 중수파출소",
+        "lat": -4619,
+        "lng": 24542,
+        "color": "#01579B",
+        "type": "coast_guard"
+    },
+    {
+        "name": "효빈해양경찰서 중앙로파출소 청덕출장소",
+        "lat": -6334,
+        "lng": 14393,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 중앙로파출소 휴소도출장소",
+        "lat": -5015,
+        "lng": 12369,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 안천파출소",
+        "lat": -7106,
+        "lng": 35928,
+        "color": "#01579B",
+        "type": "coast_guard"
+    },
+    {
+        "name": "효빈해양경찰서 창전파출소",
+        "lat": -14882,
+        "lng": 24152,
+        "color": "#01579B",
+        "type": "coast_guard"
+    },
+    {
+        "name": "효빈해양경찰서 평당파출소",
+        "lat": -14618,
+        "lng": 11528,
+        "color": "#01579B",
+        "type": "coast_guard"
+    },
+    {
+        "name": "효빈해양경찰서 중수파출소 고송출장소",
+        "lat": -3034,
+        "lng": 17096,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 창전파출소 서목출장소",
+        "lat": -20282,
+        "lng": 30552,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 창전파출소 팔조출장소",
+        "lat": -16130,
+        "lng": 22704,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 안천파출소 고해출장소",
+        "lat": -4959,
+        "lng": 42943,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 창전파출소 소원출장소",
+        "lat": -5447,
+        "lng": 39839,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 평당파출소 헌이송출장소",
+        "lat": -14151,
+        "lng": 17775,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 평당파출소 청엽출장소",
+        "lat": -14751,
+        "lng": 19743,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 평당파출소 어간출장소",
+        "lat": -13543,
+        "lng": 8071,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈해양경찰서 평당파출소 항동1가출장소",
+        "lat": -10183,
+        "lng": 8095,
+        "color": "#283593",
+        "type": "gu_office"
+    },
+    {
+        "name": "효빈항 해상교통관제센터",
+        "lat": -9450,
+        "lng": 1984,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "아이 좋아 전집",
+        "lat": -9416,
+        "lng": 17333,
+        "color": "#FFB300",
+        "type": "korean_food",
+        "origName": "아이 좋아 전집",
+        "hours": "11:00 ~ 23:00",
+        "phone": "079-231-4133",
+        "image": "이미지/아이_좋아_전_집.webp",
+        "desc": "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요.",
+        "rating": "4.9",
+        "reviews": "77"
+    },
+    {
+        "name": "중수 한우 다이닝",
+        "lat": -6850,
+        "lng": 24678,
+        "color": "#FFB300",
+        "type": "korean_food",
+        "origName": "중수 한우 다이닝",
+        "hours": "14:00 ~ 24:00",
+        "phone": "079-312-5551",
+        "image": "이미지/중수 한우 다이닝.webp",
+        "desc": "기대 이상이었어요. 주변 지인들에게도 적극 추천하고 싶은 곳입니다!",
+        "rating": "5.0",
+        "reviews": "86"
+    },
+    {
+        "name": "캉캉분식",
+        "lat": -7177,
+        "lng": 17568,
+        "color": "#333333",
+        "type": "normal"
     }
 ];
