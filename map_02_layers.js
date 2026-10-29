@@ -60,7 +60,7 @@ var markerColors = {
     "variety_store": "#FF5252", "electronics_shop": "#0277BD", "bookstore": "#5D4037",
     "trad_market": "#8D6E63", "fish_market": "#0288D1", "wholesale_market": "#6D4C41", "cvs": "#00C853",
     "cafe": "#6D4C41", "bakery": "#F4A460", "fastfood": "#FF5252", "pizza": "#E53935",
-    "korean_food": "#FFB300", "western_food": "#FB8C00", "japanese_food": "#F57C00",
+    "korean_food": "#FFB300", "bunsik": "#ff0015", "western_food": "#FB8C00", "japanese_food": "#F57C00",
     "buffet": "#FF8F00", "restaurant": "#FFA000", "pub": "#673AB7",
     "anime_shop": "#E040FB", "anime_stage": "#D500F9", "anime_museum": "#AA00FF",
     "cinema": "#E53935", "museum": "#C2185B", "art_museum": "#AD1457", "science_museum": "#1976D2",
@@ -84,7 +84,7 @@ var groupMap = {
     "apartment": "residence", "public_apt": "residence", "villa": "residence", "officetel": "residence",
     "city_hall": "public", "gu_office": "public", "gun_office": "public", "gov_complex": "public", "community_center": "public", "tax_office": "public", "customs": "public", "court": "public", "military": "public", "public_corp": "public", "police_agency": "public", "police_station": "public", "police_box": "public", "coast_guard": "public", "fire_hq": "public", "fire_station": "public", "post_office": "public", "welfare_center": "public", "child_welfare": "public", "senior_welfare": "public", "office_main": "public", "office_sub": "public", "office_etc": "public", "police": "public", "welfare": "public",
     "bank_central": "commercial", "bank": "commercial", "credit_union": "commercial", "finance_corp": "commercial", "department_store": "commercial", "outlet": "commercial", "shopping_mall": "commercial", "hypermarket": "commercial", "ssm": "commercial", "warehouse_mart": "commercial", "food_mart": "commercial", "variety_store": "commercial", "electronics_shop": "commercial", "bookstore": "commercial", "trad_market": "commercial", "fish_market": "commercial", "wholesale_market": "commercial", "cvs": "commercial", "commercial": "commercial", "market": "commercial",
-    "cafe": "food", "bakery": "food", "fastfood": "food", "pizza": "food", "korean_food": "food", "western_food": "food", "japanese_food": "food", "buffet": "food", "restaurant": "food", "pub": "food",
+    "cafe": "food", "bakery": "food", "fastfood": "food", "pizza": "food", "korean_food": "food","bunsik": "food", "western_food": "food", "japanese_food": "food", "buffet": "food", "restaurant": "food", "pub": "food",
     "anime_shop": "culture", "anime_stage": "culture", "anime_museum": "culture", "cinema": "culture", "museum": "culture", "art_museum": "culture", "science_museum": "culture", "art_center": "culture", "zoo": "culture", "tourist_spot": "culture", "hotel": "culture", "business_hotel": "culture", "resort": "culture", "church": "culture", "catholic": "culture", "temple": "culture", "stadium": "culture", "esports_arena": "culture", "ice_rink": "culture", "golf": "culture", "sports": "culture", "culture": "culture", "anime": "culture", "religion": "culture",
     "univ_hospital": "medical", "general_hospital": "medical", "hospital": "medical", "dental": "medical", "oriental_med": "medical", "vet": "medical", "public_health": "medical", "pharmacy": "medical",
     "airport": "infra", "airbase": "infra", "port": "infra", "pier": "infra", "bus_terminal": "infra", "rail_depot": "infra", "ic_jc": "infra", "station": "infra", "parking": "infra", "gas_station": "infra", "toilet": "infra", "heavy_ind": "infra", "auto_ind": "infra", "semi_ind": "infra", "chem_ind": "infra", "food_ind": "infra", "ind_complex": "infra", "it_rnd": "infra", "logistics": "infra", "factory": "infra", "media": "infra", "bridge": "infra",
@@ -113,7 +113,7 @@ var categoryNames100 = {
     "variety_store": "생활용품점(다이소)", "electronics_shop": "가전양판점·전자상가", "bookstore": "대형·중고서점",
     "trad_market": "전통시장·재래시장", "fish_market": "수산시장·어시장", "wholesale_market": "농수산·종합도매시장", "cvs": "24시 편의점",
     "cafe": "카페·커피전문점", "bakery": "베이커리·제과점", "fastfood": "패스트푸드·버거", "pizza": "피자전문점",
-    "korean_food": "한식·한정식·국밥", "western_food": "패밀리레스토랑·양식", "japanese_food": "일식·소바·돈카츠",
+    "korean_food": "한식·한정식·국밥","bunsik": "분식", "western_food": "패밀리레스토랑·양식", "japanese_food": "일식·소바·돈카츠",
     "buffet": "프리미엄 뷔페", "restaurant": "일반음식점", "pub": "주점·호프·이자카야",
     "anime_shop": "서브컬처·애니굿즈샵", "anime_stage": "서브컬처 라이브스테이지", "anime_museum": "만화·애니메이션박물관",
     "cinema": "멀티플렉스 영화관", "museum": "국공립·테마박물관", "art_museum": "미술관·아트뮤지엄", "science_museum": "과학관·자연사박물관",
@@ -449,23 +449,24 @@ function classify100Category(name) {
     if (name.match(/(스타벅스|조타뻑스|투썸|이디야|메가커피|컴포즈|빽다방|커피|카페)/)) return "cafe";
     if (name.match(/(베이커리|빵집|파리바게뜨|뚜레쥬르|성심당)/)) return "bakery";
     if (name.match(/(도미노피자|피자)/)) return "pizza";
-    if (name.match(/(맥도날드|버거킹|KFC|kfc|롯데리아|맘스터치|스미버거|버거)/)) return "fastfood";
+    if (name.match(/(맥도날드|버거킹|KFC|kfc|롯데리아|맘스터치|스미버거|버거|서브웨이|졸리비|노브랜드버거|뉴욕버거|고든램지버거|파파이스)/)) return "fastfood";
     if (name.match(/(아웃백|스테이크)/)) return "western_food";
     if (name.match(/(쿠우쿠우|뷔페)/)) return "buffet";
     if (name.match(/(소바|일식|스시|돈카츠)/)) return "japanese_food";
-    if (name.match(/(한정식|한찬|국밥|갈비|고깃집|반점|식당)/)) return "korean_food";
+    if (name.match(/(한정식|한찬|국밥|갈비|고깃집|반점|식당|전집)/)) return "korean_food";
+    if (name.match(/(분식|죠스|엽기|국대|떡볶이|어묵)/)) return "bunsik";
     if (name.match(/(호프|포차|이자카야|주점|술집|펍)/)) return "pub";
 
     if (name.match(/(광역시청|시청|시의회)/)) return "city_hall";
-    if (name.match(/(구청|구의회|출장소)/)) return "gu_office";
-    if (name.match(/(군청)/)) return "gun_office";
+    if (name.match(/(구청|구의회|이자출장소)/)) return "gu_office";
+    if (name.match(/(군청|군의회)/)) return "gun_office";
     if (name.match(/(정부청사|합동청사)/)) return "gov_complex";
     if (name.match(/(주민센터|행정복지센터|읍사무소|면사무소|동사무소)/)) return "community_center";
     if (name.match(/(세무서|국세청)/)) return "tax_office";
     if (name.match(/(세관)/)) return "customs";
     if (name.match(/(법원|검찰|교정청|준법지원센터|중대범죄수사청|감사원|선관위)/)) return "court";
     if (name.match(/(병무청|민방위|군사기지|공군기지)/)) return "military";
-    if (name.match(/(해양경찰)/)) return "coast_guard";
+    if (name.match(/(해양경찰|효빈해양경찰서)/)) return "coast_guard";
     if (name.match(/(경찰청)/)) return "police_agency";
     if (name.match(/(경찰서)/)) return "police_station";
     if (name.match(/(파출소|지구대|치안센터)/)) return "police_box";
@@ -683,7 +684,7 @@ function getSmartOperatingStatus(type, name, customHours) {
             if (name && name.includes("DT")) { hoursStr = "24시간 영업 (드라이브스루)"; is24h = true; }
             else { hoursStr = "08:00 ~ 23:00"; openMin = 8 * 60; closeMin = 23 * 60; }
             break;
-        case "korean_food": case "western_food": case "japanese_food": case "buffet": case "pizza": case "restaurant":
+        case "korean_food": case "western_food": case "japanese_food": case "buffet": case "pizza": case "restaurant": case "bunsik":
             hoursStr = "10:30 ~ 22:00"; openMin = 10 * 60 + 30; closeMin = 22 * 60; break;
         case "pub":
             hoursStr = "17:00 ~ 26:00 (익일 02:00)"; openMin = 17 * 60; closeMin = 26 * 60; break;

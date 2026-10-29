@@ -4303,13 +4303,7 @@ var defaultLandmarksData = [
         "color": "#FFB300",
         "type": "middle_school"
     },
-    {
-        "name": "대뢰초등하교",
-        "lat": 11485,
-        "lng": 75311,
-        "color": "#333333",
-        "type": "normal"
-    },
+
     {
         "name": "대뢰중학교",
         "lat": 11413,
@@ -4536,7 +4530,7 @@ var defaultLandmarksData = [
         "lat": -6197,
         "lng": 15022,
         "color": "#E65100",
-        "type": "university"
+        "type": "fastfood"
     },
     {
         "name": "롯데리아 사복점",
@@ -4564,7 +4558,7 @@ var defaultLandmarksData = [
         "lat": -15512,
         "lng": 9051,
         "color": "#F57C00",
-        "type": "hypermarket"
+        "type": "fastfood"
     },
     {
         "name": "롯데리아 곽산점",
@@ -4977,7 +4971,7 @@ var defaultLandmarksData = [
         "lat": -10420,
         "lng": 17312,
         "color": "#0288D1",
-        "type": "bank"
+        "type": "fastfood"
     },
     {
         "name": "맘스터치 신덕점",
@@ -5054,7 +5048,7 @@ var defaultLandmarksData = [
         "lat": -6051,
         "lng": 14952,
         "color": "#E65100",
-        "type": "university"
+        "type": "fastfood"
     },
     {
         "name": "맘스터치 당선중앙점",
@@ -5103,21 +5097,21 @@ var defaultLandmarksData = [
         "lat": -19170,
         "lng": 23612,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 중수파출소 포상도출장소",
         "lat": -1645,
         "lng": 24724,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 중수파출소 곡진출장소",
         "lat": -5436,
         "lng": 30058,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 중수파출소",
@@ -5131,14 +5125,14 @@ var defaultLandmarksData = [
         "lat": -6334,
         "lng": 14393,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 중앙로파출소 휴소도출장소",
         "lat": -5015,
         "lng": 12369,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 안천파출소",
@@ -5166,70 +5160,70 @@ var defaultLandmarksData = [
         "lat": -3034,
         "lng": 17096,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 창전파출소 서목출장소",
         "lat": -20282,
         "lng": 30552,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 창전파출소 팔조출장소",
         "lat": -16130,
         "lng": 22704,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 안천파출소 고해출장소",
         "lat": -4959,
         "lng": 42943,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 창전파출소 소원출장소",
         "lat": -5447,
         "lng": 39839,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 평당파출소 헌이송출장소",
         "lat": -14151,
         "lng": 17775,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 평당파출소 청엽출장소",
         "lat": -14751,
         "lng": 19743,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 평당파출소 어간출장소",
         "lat": -13543,
         "lng": 8071,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈해양경찰서 평당파출소 항동1가출장소",
         "lat": -10183,
         "lng": 8095,
         "color": "#283593",
-        "type": "gu_office"
+        "type": "coast_guard"
     },
     {
         "name": "효빈항 해상교통관제센터",
         "lat": -9450,
         "lng": 1984,
         "color": "#333333",
-        "type": "normal"
+        "type": "coast_guard"
     },
     {
         "name": "아이 좋아 전집",
@@ -5264,6 +5258,489 @@ var defaultLandmarksData = [
         "lat": -7177,
         "lng": 17568,
         "color": "#333333",
-        "type": "normal"
+        "type": "bunsik"
+    },
+        {
+        "name": "덕현4동주민센터",
+        "lat": -10614,
+        "lng": 23283,
+        "color": "#3949AB",
+        "type": "community_center"
+    },
+    {
+        "name": "맘스터치 평당로데오점",
+        "lat": -16331,
+        "lng": 9931,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 평당중앙사거리점",
+        "lat": -15068,
+        "lng": 9892,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 곽산시장점",
+        "lat": -17302,
+        "lng": 7816,
+        "color": "#8D6E63",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 어간중앙점",
+        "lat": -10998,
+        "lng": 6520,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 어간호수점",
+        "lat": -11895,
+        "lng": 7737,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 평당메디컬타운점",
+        "lat": -13350,
+        "lng": 8913,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 월천점",
+        "lat": -12344,
+        "lng": 14274,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 항동포구점",
+        "lat": -8867,
+        "lng": 2575,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 효빈시청점",
+        "lat": -5332,
+        "lng": 18599,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 고송교차로점",
+        "lat": -4714,
+        "lng": 18390,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 토모리해수욕장점",
+        "lat": -2654,
+        "lng": 15793,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 북구청점",
+        "lat": -5679,
+        "lng": 25060,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 중수역점",
+        "lat": -6656,
+        "lng": 24607,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 천왕사점",
+        "lat": -7094,
+        "lng": 21407,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 오내로데오점",
+        "lat": -7865,
+        "lng": 23505,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 고송중앙점",
+        "lat": -3701,
+        "lng": 17123,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 평전점",
+        "lat": -6508,
+        "lng": 28804,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 오내센트럴파크점",
+        "lat": -8213,
+        "lng": 22194,
+        "color": "#795548",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 고송북부점",
+        "lat": -3483,
+        "lng": 16787,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 소조점",
+        "lat": -7266,
+        "lng": 19057,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 진희산단점",
+        "lat": -4808,
+        "lng": 20936,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 입희마을점",
+        "lat": -6450,
+        "lng": 21968,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 중수네거리점",
+        "lat": -5392,
+        "lng": 26046,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 남부터미널점",
+        "lat": -13189,
+        "lng": 22296,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 청엽점",
+        "lat": -12022,
+        "lng": 23934,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 우전점",
+        "lat": -13083,
+        "lng": 23971,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 청엽역점",
+        "lat": -10833,
+        "lng": 22358,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 비마역점",
+        "lat": -12672,
+        "lng": 20804,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 헌이송역점",
+        "lat": -14178,
+        "lng": 18359,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 마잡네거리점",
+        "lat": -13728,
+        "lng": 19760,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 효빈동로데오점",
+        "lat": -11316,
+        "lng": 17317,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 등동사거리점",
+        "lat": -12753,
+        "lng": 17049,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 동리역점",
+        "lat": -11473,
+        "lng": 19519,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 사노점",
+        "lat": -11626,
+        "lng": 20954,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 청엽구청점",
+        "lat": -11634,
+        "lng": 22927,
+        "color": "#FF5252",
+        "type": "fastfood",
+        "origName": "맘스터치 청엽구청점",
+        "hours": "08:00 ~ 23:00",
+        "phone": "079-750-5929",
+        "image": "이미지/맘스터치 청엽구청점.webp",
+        "desc": "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
+        "rating": "4.4",
+        "reviews": "113"
+    },
+    {
+        "name": "맘스터치 청엽호수공원점",
+        "lat": -10919,
+        "lng": 23990,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 창전구청점",
+        "lat": -14131,
+        "lng": 25017,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 쌍엽역점",
+        "lat": -13611,
+        "lng": 22629,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 칠심네거리점",
+        "lat": -12905,
+        "lng": 26021,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 창전시장점",
+        "lat": -15299,
+        "lng": 25350,
+        "color": "#8D6E63",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 팔조점",
+        "lat": -15658,
+        "lng": 21901,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 칠심중앙점",
+        "lat": -12411,
+        "lng": 25266,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 동곡사거리점",
+        "lat": -14310,
+        "lng": 21550,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 쌍엽센트럴점",
+        "lat": -14415,
+        "lng": 23397,
+        "color": "#795548",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 창전패션타운점",
+        "lat": -14943,
+        "lng": 25366,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 유류마을점",
+        "lat": -13165,
+        "lng": 24540,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 이자점",
+        "lat": -8334,
+        "lng": 38348,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 효빈대이자캠퍼스점",
+        "lat": -7642,
+        "lng": 36516,
+        "color": "#E65100",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 안천역점",
+        "lat": -8679,
+        "lng": 31402,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 당가로데오점",
+        "lat": -8835,
+        "lng": 29892,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 창건점",
+        "lat": -10392,
+        "lng": 36503,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 북택점",
+        "lat": -9569,
+        "lng": 26852,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 이자중앙점",
+        "lat": -8732,
+        "lng": 37395,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 탄자역점",
+        "lat": -10088,
+        "lng": 37667,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 안천구청점",
+        "lat": -9503,
+        "lng": 31861,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 이자로터리점",
+        "lat": -8830,
+        "lng": 36788,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 뇌전삼거리점",
+        "lat": -9452,
+        "lng": 29151,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 당가아울렛점",
+        "lat": -7980,
+        "lng": 29887,
+        "color": "#AD1457",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 앵내중앙로점",
+        "lat": -11772,
+        "lng": 38751,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 앵내역점",
+        "lat": -12107,
+        "lng": 37318,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 도변역점",
+        "lat": -13278,
+        "lng": 33465,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 요우사거리점",
+        "lat": -12007,
+        "lng": 32913,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 탄성군청점",
+        "lat": -16715,
+        "lng": 32391,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 서목농협점",
+        "lat": -20420,
+        "lng": 31552,
+        "color": "#039BE5",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 공리점",
+        "lat": -17053,
+        "lng": 34099,
+        "color": "#FF5252",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 고해하나로마트점",
+        "lat": -7167,
+        "lng": 44172,
+        "color": "#F57C00",
+        "type": "fastfood"
+    },
+    {
+        "name": "맘스터치 흑택루비마을점",
+        "lat": -12012,
+        "lng": 29744,
+        "color": "#FF5252",
+        "type": "fastfood"
     }
 ];
