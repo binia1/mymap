@@ -435,7 +435,7 @@ function classify100Category(name) {
     if (name.match(/(SSM|에브리데이|더프레시|롯데슈퍼)/)) return "ssm";
     if (name.match(/(이마트|홈플러스|롯데마트|하나로마트|빈스마트|마루마트|천조마트|CY마트|즈라스토어|이케아)/)) return "hypermarket";
     if (name.includes("다이소")) return "variety_store";
-    if (name.match(/(베스트샵|전자상가)/)) return "electronics_shop";
+    if (name.match(/(베스트샵|전자상가|전자랜드|하이마트|하이마트 )/)) return "electronics_shop";
     if (name.match(/(교보문고|교보문교|영풍문고|종로서적|알라딘|아크앤북|서점)/)) return "bookstore";
     if (name.match(/(수산시장|어시장)/)) return "fish_market";
     if (name.match(/(도매시장|청과시장|농수산)/)) return "wholesale_market";
@@ -485,9 +485,9 @@ function classify100Category(name) {
     if (name.match(/(예술문화회관|문화회관|아트센터|드림씨어터|아트홀|소극장)/)) return "art_center";
     if (name.includes("동물원")) return "zoo";
     if (name.match(/(유적지|문화촌|전망대|개항지|거리|복숭아밭)/)) return "tourist_spot";
-    if (name.match(/(토요코인|스테이)/)) return "business_hotel";
-    if (name.match(/(연수원|리조트|펜션)/)) return "resort";
-    if (name.match(/(호텔|라마다)/)) return "hotel";
+    if (name.match(/(토요코인|스테이|비즈니스)/)) return "business_hotel";
+    if (name.match(/(연수원|리조트|펜션|소노캄)/)) return "resort";
+    if (name.match(/(호텔|라마다|힐튼|피치파크|머큐어)/)) return "hotel";
     if (name.includes("교회")) return "church";
     if (name.includes("성당")) return "catholic";
     if (name.match(/(천왕사|단산사|절|사찰)/)) return "temple";
@@ -2050,17 +2050,27 @@ function addMarkerToMap(item) {
             var typeName = categoryNames100[item.type] || "일반시설";
             var addrObj = resolveFullAddress(item.lat, item.lng);
 
-            var prefix = (addrObj.province === "덕빈북도") ? "078" : "079";
-            var areaCodeNum = "2" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
-            if (addrObj.gugun.includes("탄성군")) areaCodeNum = "1" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
-            else if (addrObj.admin.includes("중수") || addrObj.legal.includes("중수")) areaCodeNum = "3" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
-            else if (addrObj.gugun.includes("남구")) areaCodeNum = "4" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
-            else if (addrObj.admin.includes("고송") || addrObj.legal.includes("고송")) areaCodeNum = "5" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
-            else if (addrObj.gugun.includes("서구")) areaCodeNum = "6" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
-            else if (addrObj.gugun.includes("청엽구")) areaCodeNum = "7" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
-            else if (addrObj.gugun.includes("창전구")) areaCodeNum = "8" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
-            else if (addrObj.gugun.includes("안천구")) areaCodeNum = "9" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+var prefix = (addrObj.province === "덕빈북도") ? "078" : "079";
+var areaCodeNum = "2" + String(10 + (Math.abs(Math.round(item.lat)) % 88)); // 기본 2XX 할당 (기타 북구 지역 등)
+var combinedDong = (addrObj.admin || "") + (addrObj.legal || ""); // 행정동과 법정동 문자열 병합 검사
 
+if (addrObj.gugun.includes("탄성군")) {
+    areaCodeNum = "1" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+} else if (/(중수|서도|추산|사연|오내|남전|채산|실본|등기|습지|평전|아자|아진|곡진|신영|수포)/.test(combinedDong)) {
+    areaCodeNum = "3" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+} else if (addrObj.gugun.includes("남구")) {
+    areaCodeNum = "4" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+} else if (/(고송|청능|진희|입선|입희|소조|사능|치남|생곡|해서|천왕사)/.test(combinedDong)) {
+    areaCodeNum = "5" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+} else if (addrObj.gugun.includes("서구")) {
+    areaCodeNum = "6" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+} else if (addrObj.gugun.includes("청엽구")) {
+    areaCodeNum = "7" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+} else if (addrObj.gugun.includes("창전구")) {
+    areaCodeNum = "8" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+} else if (addrObj.gugun.includes("안천구")) {
+    areaCodeNum = "9" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
+}
             var tailNum = String(1000 + (Math.abs(Math.round(item.lng)) % 8999));
             var placePhone = item.phone ? item.phone : `${prefix}-${areaCodeNum}-${tailNum}`;
             var rating = item.rating || (4.1 + (item.name.length % 9) * 0.1).toFixed(1); 

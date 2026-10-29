@@ -5742,5 +5742,1167 @@ var defaultLandmarksData = [
         "lng": 29744,
         "color": "#FF5252",
         "type": "fastfood"
+    },
+        {
+        "name": "효빈 하라오호텔",
+        "lat": -2464,
+        "lng": 15638,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "효빈 샤이니 리조트",
+        "lat": -4170,
+        "lng": 40608,
+        "color": "#7B1FA2",
+        "type": "resort"
+    },
+    {
+        "name": "니지벨리 호텔",
+        "lat": -6273,
+        "lng": 25114,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "평당 가가",
+        "lat": -14056,
+        "lng": 8822,
+        "color": "#FFA000",
+        "type": "restaurant",
+        "origName": "한화리조트호텔 효빈",
+        "hours": "24시간 운영",
+        "phone": "079-438-4121",
+        "image": "이미지/평당가가.webp",
+        "desc": "기대 이상이었어요. 주변 지인들에게도 적극 추천하고 싶은 곳입니다!",
+        "rating": "4.2",
+        "reviews": "95"
+    },
+    {
+        "name": "한화리조트호텔 효빈",
+        "lat": -14511,
+        "lng": 8114,
+        "color": "#7B1FA2",
+        "type": "resort"
+    },
+    {
+        "name": "매리어트 호텔 효빈",
+        "lat": -11994,
+        "lng": 8204,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "하얏트 호텔 효빈",
+        "lat": -8010,
+        "lng": 38684,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "힐튼 효빈",
+        "lat": -12808,
+        "lng": 25926,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "희산벨리 효빈",
+        "lat": -14316,
+        "lng": 25004,
+        "color": "#AB47BC",
+        "type": "hotel",
+        "origName": "희산벨리 효빈",
+        "hours": "24시간운영",
+        "phone": "079-892-8006",
+        "image": "이미지/희산벨리 효빈.webp",
+        "desc": "정말 훌륭합니다! 시설도 깔끔하고 무조건 다시 방문하고 싶어요. 👍",
+        "rating": "5.0",
+        "reviews": "68"
+    },
+    {
+        "name": "켄싱턴호텔 효빈",
+        "lat": -10006,
+        "lng": 16012,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "롯데호텔 효빈",
+        "lat": -8147,
+        "lng": 22945,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "부석교회",
+        "lat": -11319,
+        "lng": 29909,
+        "color": "#5D4037",
+        "type": "church",
+        "origName": "마리호텔",
+        "hours": "09:00~24:00",
+        "phone": "",
+        "image": "이미지/qntkry.webp",
+        "desc": "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
+        "rating": "4.5",
+        "reviews": "41"
+    },
+    {
+        "name": "마리 호텔",
+        "lat": -11870,
+        "lng": 28976,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "소노캄 효빈",
+        "lat": -8609,
+        "lng": 43920,
+        "color": "#7B1FA2",
+        "type": "resort"
+    },
+    {
+        "name": "신라스테이 효빈",
+        "lat": -16215,
+        "lng": 8849,
+        "color": "#9C27B0",
+        "type": "business_hotel"
+    },
+    {
+        "name": "곽산하루시아호텔",
+        "lat": -17271,
+        "lng": 7789,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "벨마제호텔 효빈",
+        "lat": -11342,
+        "lng": 12215,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "트니레디안 호텔",
+        "lat": -12867,
+        "lng": 13611,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "켄싱턴호텔 효빈(북구점)",
+        "lat": -4717,
+        "lng": 18220,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "브레온 호텔",
+        "lat": -5321,
+        "lng": 20758,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "스타시아 호텔",
+        "lat": -5877,
+        "lng": 19015,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "도향 피치파크",
+        "lat": -8668,
+        "lng": 50119,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "이노센트 비즈니스 효빈",
+        "lat": -12882,
+        "lng": 26200,
+        "color": "#9C27B0",
+        "type": "business_hotel"
+    },
+    {
+        "name": "ㅍ",
+        "lat": -11983,
+        "lng": 26386,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "모르포니카 부티크 호텔",
+        "lat": -11960,
+        "lng": 26381,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "당선 머큐어 앰배서더",
+        "lat": -6429,
+        "lng": 18115,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "과진 글로우 비즈니스호텔",
+        "lat": -5321,
+        "lng": 16647,
+        "color": "#AB47BC",
+        "type": "hotel"
+    },
+    {
+        "name": "마잡 스테이 효빈",
+        "lat": -13800,
+        "lng": 19804,
+        "color": "#9C27B0",
+        "type": "business_hotel"
+    },
+    {
+        "name": "효빈중부경찰서 중앙지구대",
+        "lat": -9915,
+        "lng": 16141,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈중부경찰서 궁영지구대",
+        "lat": -10108,
+        "lng": 18269,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈중부경찰서 중정지구대",
+        "lat": -10161,
+        "lng": 17703,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈중부경찰서 유내파출소",
+        "lat": -10549,
+        "lng": 18102,
+        "color": "#1565C0",
+        "type": "police_station",
+        "origName": "효빈중부경찰서 유내지구대",
+        "hours": "24시간 개방·운영",
+        "phone": "079-221-7845",
+        "image": "이미지/효빈중부경찰서 유내지구대.webp",
+        "desc": "전반적으로 무난하고 깔끔한 곳입니다. 기본에 충실해서 종종 이용하게 되네요.",
+        "rating": "4.0",
+        "reviews": "122"
+    },
+    {
+        "name": "효빈중부경찰서 조유파출소",
+        "lat": -9603,
+        "lng": 17885,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈중부경찰서 내항파출소",
+        "lat": -10430,
+        "lng": 13389,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈동부경찰서 덕현1지구대",
+        "lat": -9192,
+        "lng": 21134,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈동부경찰서 덕현2지구대",
+        "lat": -9846,
+        "lng": 23893,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈동부경찰서 신덕현파출소",
+        "lat": -9084,
+        "lng": 24231,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈동부경찰서 전천파출소",
+        "lat": -8762,
+        "lng": 22999,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈동부경찰서 사가당지구대",
+        "lat": -10510,
+        "lng": 20164,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈서부경찰서 청덕지구대",
+        "lat": -5580,
+        "lng": 13219,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈서부경찰서 과진2지구대",
+        "lat": -5619,
+        "lng": 15333,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈서부경찰서 과진1지구대",
+        "lat": -5449,
+        "lng": 16805,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈서부경찰서 당선지구대",
+        "lat": -7232,
+        "lng": 16842,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈서부경찰서 사복파출소",
+        "lat": -5753,
+        "lng": 18043,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈서부경찰서 북성치안센터",
+        "lat": -8536,
+        "lng": 17678,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈남부경찰서 평당1지구대",
+        "lat": -13102,
+        "lng": 9895,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈남부경찰서 평당2지구대",
+        "lat": -15670,
+        "lng": 9038,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈남부경찰서 평당3지구대",
+        "lat": -16345,
+        "lng": 10322,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈남부경찰서 어간지구대",
+        "lat": -11128,
+        "lng": 5344,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈남부경찰서 신어간지구대",
+        "lat": -12100,
+        "lng": 8477,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈남부경찰서 월항파출소",
+        "lat": -9973,
+        "lng": 5969,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈남부경찰서 월천파출소",
+        "lat": -11972,
+        "lng": 14476,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈남부경찰서 곽산파출소",
+        "lat": -17713,
+        "lng": 7862,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈북부경찰서 중수1지구대",
+        "lat": -5344,
+        "lng": 25597,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈북부경찰서 중수2지구대",
+        "lat": -6276,
+        "lng": 25595,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈북부경찰서 남전파출소",
+        "lat": -7505,
+        "lng": 25657,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈북부경찰서 오내지구대",
+        "lat": -7808,
+        "lng": 23411,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈북부경찰서 사능파출소",
+        "lat": -8459,
+        "lng": 19784,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈북부경찰서 산고파출소",
+        "lat": -5528,
+        "lng": 22773,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 청엽1지구대",
+        "lat": -11984,
+        "lng": 23627,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 청엽2지구대",
+        "lat": -11186,
+        "lng": 23961,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 청엽3지구대",
+        "lat": -11207,
+        "lng": 21931,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 우전1지구대",
+        "lat": -13153,
+        "lng": 22109,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 우전2지구대",
+        "lat": -12666,
+        "lng": 23686,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 입빈지구대",
+        "lat": -11741,
+        "lng": 17456,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 비마리지구대",
+        "lat": -11800,
+        "lng": 20433,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 우택파출소",
+        "lat": -10918,
+        "lng": 25290,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈청엽경찰서 마잡파출소",
+        "lat": -13541,
+        "lng": 18731,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈창전경찰서 창전1지구대",
+        "lat": -14513,
+        "lng": 24722,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈창전경찰서 창전2지구대",
+        "lat": -14731,
+        "lng": 25646,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈창전경찰서 칠심1지구대",
+        "lat": -13736,
+        "lng": 24947,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈창전경찰서 칠심2지구대",
+        "lat": -12901,
+        "lng": 26026,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈창전경찰서 진백파출소",
+        "lat": -12113,
+        "lng": 26755,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈창전경찰서 동곡지구대",
+        "lat": -14514,
+        "lng": 21284,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈안천경찰서 안천1지구대",
+        "lat": -8876,
+        "lng": 31846,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈안천경찰서 안천2지구대",
+        "lat": -9685,
+        "lng": 31323,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈안천경찰서 안천3지구대",
+        "lat": -9209,
+        "lng": 30635,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈안천경찰서 당가지구대",
+        "lat": -8131,
+        "lng": 30238,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈안천경찰서 북택지구대",
+        "lat": -9550,
+        "lng": 26295,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈안천경찰서 악부파출소",
+        "lat": -9636,
+        "lng": 33163,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈안천경찰서 뇌전치안센터",
+        "lat": -9325,
+        "lng": 28761,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈이자경찰서 이자1지구대",
+        "lat": -7761,
+        "lng": 37481,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈이자경찰서 이자2지구대",
+        "lat": -8988,
+        "lng": 37617,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈이자경찰서 탄자지구대",
+        "lat": -9851,
+        "lng": 37117,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈이자경찰서 이자3지구대",
+        "lat": -8287,
+        "lng": 39076,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈이자경찰서 성저파출소",
+        "lat": -10835,
+        "lng": 38264,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈이자경찰서 창건파출소",
+        "lat": -10306,
+        "lng": 35561,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈이자경찰서 이십기파출소",
+        "lat": -8965,
+        "lng": 35233,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈이자경찰서 칠채치안센터",
+        "lat": -7322,
+        "lng": 41348,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈고송경찰서 고송1지구대",
+        "lat": -2743,
+        "lng": 16269,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈고송경찰서 고송2지구대",
+        "lat": -3795,
+        "lng": 16789,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈고송경찰서 고송3지구대",
+        "lat": -4089,
+        "lng": 18352,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈고송경찰서 고송4지구대",
+        "lat": -4808,
+        "lng": 19138,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈고송경찰서 청능파출소",
+        "lat": -5724,
+        "lng": 19571,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈고송경찰서 소조파출소",
+        "lat": -7197,
+        "lng": 19116,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 탄성지구대",
+        "lat": -17247,
+        "lng": 31786,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 앵내지구대",
+        "lat": -12365,
+        "lng": 38211,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 도변지구대",
+        "lat": -12911,
+        "lng": 33403,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 서목지구대",
+        "lat": -20045,
+        "lng": 31646,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 야진파출소",
+        "lat": -18727,
+        "lng": 34429,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 고해파출소",
+        "lat": -7322,
+        "lng": 44346,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 소원파출소",
+        "lat": -5656,
+        "lng": 40523,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 흑택파출소",
+        "lat": -12557,
+        "lng": 31280,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 도향치안센터",
+        "lat": -8798,
+        "lng": 50220,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "효빈탄성경찰서 정근치안센터",
+        "lat": -6418,
+        "lng": 54213,
+        "color": "#1565C0",
+        "type": "police_station"
+    },
+    {
+        "name": "안천119안전센터",
+        "lat": -8357,
+        "lng": 31986,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "이자119안전센터",
+        "lat": -8012,
+        "lng": 38862,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "타천119안전센터",
+        "lat": -7834,
+        "lng": 34144,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "당가119안전센터",
+        "lat": -7950,
+        "lng": 29731,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "신덕119안전센터",
+        "lat": -10413,
+        "lng": 19248,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "중앙119안전센터",
+        "lat": -10391,
+        "lng": 16282,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "내항119안전센터",
+        "lat": -10298,
+        "lng": 13543,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "유내119안전센터",
+        "lat": -10317,
+        "lng": 18144,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "사능119안전센터",
+        "lat": -8103,
+        "lng": 19606,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "청능119안전센터",
+        "lat": -6177,
+        "lng": 21837,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "고송119안전센터",
+        "lat": -3140,
+        "lng": 16408,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "신고송119안전센터",
+        "lat": -4141,
+        "lng": 17833,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "중수119안전센터",
+        "lat": -5184,
+        "lng": 25605,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "신중수119안전센터",
+        "lat": -6227,
+        "lng": 24525,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "오내119안전센터",
+        "lat": -7675,
+        "lng": 22930,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "산고119안전센터",
+        "lat": -5495,
+        "lng": 24101,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "채산(평전공단)119안전센터",
+        "lat": -6352,
+        "lng": 28533,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "평당119안전센터",
+        "lat": -14950,
+        "lng": 8907,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "신평당119안전센터",
+        "lat": -16556,
+        "lng": 10060,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "어간119안전센터",
+        "lat": -12382,
+        "lng": 8544,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "곽산119안전센터",
+        "lat": -17727,
+        "lng": 8228,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "월항119안전센터",
+        "lat": -11749,
+        "lng": 10100,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "덕현119안전센터",
+        "lat": -9933,
+        "lng": 21130,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "신덕현119안전센터",
+        "lat": -9511,
+        "lng": 24284,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "사가당119안전센터",
+        "lat": -10470,
+        "lng": 21889,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "전천119안전센터",
+        "lat": -8646,
+        "lng": 22053,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "당선119안전센터",
+        "lat": -7775,
+        "lng": 16248,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "과진119안전센터",
+        "lat": -5821,
+        "lng": 16548,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "신과진119안전센터",
+        "lat": -5414,
+        "lng": 15403,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "청덕119안전센터",
+        "lat": -4390,
+        "lng": 14894,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "사복119안전센터",
+        "lat": -5744,
+        "lng": 18121,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "마잡119안전센터",
+        "lat": -13256,
+        "lng": 18396,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "청엽119안전센터",
+        "lat": -11961,
+        "lng": 23708,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "신청엽119안전센터",
+        "lat": -11608,
+        "lng": 21828,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "우전119안전센터",
+        "lat": -12990,
+        "lng": 22930,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "입빈119안전센터",
+        "lat": -12345,
+        "lng": 16812,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "비마리119안전센터",
+        "lat": -11573,
+        "lng": 20672,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "창전119안전센터",
+        "lat": -14778,
+        "lng": 26287,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "칠심119안전센터",
+        "lat": -12895,
+        "lng": 25617,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "쌍엽119안전센터",
+        "lat": -14198,
+        "lng": 23041,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "동곡119안전센터",
+        "lat": -15015,
+        "lng": 20677,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "진백119안전센터",
+        "lat": -11899,
+        "lng": 26854,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "광정119안전센터",
+        "lat": -14158,
+        "lng": 27259,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "탄성119안전센터",
+        "lat": -16515,
+        "lng": 31536,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "도변119안전센터",
+        "lat": -13084,
+        "lng": 33352,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "앵내119안전센터",
+        "lat": -11619,
+        "lng": 38226,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "서목119안전센터",
+        "lat": -19055,
+        "lng": 33193,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "고해119안전센터",
+        "lat": -6808,
+        "lng": 43674,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "흑택119안전센터",
+        "lat": -12116,
+        "lng": 28999,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "도향119지역대",
+        "lat": -8818,
+        "lng": 49924,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "정근119지역대",
+        "lat": -6584,
+        "lng": 54105,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "당가119안전센터",
+        "lat": -9087,
+        "lng": 29683,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "악부119안전센터",
+        "lat": -10272,
+        "lng": 33482,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "탄자119안전센터",
+        "lat": -9537,
+        "lng": 37841,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "신안천119안전센터",
+        "lat": -10139,
+        "lng": 31698,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "성저119안전센터",
+        "lat": -10448,
+        "lng": 39560,
+        "color": "#D32F2F",
+        "type": "fire_station"
+    },
+    {
+        "name": "이십기119안전센터",
+        "lat": -9933,
+        "lng": 35760,
+        "color": "#D32F2F",
+        "type": "fire_station"
     }
 ];
