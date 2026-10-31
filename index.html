@@ -348,7 +348,15 @@
                 </div>
                 <div id="subway-filter-list" class="filter-list"></div>
             </div>
-
+<button id="cvs-filter-btn" class="sidebar-btn" style="border-left: 4px solid #00C853;" onclick="toggleCvsFilterBox()">🏪 편의점 브랜드 필터</button>
+            <div id="cvs-filter-box" class="subway-filter-box">
+                <div class="filter-title">
+                    🏪 브랜드별 보기 
+                    <button onclick="toggleAllCvsFilters(true)" style="font-size:10px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:3px;">전체</button>
+                    <button onclick="toggleAllCvsFilters(false)" style="font-size:10px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:3px;">해제</button>
+                </div>
+                <div id="cvs-filter-list" class="filter-list"></div>
+            </div>
             <button id="bus-filter-btn" class="sidebar-btn" style="border-left: 4px solid #01B7ED;" onclick="toggleBusFilterBox()">🚍 버스 노선 필터</button>
             <div id="bus-filter-box" class="subway-filter-box">
                 <div class="filter-title">
@@ -357,6 +365,7 @@
                     <button onclick="toggleAllBusFilters(false)" style="font-size:10px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:3px;">해제</button>
                 </div>
                 <div id="bus-filter-list" class="filter-list"></div>
+
             </div>
 
             <button id="auto-area-btn" class="sidebar-btn" onclick="toggleDistrictArea()">📊 행정구역 면적 켜기</button>
@@ -398,7 +407,6 @@
     <div class="toolbar-divider"></div>
     <button id="station-btn" class="toolbar-btn" onclick="toggleStationMode()" title="지하철역 추가">🚉</button>
     <button id="bus-stop-btn" class="toolbar-btn" onclick="toggleBusStopMode()" title="버스 정류장 추가">🚏</button>
-    <button id="intersect-btn" class="toolbar-btn" onclick="toggleIntersectionLayer()" title="교차로 대장 보기/숨기기">🚦</button>
     <div class="toolbar-divider"></div>
     <button id="capture-btn" class="toolbar-btn" onclick="downloadMapImage()" title="현재 화면 지도 캡처">📸</button>
 </div>
@@ -423,24 +431,7 @@
     </div>
 </div>
 
-<div id="intersect-name-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h3 style="margin:0 0 10px 0;">🚦 교차로 이름 지정</h3>
-        <p id="intersect-default-info" style="font-size:12px; color:#666; margin-bottom:10px;"></p>
-        
-        <div style="margin-bottom:15px;">
-            <input type="text" id="intersect-name-input" list="intersect-suggestions" placeholder="이름을 직접 입력하거나 선택" 
-                   style="width:90%; padding:10px; font-size:14px; font-weight:bold; border:2px solid #333; border-radius:5px;">
-            <datalist id="intersect-suggestions"></datalist>
-        </div>
-        
-        <div style="display:flex; justify-content:center; gap:5px;">
-            <button class="confirm-btn" onclick="saveIntersectName()">💾 저장</button>
-            <button class="sidebar-btn" style="border:1px solid #EE0022; color:#EE0022; width:auto; display:inline-block;" onclick="ignoreIntersect()">ㅜ 제외</button>
-            <button class="cancel-btn" onclick="closeModal('intersect-name-modal')">취소</button>
-        </div>
-    </div>
-</div>
+
 
 <div id="bus-stop-modal" class="modal-overlay">
     <div class="modal-content">

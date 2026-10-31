@@ -1135,3 +1135,95 @@ window.setNavMode = function(mode) {
         }).join('');
     };
 })();
+
+// =========================================================
+// 🏪 편의점 브랜드 필터링 시스템 (클러스터 최적화)
+// =========================================================
+window.addEventListener('DOMContentLoaded', function() {
+    var cvsFilterContainer = document.getElementById('cvs-filter-list');
+    if (cvsFilterContainer) {
+        // 브랜드와 고유 색상 정의
+        var brands = [
+            { name: "GS25", color: "#0072BC" },
+            { name: "CU", color: "#652D90" },
+            { name: "세븐일레븐", color: "#008061" },
+            { name: "이마트24", color: "#FFB81C" },
+            { name: "스토리웨이", color: "#009045" },
+            { name: "미니스톱", color: "#003DA5" },
+            { name: "기타", color: "#333333" }
+        ];
+
+        // 체크박스 동적 생성
+        brands.forEach(function(brand) {
+            var filterItem = document.createElement('label'); 
+            filterItem.className = 'filter-item';
+            
+            var fChk = document.createElement('input'); 
+            fChk.type = 'checkbox'; fChk.value = brand.name; fChk.checked = true; fChk.name = 'cvsFilter';
+            fChk.onchange = window.applyCvsFilter; 
+            
+            var fDot = document.createElement('div'); 
+            fDot.className = 'filter-color-dot'; fDot.style.backgroundColor = brand.color;
+            
+            filterItem.appendChild(fChk); 
+            filterItem.appendChild(fDot); 
+            filterItem.appendChild(document.createTextNode(brand.name));
+            
+            cvsFilterContainer.appendChild(filterItem);
+        });
+    }
+});
+
+// 패널 열기/닫기
+window.toggleCvsFilterBox = function() {
+    var box = document.getElementById('cvs-filter-box');
+    var btn = document.getElementById('cvs-filter-btn');
+    if (box.style.display === 'block') {
+        box.style.display = 'none';
+        btn.classList.remove('active-btn');
+    } else {
+        box.style.display = 'block';
+        btn.classList.add('active-btn');
+        if (!map.hasLayer(cvsLayer)) map.addLayer(cvsLayer);
+    }
+};
+
+// 전체 선택 / 해제
+window.toggleAllCvsFilters = function(isChecked) {
+    document.querySelectorAll('input[name="cvsFilter"]').forEach(cb => cb.checked = isChecked);
+    window.applyCvsFilter();
+};
+
+// 필터 적용 엔진 (렉 방지를 위해 배열에 모아서 한 번에 렌더링)
+window.applyCvsFilter = function() {
+    var checkedBrands = [];
+    document.querySelectorAll('input[name="cvsFilter"]:checked').forEach(cb => checkedBrands.push(cb.value));
+
+    // 기존 편의점 마커를 모두 지도에서 내림
+    cvsLayer.clearLayers();
+    var markersToAdd = [];
+
+    // 메모리에 캐싱된 모든 마커를 순회하며 필터링
+    activeMarkers.forEach(function(marker) {
+        if (marker.subCategory === 'cvs') {
+            // 말풍선 내용으로 브랜드를 역추적
+            var tooltipText = marker.getTooltip() ? marker.getTooltip().getContent().replace(/<[^>]*>?/gm, '') : "";
+            
+            var brand = "기타";
+            if (tooltipText.includes("GS25") || tooltipText.includes("GS")) brand = "GS25";
+            else if (tooltipText.includes("CU")) brand = "CU";
+            else if (tooltipText.includes("세븐일레븐")) brand = "세븐일레븐";
+            else if (tooltipText.includes("이마트24") || tooltipText.includes("이마트 24")) brand = "이마트24";
+            else if (tooltipText.includes("스토리웨이")) brand = "스토리웨이";
+            else if (tooltipText.includes("미니스톱")) brand = "미니스톱";
+
+            // 체크된 브랜드에 포함되면 렌더링 대기열에 추가
+            if (checkedBrands.includes(brand)) {
+                markersToAdd.push(marker);
+            }
+        }
+    });
+    
+    // 모아둔 마커를 클러스터에 한 방에 던져서 렉 없이 렌더링
+    cvsLayer.addLayers(markersToAdd);
+};

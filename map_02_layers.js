@@ -71,10 +71,9 @@ var markerColors = {
     "univ_hospital": "#00838F", "general_hospital": "#0097A7", "hospital": "#00ACC1",
     "dental": "#26C6DA", "oriental_med": "#00897B", "vet": "#4DB6AC",
     "public_health": "#00695C", "pharmacy": "#43A047",
-    "airport": "#006064", "airbase": "#37474F", "port": "#01579B", "pier": "#0277BD",
-    "bus_terminal": "#C62828", "rail_depot": "#37474F", "ic_jc": "#2E7D32",
-    "station": "#D32F2F", "parking": "#455A64", "gas_station": "#F57F17", "toilet": "#0097A7",
-    "heavy_ind": "#37474F", "auto_ind": "#455A64", "semi_ind": "#1A237E", "chem_ind": "#546E7A",
+"airport": "#006064", "airbase": "#37474F", "port": "#01579B", "pier": "#0277BD",
+"bus_terminal": "#C62828", "rail_depot": "#37474F", "ic_jc": "#2E7D32", "intersect": "#0077DD",
+"station": "#D32F2F", "parking": "#455A64", "gas_station": "#F57F17", "toilet": "#0097A7",    "heavy_ind": "#37474F", "auto_ind": "#455A64", "semi_ind": "#1A237E", "chem_ind": "#546E7A",
     "food_ind": "#6D4C41", "ind_complex": "#616161", "it_rnd": "#283593", "logistics": "#4E342E",
     "factory": "#757575", "media": "#00838F", "normal": "#333333"
 };
@@ -87,7 +86,7 @@ var groupMap = {
     "cafe": "food", "bakery": "food", "fastfood": "food", "pizza": "food", "korean_food": "food","bunsik": "food", "western_food": "food", "japanese_food": "food", "buffet": "food", "restaurant": "food", "pub": "food",
     "anime_shop": "culture", "anime_stage": "culture", "anime_museum": "culture", "cinema": "culture", "museum": "culture", "art_museum": "culture", "science_museum": "culture", "art_center": "culture", "zoo": "culture", "tourist_spot": "culture", "hotel": "culture", "business_hotel": "culture", "resort": "culture", "church": "culture", "catholic": "culture", "temple": "culture", "stadium": "culture", "esports_arena": "culture", "ice_rink": "culture", "golf": "culture", "sports": "culture", "culture": "culture", "anime": "culture", "religion": "culture",
     "univ_hospital": "medical", "general_hospital": "medical", "hospital": "medical", "dental": "medical", "oriental_med": "medical", "vet": "medical", "public_health": "medical", "pharmacy": "medical",
-    "airport": "infra", "airbase": "infra", "port": "infra", "pier": "infra", "bus_terminal": "infra", "rail_depot": "infra", "ic_jc": "infra", "station": "infra", "parking": "infra", "gas_station": "infra", "toilet": "infra", "heavy_ind": "infra", "auto_ind": "infra", "semi_ind": "infra", "chem_ind": "infra", "food_ind": "infra", "ind_complex": "infra", "it_rnd": "infra", "logistics": "infra", "factory": "infra", "media": "infra", "bridge": "infra",
+    "airport": "infra", "airbase": "infra", "port": "infra", "pier": "infra", "bus_terminal": "infra", "rail_depot": "infra", "ic_jc": "infra", "intersect": "infra", "station": "infra", "parking": "infra", "gas_station": "infra", "toilet": "infra", "heavy_ind": "infra", "auto_ind": "infra", "semi_ind": "infra", "chem_ind": "infra", "food_ind": "infra", "ind_complex": "infra", "it_rnd": "infra", "logistics": "infra", "factory": "infra", "media": "infra", "bridge": "infra",
     "mountain": "nature", "hill": "nature", "island": "nature", "water": "nature", "lake": "nature", "beach": "nature", "park": "nature", "botanic": "nature", "square": "nature", "farm": "nature",
     "normal": "normal"
 };
@@ -124,10 +123,9 @@ var categoryNames100 = {
     "univ_hospital": "대학병원·상급종합병원", "general_hospital": "종합병원·의료원", "hospital": "전문병원·의원",
     "dental": "치과병원·의원", "oriental_med": "한방병원·한의원", "vet": "동물메디컬센터",
     "public_health": "보건소·보건진료소", "pharmacy": "약국",
-    "airport": "국제공항", "airbase": "공군기지·비행장", "port": "무역항·여객터미널", "pier": "유람선선착장·부두·방파제",
-    "bus_terminal": "고속·시외버스터미널", "rail_depot": "철도차량사업소(기지)", "ic_jc": "고속도로 나들목(IC/JC)",
-    "station": "교통·환승시설", "parking": "공영·환승주차장", "gas_station": "주유소·충전소", "toilet": "공중화장실",
-    "heavy_ind": "중공업·조선소", "auto_ind": "자동차·모빌리티공장", "semi_ind": "반도체·디스플레이캠퍼스", "chem_ind": "석유화학·소재공장",
+"airport": "국제공항", "airbase": "공군기지·비행장", "port": "무역항·여객터미널", "pier": "유람선선착장·부두·방파제",
+"bus_terminal": "고속·시외버스터미널", "rail_depot": "철도차량사업소(기지)", "ic_jc": "고속도로 나들목(IC/JC)", "intersect": "교차로·사거리",
+"station": "교통·환승시설", "parking": "공영·환승주차장", "gas_station": "주유소·충전소", "toilet": "공중화장실",    "heavy_ind": "중공업·조선소", "auto_ind": "자동차·모빌리티공장", "semi_ind": "반도체·디스플레이캠퍼스", "chem_ind": "석유화학·소재공장",
     "food_ind": "식품·제과제분공장", "ind_complex": "국가·일반산업단지", "it_rnd": "AI·반도체·로봇R&D센터", "logistics": "대형물류센터·기지",
     "factory": "제조공장·공업사", "media": "방송국·언론사", "normal": "일반시설·지명"
 };
@@ -391,16 +389,28 @@ var HYOBIN_WIKI_BASE = "https://binia1.github.io/hyobinwiki2/";
 
 function classify100Category(name) {
     if (!name) return "normal";
-    if (name.match(/(편의점|CU|GS25|세븐일레븐|이마트24|이마트 24|미니스톱)/)) return "cvs";
+
+    // 0순위 (오직 진짜 편의점 브랜드만 엄격하게 캐치! '~점' 글자 의존 안 함)
+    if (name.match(/(CU|GS25|세븐일레븐|이마트24|이마트 24|미니스톱|스토리웨이)/i)) {
+        return "cvs";
+    }
+
+    // 1순위 (주거 시설 최우선 방어): '센트럴'이나 다른 단어가 껴있어도 아파트 키워드가 있으면 무조건 주거 확정!
+    if (name.includes("아파트") || name.match(/(주공|휴먼시아|행복주택|시영|구영|청년주택|사원아파트|사원1단지|사원2단지|오피스텔|주상복합|빌라|자이|푸르지오|더샵|래미안|아이파크|센트럴|스타힐스|대라수|리버시티|에일린의뜰|우미린|호반베르디움|이편한세상|데시앙|유보라|포레나|위브|스위첸|아너스빌|칸타빌|엘리움|헤링턴|아이유쉘|해모로|코아루|블렌하임|스카이뷰|마루힐|한신더휴|사랑으로|비발디|어울림|이지더원|루첸|펜테리움|베네스타|동국애버리지|아쿠아)/)) {
+        if (name.includes("오피스텔") || name.includes("주상복합")) return "officetel";
+        if (name.includes("빌라")) return "villa";
+        return "apartment";
+    }
+
+    // 2순위: 고속도로 나들목 및 진짜 교차로 판정
+    if (name.match(/(IC|JC|톨게이트|나들목)/i)) return "ic_jc";
+    if (name.match(/(교차로|사거리|삼거리|네거리|오거리|육거리|로터리)/)) return "intersect";
+
+    // 3순위 이하 기존 시설들 매칭
     if (name.match(/(애니메이트|애니플러스샵|코믹프라자|굿즈샵|러브라이브|뱅드리마|모르포니카|로젤리아|코코로)/) && !name.includes("아파트") && !name.includes("호텔")) return "anime_shop";
     if (name.match(/(애니플러스 스테이지|리에라 라이브|서클 효빈|씨어터 아쿠아)/)) return "anime_stage";
     if (name.match(/(애니메이션 박물관|만화애니메이션의전당|애니메이션 아카이브|철도 박물관)/)) return "anime_museum";
     if (name.match(/(e스포츠 아레나)/)) return "esports_arena";
-
-    if (name.match(/(주공|휴먼시아|행복주택|시영|구영|청년주택|사원아파트|사원1단지|사원2단지)/)) return "public_apt";
-    if (name.includes("오피스텔") || name.includes("주상복합")) return "officetel";
-    if (name.includes("빌라")) return "villa";
-    if (name.includes("아파트") || name.match(/(자이|푸르지오|더샵|래미안|아이파크|센트럴|스타힐스|대라수|리버시티|에일린의뜰|우미린|호반베르디움|이편한세상|데시앙|유보라|포레나|위브|스위첸|아너스빌|칸타빌|엘리움|헤링턴|아이유쉘|해모로|코아루|블렌하임|스카이뷰|마루힐|한신더휴|사랑으로|비발디|어울림|이지더원|루첸|펜테리움|베네스타|동국애버리지|아쿠아1단지|아쿠아2단지|고산1단지|고산2단지)/)) return "apartment";
 
     if (name.match(/(기숙사|생활관|니나관|아와관|희다관|소금하우스)/)) return "dormitory";
     if (name.match(/(도서관|중앙도서관|방도도서관)/)) return "library";
@@ -442,7 +452,7 @@ function classify100Category(name) {
     if (name.match(/(시장|전통시장)/)) return "trad_market";
 
     if (name.includes("한국은행")) return "bank_central";
-    if (name.match(/(새마을금고|신협|농협|수협|우체국금융)/) && !name.includes("농협은행")) return "credit_union";
+    if (name.match(/(새마을금고|신협|농협|수협|우체국금융|신협중앙회)/) && !name.includes("농협은행")) return "credit_union";
     if (name.match(/(금융감독원|자산관리공사|주택금융공사|신용보증재단)/)) return "finance_corp";
     if (name.match(/(은행|국민은행|신한은행|우리은행|하나은행|기업은행|제일은행|SC제일은행|농협은행|효빈은행)/)) return "bank";
 
@@ -476,7 +486,7 @@ function classify100Category(name) {
     if (name.match(/(아동|어린이회관|가족센터)/)) return "child_welfare";
     if (name.match(/(노인|장애인|보훈)/)) return "senior_welfare";
     if (name.match(/(복지관|모금회|적십자|사회복지|사회서비스원)/)) return "welfare_center";
-    if (name.match(/(교육청|교육지원청|통계청|노동청|기상청|우정청|국토관리|인재개발원|공사|공단|진흥원|재단|회관|상수도|연구원|소비자원|공제회|마사회|수자원|감정원|부동산원|석유관리원|국가기록원|테크노파크|상공회의소|협회|본부)/)) return "public_corp";
+    if (name.match(/(교육청|교육지원청|통계청|노동청|기상청|우정청|국토관리|인재개발원|공사|공단|진흥원|재단|회관|상수도|연구원|소비자원|공제회|마사회|수자원|감정원|부동산원|석유관리원|국가기록원|테크노파크|상공회의소|협회|본부|한국국토정보공사|장애인고용공단|농림축산검역본부|소상공인시장진흥공단|중소벤처기업진흥공단|한국자산관리공사|효빈본부세관)/)) return "public_corp";
 
     if (name.match(/(CGV|메가박스|롯데시네마|영화관)/)) return "cinema";
     if (name.match(/(미술관|아트뮤지엄|간송)/)) return "art_museum";
@@ -501,14 +511,15 @@ function classify100Category(name) {
     if (name.match(/(부두|선착장|방파제|보관지)/)) return "pier";
     if (name.match(/(버스터미널|고속버스터미널|시외버스터미널|환승장|정류장)/)) return "bus_terminal";
     if (name.match(/(차량사업소|차고지|정비센터)/)) return "rail_depot";
-    if (name.match(/(IC|JC|톨게이트|사거리|삼거리|로터리|입구|종점)/)) return "ic_jc";
+    
+    if (name.match(/(입구|종점)/)) return "infra";
     if (name.includes("칼텍스") || name.includes("주유소")) return "gas_station";
     if (name.match(/(중공업|조선소|현대조선)/)) return "heavy_ind";
     if (name.match(/(기아자동차|현대로템|타이어|오토에버|모빌리티|드론)/)) return "auto_ind";
     if (name.match(/(삼성전자|삼성반도체|이노텍|세미콘|반도체|ASML|램리서치|KLA|칩스|파두|세미파이브)/)) return "semi_ind";
     if (name.match(/(케미칼|한화솔루션|실리콘|유한양행|제약|한약|탄소)/)) return "chem_ind";
     if (name.match(/(하림|제일제당|재일제당|농심|식품)/)) return "food_ind";
-    if (name.match(/(로보틱스|로보티즈|뉴로메카|리벨리온|사피온|딥엑스|연구소|데이터랩|AI랩|R&D|융합연구원|기술원)/)) return "it_rnd";
+    if (name.match(/(로보티즈|뉴로메카|리벨리온|사피온|딥엑스|연구소|데이터랩|AI랩|R&D|융합연구원|기술원)/)) return "it_rnd";
     if (name.match(/(대한통운|물류)/)) return "logistics";
     if (name.match(/(산단|산업단지|공단|공업단지|중심단지|미디어단지|직물)/)) return "ind_complex";
     if (name.match(/(공장|공업|산전|상사)/)) return "factory";
@@ -525,7 +536,6 @@ function classify100Category(name) {
 
     return "normal";
 }
-
 var riToEupMyeonMap = {
     "고무리": "탄성읍", "탄성리": "탄성읍", "공리": "탄성읍", "미성리": "탄성읍", "성규리": "탄성읍",
     "도변리": "도변읍", "요우리": "도변읍", "앵내리": "도변읍", "잠재리": "도변읍", "조일리": "도변읍", "표명리": "도변읍", "계층리": "도변읍", "수안리": "도변읍",
@@ -1387,6 +1397,21 @@ function createFacilityCustomIcon(type, color, size, itemName) {
     if (!color) color = "#333333";
     var actualSize = Math.max(size || 36, 32); 
 
+    // ★ [여기 추가!] 교차로(intersect) 전용 다이아몬드 마커 디자인
+    if (type === "intersect") {
+        var intersectHtml = `
+        <div style="background:${color}; width:14px; height:14px; border-radius:3px; transform: rotate(45deg); border:2px solid white; box-shadow:1px 1px 4px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center;">
+            <div style="background:white; width:4px; height:4px; border-radius:50%;"></div>
+        </div>`;
+        return L.divIcon({
+            className: 'custom-intersect-pin',
+            html: intersectHtml,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10],
+            popupAnchor: [0, -10]
+        });
+    }
+
     if (type === "cvs") {
         var bBg = "#00C853", bBorder = "#ffffff", bLabel = "24", bSub = "CVS";
         var n = itemName || "";
@@ -2071,25 +2096,28 @@ if (addrObj.gugun.includes("탄성군")) {
 } else if (addrObj.gugun.includes("안천구")) {
     areaCodeNum = "9" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
 }
-            var tailNum = String(1000 + (Math.abs(Math.round(item.lng)) % 8999));
-            var placePhone = item.phone ? item.phone : `${prefix}-${areaCodeNum}-${tailNum}`;
-            var rating = item.rating || (4.1 + (item.name.length % 9) * 0.1).toFixed(1); 
-            var ratingCount = (item.name.length * 3) + 2;
-            var reviews = item.reviews || (item.name.length * 9 + 5);
+// ★ 나들목(ic_jc) 및 교차로(intersect) 판별
+            var isJunction = (item.type === 'ic_jc' || item.type === 'intersect');
 
-            var parsedRating = Math.round(parseFloat(rating));
+            var tailNum = String(1000 + (Math.abs(Math.round(item.lng)) % 8999));
+            
+            // 데이터가 비어있어도 교차로/나들목이면 강제로 빈칸 유지!
+            var placePhone = (item.phone && item.phone !== "") ? item.phone : (isJunction ? "" : `${prefix}-${areaCodeNum}-${tailNum}`);
+            var rating = (item.rating && item.rating !== "") ? item.rating : (isJunction ? "" : (4.1 + (item.name.length % 9) * 0.1).toFixed(1)); 
+            var ratingCount = isJunction ? 0 : ((item.name.length * 3) + 2);
+            var reviews = (item.reviews && item.reviews !== "") ? item.reviews : (isJunction ? "" : (item.name.length * 9 + 5));
+
+            var parsedRating = rating ? Math.round(parseFloat(rating)) : 0;
             if (parsedRating > 5) parsedRating = 5;
             if (parsedRating < 0) parsedRating = 0;
-            var starDisplay = "★".repeat(parsedRating) + "☆".repeat(5 - parsedRating);
+            var starDisplay = isJunction ? "" : "★".repeat(parsedRating) + "☆".repeat(5 - parsedRating);
 
             var opStatus = getSmartOperatingStatus(item.type, item.name, item.hours);
             var placeImg = getSmartFacilityImage(item.name, item.image);
             
-            // ★ [핵심 해결!] 사용자가 직접 입력한 리뷰(desc)가 없더라도 무조건 자동 리뷰 생성 엔진을 돌려서 띄움!
             var placeDesc = (item.desc && item.desc.trim() !== "") 
                 ? item.desc 
-                : generateAutoReview(rating, item.type, item.name);
-                
+                : (isJunction ? "차량 통행을 위한 도로 기반 시설입니다." : generateAutoReview(rating, item.type, item.name));                
             var wikiUrl = `${HYOBIN_WIKI_BASE}${encodeURIComponent(item.name)}.html`;
 
             var exportData = encodeURIComponent(JSON.stringify({
@@ -2107,19 +2135,20 @@ if (addrObj.gugun.includes("탄성군")) {
                                 <span style="font-size: 16px; font-weight: 700; color: #222; letter-spacing: -0.5px;">${item.name}</span>
                                 <span style="font-size: 11px; color: #fff; background: ${item.color || '#333'}; padding: 1px 6px; border-radius: 4px; font-weight: bold;">${typeName}</span>
                             </div>
+${isJunction ? '' : `
                             <div style="font-size: 12px; margin-bottom: 4px;">
                                 <span style="color: #ff5252; font-weight: bold;">${rating}</span>
                                 <span style="color: #ff5252; font-size: 11px; letter-spacing: -1px;">${starDisplay}</span>
                                 <span style="color: #888;">(${ratingCount}건)</span>
                                 <span style="color: #ddd; margin: 0 3px;">|</span>
                                 <span style="color: #888;">리뷰 ${reviews}</span>
-                            </div>
+                            </div>`}
                             <div style="font-size: 12px; margin-bottom: 6px; background:#f4f8ff; padding:4px 6px; border-radius:4px;">🕒 ${opStatus.badge} · <span style="color:#444;">${opStatus.hours}</span></div>
                             <div style="font-size: 12.5px; color: #222; font-weight: 500; line-height: 1.4;">📍 ${addrObj.roadAddress}</div>
                             <div style="font-size: 11.5px; color: #666; margin-top: 2px;">(우) ${addrObj.zip} &nbsp;(지번) ${addrObj.jibunSub} ${addrObj.bunji}</div>
                             
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px; background: #f8f9fa; padding: 4px 6px; border-radius: 4px; border: 1px solid #eee;">
-                                <span style="font-size: 12.5px; color: #009000; font-weight: bold;">📞 ${placePhone}</span>
+                                ${isJunction ? `<span style="font-size: 12.5px; color: #777; font-weight: bold;">전화번호 없음</span>` : `<span style="font-size: 12.5px; color: #009000; font-weight: bold;">📞 ${placePhone}</span>`}
                                 <button onclick="openPlaceEditModal('${safeName}', ${item.lat}, ${item.lng}, '${cardId}')" style="background: #333; color: #fff; border: none; padding: 3px 8px; border-radius: 3px; font-size: 11px; cursor: pointer; font-weight: bold;">✏️ 수정</button>
                             </div>
 
