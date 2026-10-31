@@ -6466,7 +6466,7 @@ var defaultLandmarksData = [
         "lng": 24903,
         "type": "mountain",
         "hours": "24시간 개방·운영",
-        "phone": "079-259-7905",
+        "phone": "079-359-7905",
         "desc": "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
         "rating": "4.4",
         "reviews": "32",
@@ -6485,7 +6485,7 @@ var defaultLandmarksData = [
         "lng": 24480,
         "type": "normal",
         "hours": "09:00 ~ 18:00",
-        "phone": "079-213-7482",
+        "phone": "079-313-7482",
         "desc": "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
         "rating": "4.5",
         "reviews": "41",
@@ -14185,7 +14185,7 @@ var defaultLandmarksData = [
         "lng": 23952,
         "type": "middle_school",
         "hours": "학기중 08:30 ~ 16:30 (방과후 ~19:00)",
-        "phone": "079-278-6954",
+        "phone": "079-378-6954",
         "desc": "기대 이상이었어요. 주변 지인들에게도 적극 추천하고 싶은 곳입니다!",
         "rating": "4.6",
         "reviews": "50",
@@ -16066,7 +16066,7 @@ var defaultLandmarksData = [
         "lng": 24019,
         "type": "elementary_school",
         "hours": "학기중 08:30 ~ 16:30 (방과후 ~19:00)",
-        "phone": "079-259-7021",
+        "phone": "079-359-7021",
         "desc": "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요.",
         "rating": "4.7",
         "reviews": "59",
@@ -17985,7 +17985,7 @@ var defaultLandmarksData = [
         "lng": 24232,
         "type": "community_center",
         "hours": "평일 09:00 ~ 18:00 (주말·공휴일 휴무)",
-        "phone": "079-290-7234",
+        "phone": "079-390-7234",
         "desc": "대중교통으로 찾아오기도 편하고 내부 관리가 정말 잘 되어 있습니다. 강추합니다!",
         "rating": "4.8",
         "reviews": "68",
@@ -21426,7 +21426,7 @@ var defaultLandmarksData = [
         "lng": 23753,
         "type": "fastfood",
         "hours": "24시간 영업 (드라이브스루)",
-        "phone": "079-270-6755",
+        "phone": "079-370-6755",
         "desc": "크게 불편한 점 없이 무난하게 잘 이용하고 갑니다.",
         "rating": "4.1",
         "reviews": "86",
@@ -26670,7 +26670,7 @@ var defaultLandmarksData = [
         "lng": 23809,
         "type": "apartment",
         "hours": "상시 거주시설 (관리실 09:00 ~ 18:00)",
-        "phone": "079-277-6811",
+        "phone": "079-377-6811",
         "desc": "단지 조경과 관리가 깔끔하게 잘 되어 있고, 대중교통 접근성이 뛰어나 살기 좋은 곳입니다.",
         "rating": "4.9",
         "reviews": "77",
@@ -26689,7 +26689,7 @@ var defaultLandmarksData = [
         "lng": 24112,
         "type": "apartment",
         "hours": "상시 거주시설 (관리실 09:00 ~ 18:00)",
-        "phone": "079-285-7114",
+        "phone": "079-385-7114",
         "desc": "가성비가 괜찮고 위치도 찾기 쉬워서 방문하기 나쁘지 않습니다. 🙂",
         "rating": "4.1",
         "reviews": "86",
@@ -26708,7 +26708,7 @@ var defaultLandmarksData = [
         "lng": 24218,
         "type": "apartment",
         "hours": "상시 거주시설 (관리실 09:00 ~ 18:00)",
-        "phone": "079-281-7220",
+        "phone": "079-381-7220",
         "desc": "가성비가 괜찮고 위치도 찾기 쉬워서 방문하기 나쁘지 않습니다. 🙂",
         "rating": "4.1",
         "reviews": "86",
@@ -26727,7 +26727,7 @@ var defaultLandmarksData = [
         "lng": 24136,
         "type": "apartment",
         "hours": "상시 거주시설 (관리실 09:00 ~ 18:00)",
-        "phone": "079-262-7138",
+        "phone": "079-362-7138",
         "desc": "단지 조경과 관리가 깔끔하게 잘 되어 있고, 대중교통 접근성이 뛰어나 살기 좋은 곳입니다.",
         "rating": "4.9",
         "reviews": "77",
@@ -26746,7 +26746,7 @@ var defaultLandmarksData = [
         "lng": 24370,
         "type": "apartment",
         "hours": "상시 거주시설 (관리실 09:00 ~ 18:00)",
-        "phone": "079-213-7372",
+        "phone": "079-313-7372",
         "desc": "주변에 상권이랑 학군이 잘 갖춰져 있어서 효빈시 내에서 실거주하기 정말 좋은 단지입니다.",
         "rating": "4.2",
         "reviews": "95",
@@ -31991,7 +31991,7 @@ var defaultLandmarksData = [
         "lng": 24415,
         "type": "pier",
         "hours": "09:00 ~ 18:00",
-        "phone": "079-290-7417",
+        "phone": "079-390-7417",
         "desc": "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
         "rating": "4.6",
         "reviews": "131",
@@ -46622,7 +46622,7 @@ var defaultLandmarksData = [
         "lng": 24664,
         "type": "island",
         "hours": "24시간 개방·운영",
-        "phone": "079-287-7666",
+        "phone": "079-387-7666",
         "desc": "정말 훌륭합니다! 시설도 깔끔하고 무조건 다시 방문하고 싶어요. 👍",
         "rating": "4.4",
         "reviews": "32",
@@ -53349,7 +53349,7 @@ var defaultLandmarksData = [
         "lng": 23744,
         "type": "fastfood",
         "hours": "08:00 ~ 23:00",
-        "phone": "079-262-6746",
+        "phone": "079-362-6746",
         "desc": "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요.",
         "rating": "4.9",
         "reviews": "77",
@@ -54603,7 +54603,7 @@ var defaultLandmarksData = [
         "lng": 24724,
         "type": "coast_guard",
         "hours": "24시간 개방·운영",
-        "phone": "079-293-7726",
+        "phone": "079-393-7726",
         "desc": "기대 이상이었어요. 주변 지인들에게도 적극 추천하고 싶은 곳입니다!",
         "rating": "4.3",
         "reviews": "185",
@@ -95795,7 +95795,7 @@ var defaultLandmarksData = [
         "lng": 24313,
         "type": "cvs",
         "hours": "24시간 영업 (연중무휴)",
-        "phone": "079-213-7315",
+        "phone": "079-313-7315",
         "desc": "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
         "rating": "4.4",
         "reviews": "37",
@@ -96726,7 +96726,7 @@ var defaultLandmarksData = [
         "lng": 24081,
         "type": "cvs",
         "hours": "24시간 영업 (연중무휴)",
-        "phone": "079-284-7083",
+        "phone": "079-384-7083",
         "desc": "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
         "rating": "4.8",
         "reviews": "20",
@@ -102198,7 +102198,7 @@ var defaultLandmarksData = [
         "lng": 23854,
         "type": "cvs",
         "hours": "24시간 영업 (연중무휴)",
-        "phone": "079-230-6856",
+        "phone": "079-330-6856",
         "desc": "효빈광역시 최고의 핫플! 서비스와 품질 모두 완벽하게 만족스럽습니다.",
         "rating": "4.4",
         "reviews": "32",
@@ -119615,5 +119615,529 @@ var defaultLandmarksData = [
         "legalDong": "주양리",
         "eupMyeon": "염곡읍",
         "roadAddress": "덕빈북도 기도군 염곡읍 기도대로6"
-    }
+    },
+        {
+        "name": "우택중학교",
+        "lat": -11645,
+        "lng": 24977,
+        "color": "#FFB300",
+        "type": "middle_school"
+    },
+        {
+        "name": "삼성반도체 남문",
+        "lat": -8817,
+        "lng": 27440,
+        "color": "#1A237E",
+        "type": "semi_ind"
+    },
+    {
+        "name": "한화솔루션 후문",
+        "lat": -13148,
+        "lng": 13120,
+        "color": "#546E7A",
+        "type": "chem_ind"
+    },
+    {
+        "name": "오나아파트",
+        "lat": -15261,
+        "lng": 22418,
+        "color": "#795548",
+        "type": "apartment"
+    },
+        {
+        "name": "약산 유한양행공장",
+        "lat": -5471,
+        "lng": 59765,
+        "color": "#546E7A",
+        "type": "chem_ind"
+    },
+    {
+        "name": "후작동",
+        "lat": -8050,
+        "lng": 55983,
+        "color": "#333333",
+        "type": "normal"
+    },    {
+        "name": "마희리",
+        "lat": -22607,
+        "lng": 29865,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "파래리",
+        "lat": -24769,
+        "lng": 26587,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "기산공업",
+        "lat": -5365,
+        "lng": 23737,
+        "color": "#757575",
+        "type": "factory"
+    },
+    {
+        "name": "우구사",
+        "lat": -7784,
+        "lng": 24601,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "우곡마을",
+        "lat": -8903,
+        "lng": 23083,
+        "color": "#333333",
+        "type": "normal"
+    },
+        {
+        "name": "주강",
+        "lat": -16496,
+        "lng": 29621,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "변영",
+        "lat": -15721,
+        "lng": 29488,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "탄서마을",
+        "lat": -15103,
+        "lng": 28880,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "과라",
+        "lat": -13977,
+        "lng": 29469,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "지암사",
+        "lat": -12346,
+        "lng": 29728,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "구구변",
+        "lat": -12012,
+        "lng": 30343,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "고루",
+        "lat": -13064,
+        "lng": 32003,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "두상마을",
+        "lat": -14183,
+        "lng": 21837,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "유안",
+        "lat": -12693,
+        "lng": 22571,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "서안",
+        "lat": -11843,
+        "lng": 9738,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "항만공업지구",
+        "lat": -11001,
+        "lng": 8773,
+        "color": "#757575",
+        "type": "factory"
+    },
+    {
+        "name": "어류산업지구",
+        "lat": -10639,
+        "lng": 8376,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "위강",
+        "lat": -10371,
+        "lng": 7901,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "공업사거리",
+        "lat": -10261,
+        "lng": 7656,
+        "color": "#0077DD",
+        "type": "intersect"
+    },
+    {
+        "name": "어선사거리",
+        "lat": -10038,
+        "lng": 7461,
+        "color": "#0077DD",
+        "type": "intersect"
+    },
+        {
+        "name": "어성사거리",
+        "lat": -9820,
+        "lng": 5229,
+        "color": "#0077DD",
+        "type": "intersect"
+    },
+    {
+        "name": "만지공업사",
+        "lat": -9501,
+        "lng": 5281,
+        "color": "#757575",
+        "type": "factory"
+    },
+    {
+        "name": "궐산산업",
+        "lat": -9435,
+        "lng": 5075,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "향만사거리",
+        "lat": -9371,
+        "lng": 2512,
+        "color": "#0077DD",
+        "type": "intersect"
+    },
+    {
+        "name": "월기산업",
+        "lat": -9518,
+        "lng": 2874,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "제중산업",
+        "lat": -9638,
+        "lng": 3201,
+        "color": "#333333",
+        "type": "normal"
+    },
+        {
+        "name": "안천구청사거리",
+        "lat": -8467,
+        "lng": 31895,
+        "color": "#0077DD",
+        "type": "intersect"
+    },
+    {
+        "name": "뇌전공단 서부",
+        "lat": -9941,
+        "lng": 28095,
+        "color": "#5C6BC0",
+        "type": "public_corp"
+    },
+    {
+        "name": "구말마을",
+        "lat": -10426,
+        "lng": 28099,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "괴천",
+        "lat": -10997,
+        "lng": 28043,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "고건",
+        "lat": -11646,
+        "lng": 28077,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "고곡교",
+        "lat": -13486,
+        "lng": 32519,
+        "color": "#333333",
+        "type": "normal"
+    },
+        {
+        "name": "동리고등학교",
+        "lat": -11911,
+        "lng": 18762,
+        "color": "#FFA000",
+        "type": "high_school"
+    },
+        {
+        "name": "롯데마트 이자점",
+        "lat": -8020,
+        "lng": 37948,
+        "color": "#F57C00",
+        "type": "hypermarket"
+    },
+        {
+        "name": "하이마트 오내역점",
+        "lat": -7385,
+        "lng": 23930,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 청엽롯데백화점점",
+        "lat": -12421,
+        "lng": 22047,
+        "color": "#C2185B",
+        "type": "department_store"
+    },
+    {
+        "name": "하이마트 청엽메가스토어",
+        "lat": -11524,
+        "lng": 22927,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 우전점",
+        "lat": -13184,
+        "lng": 23408,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 효빈동신도시점",
+        "lat": -11530,
+        "lng": 17447,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 메가스토어 평당점",
+        "lat": -13801,
+        "lng": 9249,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 평당아이파크점",
+        "lat": -15668,
+        "lng": 10746,
+        "color": "#0277BD",
+        "type": "electronics_shop",
+        "origName": "하이마트 평당아이파크점",
+        "hours": "10:00 ~ 23:00 (매월 2·4주 일요일 휴무)",
+        "phone": "079-475-1232",
+        "image": "이미지/하이마트 평당아이파크점.webp",
+        "desc": "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요.",
+        "rating": "4.4",
+        "reviews": "113"
+    },
+    {
+        "name": "하이마트 곽산역점",
+        "lat": -17043,
+        "lng": 7797,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 쌍엽사 거리점",
+        "lat": -13615,
+        "lng": 22614,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 창전구청점",
+        "lat": -14364,
+        "lng": 25585,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 칠심역점",
+        "lat": -13238,
+        "lng": 25970,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 이자점",
+        "lat": -9449,
+        "lng": 37816,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 안천점",
+        "lat": -9506,
+        "lng": 31812,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 당선점",
+        "lat": -7698,
+        "lng": 17343,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 과진점",
+        "lat": -5351,
+        "lng": 16943,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 사가당역점",
+        "lat": -10460,
+        "lng": 22349,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 창선점",
+        "lat": -10262,
+        "lng": 16534,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 도변점",
+        "lat": -13007,
+        "lng": 33807,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 탄성점",
+        "lat": -16651,
+        "lng": 29063,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 파워센터 남전본점",
+        "lat": -7168,
+        "lng": 25559,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 고송점",
+        "lat": -3519,
+        "lng": 16799,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 중수점",
+        "lat": -5819,
+        "lng": 24484,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 청엽점",
+        "lat": -12428,
+        "lng": 22780,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 우택점",
+        "lat": -10643,
+        "lng": 25482,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 평당점",
+        "lat": -16919,
+        "lng": 9810,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 어간점",
+        "lat": -12010,
+        "lng": 8153,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "하이마트 창전점",
+        "lat": -14829,
+        "lng": 24169,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 진백점",
+        "lat": -12012,
+        "lng": 26373,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 이자점",
+        "lat": -8339,
+        "lng": 39107,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 당가점",
+        "lat": -8051,
+        "lng": 29725,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 청덕점",
+        "lat": -5840,
+        "lng": 14065,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 덕현점",
+        "lat": -9210,
+        "lng": 22658,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 오석점",
+        "lat": -11085,
+        "lng": 17424,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
+    {
+        "name": "전자랜드 도변점",
+        "lat": -12349,
+        "lng": 32961,
+        "color": "#0277BD",
+        "type": "electronics_shop"
+    },
 ];

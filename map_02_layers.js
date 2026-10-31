@@ -82,7 +82,7 @@ var groupMap = {
     "kindergarten": "education", "elementary_school": "education", "middle_school": "education", "high_school": "education", "special_high": "education", "special_school": "education", "college": "education", "university": "education", "univ_building": "education", "grad_school": "education", "dormitory": "education", "research_inst": "education", "library": "education", "school": "education",
     "apartment": "residence", "public_apt": "residence", "villa": "residence", "officetel": "residence",
     "city_hall": "public", "gu_office": "public", "gun_office": "public", "gov_complex": "public", "community_center": "public", "tax_office": "public", "customs": "public", "court": "public", "military": "public", "public_corp": "public", "police_agency": "public", "police_station": "public", "police_box": "public", "coast_guard": "public", "fire_hq": "public", "fire_station": "public", "post_office": "public", "welfare_center": "public", "child_welfare": "public", "senior_welfare": "public", "office_main": "public", "office_sub": "public", "office_etc": "public", "police": "public", "welfare": "public",
-    "bank_central": "commercial", "bank": "commercial", "credit_union": "commercial", "finance_corp": "commercial", "department_store": "commercial", "outlet": "commercial", "shopping_mall": "commercial", "hypermarket": "commercial", "ssm": "commercial", "warehouse_mart": "commercial", "food_mart": "commercial", "variety_store": "commercial", "electronics_shop": "commercial", "bookstore": "commercial", "trad_market": "commercial", "fish_market": "commercial", "wholesale_market": "commercial", "cvs": "commercial", "commercial": "commercial", "market": "commercial",
+    "bank_central": "commercial", "bank": "commercial", "credit_union": "commercial", "finance_corp": "commercial", "department_store": "commercial", "outlet": "commercial", "shopping_mall": "commercial", "hypermarket": "commercial", "ssm": "commercial", "warehouse_mart": "commercial", "food_mart": "commercial", "variety_store": "commercial", "electronics_shop": "commercial", "bookstore": "commercial", "trad_market": "commercial", "fish_market": "commercial", "wholesale_market": "commercial", "cvs": "cvs", "commercial": "commercial", "market": "commercial",
     "cafe": "food", "bakery": "food", "fastfood": "food", "pizza": "food", "korean_food": "food","bunsik": "food", "western_food": "food", "japanese_food": "food", "buffet": "food", "restaurant": "food", "pub": "food",
     "anime_shop": "culture", "anime_stage": "culture", "anime_museum": "culture", "cinema": "culture", "museum": "culture", "art_museum": "culture", "science_museum": "culture", "art_center": "culture", "zoo": "culture", "tourist_spot": "culture", "hotel": "culture", "business_hotel": "culture", "resort": "culture", "church": "culture", "catholic": "culture", "temple": "culture", "stadium": "culture", "esports_arena": "culture", "ice_rink": "culture", "golf": "culture", "sports": "culture", "culture": "culture", "anime": "culture", "religion": "culture",
     "univ_hospital": "medical", "general_hospital": "medical", "hospital": "medical", "dental": "medical", "oriental_med": "medical", "vet": "medical", "public_health": "medical", "pharmacy": "medical",
@@ -442,10 +442,10 @@ function classify100Category(name) {
     if (name.match(/(스타필드|롯데몰|타임스퀘어|시티몰|스퀘어몰|타워몰|파크몰|리에라몰|HJ몰|유니브스퀘어|아쿠아시티센터|마루웰|고송스퀘어)/)) return "shopping_mall";
     if (name.match(/(코스트코|트레이더스|맥스)/)) return "warehouse_mart";
     if (name.includes("식자재")) return "food_mart";
+    if (name.match(/(베스트샵|전자상가|전자랜드|하이마트|하이마트 )/)) return "electronics_shop";
     if (name.match(/(SSM|에브리데이|더프레시|롯데슈퍼)/)) return "ssm";
     if (name.match(/(이마트|홈플러스|롯데마트|하나로마트|빈스마트|마루마트|천조마트|CY마트|즈라스토어|이케아)/)) return "hypermarket";
     if (name.includes("다이소")) return "variety_store";
-    if (name.match(/(베스트샵|전자상가|전자랜드|하이마트|하이마트 )/)) return "electronics_shop";
     if (name.match(/(교보문고|교보문교|영풍문고|종로서적|알라딘|아크앤북|서점)/)) return "bookstore";
     if (name.match(/(수산시장|어시장)/)) return "fish_market";
     if (name.match(/(도매시장|청과시장|농수산)/)) return "wholesale_market";
