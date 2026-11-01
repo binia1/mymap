@@ -120140,4 +120140,11 @@ var defaultLandmarksData = [
         "color": "#0277BD",
         "type": "electronics_shop"
     },
+        {
+        "name": "하공리",
+        "lat": -7614,
+        "lng": 53889,
+        "color": "#333333",
+        "type": "normal"
+    },
 ];

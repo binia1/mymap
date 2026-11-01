@@ -1,5 +1,5 @@
 // =========================================================
-// 8. 검색, 파일관리, 노선도 모드 (map_04_ui.js - 미개통 노선/역 길찾기 100% 원천 차단 완벽판)
+// 8. 검색, 파일관리, 노선도 모드 (map_04_ui.js - 경유 역/정류장/정밀 도로망 탐색 완벽판)
 // =========================================================
 var searchHighlightLayer = null;
 var isSubwayMode = false;
@@ -214,16 +214,16 @@ map.on('click', function() {
 
 // =========================================================
 // ★ [무결점 길찾기 엔진] 카카오맵 스타일 (대중교통 / 자동차 / 도보)
-// - 미개통 노선(창전선 c, 청엽선 y 등) 및 미개통역(과복, 덕현중앙, 하미 등) 100% 원천 배제!
-// - 작은 골목길 L자(직각) 자동 스냅 + 실제 도로망(roadData) 다익스트라 탐색
-// - 지하철(subwayData) 직통/환승 & 시내버스(processedBusData) 실제 노선 추적
+// - 지하철 탑승 시 거쳐가는 모든 정차역(Station List) 실시간 탐색 및 출력!
+// - 버스 탑승 시 거쳐가는 모든 정류장(Bus Stop List) 실시간 스냅 및 출력!
+// - 주변 도로망 촘촘 분할(Subdivision) + 교차로 스냅 다익스트라 정밀 탐색!
 // =========================================================
 (function() {
-var navLayer = L.layerGroup().addTo(map);
+    var navLayer = L.layerGroup().addTo(map);
     var navState = {
         start: null, 
         end: null,   
-        waypoints: [], // 🎯 다중 경유지 배열 추가
+        waypoints: [], // 🎯 다중 경유지 배열
         mode: 'transit', 
         pickTarget: null, 
         roadGraph: null,
@@ -287,6 +287,176 @@ var navLayer = L.layerGroup().addTo(map);
         if (dLat < 15 || dLng < 15) return [p1, p2];
         var elbow = (dLat > dLng) ? [p2[0], p1[1]] : [p1[0], p2[1]];
         return [p1, elbow, p2];
+    }
+
+    // ★ [버스 정류장 데이터베이스 통합 캐시] hardcodedBusStops + allLandmarks 내 정류장 통합
+    var cachedAllBusStops = null;
+    function getAllBusStopsData() {
+        if (cachedAllBusStops && cachedAllBusStops.length > 0) return cachedAllBusStops;
+        var list = [];
+        var seen = new Set();
+        var adjY = (typeof adjustY !== 'undefined') ? adjustY : -19822;
+
+        if (typeof hardcodedBusStops !== 'undefined' && Array.isArray(hardcodedBusStops)) {
+            hardcodedBusStops.forEach(function(bs) {
+                if (!bs || !bs.name) return;
+                // hardcodedBusStops는 이미 보정된 좌표(-25000 등)를 사용함
+                var lat = (bs.lat > -10000 && bs.lat < 5000 && adjY < 0) ? (bs.lat + adjY) : bs.lat;
+                var key = bs.name + "_" + Math.round(lat / 10);
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    list.push({
+                        name: bs.name,
+                        lat: lat,
+                        lng: bs.lng,
+                        passingBuses: bs.passingBuses || bs.allPassingBuses || []
+                    });
+                }
+            });
+        }
+
+        if (typeof allLandmarks !== 'undefined' && Array.isArray(allLandmarks)) {
+            allLandmarks.forEach(function(m) {
+                if (m && m.type === 'busStop' && m.name) {
+                    var key = m.name + "_" + Math.round(m.lat / 10);
+                    if (!seen.has(key)) {
+                        seen.add(key);
+                        list.push({
+                            name: m.name,
+                            lat: m.lat,
+                            lng: m.lng,
+                            passingBuses: m.passingBuses || m.allPassingBuses || []
+                        });
+                    }
+                }
+            });
+        }
+        cachedAllBusStops = list;
+        return cachedAllBusStops;
+    }
+
+    // 점(P)과 선분(A-B) 사이의 수직 거리 및 투영 비율(t: 0~1) 계산
+    function getPointToSegmentProjection(px, py, x1, y1, x2, y2) {
+        var A = px - x1, B = py - y1, C = x2 - x1, D = y2 - y1;
+        var dot = A * C + B * D;
+        var lenSq = C * C + D * D;
+        var param = (lenSq !== 0) ? (dot / lenSq) : 0;
+        var clamped = Math.max(0, Math.min(1, param));
+        var xx = x1 + clamped * C;
+        var yy = y1 + clamped * D;
+        var dist = calcRealMeters(px, py, xx, yy);
+        return { dist: dist, t: clamped, projLat: xx, projLng: yy };
+    }
+
+    // ★ [핵심 기능] 특정 버스 노선의 주행 구간(busSegPts)을 따라 거쳐가는 실제 버스정류장 목록 추출!
+    function getBusStopsAlongSegment(busObj, busSegPts) {
+        if (!busSegPts || busSegPts.length < 2) return [];
+        var allStops = getAllBusStopsData();
+        var busNameClean = (busObj.name || "").replace(/\s+/g, "");
+        var matchedStops = [];
+
+        // 구간 누적 거리 배열 생성 (정류장 정렬용)
+        var cumDist = [0];
+        for (var i = 0; i < busSegPts.length - 1; i++) {
+            var segLen = calcRealMeters(busSegPts[i][0], busSegPts[i][1], busSegPts[i+1][0], busSegPts[i+1][1]);
+            cumDist.push(cumDist[i] + segLen);
+        }
+
+        allStops.forEach(function(bs) {
+            // 정류장에 통과 노선 정보가 있다면 해당 버스 번호가 포함되는지 확인 (더 정확한 매칭)
+            var passesThisBus = false;
+            if (bs.passingBuses && bs.passingBuses.length > 0) {
+                passesThisBus = bs.passingBuses.some(function(bStr) {
+                    var cleanStr = bStr.replace(/<[^>]*>?/gm, '').replace(/\s+/g, '');
+                    return cleanStr.includes(busNameClean);
+                });
+            }
+
+            // 선분과의 최소 거리 및 진행도(alongDist) 계산
+            var minDist = Infinity;
+            var bestAlongDist = 0;
+            for (var i = 0; i < busSegPts.length - 1; i++) {
+                var proj = getPointToSegmentProjection(
+                    bs.lat, bs.lng,
+                    busSegPts[i][0], busSegPts[i][1],
+                    busSegPts[i+1][0], busSegPts[i+1][1]
+                );
+                if (proj.dist < minDist) {
+                    minDist = proj.dist;
+                    var segLen = cumDist[i+1] - cumDist[i];
+                    bestAlongDist = cumDist[i] + proj.t * segLen;
+                }
+            }
+
+            // 해당 버스가 정차한다고 명시된 정류장은 반경 350m 이내, 일반 인접 정류장은 반경 180m 이내면 경유 정류장으로 채택
+            var threshold = passesThisBus ? 350 : 180;
+            if (minDist <= threshold) {
+                matchedStops.push({
+                    name: bs.name.replace(/\s*정류장$/, '') + " 정류장",
+                    rawName: bs.name,
+                    lat: bs.lat,
+                    lng: bs.lng,
+                    alongDist: bestAlongDist,
+                    minDist: minDist
+                });
+            }
+        });
+
+        // 주행 순서(alongDist)대로 정렬 후 중복 정류장 이름 제거
+        matchedStops.sort(function(a, b) { return a.alongDist - b.alongDist; });
+        var uniqueStops = [];
+        matchedStops.forEach(function(st) {
+            var cleanN = st.rawName.replace(/\s*정류장$/, '').trim();
+            if (uniqueStops.length === 0) {
+                uniqueStops.push(st);
+            } else {
+                var prevClean = uniqueStops[uniqueStops.length - 1].rawName.replace(/\s*정류장$/, '').trim();
+                // 같은 이름의 정류장이 연달아 나오거나 80m 이내에 겹치면 중복 제거
+                if (cleanN !== prevClean && Math.abs(st.alongDist - uniqueStops[uniqueStops.length - 1].alongDist) > 60) {
+                    uniqueStops.push(st);
+                }
+            }
+        });
+
+        // 만약 구간 내에 매칭된 정류장 마커가 너무 적으면(0~1개), 시작점/끝점 인근의 가장 가까운 정류장이나 행정동 명칭으로 보완
+        if (uniqueStops.length < 2) {
+            var startStopName = "출발지 인근 정류장";
+            var endStopName = "도착지 인근 정류장";
+            if (typeof resolveFullAddress === 'function') {
+                var sAddr = resolveFullAddress(busSegPts[0][0], busSegPts[0][1]);
+                var eAddr = resolveFullAddress(busSegPts[busSegPts.length - 1][0], busSegPts[busSegPts.length - 1][1]);
+                startStopName = (sAddr.legal || sAddr.admin || "출발") + " 정류장";
+                endStopName = (eAddr.legal || eAddr.admin || "도착") + " 정류장";
+            }
+            if (uniqueStops.length === 0) {
+                uniqueStops = [
+                    { name: startStopName, rawName: startStopName, lat: busSegPts[0][0], lng: busSegPts[0][1] },
+                    { name: endStopName, rawName: endStopName, lat: busSegPts[busSegPts.length - 1][0], lng: busSegPts[busSegPts.length - 1][1] }
+                ];
+            } else if (uniqueStops.length === 1) {
+                uniqueStops.push({ name: endStopName, rawName: endStopName, lat: busSegPts[busSegPts.length - 1][0], lng: busSegPts[busSegPts.length - 1][1] });
+            }
+        }
+
+        return uniqueStops;
+    }
+
+    // 경유 역 / 정류장 배지 HTML 포맷터
+    function formatViaPathHtml(namesArr, color, labelType) {
+        if (!namesArr || namesArr.length === 0) return "";
+        var arrow = ` <span style="color:#aaa; font-weight:normal;">➔</span> `;
+        var itemsHtml = namesArr.map(function(n, idx) {
+            if (idx === 0) return `<b style="color:${color}; text-decoration:underline;">${n}(승차)</b>`;
+            if (idx === namesArr.length - 1) return `<b style="color:#d32f2f; text-decoration:underline;">${n}(하차)</b>`;
+            return `<span style="color:#333;">${n}</span>`;
+        }).join(arrow);
+
+        return `
+            <div style="margin-top:5px; padding:7px 9px; background:#fff; border-left:3px solid ${color}; border-radius:4px; font-size:11.5px; line-height:1.6; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+                <div style="font-weight:bold; color:${color}; margin-bottom:3px;">📍 ${labelType} (총 ${Math.max(1, namesArr.length - 1)}개 구간 이동):</div>
+                <div style="word-break:keep-all;">${itemsHtml}</div>
+            </div>
+        `;
     }
 
     // =========================================================
@@ -391,6 +561,7 @@ var navLayer = L.layerGroup().addTo(map);
         navState.waypoints[idx] = 'deleted'; 
         var row = document.getElementById('nav-waypoint-row-' + idx);
         if (row) row.remove();
+        if (navState.start && navState.end) window.executeNavigation();
     };
 
     // =========================================================
@@ -414,6 +585,10 @@ var navLayer = L.layerGroup().addTo(map);
             var found = allLandmarks.find(m => m.name === name || m.name.replace(/역$/, '') === name.replace(/역$/, ''));
             if (found) return { name: found.name, lat: found.lat, lng: found.lng };
         }
+        var allStops = getAllBusStopsData();
+        var foundStop = allStops.find(s => s.name === name || s.name.replace(/\s*정류장$/, '') === name.replace(/\s*정류장$/, ''));
+        if (foundStop) return { name: foundStop.name, lat: foundStop.lat, lng: foundStop.lng };
+
         var center = map.getCenter();
         return { name: name, lat: Math.round(center.lat), lng: Math.round(center.lng) };
     };
@@ -449,28 +624,49 @@ var navLayer = L.layerGroup().addTo(map);
     };
 
     // =========================================================
-    // 5. 검색창 자동완성 및 지도 클릭 지정 기능 (경유지 대응)
+    // 5. 검색창 자동완성 및 지도 클릭 지정 기능 (경유지 + 정류장 + 행정구역 대응)
     // =========================================================
     window.searchNavPlace = function(type, keyword) {
         var boxId = type === 'start' ? 'nav-start-suggest' : type === 'end' ? 'nav-end-suggest' : 'nav-waypoint-suggest-' + type.split('-')[1];
         var box = document.getElementById(boxId);
         if (!box) return;
         var kw = (keyword || "").trim().toLowerCase();
-        if (!kw || typeof allLandmarks === 'undefined') { box.style.display = 'none'; return; }
+        if (!kw) { box.style.display = 'none'; return; }
 
-        var matches = allLandmarks.filter(function(m) {
-            if (!m.name || !m.name.toLowerCase().includes(kw)) return false;
-            if (m.type === 'subway' && !isStationTrulyOpened(m)) return false;
-            return true;
-        }).slice(0, 8);
+        var matches = [];
+        if (typeof allLandmarks !== 'undefined') {
+            allLandmarks.forEach(function(m) {
+                if (!m.name || !m.name.toLowerCase().includes(kw)) return;
+                if (m.type === 'subway' && !isStationTrulyOpened(m)) return;
+                matches.push({ name: m.name, lat: m.lat, lng: m.lng, badge: m.type === 'subway' ? '🚉철도역' : (m.type === 'busStop' ? '🚏정류장' : '📍시설') });
+            });
+        }
+        // 정류장 검색 추가
+        if (matches.length < 8) {
+            var allStops = getAllBusStopsData();
+            allStops.forEach(function(bs) {
+                if (bs.name && bs.name.toLowerCase().includes(kw) && !matches.find(x => x.name === bs.name)) {
+                    matches.push({ name: bs.name, lat: bs.lat, lng: bs.lng, badge: '🚏버스정류장' });
+                }
+            });
+        }
+        // 행정동/법정동 폴리곤 중심점 검색 추가
+        if (matches.length < 8 && typeof searchablePolygons !== 'undefined') {
+            searchablePolygons.forEach(function(poly) {
+                if (poly.name && poly.name.toLowerCase().includes(kw)) {
+                    var c = L.polygon(poly.points).getBounds().getCenter();
+                    matches.push({ name: poly.name, lat: Math.round(c.lat), lng: Math.round(c.lng), badge: '🏢행정구역' });
+                }
+            });
+        }
 
+        matches = matches.slice(0, 8);
         if (matches.length === 0) { box.style.display = 'none'; return; }
 
         box.innerHTML = matches.map(function(m) {
-            var badge = m.type === 'subway' ? '🚉역' : '📍시설';
             var safeN = m.name.replace(/'/g, "\\'");
             return `<div onclick="window.selectNavSuggest('${type}', '${safeN}', ${m.lat}, ${m.lng})" style="padding:7px 10px; border-bottom:1px solid #eee; font-size:12px; cursor:pointer; display:flex; justify-content:space-between;">
-                <b>${m.name}</b><span style="color:#888; font-size:11px;">${badge}</span>
+                <b>${m.name}</b><span style="color:#888; font-size:11px;">${m.badge}</span>
             </div>`;
         }).join('');
         box.style.display = 'block';
@@ -525,7 +721,7 @@ var navLayer = L.layerGroup().addTo(map);
         document.getElementById('map').style.cursor = 'default';
     });
 
-window.setNavMode = function(mode) {
+    window.setNavMode = function(mode) {
         navState.mode = mode;
         ['transit', 'car', 'walk'].forEach(function(m) {
             var btn = document.getElementById('nav-mode-' + m);
@@ -534,7 +730,6 @@ window.setNavMode = function(mode) {
             else { btn.style.background = 'rgba(255,255,255,0.2)'; btn.style.color = '#fff'; }
         });
 
-        // ★ 모드 버튼을 누르는 순간 출발지나 도착지가 입력되어 있다면 즉시 길찾기 재실행
         if (navState.start && navState.end) {
             window.executeNavigation();
         }
@@ -544,6 +739,7 @@ window.setNavMode = function(mode) {
         var temp = navState.start; navState.start = navState.end; navState.end = temp;
         document.getElementById('nav-start-input').value = navState.start ? navState.start.name : '';
         document.getElementById('nav-end-input').value = navState.end ? navState.end.name : '';
+        if (navState.start && navState.end) window.executeNavigation();
     };
 
     window.clearNavigation = function() {
@@ -554,23 +750,30 @@ window.setNavMode = function(mode) {
         document.getElementById('nav-waypoints-container').innerHTML = '';
         document.getElementById('nav-results-box').innerHTML = `<div style="padding:30px 10px; text-align:center; color:#888; font-size:12.5px;">출발지와 도착지를 설정해 주세요.</div>`;
     };
-// =========================================================
-    // 6. 🚗 [자동차 다익스트라(Dijkstra) 도로망 그래프 빌더]
+
+    // =========================================================
+    // 6. 🚗 [정밀 도로망 다익스트라(Dijkstra) 그래프 빌더 & 주변 도로 탐색기]
+    // - 긴 도로 선분을 250m 간격으로 촘촘하게 분할(Subdivision)하여 골목/교차로 완벽 연결!
+    // - hyobin_roads.js 내 좌표 보정 여부 자동 판별 (이중 보정 버그 완전 해결)
     // =========================================================
     function getRoadGraph() {
         if (navState.roadGraph) return navState.roadGraph;
         var nodes = [];
         var adj = [];
-        var adjY = (typeof adjustY !== 'undefined') ? adjustY : 0;
+        var adjY = (typeof adjustY !== 'undefined') ? adjustY : -19822;
 
         function addNode(lat, lng, roadName) {
             for (var i = 0; i < nodes.length; i++) {
-                if (Math.abs(nodes[i].lat - lat) < 80 && Math.abs(nodes[i].lng - lng) < 80) {
+                // 65m 이내의 인접 노드는 교차점(하나의 노드)으로 병합
+                if (Math.abs(nodes[i].lat - lat) < 55 && Math.abs(nodes[i].lng - lng) < 55) {
+                    if (roadName && !nodes[i].roadNames.includes(roadName)) {
+                        nodes[i].roadNames.push(roadName);
+                    }
                     return i;
                 }
             }
             var idx = nodes.length;
-            nodes.push({ lat: lat, lng: lng, roadName: roadName });
+            nodes.push({ lat: lat, lng: lng, roadName: roadName, roadNames: roadName ? [roadName] : [] });
             adj.push([]);
             return idx;
         }
@@ -578,7 +781,10 @@ window.setNavMode = function(mode) {
         function addEdge(u, v, rName, isExpress) {
             if (u === v) return;
             var dist = calcRealMeters(nodes[u].lat, nodes[u].lng, nodes[v].lat, nodes[v].lng);
-            var weight = isExpress ? dist * 0.65 : dist;
+            if (dist === 0) return;
+            // 중복 간선 방지
+            if (adj[u].some(e => e.to === v)) return;
+            var weight = isExpress ? dist * 0.65 : (rName.includes("길") ? dist * 1.15 : dist * 0.9);
             adj[u].push({ to: v, weight: weight, dist: dist, roadName: rName });
             adj[v].push({ to: u, weight: weight, dist: dist, roadName: rName });
         }
@@ -590,26 +796,50 @@ window.setNavMode = function(mode) {
                 var isExp = rName.includes("고속") || rName.includes("대로") || rName.includes("순환");
                 var rawPts = Array.isArray(road.points[0][0]) ? road.points[0] : road.points;
 
-                var prevIdx = -1;
-                rawPts.forEach(function(pt) {
-                    var lat = pt[0] + adjY;
-                    var lng = pt[1];
-                    var curIdx = addNode(lat, lng, rName);
-                    if (prevIdx !== -1) addEdge(prevIdx, curIdx, rName, isExp);
-                    prevIdx = curIdx;
+                // ★ 핵심: 이미 adjustY(-19822)가 더해진 좌표(예: -29935 등)는 중복 보정하지 않도록 스마트 판별!
+                var shiftedPts = rawPts.map(function(pt) {
+                    var y = pt[0];
+                    var x = pt[1];
+                    var finalLat = (y < -21500) ? y : (y + adjY);
+                    return [finalLat, x];
                 });
+
+                var prevIdx = -1;
+                for (var i = 0; i < shiftedPts.length; i++) {
+                    var curLat = shiftedPts[i][0];
+                    var curLng = shiftedPts[i][1];
+
+                    if (i > 0) {
+                        var pLat = shiftedPts[i-1][0];
+                        var pLng = shiftedPts[i-1][1];
+                        var segDist = calcRealMeters(pLat, pLng, curLat, curLng);
+                        // 선분이 250m보다 길면 중간에 서브 노드를 촘촘히 생성하여 교차 도로와 언제든 만날 수 있게 함
+                        var steps = Math.max(1, Math.ceil(segDist / 250));
+                        for (var s = 1; s <= steps; s++) {
+                            var interpLat = pLat + (curLat - pLat) * (s / steps);
+                            var interpLng = pLng + (curLng - pLng) * (s / steps);
+                            var curIdx = addNode(interpLat, interpLng, rName);
+                            if (prevIdx !== -1) addEdge(prevIdx, curIdx, rName, isExp);
+                            prevIdx = curIdx;
+                        }
+                    } else {
+                        prevIdx = addNode(curLat, curLng, rName);
+                    }
+                }
             });
         }
 
+        // 서로 다른 도로의 인접 노드(교차로/나들목 반경 320m 이내)들을 촘촘히 연결
         for (var i = 0; i < nodes.length; i++) {
             for (var j = i + 1; j < nodes.length; j++) {
                 var dLat = Math.abs(nodes[i].lat - nodes[j].lat);
                 var dLng = Math.abs(nodes[i].lng - nodes[j].lng);
-                if (dLat < 450 && dLng < 450) {
+                if (dLat < 280 && dLng < 280) {
                     var d = calcRealMeters(nodes[i].lat, nodes[i].lng, nodes[j].lat, nodes[j].lng);
-                    if (d < 480) {
-                        adj[i].push({ to: j, weight: d * 1.2, dist: d, roadName: nodes[j].roadName });
-                        adj[j].push({ to: i, weight: d * 1.2, dist: d, roadName: nodes[i].roadName });
+                    if (d < 300 && !adj[i].some(e => e.to === j)) {
+                        var bridgeRoadName = nodes[j].roadName || nodes[i].roadName || "연결도로";
+                        adj[i].push({ to: j, weight: d * 1.15, dist: d, roadName: bridgeRoadName });
+                        adj[j].push({ to: i, weight: d * 1.15, dist: d, roadName: nodes[i].roadName || bridgeRoadName });
                     }
                 }
             }
@@ -619,25 +849,51 @@ window.setNavMode = function(mode) {
         return navState.roadGraph;
     }
 
+    // 회전 방향(직진/좌회전/우회전) 계산기
+    function getTurnDirectionText(pPrev, pCurr, pNext) {
+        if (!pPrev || !pCurr || !pNext) return "진입";
+        var v1Lat = pCurr[0] - pPrev[0], v1Lng = pCurr[1] - pPrev[1];
+        var v2Lat = pNext[0] - pCurr[0], v2Lng = pNext[1] - pCurr[1];
+        var cross = v1Lng * v2Lat - v1Lat * v2Lng;
+        var dot = v1Lng * v2Lng + v1Lat * v2Lat;
+        var angle = Math.atan2(cross, dot) * (180 / Math.PI);
+        if (angle > 25) return "좌회전 진입";
+        if (angle < -25) return "우회전 진입";
+        return "직진 주행";
+    }
+
     function computeCarRoute(startPt, endPt) {
         var g = getRoadGraph();
         if (g.nodes.length === 0) return null;
 
-        var sNode = 0, eNode = 0, minSD = Infinity, minED = Infinity;
+        // 출발지 및 도착지에서 가장 가까운 주변 도로 노드 탐색 (상위 4개 후보 중 최적 스냅)
+        var sCandidates = [], eCandidates = [];
         for (var i = 0; i < g.nodes.length; i++) {
             var ds = calcRealMeters(startPt.lat, startPt.lng, g.nodes[i].lat, g.nodes[i].lng);
             var de = calcRealMeters(endPt.lat, endPt.lng, g.nodes[i].lat, g.nodes[i].lng);
-            if (ds < minSD) { minSD = ds; sNode = i; }
-            if (de < minED) { minED = de; eNode = i; }
+            sCandidates.push({ idx: i, d: ds });
+            eCandidates.push({ idx: i, d: de });
         }
+        sCandidates.sort((a, b) => a.d - b.d);
+        eCandidates.sort((a, b) => a.d - b.d);
+
+        var sNode = sCandidates[0].idx, minSD = sCandidates[0].d;
+        var eNode = eCandidates[0].idx, minED = eCandidates[0].d;
 
         var N = g.nodes.length;
         var distArr = new Array(N).fill(Infinity);
         var prevArr = new Array(N).fill(-1);
         var prevRoad = new Array(N).fill("");
+        var prevEdgeDist = new Array(N).fill(0);
         var visited = new Array(N).fill(false);
 
-        distArr[sNode] = 0;
+        // 출발지 주변 가장 가까운 3개 도로 노드를 초기 큐에 넣어 골목길에서 주변 도로로 자연스럽게 스냅
+        sCandidates.slice(0, 3).forEach(function(sc) {
+            if (sc.d <= minSD + 250) {
+                distArr[sc.idx] = sc.d * 1.3;
+            }
+        });
+
         for (var step = 0; step < N; step++) {
             var u = -1, bestD = Infinity;
             for (var i = 0; i < N; i++) {
@@ -653,59 +909,112 @@ window.setNavMode = function(mode) {
                     distArr[edge.to] = distArr[u] + edge.weight;
                     prevArr[edge.to] = u;
                     prevRoad[edge.to] = edge.roadName;
+                    prevEdgeDist[edge.to] = edge.dist;
                 }
+            }
+        }
+
+        var pathNodes = [];
+        var curr = eNode;
+        if (prevArr[curr] !== -1 || distArr[curr] < Infinity) {
+            while (curr !== -1) {
+                pathNodes.unshift({
+                    idx: curr,
+                    lat: g.nodes[curr].lat,
+                    lng: g.nodes[curr].lng,
+                    roadName: prevRoad[curr] || g.nodes[curr].roadName,
+                    segDist: prevEdgeDist[curr] || 0
+                });
+                curr = prevArr[curr];
             }
         }
 
         var mainRoadCoords = [];
-        var usedRoads = [];
-        var curr = eNode;
-        if (prevArr[curr] !== -1 || curr === sNode) {
-            while (curr !== -1) {
-                mainRoadCoords.unshift([g.nodes[curr].lat, g.nodes[curr].lng]);
-                if (prevRoad[curr] && usedRoads[0] !== prevRoad[curr]) {
-                    usedRoads.unshift(prevRoad[curr]);
+        var roadSegments = []; // [{ name, dist, startPt, endPt, turnText }]
+
+        if (pathNodes.length >= 2) {
+            pathNodes.forEach(function(pn, idx) {
+                mainRoadCoords.push([pn.lat, pn.lng]);
+                if (idx > 0) {
+                    var rName = pn.roadName || "주변도로";
+                    var d = pn.segDist || calcRealMeters(pathNodes[idx-1].lat, pathNodes[idx-1].lng, pn.lat, pn.lng);
+                    if (roadSegments.length > 0 && roadSegments[roadSegments.length - 1].name === rName) {
+                        roadSegments[roadSegments.length - 1].dist += d;
+                        roadSegments[roadSegments.length - 1].endPt = [pn.lat, pn.lng];
+                    } else {
+                        var turnTxt = "진입";
+                        if (roadSegments.length > 0) {
+                            var prevSeg = roadSegments[roadSegments.length - 1];
+                            turnTxt = getTurnDirectionText(prevSeg.startPt, [pathNodes[idx-1].lat, pathNodes[idx-1].lng], [pn.lat, pn.lng]);
+                        }
+                        roadSegments.push({
+                            name: rName,
+                            dist: d,
+                            startPt: [pathNodes[idx-1].lat, pathNodes[idx-1].lng],
+                            endPt: [pn.lat, pn.lng],
+                            turnText: turnTxt
+                        });
+                    }
                 }
-                curr = prevArr[curr];
-            }
+            });
         } else {
             mainRoadCoords = makeAlleyPath([g.nodes[sNode].lat, g.nodes[sNode].lng], [g.nodes[eNode].lat, g.nodes[eNode].lng]);
-            usedRoads = [g.nodes[sNode].roadName || "연결도로"];
+            roadSegments.push({
+                name: g.nodes[sNode].roadName || "연결도로",
+                dist: calcPathDist(mainRoadCoords),
+                turnText: "진입"
+            });
         }
 
-        var startAlley = makeAlleyPath([startPt.lat, startPt.lng], mainRoadCoords[0]);
-        var endAlley = makeAlleyPath(mainRoadCoords[mainRoadCoords.length - 1], [endPt.lat, endPt.lng]);
+        var firstRoadPt = mainRoadCoords[0];
+        var lastRoadPt = mainRoadCoords[mainRoadCoords.length - 1];
+        var startAlley = makeAlleyPath([startPt.lat, startPt.lng], firstRoadPt);
+        var endAlley = makeAlleyPath(lastRoadPt, [endPt.lat, endPt.lng]);
 
-        var totalMeter = minSD + minED;
-        for (var i = 0; i < mainRoadCoords.length - 1; i++) {
-            totalMeter += calcRealMeters(mainRoadCoords[i][0], mainRoadCoords[i][1], mainRoadCoords[i+1][0], mainRoadCoords[i+1][1]);
-        }
+        var realStartAlleyDist = calcPathDist(startAlley);
+        var realEndAlleyDist = calcPathDist(endAlley);
+        var mainRoadDist = roadSegments.reduce((acc, cur) => acc + cur.dist, 0);
+        var totalMeter = realStartAlleyDist + mainRoadDist + realEndAlleyDist;
 
-        var durationMin = Math.max(2, Math.round(totalMeter / 550));
+        var durationMin = Math.max(2, Math.round((totalMeter / 350) * 1.5));
         var taxiFare = 4800 + Math.max(0, Math.ceil((totalMeter - 1600) / 131) * 100);
 
+        var firstRoadName = roadSegments.length > 0 ? roadSegments[0].name : "주변도로";
+        var roadNamesList = roadSegments.map(s => s.name);
+
+        var detailedSteps = [
+            `🟢 <b>${startPt.name}</b> 출발 ➔ 인근 <b>${firstRoadName}</b>까지 주변 이면도로 이동 (${formatDist(realStartAlleyDist)})`
+        ];
+
+        roadSegments.forEach(function(seg, idx) {
+            var badgeColor = (seg.name.includes("고속") || seg.name.includes("대로")) ? "#005bac" : "#258fff";
+            var stepPrefix = (idx === 0) ? "출발 도로 진입" : `${seg.turnText}`;
+            detailedSteps.push(
+                `🛣️ <span style="background:${badgeColor}; color:#fff; padding:1px 6px; border-radius:3px; font-size:11px; font-weight:bold;">${seg.name}</span> (${stepPrefix}) 따라 <b>${formatDist(seg.dist)}</b> 주행`
+            );
+        });
+
+        detailedSteps.push(`🔴 <b>${endPt.name}</b> 부근 주변 도로 진입 (${formatDist(realEndAlleyDist)}) 후 도착`);
+        detailedSteps.push(formatViaPathHtml(roadNamesList, "#258fff", "탐색된 전체 경유 도로망"));
+
         return {
-            title: "추천 도로 주행 경로",
-            badge: "🚗 자동차 최적",
+            title: `🛣️ ${roadNamesList.slice(0, 3).join(' ➔ ')}${roadNamesList.length > 3 ? ' 외 ' + (roadNamesList.length - 3) + '개 도로' : ''}`,
+            badge: "🚗 자동차 최적 (주변도로 정밀탐색)",
             timeMin: durationMin,
             distMeter: totalMeter,
             costText: `택시비 약 ${taxiFare.toLocaleString()}원`,
-            summary: usedRoads.length > 0 ? `경유: ${usedRoads.slice(0, 5).join(' ➔ ')}${usedRoads.length > 5 ? ' 외' : ''}` : "이면도로 직결 주행",
-            steps: [
-                `🟢 <b>${startPt.name}</b> 출발 (이면도로 ${formatDist(minSD)} 진입)`,
-                ...usedRoads.slice(0, 6).map(r => `🛣️ <b>${r}</b> 따라 이동`),
-                `🔴 <b>${endPt.name}</b> 도착 (골목 진입 ${formatDist(minED)})`
-            ],
+            summary: `총 ${roadSegments.length}개 도로 구간 경유 (${roadNamesList.slice(0, 4).join(' → ')})`,
+            steps: detailedSteps,
             drawLayers: [
-                { pts: startAlley, color: "#555555", weight: 4, dash: "6, 6", label: "골목 진입" },
-                { pts: mainRoadCoords, color: "#258fff", weight: 7, dash: null, label: "간선도로 주행" },
-                { pts: endAlley, color: "#555555", weight: 4, dash: "6, 6", label: "목적지 진입" }
+                { pts: startAlley, color: "#555555", weight: 4, dash: "6, 6", label: "출발지 주변도로 진입" },
+                { pts: mainRoadCoords, color: "#258fff", weight: 7, dash: null, label: "탐색 도로망 주행" },
+                { pts: endAlley, color: "#555555", weight: 4, dash: "6, 6", label: "목적지 주변도로 진입" }
             ]
         };
     }
 
     // =========================================================
-    // 7. 🚇🚌 [대중교통 길찾기 - 철도/전차 요금 분리 및 실제 거리/속도 계산]
+    // 7. 🚇🚌 [대중교통 길찾기 - 지하철 경유 역 전체 탐색 & 버스 경유 정류장 전체 탐색]
     // =========================================================
     function formatTime(min) {
         return min >= 60 ? Math.floor(min / 60) + "시간 " + (min % 60) + "분" : min + "분";
@@ -723,7 +1032,7 @@ window.setNavMode = function(mode) {
     function getTrainInfo(lineName, stops, realDistMeter) {
         if (lineName.includes("고속")) return { time: Math.round(realDistMeter / 2500) + stops, badge: "🚄 고속철도", type: "train_high", name: "고속열차(KTX/SRT 등)" };
         if (lineName.includes("강빈") || lineName.includes("일반")) return { time: Math.round(realDistMeter / 1250) + stops, badge: "🚆 일반철도", type: "train_normal", name: "일반열차(무궁화/ITX 등)" };
-        if (lineName.includes("7호선")) return { time: stops * 3, badge: "🚋 노면전차", type: "tram", name: lineName };
+        if (lineName.includes("7호선")) return { time: stops * 2, badge: "🚋 노면전차", type: "tram", name: lineName };
         return { time: stops * 2, badge: "⚡ 지하철", type: "subway", name: lineName };
     }
 
@@ -761,26 +1070,53 @@ window.setNavMode = function(mode) {
         return { cost: totalFare, text: `교통카드 ${totalFare.toLocaleString()}원${penaltyText}` };
     }
 
+    // ★ [핵심 개선] 지하철 구간 좌표뿐만 아니라 거쳐가는 모든 역의 이름 배열(stationNames)을 정확히 반환!
     function getSubwaySegmentCoords(lineCode, st1, st2) {
         var rawList = (typeof getOrderedUniqueStationsForLine === 'function') ? getOrderedUniqueStationsForLine(lineCode) : [];
         var list = rawList.filter(isStationTrulyOpened);
         var idx1 = list.findIndex(s => s.name === st1.name), idx2 = list.findIndex(s => s.name === st2.name);
         var isCircularLine = (lineCode === "2" || lineCode === "2B" || (typeof subwayLines !== 'undefined' && subwayLines[lineCode] && subwayLines[lineCode].name && subwayLines[lineCode].name.includes("순환")));
-        var stationCoords = [], stopCount = 3;
+        var stationCoords = [], stationNames = [], stopCount = 1;
 
         if (idx1 !== -1 && idx2 !== -1 && list.length > 2) {
             if (isCircularLine) {
-                var len = list.length, forwardStops = (idx2 >= idx1) ? (idx2 - idx1) : (len - idx1 + idx2);
+                var len = list.length;
+                var forwardStops = (idx2 >= idx1) ? (idx2 - idx1) : (len - idx1 + idx2);
                 var backwardStops = (idx1 >= idx2) ? (idx1 - idx2) : (len - idx2 + idx1);
-                if (forwardStops <= backwardStops) { stopCount = forwardStops; for (var k = 0; k <= forwardStops; k++) { var curIdx = (idx1 + k) % len; stationCoords.push([list[curIdx].lat, list[curIdx].lng]); } }
-                else { stopCount = backwardStops; for (var k = 0; k <= backwardStops; k++) { var curIdx = (idx1 - k + len) % len; stationCoords.push([list[curIdx].lat, list[curIdx].lng]); } }
+                if (forwardStops <= backwardStops) {
+                    stopCount = forwardStops;
+                    for (var k = 0; k <= forwardStops; k++) {
+                        var curIdx = (idx1 + k) % len;
+                        stationCoords.push([list[curIdx].lat, list[curIdx].lng]);
+                        stationNames.push(list[curIdx].name);
+                    }
+                } else {
+                    stopCount = backwardStops;
+                    for (var k = 0; k <= backwardStops; k++) {
+                        var curIdx = (idx1 - k + len) % len;
+                        stationCoords.push([list[curIdx].lat, list[curIdx].lng]);
+                        stationNames.push(list[curIdx].name);
+                    }
+                }
             } else {
-                stopCount = Math.abs(idx1 - idx2); var s = Math.min(idx1, idx2), e = Math.max(idx1, idx2);
-                for (var i = s; i <= e; i++) stationCoords.push([list[i].lat, list[i].lng]);
-                if (idx1 > idx2) stationCoords.reverse();
+                stopCount = Math.abs(idx1 - idx2);
+                if (idx1 <= idx2) {
+                    for (var i = idx1; i <= idx2; i++) {
+                        stationCoords.push([list[i].lat, list[i].lng]);
+                        stationNames.push(list[i].name);
+                    }
+                } else {
+                    for (var i = idx1; i >= idx2; i--) {
+                        stationCoords.push([list[i].lat, list[i].lng]);
+                        stationNames.push(list[i].name);
+                    }
+                }
             }
-        } else stationCoords = [[st1.lat, st1.lng], [st2.lat, st2.lng]];
-        return { coords: stationCoords, stops: Math.max(1, stopCount) };
+        } else {
+            stationCoords = [[st1.lat, st1.lng], [st2.lat, st2.lng]];
+            stationNames = [st1.name, st2.name];
+        }
+        return { coords: stationCoords, stops: Math.max(1, stopCount), stationNames: stationNames };
     }
 
     function addMixedRoute(data, results, startPt, endPt) {
@@ -789,38 +1125,72 @@ window.setNavMode = function(mode) {
         var realSegDist = calcPathDist(data.subSeg.coords);
         var trainMeta = getTrainInfo(lInfo.name, data.subSeg.stops, realSegDist);
         
-        var low = Math.min(data.sIdx||data.tIdx, data.eIdx||data.tIdx), high = Math.max(data.sIdx||data.tIdx, data.eIdx||data.tIdx);
+        var idxA = (data.sIdx !== undefined) ? data.sIdx : data.tIdx;
+        var idxB = (data.eIdx !== undefined) ? data.eIdx : data.tIdx;
+        var low = Math.min(idxA, idxB), high = Math.max(idxA, idxB);
         var busSeg = data.bus.points.slice(low, high + 1);
-        if ((data.sIdx||data.tIdx) > (data.eIdx||data.tIdx)) busSeg.reverse();
+        if (idxA > idxB) busSeg.reverse();
         var busSegDist = calcPathDist(busSeg);
+
+        // ★ 해당 버스 구간에서 실제로 거치는 정류장 탐색
+        var viaBusStops = getBusStopsAlongSegment(data.bus, busSeg);
+        var viaBusStopNames = viaBusStops.map(s => s.name);
+        var boardStopName = viaBusStopNames[0] || "승차 정류장";
+        var alightStopName = viaBusStopNames[viaBusStopNames.length - 1] || "하차 정류장";
+        var busStopCount = Math.max(1, viaBusStopNames.length - 1);
+
+        var subViaHtml = formatViaPathHtml(data.subSeg.stationNames, lInfo.color, `[${trainMeta.name}] 경유 지하철역`);
+        var busViaHtml = formatViaPathHtml(viaBusStopNames, bColor, `[${data.bus.name}] 경유 버스정류장`);
         
         var totalDist = data.walkS + data.walkT + data.walkE + realSegDist + busSegDist;
-        var totalMin = Math.round((data.walkS + data.walkT + data.walkE) / 65) + trainMeta.time + Math.max(3, Math.round(busSegDist / 400)) + 6;
+        var totalMin = Math.round((data.walkS + data.walkT + data.walkE) / 65) + trainMeta.time + Math.max(3, Math.round(busSegDist / 350)) + 6;
         var fareInfo = calculateIntegratedFare([{ type: trainMeta.type, code: data.subLine }, { type: 'bus', code: data.bus.type }], totalDist);
 
         if (data.type === 'sub_bus') {
             results.push({
-                title: `🎟️ ${trainMeta.name} ➔ 🚌 ${data.bus.name} (${data.tSt.name} 환승)`, badge: `🔄 복합 이동 (${trainMeta.badge}➔버스)`,
-                timeMin: totalMin, distMeter: totalDist, costText: fareInfo.text, summary: `${data.sSt.name} 승차 ➔ ${data.tSt.name} 하차 ➔ 버스 이용`,
+                title: `🎟️ ${trainMeta.name} ➔ 🚌 ${data.bus.name} (${data.tSt.name} 환승)`,
+                badge: `🔄 복합 이동 (${trainMeta.badge}➔버스)`,
+                timeMin: totalMin,
+                distMeter: totalDist,
+                costText: fareInfo.text,
+                summary: `${data.sSt.name} 승차(${data.subSeg.stops}개 역) ➔ ${data.tSt.name} 환승 ➔ ${data.bus.name}(${busStopCount}개 정류장)`,
                 steps: [
                     `🚶 <b>${startPt.name}</b>에서 <b>${data.sSt.name}</b>까지 도보 (${formatDist(data.walkS)})`,
-                    `🎟️ <span style="color:${lInfo.color}; font-weight:bold;">[${trainMeta.name}]</span> <b>${data.sSt.name}</b> 승차 (${data.subSeg.stops}개 역, 약 ${trainMeta.time}분)`,
-                    `🔄 <b>${data.tSt.name}</b> 하차 후 버스정류장 도보 (${formatDist(data.walkT)})`,
-                    `🚌 <span style="color:${bColor}; font-weight:bold;">[${data.bus.type}] ${data.bus.name}</span> 승차 ➔ 🔴 <b>${endPt.name}</b> 부근 하차`
+                    `🎟️ <span style="color:${lInfo.color}; font-weight:bold;">[${trainMeta.name}]</span> <b>${data.sSt.name}</b> 승차 ➔ <b>${data.tSt.name}</b> 하차 (${data.subSeg.stops}개 역, 약 ${trainMeta.time}분)${subViaHtml}`,
+                    `🔄 <b>${data.tSt.name}</b>에서 <b>${boardStopName}</b>까지 도보 이동 (${formatDist(data.walkT)})`,
+                    `🚌 <span style="color:${bColor}; font-weight:bold;">[${data.bus.type}] ${data.bus.name}</span> 승차 (<b>${boardStopName}</b> ➔ <b>${alightStopName}</b>, ${busStopCount}개 정류장)${busViaHtml}`,
+                    `🚶 <b>${alightStopName}</b> 하차 후 🔴 <b>${endPt.name}</b>까지 도보 (${formatDist(data.walkE)})`
                 ],
-                drawLayers: [{ pts: makeAlleyPath([startPt.lat, startPt.lng], [data.sSt.lat, data.sSt.lng]), color: "#666666", weight: 4, dash: "5, 6" }, { pts: data.subSeg.coords, color: lInfo.color, weight: 8, dash: null }, { pts: makeAlleyPath([data.tSt.lat, data.tSt.lng], busSeg[0] || [data.tSt.lat, data.tSt.lng]), color: "#666666", weight: 4, dash: "5, 6" }, { pts: busSeg, color: bColor, weight: 7, dash: null }, { pts: makeAlleyPath(busSeg[busSeg.length-1] || [endPt.lat, endPt.lng], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }]
+                drawLayers: [
+                    { pts: makeAlleyPath([startPt.lat, startPt.lng], [data.sSt.lat, data.sSt.lng]), color: "#666666", weight: 4, dash: "5, 6" },
+                    { pts: data.subSeg.coords, color: lInfo.color, weight: 8, dash: null },
+                    { pts: makeAlleyPath([data.tSt.lat, data.tSt.lng], busSeg[0] || [data.tSt.lat, data.tSt.lng]), color: "#666666", weight: 4, dash: "5, 6" },
+                    { pts: busSeg, color: bColor, weight: 7, dash: null },
+                    { pts: makeAlleyPath(busSeg[busSeg.length-1] || [endPt.lat, endPt.lng], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }
+                ]
             });
         } else {
             results.push({
-                title: `🚌 ${data.bus.name} ➔ 🎟️ ${trainMeta.name} (${data.tSt.name} 환승)`, badge: `🔄 복합 이동 (버스➔${trainMeta.badge})`,
-                timeMin: totalMin, distMeter: totalDist, costText: fareInfo.text, summary: `버스 승차 ➔ ${data.tSt.name} 하차 ➔ 철도 이용`,
+                title: `🚌 ${data.bus.name} ➔ 🎟️ ${trainMeta.name} (${data.tSt.name} 환승)`,
+                badge: `🔄 복합 이동 (버스➔${trainMeta.badge})`,
+                timeMin: totalMin,
+                distMeter: totalDist,
+                costText: fareInfo.text,
+                summary: `${boardStopName} 버스 승차(${busStopCount}개 정류장) ➔ ${data.tSt.name} 환승 ➔ ${data.eSt.name} 하차(${data.subSeg.stops}개 역)`,
                 steps: [
-                    `🚶 <b>${startPt.name}</b>에서 정류장까지 도보 (${formatDist(data.walkS)})`,
-                    `🚌 <span style="color:${bColor}; font-weight:bold;">[${data.bus.type}] ${data.bus.name}</span> 승차 후 <b>${data.tSt.name}</b> 부근 하차`,
-                    `🔄 <b>${data.tSt.name}</b>까지 도보 이동 (${formatDist(data.walkT)})`,
-                    `🎟️ <span style="color:${lInfo.color}; font-weight:bold;">[${trainMeta.name}]</span> <b>${data.tSt.name}</b> 승차 (${data.subSeg.stops}개 역, 약 ${trainMeta.time}분) ➔ 🔴 <b>${endPt.name}</b> 도착`
+                    `🚶 <b>${startPt.name}</b>에서 <b>${boardStopName}</b>까지 도보 (${formatDist(data.walkS)})`,
+                    `🚌 <span style="color:${bColor}; font-weight:bold;">[${data.bus.type}] ${data.bus.name}</span> 승차 (<b>${boardStopName}</b> ➔ <b>${alightStopName}</b>, ${busStopCount}개 정류장)${busViaHtml}`,
+                    `🔄 <b>${alightStopName}</b> 하차 후 <b>${data.tSt.name}</b>까지 도보 이동 (${formatDist(data.walkT)})`,
+                    `🎟️ <span style="color:${lInfo.color}; font-weight:bold;">[${trainMeta.name}]</span> <b>${data.tSt.name}</b> 승차 ➔ <b>${data.eSt.name}</b> 하차 (${data.subSeg.stops}개 역, 약 ${trainMeta.time}분)${subViaHtml}`,
+                    `🚶 <b>${data.eSt.name}</b>에서 🔴 <b>${endPt.name}</b>까지 도보 (${formatDist(data.walkE)})`
                 ],
-                drawLayers: [{ pts: makeAlleyPath([startPt.lat, startPt.lng], busSeg[0] || [startPt.lat, startPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }, { pts: busSeg, color: bColor, weight: 7, dash: null }, { pts: makeAlleyPath(busSeg[busSeg.length-1] || [data.tSt.lat, data.tSt.lng], [data.tSt.lat, data.tSt.lng]), color: "#666666", weight: 4, dash: "5, 6" }, { pts: data.subSeg.coords, color: lInfo.color, weight: 8, dash: null }, { pts: makeAlleyPath([data.eSt.lat, data.eSt.lng], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }]
+                drawLayers: [
+                    { pts: makeAlleyPath([startPt.lat, startPt.lng], busSeg[0] || [startPt.lat, startPt.lng]), color: "#666666", weight: 4, dash: "5, 6" },
+                    { pts: busSeg, color: bColor, weight: 7, dash: null },
+                    { pts: makeAlleyPath(busSeg[busSeg.length-1] || [data.tSt.lat, data.tSt.lng], [data.tSt.lat, data.tSt.lng]), color: "#666666", weight: 4, dash: "5, 6" },
+                    { pts: data.subSeg.coords, color: lInfo.color, weight: 8, dash: null },
+                    { pts: makeAlleyPath([data.eSt.lat, data.eSt.lng], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }
+                ]
             });
         }
     }
@@ -834,6 +1204,7 @@ window.setNavMode = function(mode) {
             sStations = openedSubways.map(s => ({ st: s, d: calcRealMeters(startPt.lat, startPt.lng, s.lat, s.lng) })).sort((a,b) => a.d - b.d).slice(0, 6);
             eStations = openedSubways.map(s => ({ st: s, d: calcRealMeters(endPt.lat, endPt.lng, s.lat, s.lng) })).sort((a,b) => a.d - b.d).slice(0, 6);
 
+            // [1] 지하철 직통 탐색 (경유 역 리스트 완벽 포함)
             var directSubways = [];
             for (var i = 0; i < sStations.length; i++) {
                 for (var j = 0; j < eStations.length; j++) {
@@ -847,17 +1218,25 @@ window.setNavMode = function(mode) {
                         var distMeter = sStations[i].d + eStations[j].d + realSegDist;
                         var trainMeta = getTrainInfo(lInfo.name, seg.stops, realSegDist);
                         var fareInfo = calculateIntegratedFare([{ type: trainMeta.type, code: lc }], distMeter);
+                        var viaStationsHtml = formatViaPathHtml(seg.stationNames, lInfo.color, `[${trainMeta.name}] 경유 지하철역`);
                         
                         directSubways.push({
-                            title: `🎟️ ${trainMeta.name} 직통 (${sSt.name} ➔ ${eSt.name})`, badge: trainMeta.badge,
-                            timeMin: Math.round((sStations[i].d + eStations[j].d) / 65) + trainMeta.time + 3, distMeter: distMeter, costText: fareInfo.text,
-                            summary: `${sSt.name} 승차 ➔ ${seg.stops}개 역 이동 ➔ ${eSt.name} 하차`,
+                            title: `🎟️ ${trainMeta.name} 직통 (${sSt.name} ➔ ${eSt.name})`,
+                            badge: trainMeta.badge,
+                            timeMin: Math.round((sStations[i].d + eStations[j].d) / 65) + trainMeta.time + 3,
+                            distMeter: distMeter,
+                            costText: fareInfo.text,
+                            summary: `${sSt.name} 승차 ➔ ${seg.stops}개 역 이동(${seg.stationNames.slice(1, 4).join('·')}${seg.stationNames.length > 4 ? ' 등' : ''}) ➔ ${eSt.name} 하차`,
                             steps: [
                                 `🚶 <b>${startPt.name}</b>에서 <b>${sSt.name}</b>까지 도보 이동 (${formatDist(sStations[i].d)})`,
-                                `🎟️ <span style="color:${lInfo.color}; font-weight:bold;">[${trainMeta.name}]</span> <b>${sSt.name}</b> 승차 (${seg.stops}개 역, 약 ${trainMeta.time}분)`,
-                                `🚉 <b>${eSt.name}</b> 하차 후 도보 이동 (${formatDist(eStations[j].d)})`, `🔴 <b>${endPt.name}</b> 도착`
+                                `🎟️ <span style="color:${lInfo.color}; font-weight:bold;">[${trainMeta.name}]</span> <b>${sSt.name}</b> 승차 ➔ <b>${eSt.name}</b> 하차 (${seg.stops}개 역, 약 ${trainMeta.time}분)${viaStationsHtml}`,
+                                `🚉 <b>${eSt.name}</b> 하차 후 🔴 <b>${endPt.name}</b>까지 도보 이동 (${formatDist(eStations[j].d)})`
                             ],
-                            drawLayers: [{ pts: makeAlleyPath([startPt.lat, startPt.lng], [sSt.lat, sSt.lng]), color: "#666666", weight: 4, dash: "5, 6" }, { pts: seg.coords, color: lInfo.color, weight: 8, dash: null }, { pts: makeAlleyPath([eSt.lat, eSt.lng], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }]
+                            drawLayers: [
+                                { pts: makeAlleyPath([startPt.lat, startPt.lng], [sSt.lat, sSt.lng]), color: "#666666", weight: 4, dash: "5, 6" },
+                                { pts: seg.coords, color: lInfo.color, weight: 8, dash: null },
+                                { pts: makeAlleyPath([eSt.lat, eSt.lng], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }
+                            ]
                         });
                     });
                 }
@@ -865,8 +1244,66 @@ window.setNavMode = function(mode) {
             var uniqueDirect = [];
             directSubways.sort((a,b) => a.timeMin - b.timeMin).forEach(r => { if (!uniqueDirect.find(u => u.title === r.title)) uniqueDirect.push(r); });
             results.push(...uniqueDirect.slice(0, 3));
+
+            // [1-2] 지하철 1회 환승 탐색 (직통이 없거나 먼 구간일 때 환승역 경유 역까지 모두 탐색)
+            var transferSubways = [];
+            var transferHubs = openedSubways.filter(st => getStationOpenedLines(st).length >= 2);
+            for (var i = 0; i < Math.min(3, sStations.length); i++) {
+                for (var j = 0; j < Math.min(3, eStations.length); j++) {
+                    var sSt = sStations[i].st, eSt = eStations[j].st;
+                    if (sSt.name === eSt.name) continue;
+                    var sLines = getStationOpenedLines(sSt), eLines = getStationOpenedLines(eSt);
+                    if (sLines.some(l => eLines.includes(l))) continue; // 직통이 있으면 패스
+
+                    transferHubs.forEach(function(hub) {
+                        if (hub.name === sSt.name || hub.name === eSt.name) return;
+                        var hubLines = getStationOpenedLines(hub);
+                        var line1 = sLines.find(l => hubLines.includes(l));
+                        var line2 = eLines.find(l => hubLines.includes(l));
+                        if (line1 && line2 && line1 !== line2) {
+                            var seg1 = getSubwaySegmentCoords(line1, sSt, hub);
+                            var seg2 = getSubwaySegmentCoords(line2, hub, eSt);
+                            var lInfo1 = (typeof subwayLines !== 'undefined' && subwayLines[line1]) ? subwayLines[line1] : { name: line1 + "호선", color: "#0077DD" };
+                            var lInfo2 = (typeof subwayLines !== 'undefined' && subwayLines[line2]) ? subwayLines[line2] : { name: line2 + "호선", color: "#00CCAA" };
+                            var dist1 = calcPathDist(seg1.coords), dist2 = calcPathDist(seg2.coords);
+                            var meta1 = getTrainInfo(lInfo1.name, seg1.stops, dist1);
+                            var meta2 = getTrainInfo(lInfo2.name, seg2.stops, dist2);
+                            var totalDist = sStations[i].d + eStations[j].d + dist1 + dist2;
+                            var totalTime = Math.round((sStations[i].d + eStations[j].d) / 65) + meta1.time + meta2.time + 6;
+                            var fareInfo = calculateIntegratedFare([{ type: meta1.type, code: line1 }, { type: meta2.type, code: line2 }], totalDist);
+
+                            var viaHtml1 = formatViaPathHtml(seg1.stationNames, lInfo1.color, `[1구간: ${meta1.name}] 경유 역`);
+                            var viaHtml2 = formatViaPathHtml(seg2.stationNames, lInfo2.color, `[2구간: ${meta2.name}] 경유 역`);
+
+                            transferSubways.push({
+                                title: `🎟️ ${meta1.name} ➔ ${meta2.name} (${hub.name} 환승)`,
+                                badge: "🚇 도시철도 환승",
+                                timeMin: totalTime,
+                                distMeter: totalDist,
+                                costText: fareInfo.text,
+                                summary: `${sSt.name} 승차(${seg1.stops}역) ➔ ${hub.name} 환승 ➔ ${eSt.name} 하차(${seg2.stops}역)`,
+                                steps: [
+                                    `🚶 <b>${startPt.name}</b>에서 <b>${sSt.name}</b>까지 도보 (${formatDist(sStations[i].d)})`,
+                                    `🎟️ <span style="color:${lInfo1.color}; font-weight:bold;">[${meta1.name}]</span> <b>${sSt.name}</b> 승차 ➔ <b>${hub.name}</b> 하차 (${seg1.stops}개 역, 약 ${meta1.time}분)${viaHtml1}`,
+                                    `🔄 <b>${hub.name}</b>에서 <span style="color:${lInfo2.color}; font-weight:bold;">[${meta2.name}]</span> 열차로 환승`,
+                                    `🎟️ <span style="color:${lInfo2.color}; font-weight:bold;">[${meta2.name}]</span> <b>${hub.name}</b> 승차 ➔ <b>${eSt.name}</b> 하차 (${seg2.stops}개 역, 약 ${meta2.time}분)${viaHtml2}`,
+                                    `🚶 <b>${eSt.name}</b> 하차 후 🔴 <b>${endPt.name}</b>까지 도보 (${formatDist(eStations[j].d)})`
+                                ],
+                                drawLayers: [
+                                    { pts: makeAlleyPath([startPt.lat, startPt.lng], [sSt.lat, sSt.lng]), color: "#666666", weight: 4, dash: "5, 6" },
+                                    { pts: seg1.coords, color: lInfo1.color, weight: 8, dash: null },
+                                    { pts: seg2.coords, color: lInfo2.color, weight: 8, dash: null },
+                                    { pts: makeAlleyPath([eSt.lat, eSt.lng], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }
+                                ]
+                            });
+                        }
+                    });
+                }
+            }
+            transferSubways.sort((a, b) => a.timeMin - b.timeMin).slice(0, 2).forEach(r => results.push(r));
         }
 
+        // [2] 시내버스 노선 탐색 (실제 경유 버스정류장 목록 완벽 매핑)
         if (typeof processedBusData !== 'undefined' && Array.isArray(processedBusData)) {
             var validBuses = [];
             processedBusData.forEach(function(bus) {
@@ -879,7 +1316,7 @@ window.setNavMode = function(mode) {
                 }
                 if (sIdx !== eIdx && minS < 1500 && minE < 1500) validBuses.push({ bus: bus, sIdx: sIdx, eIdx: eIdx, walkS: minS, walkE: minE, score: minS + minE });
             });
-            validBuses.sort((a,b) => a.score - b.score).slice(0,4).forEach(function(bestBus) {
+            validBuses.sort((a,b) => a.score - b.score).slice(0, 4).forEach(function(bestBus) {
                 var b = bestBus.bus, bColor = (typeof busColors !== 'undefined' && busColors[b.type]) ? busColors[b.type] : "#01B7ED";
                 var low = Math.min(bestBus.sIdx, bestBus.eIdx), high = Math.max(bestBus.sIdx, bestBus.eIdx);
                 var busSegPts = b.points.slice(low, high + 1);
@@ -887,16 +1324,37 @@ window.setNavMode = function(mode) {
                 var busSegDist = calcPathDist(busSegPts);
                 var distMeter = bestBus.walkS + bestBus.walkE + busSegDist;
                 var fareInfo = calculateIntegratedFare([{ type: 'bus', code: b.type }], distMeter);
+
+                // ★ 실제 경유 정류장 리스트 추출!
+                var viaStops = getBusStopsAlongSegment(b, busSegPts);
+                var viaStopNames = viaStops.map(s => s.name);
+                var boardStop = viaStopNames[0] || "출발지 인근 정류장";
+                var alightStop = viaStopNames[viaStopNames.length - 1] || "도착지 인근 정류장";
+                var stopCount = Math.max(1, viaStopNames.length - 1);
+                var busViaHtml = formatViaPathHtml(viaStopNames, bColor, `[${b.name}] 경유 버스정류장`);
+
                 results.push({
-                    title: `🚌 [${b.type}] ${b.name}`, badge: "🚍 시내버스",
-                    timeMin: Math.round((bestBus.walkS + bestBus.walkE) / 65) + Math.max(4, Math.round(busSegDist / 400)) + 5, distMeter: distMeter, costText: fareInfo.text,
-                    summary: `인근 정류장 승차 ➔ 약 ${Math.max(2, Math.round(busSegPts.length * 0.8))}개 정류장 이동 ➔ 하차`,
-                    steps: [`🚶 <b>${startPt.name}</b>에서 승차 정류장까지 도보`, `🚌 <span style="color:${bColor}; font-weight:bold;">[${b.type}] ${b.name}</span> 승차`, `🚏 하차 정류장에서 <b>${endPt.name}</b>까지 도보`],
-                    drawLayers: [{ pts: makeAlleyPath([startPt.lat, startPt.lng], busSegPts[0]), color: "#666666", weight: 4, dash: "5, 6" }, { pts: busSegPts, color: bColor, weight: 7, dash: null }, { pts: makeAlleyPath(busSegPts[busSegPts.length - 1], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }]
+                    title: `🚌 [${b.type}] ${b.name} (${boardStop} ➔ ${alightStop})`,
+                    badge: "🚍 시내버스",
+                    timeMin: Math.round((bestBus.walkS + bestBus.walkE) / 65) + Math.max(4, Math.round(busSegDist / 400)) + 5,
+                    distMeter: distMeter,
+                    costText: fareInfo.text,
+                    summary: `${boardStop} 승차 ➔ ${stopCount}개 정류장 이동 ➔ ${alightStop} 하차`,
+                    steps: [
+                        `🚶 <b>${startPt.name}</b>에서 <b>${boardStop}</b>까지 도보 (${formatDist(bestBus.walkS)})`,
+                        `🚌 <span style="color:${bColor}; font-weight:bold;">[${b.type}] ${b.name}</span> 승차 ➔ <b>${alightStop}</b> 하차 (${stopCount}개 정류장 이동)${busViaHtml}`,
+                        `🚏 <b>${alightStop}</b>에서 🔴 <b>${endPt.name}</b>까지 도보 (${formatDist(bestBus.walkE)})`
+                    ],
+                    drawLayers: [
+                        { pts: makeAlleyPath([startPt.lat, startPt.lng], busSegPts[0]), color: "#666666", weight: 4, dash: "5, 6" },
+                        { pts: busSegPts, color: bColor, weight: 7, dash: null },
+                        { pts: makeAlleyPath(busSegPts[busSegPts.length - 1], [endPt.lat, endPt.lng]), color: "#666666", weight: 4, dash: "5, 6" }
+                    ]
                 });
             });
         }
 
+        // [3] 버스 + 지하철 복합 환승 탐색
         if (typeof processedBusData !== 'undefined' && Array.isArray(processedBusData) && openedSubways.length > 0) {
             var subToBusList = [], busToSubList = [];
             sStations.forEach(function(sStObj) {
@@ -951,42 +1409,64 @@ window.setNavMode = function(mode) {
     }
 
     // =========================================================
-    // 8. 🚶 [도보 길찾기]
+    // 8. 🚶 [도보 길찾기 - 주변 보행 도로망 연동 탐색]
     // =========================================================
     function computeWalkRoute(startPt, endPt) {
+        var carBased = computeCarRoute(startPt, endPt);
+        if (carBased && carBased.drawLayers && carBased.drawLayers.length > 0) {
+            var walkPts = [];
+            carBased.drawLayers.forEach(dl => { if (dl.pts) walkPts = walkPts.concat(dl.pts); });
+            var walkMeter = Math.round(carBased.distMeter * 0.92);
+            var walkMin = Math.max(1, Math.round(walkMeter / 67));
+            var kcal = Math.round(walkMin * 4.2);
+
+            return {
+                title: "🚶 주변 보도 및 골목길 최단 보행 경로",
+                badge: "🚶 도보 추천",
+                timeMin: walkMin,
+                distMeter: walkMeter,
+                costText: `소모 열량 약 ${kcal}kcal`,
+                summary: `${carBased.summary} 보행자 도로 따라 총 ${formatDist(walkMeter)} 이동`,
+                steps: carBased.steps.map(s => s.replace("🚗", "🚶").replace("🛣️", "🚶").replace("주행", "보행 이동")),
+                drawLayers: [
+                    { pts: walkPts, color: "#00c853", weight: 6, dash: "8, 8" }
+                ]
+            };
+        }
+
         var directMeter = calcRealMeters(startPt.lat, startPt.lng, endPt.lat, endPt.lng);
         var midLat = (startPt.lat + endPt.lat) / 2;
         var midLng = (startPt.lng + endPt.lng) / 2;
-        var walkPts = [
+        var fallbackPts = [
             [startPt.lat, startPt.lng],
             [midLat, startPt.lng],
             [midLat, midLng],
             [endPt.lat, midLng],
             [endPt.lat, endPt.lng]
         ];
-        var walkMeter = Math.round(directMeter * 1.28);
-        var walkMin = Math.max(1, Math.round(walkMeter / 67));
-        var kcal = Math.round(walkMin * 4.2);
+        var walkMeter2 = Math.round(directMeter * 1.28);
+        var walkMin2 = Math.max(1, Math.round(walkMeter2 / 67));
+        var kcal2 = Math.round(walkMin2 * 4.2);
 
         return {
             title: "🚶 도보 최단 보행자 경로",
             badge: "🚶 도보 추천",
-            timeMin: walkMin,
-            distMeter: walkMeter,
-            costText: `소모 열량 약 ${kcal}kcal`,
-            summary: `보행자 도로 및 골목길 따라 총 ${formatDist(walkMeter)} 이동`,
+            timeMin: walkMin2,
+            distMeter: walkMeter2,
+            costText: `소모 열량 약 ${kcal2}kcal`,
+            summary: `보행자 도로 및 골목길 따라 총 ${formatDist(walkMeter2)} 이동`,
             steps: [
                 `🟢 <b>${startPt.name}</b> 출발`,
-                `🚶 보행자 길 및 횡단보도를 따라 ${formatDist(walkMeter)} 이동`,
+                `🚶 보행자 길 및 횡단보도를 따라 ${formatDist(walkMeter2)} 이동`,
                 `🔴 <b>${endPt.name}</b> 도착`
             ],
             drawLayers: [
-                { pts: walkPts, color: "#00c853", weight: 6, dash: "8, 8" }
+                { pts: fallbackPts, color: "#00c853", weight: 6, dash: "8, 8" }
             ]
         };
     }
 
-// =========================================================
+    // =========================================================
     // 9. 길찾기 실행 및 지도 위에 경로 렌더링 (대중교통/자동차/도보 공통 다중 경유 완벽 지원)
     // =========================================================
     window.executeNavigation = function() {
@@ -1004,7 +1484,7 @@ window.setNavMode = function(mode) {
             else if (navState.mode === 'car') { var c = typeof computeCarRoute === 'function' ? computeCarRoute(points[0], points[1]) : null; navState.routes = c ? [c] : []; }
             else navState.routes = [computeWalkRoute(points[0], points[1])];
         } 
-        // 경유지가 있을 때 (대중교통, 자동차, 도보 모두 구간별로 엮어서 통합 계산)
+        // 경유지가 있을 때 (구간별 통합 계산)
         else {
             var maxAlternatives = navState.mode === 'transit' ? 3 : 1;
             var finalCombinations = [];
@@ -1113,9 +1593,10 @@ window.setNavMode = function(mode) {
         var box = document.getElementById('nav-results-box');
         if (!box) return;
         box.innerHTML = navState.routes.map(function(r, idx) {
-            var stepsHtml = r.steps.map(s => `<div style="padding:6px 0; border-bottom:1px dashed #eee; font-size:12px; color:#444;">${s}</div>`).join('');
+            var stepsHtml = r.steps.map(s => `<div style="padding:7px 0; border-bottom:1px dashed #e5e5e5; font-size:12px; color:#333; line-height:1.5;">${s}</div>`).join('');
+            var isFirst = (idx === 0);
             return `
-                <div style="background:#fff; border:2px solid ${idx === 0 ? '#258fff' : '#ddd'}; border-radius:8px; padding:12px; margin-bottom:10px; box-shadow:0 2px 6px rgba(0,0,0,0.06);">
+                <div style="background:#fff; border:2px solid ${isFirst ? '#258fff' : '#ddd'}; border-radius:8px; padding:12px; margin-bottom:10px; box-shadow:0 2px 6px rgba(0,0,0,0.06);">
                     <div onclick="window.renderNavRouteOnMap(${idx}); var detail = this.nextElementSibling; detail.style.display = detail.style.display === 'none' ? 'block' : 'none';" style="cursor:pointer;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                             <span style="background:#eef6ff; color:#258fff; font-size:11px; font-weight:bold; padding:2px 7px; border-radius:4px;">${r.badge}</span>
@@ -1125,9 +1606,9 @@ window.setNavMode = function(mode) {
                             ${formatTime(r.timeMin)} <span style="font-size:13px; font-weight:normal; color:#666;">(${formatDist(r.distMeter)})</span>
                         </div>
                         <div style="font-size:12.5px; font-weight:bold; color:#333; margin-bottom:4px;">${r.title}</div>
-                        <div style="font-size:11px; color:#888;">${r.summary} <span style="color:#258fff;">[상세보기 ▼]</span></div>
+                        <div style="font-size:11px; color:#666;">${r.summary} <span style="color:#258fff; font-weight:bold;">[경유역·정류장·도로 상세 ▼]</span></div>
                     </div>
-                    <div style="display:none; background:#f8f9fa; padding:10px; border-radius:6px; margin-top:10px; border:1px solid #eee;">
+                    <div style="display:${isFirst ? 'block' : 'none'}; background:#f8f9fa; padding:10px; border-radius:6px; margin-top:10px; border:1px solid #eee;">
                         ${stepsHtml}
                     </div>
                 </div>
@@ -1142,7 +1623,6 @@ window.setNavMode = function(mode) {
 window.addEventListener('DOMContentLoaded', function() {
     var cvsFilterContainer = document.getElementById('cvs-filter-list');
     if (cvsFilterContainer) {
-        // 브랜드와 고유 색상 정의
         var brands = [
             { name: "GS25", color: "#0072BC" },
             { name: "CU", color: "#652D90" },
@@ -1153,7 +1633,6 @@ window.addEventListener('DOMContentLoaded', function() {
             { name: "기타", color: "#333333" }
         ];
 
-        // 체크박스 동적 생성
         brands.forEach(function(brand) {
             var filterItem = document.createElement('label'); 
             filterItem.className = 'filter-item';
@@ -1199,14 +1678,11 @@ window.applyCvsFilter = function() {
     var checkedBrands = [];
     document.querySelectorAll('input[name="cvsFilter"]:checked').forEach(cb => checkedBrands.push(cb.value));
 
-    // 기존 편의점 마커를 모두 지도에서 내림
     cvsLayer.clearLayers();
     var markersToAdd = [];
 
-    // 메모리에 캐싱된 모든 마커를 순회하며 필터링
     activeMarkers.forEach(function(marker) {
         if (marker.subCategory === 'cvs') {
-            // 말풍선 내용으로 브랜드를 역추적
             var tooltipText = marker.getTooltip() ? marker.getTooltip().getContent().replace(/<[^>]*>?/gm, '') : "";
             
             var brand = "기타";
@@ -1217,13 +1693,31 @@ window.applyCvsFilter = function() {
             else if (tooltipText.includes("스토리웨이")) brand = "스토리웨이";
             else if (tooltipText.includes("미니스톱")) brand = "미니스톱";
 
-            // 체크된 브랜드에 포함되면 렌더링 대기열에 추가
             if (checkedBrands.includes(brand)) {
                 markersToAdd.push(marker);
             }
         }
     });
     
-    // 모아둔 마커를 클러스터에 한 방에 던져서 렉 없이 렌더링
     cvsLayer.addLayers(markersToAdd);
 };
+// 새로고침(Ctrl+R) 직후 마커 증발 방지 및 강제 복구 리스너
+window.addEventListener('DOMContentLoaded', function() {
+    console.log("[디버그] 페이지 로드 완료 - 지하철역 마커 및 레이어 강제 복구 시도");
+
+    // 1. 철도/지하철 레이어 체크박스가 켜져 있는지 확인하고 강제 렌더링
+    setTimeout(function() {
+        if (typeof renderSubwayMarkers === 'function') {
+            renderSubwayMarkers(); // 지하철역 마커 렌더링 함수 호출
+        }
+        if (typeof updateRailwayLayers === 'function') {
+            updateRailwayLayers(); // 철도 노선 선/마커 갱신 함수 호출
+        }
+        
+        // 만약 localStorage나 전역 상태 객체에 레이어 켜짐 여부가 저장되어 있다면 여기서 강제로 동기화
+        var savedSubwayState = localStorage.getItem('subway_layer_active');
+        if (savedSubwayState === 'true' && typeof toggleSubwayLayer === 'function') {
+            toggleSubwayLayer(true);
+        }
+    }, 300); // DOM 엘리먼트가 완전히 생성된 직후 안정적으로 실행되도록 0.3초 딜레이
+});

@@ -242,7 +242,7 @@ if (typeof defaultLandmarksData !== 'undefined') {
 var processedSubwayMarkers = [];
 if (typeof subwayData !== 'undefined') {
     if (subwayData.markers) {
-        var mergedSubwayMarkers = Array.isArray(subwayData.markers) ? subwayData.markers : Object.values(subwayData.markers).flat();
+        var mergedSubwayMarkers = Array.isArray(subwayData.markers) ? subwayData.markers : Object.values(subwayData.markers).flat(Infinity);
         processedSubwayMarkers = mergedSubwayMarkers.map(m => {
             var newName = m.name;
             if (!newName.endsWith('역')) newName += '역';
@@ -1879,8 +1879,9 @@ function addMarkerToMap(item) {
     // [1] 지하철역 마커
     if (item.type === 'subway') {
         var lines = item.lines || ["1"];
-        var isTransfer = lines.length >= 2; 
-        var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(item.name);
+        if (!Array.isArray(lines)) lines = [lines]; // ★ 이 방어 코드를 반드시 추가하세요.
+        
+        var isTransfer = lines.length >= 2;        var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(item.name);
         var isMajor = (isTransfer || isManualMajor) ? "major-station" : "normal-station";
         var markerClass = (isTransfer || isManualMajor) ? "major-marker" : "normal-marker";
         var lineClasses = lines.map(l => "line-" + l).join(" ");
@@ -2299,6 +2300,9 @@ var savedLayerState = [];
 map.on('overlayadd', function() { if(typeof isDistrictAreaMode !== 'undefined' && isDistrictAreaMode) updateDistrictAreaLabels(); });
 map.on('overlayremove', function() { if(typeof isDistrictAreaMode !== 'undefined' && isDistrictAreaMode) updateDistrictAreaLabels(); });
 
+// =========================================================
+// 💾 일반 마커 전용 영구 저장 버튼 (버스 정류장 완벽 배제)
+// =========================================================
 setTimeout(function() {
     var existingContainer = document.querySelector('.leaflet-control-layers');
     if (existingContainer && !document.getElementById('export-code-btn')) {
@@ -2311,25 +2315,30 @@ setTimeout(function() {
             e.stopPropagation(); e.preventDefault();
             var markers = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
             var lines = JSON.parse(localStorage.getItem('hyobin_lines')) || [];
-            if (markers.length === 0 && lines.length === 0) { alert("새로 추가하거나 수정한 데이터가 없습니다."); return; }
             
-            // ★ 핵심: 선(lines)은 건드리지 않고, 마커(markers)만 추출할 때 lat에 자동으로 +19822를 더함!
-            var shiftedMarkers = markers.map(function(m) {
+            // ★ 핵심: 버스 정류장은 제외하고 일반 마커만 추출
+            var normalMarkers = markers.filter(m => m.type !== 'busStop');
+
+            if (normalMarkers.length === 0 && lines.length === 0) { alert("새로 추가하거나 수정한 데이터가 없습니다."); return; }
+            
+            var shiftedMarkers = normalMarkers.map(function(m) {
                 var copyM = Object.assign({}, m);
-                if (typeof copyM.lat === 'number') {
-                    copyM.lat = Math.round(copyM.lat + 19822);
-                }
+                if (typeof copyM.lat === 'number') copyM.lat = Math.round(copyM.lat + 19822);
                 return copyM;
             });
 
             var resultText = "/* 아래 코드를 복사해서 데이터 파일 가장 아래 빈 공간에 붙여넣으세요! */\n\n";
-            if (shiftedMarkers.length > 0) resultText += "// 📍 수동 저장/수정된 마커 데이터 (lat +19822 자동 보정 완료)\nvar myExportedMarkers = " + JSON.stringify(shiftedMarkers, null, 4) + ";\n\n";
-            if (lines.length > 0) resultText += "// 🛤️ 수동 저장된 도로/선 데이터 (원본 좌표 유지)\nvar myExportedLines = " + JSON.stringify(lines, null, 4) + ";\n\n";
+            if (shiftedMarkers.length > 0) resultText += "// 📍 수동 저장/수정된 일반 마커 데이터 (lat +19822 자동 보정 완료)\nvar myExportedMarkers = " + JSON.stringify(shiftedMarkers, null, 4) + ";\n\n";
+            if (lines.length > 0) resultText += "// 🛤️ 수동 저장된 도로/선 데이터\nvar myExportedLines = " + JSON.stringify(lines, null, 4) + ";\n\n";
             
+            var oldModal = document.getElementById('export-modal-patch');
+            if (oldModal) oldModal.remove();
+
             var modal = document.createElement('div');
-            modal.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; box-shadow:0 0 20px rgba(0,0,0,0.5); z-index:9999; width:600px; height:500px; display:flex; flex-direction:column; border-radius:8px;';
+            modal.id = 'export-modal-patch';
+            modal.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; box-shadow:0 0 20px rgba(0,0,0,0.5); z-index:99999; width:600px; height:500px; display:flex; flex-direction:column; border-radius:8px;';
             modal.innerHTML = `
-                <h3 style="margin-top:0; color:#0077DD; border-bottom:2px solid #0077DD; padding-bottom:10px;">💾 데이터 코드 추출기 (마커 lat +19822 자동 적용)</h3>
+                <h3 style="margin-top:0; color:#0077DD; border-bottom:2px solid #0077DD; padding-bottom:10px;">💾 데이터 코드 추출기 (일반 시설 전용)</h3>
                 <textarea id="code-textarea" style="flex:1; width:100%; font-family:monospace; font-size:12px; padding:10px; border:1px solid #ccc; resize:none;" readonly></textarea>
                 <div style="text-align:right; margin-top:15px;">
                     <button id="copy-export-btn" style="padding:10px 20px; background:#333; color:#fff; border:none; cursor:pointer; border-radius:4px; font-weight:bold; margin-right:5px;">전체 복사</button>
@@ -2464,9 +2473,9 @@ function openPlaceEditModal(name, lat, lng, cardId) {
             target.rating = newRating.trim();   
             target.reviews = newReviews.trim(); 
             target.color = markerColors[target.type] || '#333333';
-        } else {
-            myLandmarks.push({
-                origName: name, 
+} else {
+            var newItem = Object.assign({}, existingItem || {}, {
+                origName: name,
                 name: newName.trim(),
                 lat: lat,
                 lng: lng,
@@ -2474,11 +2483,12 @@ function openPlaceEditModal(name, lat, lng, cardId) {
                 hours: newHours.trim(),
                 phone: newPhone.trim(),
                 desc: newDesc.trim(),
-                rating: newRating.trim(),       
-                reviews: newReviews.trim(),     
+                rating: newRating.trim(),
+                reviews: newReviews.trim(),
                 color: markerColors[newType.trim()] || '#333333',
                 image: newImg.trim() || getSmartFacilityImage(newName.trim())
             });
+            myLandmarks.push(newItem);
         }
         localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
         alert("✨ 자동 리뷰와 함께 수정 내용이 저장되었습니다! 새로고침 후 즉시 반영됩니다.");
