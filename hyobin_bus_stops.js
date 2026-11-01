@@ -5219,7 +5219,7 @@ var hardcodedBusStops = [
         ]
     },
     {
-        "name": "창전 홈플러스 정류장",
+        "name": "창전 이마트 정류장",
         "lat": -34470,
         "lng": 26183,
         "type": "busStop",
@@ -67201,7 +67201,7 @@ var hardcodedBusStops = [
         ]
     },
     {
-        "name": "홈플러스 창전점 사거리 정류장",
+        "name": "이마트 창전점 사거리 정류장",
         "lat": -33906,
         "lng": 26340,
         "type": "busStop",
@@ -100158,12 +100158,32 @@ var hardcodedBusStops = [
 ];
 
 (function() {
-    if (typeof window.myLandmarks !== 'undefined') {
-        var existingStops = window.myLandmarks.filter(m => m.type === 'busStop');
-        if (existingStops.length === 0) {
-            window.myLandmarks = window.myLandmarks.concat(hardcodedBusStops);
-            localStorage.setItem('hyobin_markers', JSON.stringify(window.myLandmarks));
-            if (typeof addMarkerToMap === 'function') hardcodedBusStops.forEach(s => addMarkerToMap(s));
+    // 1. 로컬 스토리지에 데이터가 있을 때만 가져오고, 없으면 기존 window.myLandmarks를 보존함
+    var savedData = localStorage.getItem('hyobin_markers');
+    if (savedData) {
+        try {
+            var parsed = JSON.parse(savedData);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                window.myLandmarks = parsed;
+            }
+        } catch(e) {
+            console.error("데이터 파싱 에러:", e);
+        }
+    }
+    
+    // 만약 window.myLandmarks가 아예 정의되지 않았다면 빈 배열로 초기화
+    if (!window.myLandmarks) {
+        window.myLandmarks = [];
+    }
+
+    // 2. 버스 정류장은 로컬 스토리지를 건드리지 않고, 화면(지도)에만 안전하게 동적으로 추가
+    if (typeof hardcodedBusStops !== 'undefined' && typeof addMarkerToMap === 'function') {
+        // 중복 추가 방지를 위해 이미 myLandmarks에 busStop이 없는 경우에만 지도에 그리기
+        var hasBusStop = window.myLandmarks.some(function(m) { return m.type === 'busStop'; });
+        if (!hasBusStop) {
+            hardcodedBusStops.forEach(function(s) {
+                addMarkerToMap(s);
+            });
         }
     }
 })();

@@ -414,7 +414,13 @@
 
         sourceBusData.forEach(bus => {
             if (!bus.points || bus.points.length < 2) return;
-            var correctedPts = bus.points.map(p => [p[0] + currentAdjustY, p[1]]);
+// 🔄 수정할 코드 (정확한 역보정 처리)
+var correctedPts = bus.points.map(p => {
+    var rawLat = p[0];
+    // 이미 보정된 값이면 원래 상태로 복원하고, 필요시 지도 매칭용 보정 적용
+    var fixedLat = (rawLat < -10000) ? rawLat : (rawLat + currentAdjustY);
+    return [fixedLat, p[1]];
+});
             allBusRoutes.push({ name: `[${bus.type || '일반'}] ${bus.name}`, points: correctedPts });
         });
 
@@ -543,4 +549,4 @@
         var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
         var link = document.createElement("a"); link.href = URL.createObjectURL(blob);
         link.download = `효빈광역시_버스정류장_대장_${new Date().toLocaleDateString()}.csv`; link.click();
-    }
+    };

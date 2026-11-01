@@ -18,18 +18,25 @@ var cvsLayer = L.markerClusterGroup({
     maxClusterRadius: 80 
 });
 
-// 10개 주제별 일반 마커 레이어 그룹 (체크 시 표시)
+// 17개 주제별 세분화 마커 레이어 그룹 (체크 시 표시)
 var catLayers = {
-    "education": L.layerGroup(),   // 학교/교육
-    "residence": L.layerGroup(),   // 주거/아파트
-    "public": L.layerGroup(),      // 공공/관공서
-    "commercial": L.layerGroup(),  // 상업/마트/편의점
-    "food": L.layerGroup(),        // 식당/카페
-    "culture": L.layerGroup(),     // 문화/종교/숙박
-    "medical": L.layerGroup(),     // 의료/병원
-    "infra": L.layerGroup(),       // 교통/인프라/공장
-    "nature": L.layerGroup(),      // 자연/공원
-    "normal": L.layerGroup()       // 기타 일반
+    "education": L.layerGroup(),   // 🏫 교육/학교/대학
+    "residence": L.layerGroup(),   // 🏢 주거/아파트
+    "public": L.layerGroup(),      // 🏛️ 공공/행정/사법
+    "safety": L.layerGroup(),      // 🚨 경찰/소방/치안 (신규 분리)
+    "welfare": L.layerGroup(),     // 🤝 사회복지/보훈/요양 (신규 분리)
+    "finance": L.layerGroup(),     // 🏦 금융/은행/보증 (신규 분리)
+    "commercial": L.layerGroup(),  // 🛒 백화점/마트/시장
+    "food": L.layerGroup(),        // 🍽️ 식당/카페/패스트푸드
+    "subculture": L.layerGroup(),  // 🎸 서브컬처/애니성지 (신규 분리)
+    "culture": L.layerGroup(),     // 🎭 문화/박물관/체육/관광
+    "lodging": L.layerGroup(),     // 🏨 호텔/리조트/숙박 (신규 분리)
+    "religion": L.layerGroup(),    // ⛪ 종교시설 (신규 분리)
+    "medical": L.layerGroup(),     // 🏥 의료/병원/약국
+    "traffic": L.layerGroup(),     // ✈️ 교통/공항/터미널/항만 (교통 분리)
+    "industry": L.layerGroup(),    // 🏭 산업/공단/공장/R&D (산업 분리)
+    "nature": L.layerGroup(),      // 🌲 자연/공원/산/해변
+    "normal": L.layerGroup()       // 📍 기타 일반 시설 (순수 기타만!)
 };
 
 // 100대 세부 카테고리 휠 선택박스 전용 레이어
@@ -37,20 +44,28 @@ var subCatFilterLayer = L.layerGroup().addTo(map);
 var normalMarkerLayer = catLayers.normal;
 
 // =========================================================
-// ★ 100개급 세부 카테고리 컬러, 그룹 매핑, 한글명
+// ★ 100개급 세부 카테고리 컬러, 그룹 매핑, 한글명 (세분화 확장판)
 // =========================================================
 var markerColors = {
     "mountain": "#558B2F", "hill": "#689F38", "island": "#33691E",
     "water": "#1976D2", "lake": "#0288D1", "beach": "#0097A7", "bridge": "#455A64",
     "park": "#4CAF50", "botanic": "#2E7D32", "square": "#8BC34A", "farm": "#7CB342",
     "city_hall": "#1A237E", "gu_office": "#283593", "gun_office": "#303F9F", "gov_complex": "#1A237E",
-    "community_center": "#3949AB", "tax_office": "#3F51B5", "customs": "#3F51B5",
-    "court": "#263238", "military": "#4E342E", "public_corp": "#5C6BC0",
+    "community_center": "#3949AB", "tax_office": "#3F51B5", "customs": "#3F51B5", "immigration": "#303F9F",
+    "court": "#263238", "military": "#4E342E", "veterans": "#5D4037", "public_corp": "#5C6BC0", "edu_office": "#3949AB",
     "police_agency": "#0D47A1", "police_station": "#1565C0", "police_box": "#1976D2", "coast_guard": "#01579B",
     "fire_hq": "#B71C1C", "fire_station": "#D32F2F", "post_office": "#E65100",
-    "welfare_center": "#00897B", "child_welfare": "#26A69A", "senior_welfare": "#00695C",
+    
+    // ★ 세분화된 복지시설 컬러
+    "welfare_center": "#00897B",   // 종합사회복지관
+    "disabled_welfare": "#00ACC1", // 장애인복지관·재활시설
+    "mental_welfare": "#26A69A",   // 정신건강·수양원·요양시설 (수양원, 을종마을, 정신건강복지센터 등)
+    "child_welfare": "#4DB6AC",    // 아동·청소년·가족복지시설
+    "senior_welfare": "#00695C",   // 노인복지관·양로·실버시설
+    "self_support": "#00796B",     // 자활·쉼터·적십자·모금회
+
     "kindergarten": "#FDD835", "elementary_school": "#FFCA28", "middle_school": "#FFB300",
-    "high_school": "#FFA000", "special_high": "#FF8F00", "special_school": "#FF6F00",
+    "high_school": "#FFA000", "special_high": "#FF8F00", "special_school": "#FF6F00", "intl_school": "#F57C00",
     "college": "#F57C00", "university": "#E65100", "univ_building": "#EF6C00",
     "grad_school": "#D84315", "dormitory": "#8D6E63", "research_inst": "#546E6A", "library": "#00838F",
     "apartment": "#795548", "public_apt": "#6D4C41", "villa": "#8D6E63", "officetel": "#5D4037",
@@ -64,55 +79,104 @@ var markerColors = {
     "buffet": "#FF8F00", "restaurant": "#FFA000", "pub": "#673AB7",
     "anime_shop": "#E040FB", "anime_stage": "#D500F9", "anime_museum": "#AA00FF",
     "cinema": "#E53935", "museum": "#C2185B", "art_museum": "#AD1457", "science_museum": "#1976D2",
-    "art_center": "#8E24AA", "zoo": "#43A047", "tourist_spot": "#00ACC1",
+    "art_center": "#8E24AA", "zoo": "#43A047", "tourist_spot": "#00ACC1", "landmark_tower": "#5E35B1",
     "hotel": "#AB47BC", "business_hotel": "#9C27B0", "resort": "#7B1FA2",
     "church": "#5D4037", "catholic": "#4E342E", "temple": "#6D4C41",
     "stadium": "#0277BD", "esports_arena": "#6200EA", "ice_rink": "#00B0FF", "golf": "#388E3C", "sports": "#039BE5",
-    "univ_hospital": "#00838F", "general_hospital": "#0097A7", "hospital": "#00ACC1",
+    "univ_hospital": "#00838F", "general_hospital": "#0097A7", "hospital": "#00ACC1", "mental_hospital": "#26A69A",
     "dental": "#26C6DA", "oriental_med": "#00897B", "vet": "#4DB6AC",
     "public_health": "#00695C", "pharmacy": "#43A047",
-"airport": "#006064", "airbase": "#37474F", "port": "#01579B", "pier": "#0277BD",
-"bus_terminal": "#C62828", "rail_depot": "#37474F", "ic_jc": "#2E7D32", "intersect": "#0077DD",
-"station": "#D32F2F", "parking": "#455A64", "gas_station": "#F57F17", "toilet": "#0097A7",    "heavy_ind": "#37474F", "auto_ind": "#455A64", "semi_ind": "#1A237E", "chem_ind": "#546E7A",
+    "airport": "#006064", "airbase": "#37474F", "port": "#01579B", "pier": "#0277BD",
+    "bus_terminal": "#C62828", "rail_depot": "#37474F", "ic_jc": "#2E7D32", "intersect": "#0077DD",
+    "station": "#D32F2F", "parking": "#455A64", "gas_station": "#F57F17", "toilet": "#0097A7",
+    "heavy_ind": "#37474F", "auto_ind": "#455A64", "semi_ind": "#1A237E", "chem_ind": "#546E7A",
     "food_ind": "#6D4C41", "ind_complex": "#616161", "it_rnd": "#283593", "logistics": "#4E342E",
     "factory": "#757575", "media": "#00838F", "normal": "#333333"
 };
 
 var groupMap = {
-    "kindergarten": "education", "elementary_school": "education", "middle_school": "education", "high_school": "education", "special_high": "education", "special_school": "education", "college": "education", "university": "education", "univ_building": "education", "grad_school": "education", "dormitory": "education", "research_inst": "education", "library": "education", "school": "education",
+    // 1. 교육/학교/대학
+    "kindergarten": "education", "elementary_school": "education", "middle_school": "education", "high_school": "education", "special_high": "education", "special_school": "education", "intl_school": "education", "college": "education", "university": "education", "univ_building": "education", "grad_school": "education", "dormitory": "education", "library": "education", "school": "education",
+    
+    // 2. 주거/아파트
     "apartment": "residence", "public_apt": "residence", "villa": "residence", "officetel": "residence",
-    "city_hall": "public", "gu_office": "public", "gun_office": "public", "gov_complex": "public", "community_center": "public", "tax_office": "public", "customs": "public", "court": "public", "military": "public", "public_corp": "public", "police_agency": "public", "police_station": "public", "police_box": "public", "coast_guard": "public", "fire_hq": "public", "fire_station": "public", "post_office": "public", "welfare_center": "public", "child_welfare": "public", "senior_welfare": "public", "office_main": "public", "office_sub": "public", "office_etc": "public", "police": "public", "welfare": "public",
-    "bank_central": "commercial", "bank": "commercial", "credit_union": "commercial", "finance_corp": "commercial", "department_store": "commercial", "outlet": "commercial", "shopping_mall": "commercial", "hypermarket": "commercial", "ssm": "commercial", "warehouse_mart": "commercial", "food_mart": "commercial", "variety_store": "commercial", "electronics_shop": "commercial", "bookstore": "commercial", "trad_market": "commercial", "fish_market": "commercial", "wholesale_market": "commercial", "cvs": "cvs", "commercial": "commercial", "market": "commercial",
-    "cafe": "food", "bakery": "food", "fastfood": "food", "pizza": "food", "korean_food": "food","bunsik": "food", "western_food": "food", "japanese_food": "food", "buffet": "food", "restaurant": "food", "pub": "food",
-    "anime_shop": "culture", "anime_stage": "culture", "anime_museum": "culture", "cinema": "culture", "museum": "culture", "art_museum": "culture", "science_museum": "culture", "art_center": "culture", "zoo": "culture", "tourist_spot": "culture", "hotel": "culture", "business_hotel": "culture", "resort": "culture", "church": "culture", "catholic": "culture", "temple": "culture", "stadium": "culture", "esports_arena": "culture", "ice_rink": "culture", "golf": "culture", "sports": "culture", "culture": "culture", "anime": "culture", "religion": "culture",
-    "univ_hospital": "medical", "general_hospital": "medical", "hospital": "medical", "dental": "medical", "oriental_med": "medical", "vet": "medical", "public_health": "medical", "pharmacy": "medical",
-    "airport": "infra", "airbase": "infra", "port": "infra", "pier": "infra", "bus_terminal": "infra", "rail_depot": "infra", "ic_jc": "infra", "intersect": "infra", "station": "infra", "parking": "infra", "gas_station": "infra", "toilet": "infra", "heavy_ind": "infra", "auto_ind": "infra", "semi_ind": "infra", "chem_ind": "infra", "food_ind": "infra", "ind_complex": "infra", "it_rnd": "infra", "logistics": "infra", "factory": "infra", "media": "infra", "bridge": "infra",
+    
+    // 3. 공공/행정/사법
+    "city_hall": "public", "gu_office": "public", "gun_office": "public", "gov_complex": "public", "community_center": "public", "tax_office": "public", "customs": "public", "immigration": "public", "court": "public", "military": "public", "public_corp": "public", "edu_office": "public", "post_office": "public", "office_main": "public", "office_sub": "public", "office_etc": "public",
+    
+    // 4. 경찰/소방/치안 (분리!)
+    "police_agency": "safety", "police_station": "safety", "police_box": "safety", "coast_guard": "safety", "fire_hq": "safety", "fire_station": "safety", "police": "safety",
+    
+    // 5. 사회복지/보훈/요양 (분리!)
+    "welfare_center": "welfare", "disabled_welfare": "welfare", "mental_welfare": "welfare", "child_welfare": "welfare", "senior_welfare": "welfare", "self_support": "welfare", "veterans": "welfare", "welfare": "welfare",
+    
+    // 6. 금융/은행 (분리!)
+    "bank_central": "finance", "bank": "finance", "credit_union": "finance", "finance_corp": "finance",
+    
+    // 7. 상업/백화점/마트/시장 (편의점 cvs는 전용 클러스터로 단독 분리!)
+    "department_store": "commercial", "outlet": "commercial", "shopping_mall": "commercial", "landmark_tower": "commercial", "hypermarket": "commercial", "ssm": "commercial", "warehouse_mart": "commercial", "food_mart": "commercial", "variety_store": "commercial", "electronics_shop": "commercial", "bookstore": "commercial", "trad_market": "commercial", "fish_market": "commercial", "wholesale_market": "commercial", "commercial": "commercial", "market": "commercial",
+    "cvs": "cvs",
+    
+    // 8. 식당/카페/패스트푸드
+    "cafe": "food", "bakery": "food", "fastfood": "food", "pizza": "food", "korean_food": "food", "bunsik": "food", "western_food": "food", "japanese_food": "food", "buffet": "food", "restaurant": "food", "pub": "food",
+    
+    // 9. 서브컬처/애니성지 (분리!)
+    "anime_shop": "subculture", "anime_stage": "subculture", "anime_museum": "subculture", "esports_arena": "subculture", "anime": "subculture",
+    
+    // 10. 문화/박물관/체육/관광
+    "cinema": "culture", "museum": "culture", "art_museum": "culture", "science_museum": "culture", "art_center": "culture", "zoo": "culture", "tourist_spot": "culture", "stadium": "culture", "ice_rink": "culture", "golf": "culture", "sports": "culture", "culture": "culture",
+    
+    // 11. 호텔/리조트/숙박 (분리!)
+    "hotel": "lodging", "business_hotel": "lodging", "resort": "lodging",
+    
+    // 12. 종교시설 (분리!)
+    "church": "religion", "catholic": "religion", "temple": "religion", "religion": "religion",
+    
+    // 13. 의료/병원/약국
+    "univ_hospital": "medical", "general_hospital": "medical", "hospital": "medical", "mental_hospital": "medical", "dental": "medical", "oriental_med": "medical", "vet": "medical", "public_health": "medical", "pharmacy": "medical",
+    
+    // 14. 교통/공항/항만/터미널/교차로 (교통 단독 분리!)
+    "airport": "traffic", "airbase": "traffic", "port": "traffic", "pier": "traffic", "bus_terminal": "traffic", "rail_depot": "traffic", "ic_jc": "traffic", "intersect": "traffic", "station": "traffic", "parking": "traffic", "gas_station": "traffic", "toilet": "traffic", "bridge": "traffic", "infra": "traffic",
+    
+    // 15. 산업/공단/반도체/공장/연구소 (산업 단독 분리!)
+    "heavy_ind": "industry", "auto_ind": "industry", "semi_ind": "industry", "chem_ind": "industry", "food_ind": "industry", "ind_complex": "industry", "it_rnd": "industry", "research_inst": "industry", "logistics": "industry", "factory": "industry", "media": "industry",
+    
+    // 16. 자연/공원/산/해변
     "mountain": "nature", "hill": "nature", "island": "nature", "water": "nature", "lake": "nature", "beach": "nature", "park": "nature", "botanic": "nature", "square": "nature", "farm": "nature",
+    
+    // 17. 기타 일반
     "normal": "normal"
 };
-
 var categoryNames100 = {
     "mountain": "명산·봉우리", "hill": "고개·령", "island": "섬·도서",
     "water": "하천·강", "lake": "호수·저수지", "beach": "해수욕장·해변", "bridge": "대교·교량",
     "park": "근린·테마공원", "botanic": "수목원·식물원", "square": "광장", "farm": "관광목장·농원",
     "city_hall": "광역시·시청", "gu_office": "구청", "gun_office": "군청", "gov_complex": "정부합동청사",
-    "community_center": "행정복지센터(주민센터)", "tax_office": "세무서·국세청", "customs": "세관",
-    "court": "법원·검찰·준법지원", "military": "병무청·군부대", "public_corp": "공기업·공단·진흥원",
+    "community_center": "행정복지센터(주민센터)", "tax_office": "세무서·국세청", "customs": "세관", "immigration": "출입국·외국인·검역청",
+    "court": "법원·검찰·준법지원", "military": "병무청·군부대", "veterans": "보훈청·보훈회관", "public_corp": "공기업·공단·진흥원", "edu_office": "교육청·교육지원청",
     "police_agency": "지방경찰청", "police_station": "경찰서", "police_box": "파출소·지구대", "coast_guard": "해양경찰청·해경",
     "fire_hq": "소방본부·소방학교", "fire_station": "소방서·119안전센터", "post_office": "우체국·우정청",
-    "welfare_center": "종합사회복지관", "child_welfare": "아동·가족복지시설", "senior_welfare": "노인·장애인복지시설",
+    
+    // ★ 세분화된 복지시설 한글 명칭 (100대 세부 카테고리 휠에 그대로 표시됨)
+    "welfare_center": "종합사회복지관",
+    "disabled_welfare": "장애인복지시설·복지관",
+    "mental_welfare": "정신건강·수양원·요양시설",
+    "child_welfare": "아동·청소년·가족복지시설",
+    "senior_welfare": "노인복지시설·복지관",
+    "self_support": "자활·쉼터·적십자·모금회",
+
     "kindergarten": "유치원·어린이집", "elementary_school": "초등학교", "middle_school": "중학교",
-    "high_school": "고등학교", "special_high": "특목고·자사고·특성화고", "special_school": "특수학교",
+    "high_school": "고등학교", "special_high": "특목고·자사고·특성화고", "special_school": "특수학교", "intl_school": "국제학교·외국인학교",
     "college": "전문대학·폴리텍", "university": "대학교(종합대학)", "univ_building": "대학교 단과대·관",
     "grad_school": "대학원·전문대학원", "dormitory": "대학교 기숙사·생활관", "research_inst": "국책·기업연구소", "library": "공공·대학도서관",
     "apartment": "민영 아파트단지", "public_apt": "주공·휴먼시아·행복주택", "villa": "빌라·연립주택", "officetel": "오피스텔·주상복합",
     "bank_central": "중앙은행(한국은행)", "bank": "시중은행·제1금융권", "credit_union": "새마을금고·신협·단위농협", "finance_corp": "금융공기업·보증재단",
-    "department_store": "백화점", "outlet": "아울렛·복합쇼핑몰", "shopping_mall": "대형쇼핑몰·센터",
+    "department_store": "백화점", "outlet": "아울렛·복합쇼핑몰", "shopping_mall": "대형쇼핑몰·센터", "landmark_tower": "랜드마크·오피스타워",
     "hypermarket": "대형할인점(마트)", "ssm": "기업형슈퍼마켓(SSM)", "warehouse_mart": "창고형할인매장", "food_mart": "식자재전문마트",
     "variety_store": "생활용품점(다이소)", "electronics_shop": "가전양판점·전자상가", "bookstore": "대형·중고서점",
     "trad_market": "전통시장·재래시장", "fish_market": "수산시장·어시장", "wholesale_market": "농수산·종합도매시장", "cvs": "24시 편의점",
     "cafe": "카페·커피전문점", "bakery": "베이커리·제과점", "fastfood": "패스트푸드·버거", "pizza": "피자전문점",
-    "korean_food": "한식·한정식·국밥","bunsik": "분식", "western_food": "패밀리레스토랑·양식", "japanese_food": "일식·소바·돈카츠",
+    "korean_food": "한식·한정식·국밥", "bunsik": "분식", "western_food": "패밀리레스토랑·양식", "japanese_food": "일식·소바·돈카츠",
     "buffet": "프리미엄 뷔페", "restaurant": "일반음식점", "pub": "주점·호프·이자카야",
     "anime_shop": "서브컬처·애니굿즈샵", "anime_stage": "서브컬처 라이브스테이지", "anime_museum": "만화·애니메이션박물관",
     "cinema": "멀티플렉스 영화관", "museum": "국공립·테마박물관", "art_museum": "미술관·아트뮤지엄", "science_museum": "과학관·자연사박물관",
@@ -120,22 +184,22 @@ var categoryNames100 = {
     "hotel": "특급·시티호텔", "business_hotel": "비즈니스호텔·스테이", "resort": "리조트·펜션·연수원",
     "church": "개신교 교회", "catholic": "천주교 성당", "temple": "불교 사찰·전통사찰",
     "stadium": "종합운동장·전용경기장", "esports_arena": "e스포츠 아레나", "ice_rink": "실내빙상장", "golf": "컨트리클럽(골프장)", "sports": "실내체육관·사격·양궁장",
-    "univ_hospital": "대학병원·상급종합병원", "general_hospital": "종합병원·의료원", "hospital": "전문병원·의원",
+    "univ_hospital": "대학병원·상급종합병원", "general_hospital": "종합병원·의료원", "hospital": "전문병원·의원", "mental_hospital": "정신건강의학과·전문병원",
     "dental": "치과병원·의원", "oriental_med": "한방병원·한의원", "vet": "동물메디컬센터",
     "public_health": "보건소·보건진료소", "pharmacy": "약국",
-"airport": "국제공항", "airbase": "공군기지·비행장", "port": "무역항·여객터미널", "pier": "유람선선착장·부두·방파제",
-"bus_terminal": "고속·시외버스터미널", "rail_depot": "철도차량사업소(기지)", "ic_jc": "고속도로 나들목(IC/JC)", "intersect": "교차로·사거리",
-"station": "교통·환승시설", "parking": "공영·환승주차장", "gas_station": "주유소·충전소", "toilet": "공중화장실",    "heavy_ind": "중공업·조선소", "auto_ind": "자동차·모빌리티공장", "semi_ind": "반도체·디스플레이캠퍼스", "chem_ind": "석유화학·소재공장",
+    "airport": "국제공항", "airbase": "공군기지·비행장", "port": "무역항·여객터미널", "pier": "유람선선착장·부두·방파제",
+    "bus_terminal": "고속·시외버스터미널", "rail_depot": "철도차량사업소(기지)", "ic_jc": "고속도로 나들목(IC/JC)", "intersect": "교차로·사거리",
+    "station": "교통·환승시설", "parking": "공영·환승주차장", "gas_station": "주유소·충전소", "toilet": "공중화장실",
+    "heavy_ind": "중공업·조선소", "auto_ind": "자동차·모빌리티공장", "semi_ind": "반도체·디스플레이캠퍼스", "chem_ind": "석유화학·소재공장",
     "food_ind": "식품·제과제분공장", "ind_complex": "국가·일반산업단지", "it_rnd": "AI·반도체·로봇R&D센터", "logistics": "대형물류센터·기지",
     "factory": "제조공장·공업사", "media": "방송국·언론사", "normal": "일반시설·지명"
 };
-
 // ★ [핵심] 주민센터 / 행정복지센터 / 동·읍·면사무소 이미지 경로를 '이미지/OO1동.webp' 형태로 자동 변환!
 function getSmartFacilityImage(name, customImg) {
     if (customImg && customImg.trim() !== "" && customImg !== `이미지/${name}.webp`) {
         return customImg.trim();
     }
-    if (!name) return "이미지/default.webp";
+    if (!name) return "이미지/효빈광역시_흰색로고.webp";
 
     // 예: "항4동 행정복지센터" -> "이미지/항4동.webp" / "고송1동주민센터" -> "이미지/고송1동.webp" / "도변읍사무소" -> "이미지/도변읍.webp"
     if (name.match(/(주민센터|행정복지센터|동사무소|읍사무소|면사무소)/)) {
@@ -212,17 +276,32 @@ for (var y = 0; y > -totalHeight; y -= gridHeight) {
 }
 
 // =========================================================
-// ★ 5. 마커 데이터 통합 (수정한 정보가 원본 마커를 100% 덮어쓰도록 버그 완벽 해결!)
+// ★ [수정 완료] 새로고침 시 마커 증발 및 데이터 소실 원천 차단 방어 로직
 // =========================================================
-// =========================================================
-// ★ 5. 마커 데이터 통합 (파일에 적은 rating, reviews가 100% 반영되도록 누락 버그 해결!)
-// =========================================================
-var myLandmarks = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
+var rawStoredMarkers = localStorage.getItem('hyobin_markers');
+var myLandmarks = [];
+
+try {
+    if (rawStoredMarkers) {
+        var parsed = JSON.parse(rawStoredMarkers);
+        // 저장된 데이터가 정상적인 배열이고 비어있지 않은 경우에만 인정
+        if (Array.isArray(parsed) && parsed.length > 0) {
+            myLandmarks = parsed;
+        } else {
+            console.warn("로컬 스토리지의 마커 데이터가 비어있어 초기화합니다.");
+            localStorage.removeItem('hyobin_markers');
+        }
+    }
+} catch (e) {
+    console.error("로컬 스토리지 파싱 에러 발생, 데이터를 초기화합니다.", e);
+    localStorage.removeItem('hyobin_markers');
+    myLandmarks = [];
+}
+
 myLandmarks.forEach(m => { 
     if(!m.type) m.type = 'normal'; 
     if(m.type === 'subway' && !m.name.endsWith('역')) m.name += '역'; 
 });
-
 var processedDefaultLandmarks = [];
 if (typeof defaultLandmarksData !== 'undefined') {
     processedDefaultLandmarks = defaultLandmarksData.map(function(m) {
@@ -242,7 +321,7 @@ if (typeof defaultLandmarksData !== 'undefined') {
 var processedSubwayMarkers = [];
 if (typeof subwayData !== 'undefined') {
     if (subwayData.markers) {
-        var mergedSubwayMarkers = Array.isArray(subwayData.markers) ? subwayData.markers : Object.values(subwayData.markers).flat(Infinity);
+        var mergedSubwayMarkers = Array.isArray(subwayData.markers) ? subwayData.markers : Object.values(subwayData.markers).flat();
         processedSubwayMarkers = mergedSubwayMarkers.map(m => {
             var newName = m.name;
             if (!newName.endsWith('역')) newName += '역';
@@ -389,150 +468,213 @@ var HYOBIN_WIKI_BASE = "https://binia1.github.io/hyobinwiki2/";
 
 function classify100Category(name) {
     if (!name) return "normal";
+    var n = name.trim();
 
-    // 0순위 (오직 진짜 편의점 브랜드만 엄격하게 캐치! '~점' 글자 의존 안 함)
-    if (name.match(/(CU|GS25|세븐일레븐|이마트24|이마트 24|미니스톱|스토리웨이)/i)) {
+    // [0순위] 진짜 편의점 브랜드만 엄격 캐치
+    if (n.match(/(CU|GS25|세븐일레븐|이마트24|이마트 24|미니스톱|스토리웨이)/i) && !n.includes("물류")) {
         return "cvs";
     }
 
-    // 1순위 (주거 시설 최우선 방어): '센트럴'이나 다른 단어가 껴있어도 아파트 키워드가 있으면 무조건 주거 확정!
-    if (name.includes("아파트") || name.match(/(주공|휴먼시아|행복주택|시영|구영|청년주택|사원아파트|사원1단지|사원2단지|오피스텔|주상복합|빌라|자이|푸르지오|더샵|래미안|아이파크|센트럴|스타힐스|대라수|리버시티|에일린의뜰|우미린|호반베르디움|이편한세상|데시앙|유보라|포레나|위브|스위첸|아너스빌|칸타빌|엘리움|헤링턴|아이유쉘|해모로|코아루|블렌하임|스카이뷰|마루힐|한신더휴|사랑으로|비발디|어울림|이지더원|루첸|펜테리움|베네스타|동국애버리지|아쿠아)/)) {
-        if (name.includes("오피스텔") || name.includes("주상복합")) return "officetel";
-        if (name.includes("빌라")) return "villa";
+    // [1순위] 공장·산업시설 선제 방어 ('회주공업'이 '주공'아파트로, '삼성전자 캠퍼스'가 대학교로 오분류되는 현상 원천 차단!)
+    if (n.match(/(삼성전자|삼성반도체|LG이노텍|lg 이노텍|SK하이닉스|세미콘|반도체|디스플레이|ASML|램리서치|KLA|칩스|파두|세미파이브)/i) && !n.includes("연수원") && !n.includes("병원") && !n.includes("베스트샵")) {
+        return "semi_ind";
+    }
+    if (n.match(/(중공업|조선소|현대조선|해양조선)/) && !n.includes("연수원")) return "heavy_ind";
+    if (n.match(/(기아자동차|현대자동차|현대로템|타이어|오토에버|모빌리티|드론)/) && !n.includes("대리점")) return "auto_ind";
+    if (n.match(/(케미칼|한화솔루션|실리콘|유한양행|제약|석유화학|탄소)/)) return "chem_ind";
+    if (n.match(/(하림|제일제당|재일제당|농심|오뚜기|식품공장|제분|제과공장)/)) return "food_ind";
+    if (n.match(/(공업소|공업사|제1공장|제2공장|제3공장|평전공장|효빈공장|산전|상사)/) || (n.includes("공장") && !n.includes("아파트"))) {
+        return "factory";
+    }
+
+    // [2순위] 주거 시설 판정 (주공·휴먼시아·행복주택은 public_apt로 세분화!)
+    if (!n.match(/(공업|공장|공원|센터|회관|본부|학교|캠퍼스|쇼핑|아울렛|백화점|몰|호텔)/) && 
+        (n.includes("아파트") || n.match(/(주공|휴먼시아|행복주택|시영|구영|청년주택|사원아파트|사원1단지|사원2단지|오피스텔|주상복합|빌라|자이|푸르지오|더샵|래미안|아이파크|센트럴|스타힐스|대라수|리버시티|에일린의뜰|우미린|호반베르디움|이편한세상|데시앙|데시안|유보라|포레나|위브|스위첸|아너스빌|칸타빌|엘리움|헤링턴|아이유쉘|해모로|코아루|블렌하임|스카이뷰|마루힐|한신더휴|사랑으로|비발디|어울림|이지더원|루첸|펜테리움|베네스타|동국애버리지|아쿠아아파트|아이클래스|예다음|리브웰|페리체|하브아파트)/))) {
+        if (n.includes("오피스텔") || n.includes("주상복합")) return "officetel";
+        if (n.includes("빌라") || n.includes("연립")) return "villa";
+        if (n.match(/(주공|휴먼시아|행복주택|시영|구영|임대|청년주택|LH)/)) return "public_apt";
         return "apartment";
     }
 
-    // 2순위: 고속도로 나들목 및 진짜 교차로 판정
-    if (name.match(/(IC|JC|톨게이트|나들목)/i)) return "ic_jc";
-    if (name.match(/(교차로|사거리|삼거리|네거리|오거리|육거리|로터리)/)) return "intersect";
+    // [3순위] 고속도로 나들목 및 교차로
+    if (n.match(/(IC|JC|톨게이트|나들목)$/i) || n.match(/(IC|JC)\s/i)) return "ic_jc";
+    if (n.match(/(교차로|사거리|삼거리|네거리|오거리|육거리|로터리)/)) return "intersect";
 
-    // 3순위 이하 기존 시설들 매칭
-    if (name.match(/(애니메이트|애니플러스샵|코믹프라자|굿즈샵|러브라이브|뱅드리마|모르포니카|로젤리아|코코로)/) && !name.includes("아파트") && !name.includes("호텔")) return "anime_shop";
-    if (name.match(/(애니플러스 스테이지|리에라 라이브|서클 효빈|씨어터 아쿠아)/)) return "anime_stage";
-    if (name.match(/(애니메이션 박물관|만화애니메이션의전당|애니메이션 아카이브|철도 박물관)/)) return "anime_museum";
-    if (name.match(/(e스포츠 아레나)/)) return "esports_arena";
+    // [4순위] 서브컬처·문화·공연·종교·숙박 (공공회관이나 학교본부보다 먼저 판별!)
+    if (n.match(/(애니메이트|애니플러스샵|코믹프라자|굿즈샵|러브라이브|뱅드리마|모르포니카|로젤리아|코코로)/) && !n.includes("아파트") && !n.includes("호텔")) return "anime_shop";
+    if (n.match(/(애니플러스 스테이지|리에라 라이브|서클 효빈|씨어터 아쿠아|라이브스테이지)/)) return "anime_stage";
+    if (n.match(/(애니메이션 박물관|만화애니메이션의전당|애니메이션 아카이브|철도 박물관|만화박물관)/)) return "anime_museum";
+    if (n.match(/(효빈애니메이션본부|애니메이션본부|애니메이커)/)) return "media"; // ★ '효빈애니메이션본부 본사'가 대학교 본부로 빠지는 현상 완벽 해결!
+    if (n.match(/(e스포츠 아레나|이스포츠)/)) return "esports_arena";
+    if (n.match(/(예술문화회관|문화회관|예술의전당|아트센터|드림씨어터|아트홀|소극장|시민회관|국악원)/)) return "art_center"; // ★ '효빈예술문화회관'이 공기업으로 빠지는 현상 해결!
+    if (n.match(/(CGV|메가박스|롯데시네마|영화관|시네마)/i)) return "cinema";
+    if (n.match(/(미술관|아트뮤지엄|간송|갤러리)/) && !n.includes("갤러리아")) return "art_museum";
+    if (n.match(/(과학관|자연사박물관|해양관|해양과학관|천문대)/) && !n.match(/(대학교|초|중|고)/)) return "science_museum";
+    if (n.match(/(박물관|역사관|기념관|뮤지엄|아카이브)/)) return "museum";
+    if (n.includes("동물원") || n.includes("아쿠아리움")) return "zoo";
 
-    if (name.match(/(기숙사|생활관|니나관|아와관|희다관|소금하우스)/)) return "dormitory";
-    if (name.match(/(도서관|중앙도서관|방도도서관)/)) return "library";
-    if (name.match(/(어린이집|유치원)/)) return "kindergarten";
-    if (name.match(/(특수학교|은화학교|내성학교|낭화학교|노개학교)/)) return "special_school";
-    if (name.match(/(과학고|외고|예고|체육고|체고|공고|기계공고|상고|상업고|정보고|농생명고|해양산업고)/)) return "special_high";
-    if (name.match(/(초중고등학교|초중고)/)) return "high_school";
-    if (name.match(/(중고등학교|여중고|중고)$/)) return "high_school";
-    if (name.match(/(초중학교|초중)$/)) return "middle_school";
-    if (name.match(/(초등학교|부설초|초|초\(폐교\)|초\(예정\))$/)) return "elementary_school";
-    if (name.match(/(중학교|여중|중)$/) && !name.includes("다중") && !name.includes("마중")) return "middle_school";
-    if (name.match(/(고등학교|여고|고|고\(예정\))$/) && !name.includes("문고") && !name.includes("차고")) return "high_school";
-    if (name.match(/(대학원|법학전문대학원|법전원)/)) return "grad_school";
-    if (name.match(/(폴리텍|과학대학교|보건대학교)/)) return "college";
-    if (name.match(/(단과대|호관|학관|공학관|인문관|사회관|과학관|예술관|예체관|기술관|본관|본부|충승당|베르데홀|학생복지타운|동아리관|정루관|교수회관|학군단|창상관|빛날관|성운관|학술문화회관|공대지구|사범대)/) && !name.includes("박물관")) return "univ_building";
-    if (name.match(/(대학교|과기원|과학기술원|교대|외대|해양대|해천대|평천대|치고대|삽곡대|성택대|옥선대|고판대|캠퍼스)/) && !name.includes("병원") && !name.includes("박물관")) return "university";
+    // [5순위] ★ 사회복지·정신건강·장애인·노인·아동·보훈 세밀 분류 (순서 매우 중요!)
+    // 5-1. 정신건강·수양원·요양원 (수양원, 을종마을, 정신건강복지센터 등)
+    if (n.match(/(수양원|을종마을|정신건강|중독관리|트라우마센터|마음건강|정신요양|정신재활|치매안심센터|자살예방)/)) {
+        return "mental_welfare";
+    }
+    // 5-2. 장애인복지시설 (단, '장애인고용공단'은 공기업이므로 제외!)
+    if (n.match(/(장애인복지관|장애인종합복지관|장애인주간보호|장애인보호작업장|장애인자립|수어통역|점자도서관|장애인체육|재활원|농아인|시각장애|발달장애|생활이동지원센터)/) || (n.includes("장애인") && !n.includes("고용공단") && !n.includes("학교"))) {
+        return "disabled_welfare";
+    }
+    // 5-3. 아동·청소년·가족복지시설
+    if (n.match(/(아동복지|문화의집|지역아동센터|양육센터|어린이회관|아동보호전문기관|육아종합|청소년수련|청소년문화|청소년상담|가족센터|다문화가족|보육원|영아원|청년미래센터|가족돌봄청년|부자원|모자원|애육원|드림스타트)/)) {
+        return "child_welfare";
+    }
+    // 5-4. 노인복지시설
+    if (n.match(/(노인복지관|노인종합복지관|노인주간보호|노인요양|요양원|양로원|실버타운|경로당|시니어클럽|치매요양)/) || (n.includes("노인") && !n.includes("병원"))) {
+        return "senior_welfare";
+    }
+    // 5-5. 보훈청·보훈회관
+    if (n.match(/(보훈청|보훈지청|보훈회관|보훈복지|광복회|상이군경)/) && !n.includes("보훈병원")) {
+        return "veterans";
+    }
+    // 5-6. 자활·상담·쉼터·적십자·공동모금회
+    if (n.match(/(자활센터|지역자활|쪽방상담소|쉼터|노숙인|대한적십자사|적십자|사회복지공동모금회|사랑의열매|자원봉사센터|봉사관)/)) {
+        return "self_support";
+    }
+    // 5-7. 종합사회복지관 및 일반 사회복지기관
+    if (n.match(/(종합사회복지관|애니메이션 팩토리|퓨처 메이커스페이스|글로벌 에듀센터|크리에이터 스튜디오|사회복지관|복지관|사회복지협의회|사회서비스원|복지재단)/)) {
+        return "welfare_center";
+    }
 
-    if (name.match(/(대학병원|대병원|어린이병원|암센터)/)) return "univ_hospital";
-    if (name.match(/(치과|치과병원|치의학)/)) return "dental";
-    if (name.match(/(한의원|한의학|한방)/)) return "oriental_med";
-    if (name.match(/(동물병원|수의학)/)) return "vet";
-    if (name.match(/(보건소|보건진료소)/)) return "public_health";
-    if (name.match(/(의료원|보훈병원)/)) return "general_hospital";
-    if (name.match(/(병원|의원)/)) return "hospital";
-    if (name.match(/(약국|약학)/)) return "pharmacy";
+    // [6순위] 행정·사법·치안·소방·공공기관 ('~본부'가 학교본부로 오해받지 않도록 학교보다 위에서 먼저 필터링!)
+    if (n.match(/(광역시청|시청|시의회)$/) || n.includes("광역시청")) return "city_hall";
+    if (n.match(/(구청|구의회|이자출장소|출장소)/)) return "gu_office";
+    if (n.match(/(군청|군의회)/)) return "gun_office";
+    if (n.match(/(정부청사|합동청사|지방합동청사)/)) return "gov_complex";
+    if (n.match(/(주민센터|행정복지센터|읍사무소|면사무소|동사무소)/)) return "community_center";
+    if (n.match(/(세무서|국세청)/)) return "tax_office";
+    if (n.match(/(세관|효빈본부세관)/)) return "customs";
+    if (n.match(/(출입국|외국인청|외국인보호소|검역본부|농림축산검역본부|질병관리청)/)) return "immigration";
+    if (n.match(/(법원|가정법원|검찰청|검찰|교정청|교도소|구치소|준법지원센터|중대범죄수사청|감사원|선관위|선거관리위원회)/)) return "court";
+    if (n.match(/(병무청|민방위|군사기지|사령부|보병사단|해군기지|예비군)/)) return "military";
+    if (n.match(/(공군기지|비행장|전투비행단)/)) return "airbase";
+    if (n.match(/(해양경찰|해경|효빈해양경찰서)/)) return "coast_guard";
+    if (n.match(/(지방경찰청|경찰청)/)) return "police_agency";
+    if (n.match(/(경찰서)/)) return "police_station";
+    if (n.match(/(파출소|지구대|치안센터)/)) return "police_box";
+    if (n.match(/(소방본부|소방학교|안전체험관)/)) return "fire_hq";
+    if (n.match(/(소방서|119안전센터|119구조대|119)/)) return "fire_station";
+    if (n.match(/(우체국|우정청|우편집중국)/) && !n.includes("금융")) return "post_office";
+    if (n.match(/(교육청|교육지원청|교육연수원)/)) return "edu_office";
+    if (n.match(/(통계청|노동청|고용노동|기상청|국토관리|인재개발원|공사|공단|진흥원|재단|상수도|소비자원|공제회|마사회|수자원|감정원|부동산원|석유관리원|국가기록원|테크노파크|상공회의소|협회|지역본부|지부|지사|한국국토정보공사|장애인고용공단|소상공인시장진흥공단|중소벤처기업진흥공단|한국자산관리공사|한국산업인력공단|건강보험|연금공단|근로복지공단|전력공사|한전|도로공사|교통안전공단)/)) {
+        return "public_corp";
+    }
 
-    if (name.match(/(백화점|갤러리아|AK플라자|ak플라자|NC백화점|nc백화점)/)) return "department_store";
-    if (name.match(/(아울렛|세이브존)/)) return "outlet";
-    if (name.match(/(스타필드|롯데몰|타임스퀘어|시티몰|스퀘어몰|타워몰|파크몰|리에라몰|HJ몰|유니브스퀘어|아쿠아시티센터|마루웰|고송스퀘어)/)) return "shopping_mall";
-    if (name.match(/(코스트코|트레이더스|맥스)/)) return "warehouse_mart";
-    if (name.includes("식자재")) return "food_mart";
-    if (name.match(/(베스트샵|전자상가|전자랜드|하이마트|하이마트 )/)) return "electronics_shop";
-    if (name.match(/(SSM|에브리데이|더프레시|롯데슈퍼)/)) return "ssm";
-    if (name.match(/(이마트|홈플러스|롯데마트|하나로마트|빈스마트|마루마트|천조마트|CY마트|즈라스토어|이케아)/)) return "hypermarket";
-    if (name.includes("다이소")) return "variety_store";
-    if (name.match(/(교보문고|교보문교|영풍문고|종로서적|알라딘|아크앤북|서점)/)) return "bookstore";
-    if (name.match(/(수산시장|어시장)/)) return "fish_market";
-    if (name.match(/(도매시장|청과시장|농수산)/)) return "wholesale_market";
-    if (name.match(/(시장|전통시장)/)) return "trad_market";
+    // [7순위] 의료·병원·약국 ('효빈대학교병원'이 대학교나 일반의원으로 빠지지 않도록 학교보다 먼저 판별!)
+    if (n.match(/(대학병원|대학교병원|대병원|어린이병원|암센터|권역응급)/)) return "univ_hospital";
+    if (n.match(/(의료원|보훈병원|적십자병원|종합병원|성모병원|백병원|아산병원|차병원)/)) return "general_hospital";
+    if (n.match(/(정신병원|정신건강의학과|마음병원|루하병원)/)) return "mental_hospital";
+    if (n.match(/(치과|치과병원|치과의원|치의학)/)) return "dental";
+    if (n.match(/(한의원|한방병원|한의학|한방)/)) return "oriental_med";
+    if (n.match(/(동물병원|동물메디컬|수의학)/)) return "vet";
+    if (n.match(/(보건소|보건진료소|보건지소)/)) return "public_health";
+    if (n.match(/(약국)/)) return "pharmacy";
+    if (n.match(/(병원|의원|클리닉|내과|외과|소아과|이비인후과|안과|피부과|산부인과|정형외과|재활의학과)/)) return "hospital";
 
-    if (name.includes("한국은행")) return "bank_central";
-    if (name.match(/(새마을금고|신협|농협|수협|우체국금융|신협중앙회)/) && !name.includes("농협은행")) return "credit_union";
-    if (name.match(/(금융감독원|자산관리공사|주택금융공사|신용보증재단)/)) return "finance_corp";
-    if (name.match(/(은행|국민은행|신한은행|우리은행|하나은행|기업은행|제일은행|SC제일은행|농협은행|효빈은행)/)) return "bank";
-
-    if (name.match(/(스타벅스|조타뻑스|투썸|이디야|메가커피|컴포즈|빽다방|커피|카페)/)) return "cafe";
-    if (name.match(/(베이커리|빵집|파리바게뜨|뚜레쥬르|성심당)/)) return "bakery";
-    if (name.match(/(도미노피자|피자)/)) return "pizza";
-    if (name.match(/(맥도날드|버거킹|KFC|kfc|롯데리아|맘스터치|스미버거|버거|서브웨이|졸리비|노브랜드버거|뉴욕버거|고든램지버거|파파이스)/)) return "fastfood";
-    if (name.match(/(아웃백|스테이크)/)) return "western_food";
-    if (name.match(/(쿠우쿠우|뷔페)/)) return "buffet";
-    if (name.match(/(소바|일식|스시|돈카츠)/)) return "japanese_food";
-    if (name.match(/(한정식|한찬|국밥|갈비|고깃집|반점|식당|전집)/)) return "korean_food";
-    if (name.match(/(분식|죠스|엽기|국대|떡볶이|어묵)/)) return "bunsik";
-    if (name.match(/(호프|포차|이자카야|주점|술집|펍)/)) return "pub";
-
-    if (name.match(/(광역시청|시청|시의회)/)) return "city_hall";
-    if (name.match(/(구청|구의회|이자출장소)/)) return "gu_office";
-    if (name.match(/(군청|군의회)/)) return "gun_office";
-    if (name.match(/(정부청사|합동청사)/)) return "gov_complex";
-    if (name.match(/(주민센터|행정복지센터|읍사무소|면사무소|동사무소)/)) return "community_center";
-    if (name.match(/(세무서|국세청)/)) return "tax_office";
-    if (name.match(/(세관)/)) return "customs";
-    if (name.match(/(법원|검찰|교정청|준법지원센터|중대범죄수사청|감사원|선관위)/)) return "court";
-    if (name.match(/(병무청|민방위|군사기지|공군기지)/)) return "military";
-    if (name.match(/(해양경찰|효빈해양경찰서)/)) return "coast_guard";
-    if (name.match(/(경찰청)/)) return "police_agency";
-    if (name.match(/(경찰서)/)) return "police_station";
-    if (name.match(/(파출소|지구대|치안센터)/)) return "police_box";
-    if (name.match(/(소방본부|소방학교)/)) return "fire_hq";
-    if (name.match(/(소방서|119)/)) return "fire_station";
-    if (name.match(/(우체국|우정청|우편)/)) return "post_office";
-    if (name.match(/(아동|어린이회관|가족센터)/)) return "child_welfare";
-    if (name.match(/(노인|장애인|보훈)/)) return "senior_welfare";
-    if (name.match(/(복지관|모금회|적십자|사회복지|사회서비스원)/)) return "welfare_center";
-    if (name.match(/(교육청|교육지원청|통계청|노동청|기상청|우정청|국토관리|인재개발원|공사|공단|진흥원|재단|회관|상수도|연구원|소비자원|공제회|마사회|수자원|감정원|부동산원|석유관리원|국가기록원|테크노파크|상공회의소|협회|본부|한국국토정보공사|장애인고용공단|농림축산검역본부|소상공인시장진흥공단|중소벤처기업진흥공단|한국자산관리공사|효빈본부세관)/)) return "public_corp";
-
-    if (name.match(/(CGV|메가박스|롯데시네마|영화관)/)) return "cinema";
-    if (name.match(/(미술관|아트뮤지엄|간송)/)) return "art_museum";
-    if (name.match(/(과학관|해양관|해양과학관)/)) return "science_museum";
-    if (name.match(/(박물관|역사관|기념관|뮤지엄|아카이브)/)) return "museum";
-    if (name.match(/(예술문화회관|문화회관|아트센터|드림씨어터|아트홀|소극장)/)) return "art_center";
-    if (name.includes("동물원")) return "zoo";
-    if (name.match(/(유적지|문화촌|전망대|개항지|거리|복숭아밭)/)) return "tourist_spot";
-    if (name.match(/(토요코인|스테이|비즈니스)/)) return "business_hotel";
-    if (name.match(/(연수원|리조트|펜션|소노캄)/)) return "resort";
-    if (name.match(/(호텔|라마다|힐튼|피치파크|머큐어)/)) return "hotel";
-    if (name.includes("교회")) return "church";
-    if (name.includes("성당")) return "catholic";
-    if (name.match(/(천왕사|단산사|절|사찰)/)) return "temple";
-    if (name.match(/(종합운동장| 대운동장|스틸야드|슈퍼 아레나|축구장|야구장)/)) return "stadium";
-    if (name.includes("빙상")) return "ice_rink";
-    if (name.match(/(cc|CC|골프)/)) return "golf";
-    if (name.match(/(체육관|양궁장|사격장|운동장)/)) return "sports";
-
-    if (name.match(/(공항|국제공항)/)) return "airport";
-    if (name.match(/(여객터미널|국제터미널|어간항|효빈내항)/)) return "port";
-    if (name.match(/(부두|선착장|방파제|보관지)/)) return "pier";
-    if (name.match(/(버스터미널|고속버스터미널|시외버스터미널|환승장|정류장)/)) return "bus_terminal";
-    if (name.match(/(차량사업소|차고지|정비센터)/)) return "rail_depot";
+    // [8순위] 교육·학교·대학 (특목고/특성화고를 일반고보다 먼저 검사! & 대학건물 '본부' 오분류 완벽 교정!)
+    if (n.match(/(기숙사|생활관|니나관|아와관|희다관|소금하우스|학사)/) && !n.includes("관세")) return "dormitory";
+    if (n.match(/(도서관|중앙도서관|방도도서관|점자도서관)/)) return "library";
+    if (n.match(/(어린이집|유치원)/)) return "kindergarten";
+    if (n.match(/(국제학교|외국인학교)/)) return "intl_school";
+    if (n.match(/(특수학교|은화학교|내성학교|낭화학교|노개학교|혜광학교|맹학교|농학교)/)) return "special_school";
+    // ★ 공업고등학교, 외국어고등학교 등 풀네임도 무조건 특목/특성화고(special_high)로 캐치!
+    if (n.match(/(과학고|과학고등학교|외고|외국어고|외국어고등학교|국제고|예고|예술고|예술고등학교|체육고|체고|공고|공업고|공업고등학교|기계공고|기계공업고|기계공업고등학교|상고|상업고|상업고등학교|정보고|정보고등학교|농생명고|농생명고등학교|해양산업고|마이스터고|특성화고)/)) {
+        return "special_high";
+    }
+    if (n.match(/(초중고등학교|초중고)/)) return "high_school";
+    if (n.match(/(중고등학교|여중고|중고)$/)) return "high_school";
+    if (n.match(/(초중학교|초중)$/)) return "middle_school";
+    if (n.match(/(초등학교|부설초|초|초\(폐교\)|초\(예정\))$/)) return "elementary_school";
+    if (n.match(/(중학교|여중|중)$/) && !n.includes("다중") && !n.includes("마중") && !n.includes("공사중")) return "middle_school";
+    if (n.match(/(고등학교|여고|고|고\(예정\))$/) && !n.includes("문고") && !n.includes("차고") && !n.includes("창고")) return "high_school";
+    if (n.match(/(대학원|법학전문대학원|법전원|의학전문대학원|특수대학원)/)) return "grad_school";
+    if (n.match(/(폴리텍|과학대학교|보건대학교|전문대학|기능대학)/)) return "college";
     
-    if (name.match(/(입구|종점)/)) return "infra";
-    if (name.includes("칼텍스") || name.includes("주유소")) return "gas_station";
-    if (name.match(/(중공업|조선소|현대조선)/)) return "heavy_ind";
-    if (name.match(/(기아자동차|현대로템|타이어|오토에버|모빌리티|드론)/)) return "auto_ind";
-    if (name.match(/(삼성전자|삼성반도체|이노텍|세미콘|반도체|ASML|램리서치|KLA|칩스|파두|세미파이브)/)) return "semi_ind";
-    if (name.match(/(케미칼|한화솔루션|실리콘|유한양행|제약|한약|탄소)/)) return "chem_ind";
-    if (name.match(/(하림|제일제당|재일제당|농심|식품)/)) return "food_ind";
-    if (name.match(/(로보티즈|뉴로메카|리벨리온|사피온|딥엑스|연구소|데이터랩|AI랩|R&D|융합연구원|기술원)/)) return "it_rnd";
-    if (name.match(/(대한통운|물류)/)) return "logistics";
-    if (name.match(/(산단|산업단지|공단|공업단지|중심단지|미디어단지|직물)/)) return "ind_complex";
-    if (name.match(/(공장|공업|산전|상사)/)) return "factory";
-    if (name.match(/(MBC|일보|방송)/)) return "media";
-    if (name.match(/(대교|브릿지|등중교)/)) return "bridge";
-    if (name.match(/(해수욕장|해변)/)) return "beach";
-    if (name.match(/(수목원|식물원)/)) return "botanic";
-    if (name.match(/(목장|농원)/)) return "farm";
-    if (name.match(/(광장)/)) return "square";
-    if (name.match(/(공원)/)) return "park";
-    if (name.match(/(산|봉)$/)) return "mountain";
-    if (name.match(/(호|저수지|세성제|북천)$/)) return "lake";
-    if (name.match(/(개비도|휴소도|포상도|부리도)$/)) return "island";
+    // ★ [핵심 수정] '본부' 단독 매칭 삭제! 오직 '대학본부'이거나 대학교 내 관/홀/센터일 때만 univ_building으로 인정!
+    if (n.match(/(단과대|대학본부|호관|학관|공학관|인문관|사회관|자연과학관|예술관|예체관|기술관|본관|충승당|베르데홀|학생복지타운|학생회관|동아리관|정루관|교수회관|학군단|창상관|빛날관|성운관|학술문화회관|공대지구|사범대|의과대학|약학대학|법과대학|경상대학|교양관)/) && !n.includes("박물관") && !n.includes("병원")) {
+        return "univ_building";
+    }
+    if (n.match(/(대학교|과기원|과학기술원|교대|교육대|외대|해양대|해천대|평천대|치고대|삽곡대|성택대|옥선대|고판대|대학캠퍼스|1캠퍼스|2캠퍼스|이자캠퍼스|창전캠퍼스)/) && !n.includes("병원") && !n.includes("박물관") && !n.includes("삼성")) {
+        return "university";
+    }
+
+    // [9순위] 상업·유통·금융·랜드마크타워
+    if (n.includes("한국은행")) return "bank_central";
+    if (n.match(/(새마을금고|신협|단위농협|축협|수협|신협중앙회|산림조합)/) && !n.includes("농협은행")) return "credit_union";
+    if (n.match(/(금융감독원|자산관리공사|주택금융공사|신용보증재단|기술보증기금|예금보험공사|거래소)/)) return "finance_corp";
+    if (n.match(/(은행|국민은행|신한은행|우리은행|하나은행|기업은행|제일은행|SC제일은행|농협은행|효빈은행)/)) return "bank";
+
+    if (n.match(/(백화점|갤러리아|AK플라자|ak플라자|NC백화점|nc백화점)/)) return "department_store";
+    if (n.match(/(아울렛|세이브존|모다아울렛)/)) return "outlet";
+    if (n.match(/(스타필드|롯데몰|타임스퀘어|시티몰|스퀘어몰|타워몰|파크몰|리에라몰|HJ몰|유니브스퀘어|아쿠아시티센터|마루웰|고송스퀘어|복합쇼핑몰)/)) return "shopping_mall";
+    if (n.match(/(코스트코|트레이더스|롯데마트 맥스|맥스)/)) return "warehouse_mart";
+    if (n.includes("식자재")) return "food_mart";
+    if (n.match(/(베스트샵|전자상가|전자랜드|하이마트|일렉트로마트)/)) return "electronics_shop";
+    if (n.match(/(SSM|에브리데이|더프레시|롯데슈퍼|노브랜드)/) && !n.includes("버거")) return "ssm";
+    if (n.match(/(이마트|홈플러스|롯데마트|하나로마트|빈스마트|마루마트|천조마트|CY마트|즈라스토어|이케아)/)) return "hypermarket";
+    if (n.includes("다이소") || n.includes("아트박스") || n.includes("올리브영")) return "variety_store";
+    if (n.match(/(교보문고|교보문교|영풍문고|종로서적|알라딘|아크앤북|예스24|서점)/)) return "bookstore";
+    if (n.match(/(수산시장|어시장|회센터)/)) return "fish_market";
+    if (n.match(/(도매시장|청과시장|농수산|공판장)/)) return "wholesale_market";
+    if (n.match(/(시장|전통시장|재래시장)/)) return "trad_market";
+    if (n.match(/(아논타워|트레이드타워|비즈니스타워|파이낸스타워|센트럴타워|타워)$/) && !n.includes("전망")) return "landmark_tower";
+
+    // [10순위] 음식점·카페·주점
+    if (n.match(/(스타벅스|조타뻑스|투썸|이디야|메가커피|컴포즈|빽다방|폴바셋|할리스|커피|카페)/)) return "cafe";
+    if (n.match(/(베이커리|빵집|파리바게뜨|뚜레쥬르|성심당|제과점)/)) return "bakery";
+    if (n.match(/(도미노피자|피자헛|파파존스|피자)/)) return "pizza";
+    if (n.match(/(맥도날드|버거킹|KFC|kfc|롯데리아|맘스터치|스미버거|버거|서브웨이|졸리비|노브랜드버거|뉴욕버거|고든램지버거|파파이스)/)) return "fastfood";
+    if (n.match(/(아웃백|빕스|애슐리|스테이크|레스토랑|파스타)/)) return "western_food";
+    if (n.match(/(쿠우쿠우|뷔페)/)) return "buffet";
+    if (n.match(/(소바|일식|스시|초밥|돈카츠|돈까스|라멘|우동)/)) return "japanese_food";
+    if (n.match(/(한정식|한찬|국밥|갈비|고깃집|삼겹살|설렁탕|감자탕|백반|반점|식당|전집|회관)/) && !n.match(/(문화|예술|어린이|보훈|노인|여성|청년|학생|교수|상공)/)) return "korean_food";
+    if (n.match(/(분식|죠스|엽기|국대|신전|떡볶이|어묵|김밥)/)) return "bunsik";
+    if (n.match(/(호프|포차|이자카야|주점|술집|펍|맥주)/)) return "pub";
+
+    // [11순위] 관광·숙박·종교·스포츠
+    if (n.match(/(유적지|문화촌|전망대|개항지|테마거리|복숭아밭|관광지)/)) return "tourist_spot";
+    if (n.match(/(토요코인|스테이|비즈니스호텔)/)) return "business_hotel";
+    if (n.match(/(연수원|리조트|펜션|소노캄|콘도|유스호스텔)/)) return "resort";
+    if (n.match(/(호텔|라마다|힐튼|피치파크|머큐어|신라|조선호텔)/)) return "hotel";
+    if (n.includes("교회") || n.includes("순복음")) return "church";
+    if (n.includes("성당") || n.includes("천주교")) return "catholic";
+    if (n.match(/(천왕사|단산사|절|사찰|암자)/)) return "temple";
+    if (n.match(/(종합운동장|대운동장|스틸야드|슈퍼 아레나|축구장|야구장|경기장|스타디움)/)) return "stadium";
+    if (n.includes("빙상")) return "ice_rink";
+    if (n.match(/(cc|CC|골프|컨트리클럽)/)) return "golf";
+    if (n.match(/(체육관|양궁장|사격장|운동장|스포츠센터|수영장|테니스장)/)) return "sports";
+
+    // [12순위] 교통·항만·R&D·언론·자연지물
+    if (n.match(/(공항|국제공항)/)) return "airport";
+    if (n.match(/(여객터미널|국제터미널|어간항|효빈내항|포상도항|무역항)/) || (n.endsWith("항") && !n.includes("공항"))) return "port";
+    if (n.match(/(부두|선착장|방파제|보관지|유람선|갑문)/)) return "pier";
+    if (n.match(/(버스터미널|고속버스터미널|시외버스터미널|환승센터|환승장|복합터미널)/)) return "bus_terminal";
+    if (n.match(/(차량사업소|차량기지|차고지|정비창|정비센터|주박기지)/)) return "rail_depot";
+    if (n.match(/(공영주차장|환승주차장|주차장)/)) return "parking";
+    if (n.includes("칼텍스") || n.includes("주유소") || n.includes("충전소")) return "gas_station";
+    if (n.match(/(로보티즈|뉴로메카|리벨리온|사피온|딥엑스|데이터랩|AI랩|R&D|융합연구원|기술원|테크센터)/)) return "it_rnd";
+    if (n.match(/(연구소|연구원)/)) return "research_inst";
+    if (n.match(/(대한통운|물류센터|물류단지|물류기지|물류)/)) return "logistics";
+    if (n.match(/(산단|산업단지|공단|공업단지|중심단지|미디어단지|직물단지)/)) return "ind_complex";
+    if (n.match(/(MBC|KBS|SBS|EBS|일보|신문|방송국|방송)/i)) return "media";
+    if (n.match(/(대교|브릿지|등중교|고가교)/)) return "bridge";
+    if (n.match(/(해수욕장|해변|비치)/)) return "beach";
+    if (n.match(/(수목원|식물원|생태원)/)) return "botanic";
+    if (n.match(/(목장|농원|팜랜드)/)) return "farm";
+    if (n.match(/(광장)/)) return "square";
+    if (n.match(/(공원)/)) return "park";
+    if (n.match(/(고개|령|재)$/)) return "hill";
+    if (n.match(/(산|봉)$/)) return "mountain";
+    if (n.match(/(천|강)$/) && !n.includes("역")) return "water";
+    if (n.match(/(호|저수지|세성제|북천)$/)) return "lake";
+    if (n.match(/(개비도|휴소도|포상도|부리도|섬)$/)) return "island";
 
     return "normal";
 }
@@ -655,10 +797,9 @@ function getSmartOperatingStatus(type, name, customHours) {
         case "apartment": case "public_apt": case "villa": case "officetel": case "dormitory":
             hoursStr = "상시 거주시설 (관리실 09:00 ~ 18:00)";
             is24h = true; break;
-        case "univ_hospital": case "general_hospital":
-            hoursStr = "진료 08:30 ~ 17:30 (응급실 24시간)";
-            openMin = 8 * 60 + 30; closeMin = 17 * 60 + 30; weekendClosed = (day === 0); break;
-        case "hospital": case "dental": case "oriental_med": case "vet":
+        case "univ_hospital": case "general_hospital": case "mental_hospital":
+            hoursStr = (type === "mental_hospital") ? "평일 09:00 ~ 18:00 (입원병동 24시간 운영)" : "진료 08:30 ~ 17:30 (응급실 24시간)";
+            openMin = 8 * 60 + 30; closeMin = 18 * 60; weekendClosed = (day === 0); break;        case "hospital": case "dental": case "oriental_med": case "vet":
             hoursStr = isWeekend ? "주말 09:00 ~ 13:00 (일요일 휴진)" : "평일 09:00 ~ 19:00";
             openMin = 9 * 60; closeMin = isWeekend ? 13 * 60 : 19 * 60;
             if (day === 0) weekendClosed = true; break;
@@ -668,10 +809,22 @@ function getSmartOperatingStatus(type, name, customHours) {
             hoursStr = "평일 09:00 ~ 16:00 (주말·공휴일 휴무)";
             openMin = 9 * 60; closeMin = 16 * 60; weekendClosed = true; break;
         case "city_hall": case "gu_office": case "gun_office": case "gov_complex":
-        case "community_center": case "tax_office": case "customs": case "court":
-        case "public_corp": case "post_office": case "public_health":
+        case "community_center": case "tax_office": case "customs": case "immigration": case "court":
+        case "public_corp": case "edu_office": case "veterans": case "post_office": case "public_health":
             hoursStr = "평일 09:00 ~ 18:00 (주말·공휴일 휴무)";
             openMin = 9 * 60; closeMin = 18 * 60; weekendClosed = true; break;
+
+        case "welfare_center": case "disabled_welfare": case "child_welfare": case "senior_welfare": case "self_support":
+            hoursStr = "평일 09:00 ~ 18:00 (토요일 프로그램 탄력운영)";
+            openMin = 9 * 60; closeMin = 18 * 60; weekendClosed = (day === 0); break;
+
+        case "mental_welfare":
+            hoursStr = (name && name.match(/(수양원|을종마을|요양원)/)) 
+                ? "24시간 생활·보호시설 (면회 09:00 ~ 18:00)" 
+                : "평일 09:00 ~ 18:00 (24시간 정신건강 위기상담 1577-0199)";
+            if (name && name.match(/(수양원|을종마을|요양원)/)) is24h = true;
+            else { openMin = 9 * 60; closeMin = 18 * 60; weekendClosed = true; }
+            break;
         case "elementary_school": case "middle_school": case "high_school": case "special_high": case "special_school": case "kindergarten":
             hoursStr = "학기중 08:30 ~ 16:30 (방과후 ~19:00)";
             openMin = 8 * 60 + 30; closeMin = 16 * 60 + 30; weekendClosed = true; break;
@@ -1440,19 +1593,22 @@ function createFacilityCustomIcon(type, color, size, itemName) {
     var iconPath = "";
     var baseGroup = groupMap[type] || "normal";
 
-    if (type.includes("police") || type === "coast_guard") {
-        iconPath = `M256 0L32 64v128c0 141.4 96 264.8 224 320 128-55.2 224-178.6 224-320V64L256 0zm0 128c35.3 0 64 28.7 64 64s-28.7 64-64 64-64-28.7-64-64 28.7-64 64-64zm0 288c-44.2 0-84.9-18.4-114-48 11.2-22.4 43.1-32 114-32s102.8 9.6 114 32c-29.1 29.6-69.8 48-114 48z`;
-    } else if (type.includes("fire")) {
-        iconPath = `M256 0C150 120 96 200 96 288c0 88.4 71.6 160 160 160s160-71.6 160-160c0-88-54-168-160-288zm0 384c-53 0-96-43-96-96 0-35 22-77 64-128 15 25 32 48 32 72 0 17.7 14.3 32 32 32s32-14.3 32-32c0-18-10-38-20-58 38 42 56 80 56 114 0 53-43 96-96 96z`;
+// createFacilityCustomIcon 함수 내부의 if ~ else if 블록 교체
+    if (type.includes("police") || type === "coast_guard" || baseGroup === "safety") {
+        if (type.includes("fire")) {
+            iconPath = `M256 0C150 120 96 200 96 288c0 88.4 71.6 160 160 160s160-71.6 160-160c0-88-54-168-160-288zm0 384c-53 0-96-43-96-96 0-35 22-77 64-128 15 25 32 48 32 72 0 17.7 14.3 32 32 32s32-14.3 32-32c0-18-10-38-20-58 38 42 56 80 56 114 0 53-43 96-96 96z`;
+        } else {
+            iconPath = `M256 0L32 64v128c0 141.4 96 264.8 224 320 128-55.2 224-178.6 224-320V64L256 0zm0 128c35.3 0 64 28.7 64 64s-28.7 64-64 64-64-28.7-64-64 28.7-64 64-64zm0 288c-44.2 0-84.9-18.4-114-48 11.2-22.4 43.1-32 114-32s102.8 9.6 114 32c-29.1 29.6-69.8 48-114 48z`;
+        }
     } else if (type === "post_office") {
         iconPath = `M464 64H48C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48zM48 112h416v38.8L256 281.1 48 150.8V112zm0 288V201.2l195.4 128.8c7 4.6 16.2 4.6 23.2 0L464 201.2V400H48z`;
     } else if (baseGroup === "education") {
         iconPath = `M319.4 178.2L288 163.9v53.2c0 14.8-18 22.4-28.4 11.8L192 160l-67.6 68.9c-10.4 10.6-28.4 3-28.4-11.8v-53.2L64.6 178.2C49.5 185.7 40 201.2 40 218.2V384c0 13.3 10.7 24 24 24h64c13.3 0 24-10.7 24-24V300l40-40 40 40v84c0 13.3 10.7 24 24 24h64c13.3 0 24-10.7 24-24V218.2c0-17-9.5-32.5-24.6-40zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z`;
     } else if (baseGroup === "residence") {
         iconPath = `M0 32V480H448V32H0zm64 64H128V160H64V96zm128 0H256V160H192V96zm128 0H384V160H320V96zM64 224H128V288H64V224zm128 0H256V288H192V224zm128 0H384V288H320V224zM64 352H128V416H64V352zm128 0H256V416H192V352zm128 0H384V416H320V352z`;
-    } else if (baseGroup === "public") {
+    } else if (baseGroup === "public" || baseGroup === "welfare") {
         iconPath = `M224 0C100.3 0 0 100.3 0 224s100.3 224 224 224s224-100.3 224-224S347.7 0 224 0zm0 384c-88.4 0-160-71.6-160-160s71.6-160 160-160s160 71.6 160 160s-71.6 160-160 160zm32-240c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z`;
-} else if (type.includes("bank") || type === "credit_union" || type === "finance_corp") {
+    } else if (baseGroup === "finance") {
         iconPath = `M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32H480c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32H32zM96 256H64V448h32V256zm128 0H192V448h32V256zm160 0H352V448h32V256zM0 480H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32z`;
     } else if (baseGroup === "medical") {
         iconPath = `M272 96c0-8.8-7.2-16-16-16h-64c-8.8 0-16 7.2-16 16v112H64c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h112v112c0 8.8 7.2 16 16 16h64c8.8 0 16-7.2 16-16V304h112c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16H272V96z`;
@@ -1462,9 +1618,9 @@ function createFacilityCustomIcon(type, color, size, itemName) {
         iconPath = `M224 48C100.3 48 0 148.3 0 272V304c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V272c0-123.7-100.3-224-224-224zM32 368h384c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32z`;
     } else if (baseGroup === "commercial") {
         iconPath = `M160 64c0-35.3 28.7-64 64-64s64 28.7 64 64v32h64c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V160c0-35.3 28.7-64 64-64h64V64zm64 0c-17.7 0-32 14.3-32 32v32h64V96c0-17.7-14.3-32-32-32z`;
-    } else if (type.includes("anime")) {
+    } else if (baseGroup === "subculture") {
         iconPath = `M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z`;
-    } else if (type.includes("hotel") || type === "resort") {
+    } else if (baseGroup === "lodging") {
         iconPath = `M32 384c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 128c0-35.3 28.7-64 64-64h192c35.3 0 64 28.7 64 64V256H64V128zM0 320H480V288H0v32z`;
     } else if (type === "airport" || type === "airbase") {
         iconPath = `M382.3 8.3L459.7 75l.1 .1c25 22.1 36.6 55.4 30.5 87.5L445.6 373.1l60.2 46.5c15.6 12 20.3 34.3 10.6 51.5c-7 12.3-20.9 19-35.1 17l-159.2-22.7L203 490c-9.3 12.1-26.3 15-39 6.8s-17.5-23.7-11.4-37l33-72.6-133-19-61.9 47.9c-15.6 12-38 8.6-49.3-7.5c-8.2-11.7-9.5-27-3.4-39.7l35-73.4L6 142.1c-14.2-2-22.9-15.7-19.6-29.6s15.7-22.9 29.6-19.6l239.5 34.2 96-211.2c7-15.3 22.9-24.2 39.8-22.3s30.8 14.4 33.2 31l2.4 29.1-44.5 54.3z`;
@@ -1473,8 +1629,7 @@ function createFacilityCustomIcon(type, color, size, itemName) {
     } else {
         iconPath = `M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z`;
     }
-
-    var fullSvg = `
+        var fullSvg = `
     <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.4));">
         <circle cx="256" cy="256" r="240" fill="${color}" stroke="#ffffff" stroke-width="20"/>
         <g transform="translate(102, 102) scale(0.6)">
@@ -1864,9 +2019,12 @@ window.openDetailWindow = function(encodedData) {
 function addMarkerToMap(item) {
     if (!item) return;
 
+    // ★ [핵심 수정] 기존 hyobin_markers.js에 잘못 하드코딩된 type(학교본부 오분류, 공업소 아파트 오분류, 복지시설 미분류 등)을
+    // 최신 classify100Category 엔진으로 즉시 재검증하여 올바른 카테고리와 색상으로 강제 교정합니다!
     if (item.name && item.type !== 'subway' && item.type !== 'busStop') {
-        if (!item.type || item.type === 'normal' || !categoryNames100[item.type]) {
-            item.type = classify100Category(item.name);
+        var smartType = classify100Category(item.name);
+        if (!item.type || item.type === 'normal' || !categoryNames100[item.type] || smartType !== 'normal') {
+            item.type = smartType;
         }
         if (typeof markerColors !== 'undefined') {
             item.color = markerColors[item.type] || markerColors["normal"];
@@ -1879,9 +2037,8 @@ function addMarkerToMap(item) {
     // [1] 지하철역 마커
     if (item.type === 'subway') {
         var lines = item.lines || ["1"];
-        if (!Array.isArray(lines)) lines = [lines]; // ★ 이 방어 코드를 반드시 추가하세요.
-        
-        var isTransfer = lines.length >= 2;        var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(item.name);
+        var isTransfer = lines.length >= 2; 
+        var isManualMajor = typeof myMajorStations !== 'undefined' && myMajorStations.includes(item.name);
         var isMajor = (isTransfer || isManualMajor) ? "major-station" : "normal-station";
         var markerClass = (isTransfer || isManualMajor) ? "major-marker" : "normal-marker";
         var lineClasses = lines.map(l => "line-" + l).join(" ");
@@ -2055,7 +2212,7 @@ function addMarkerToMap(item) {
             if (typeof openBusStopEditModal === 'function') openBusStopEditModal(item, marker);
         });
 
-    // [3] 일반 시설 마커
+// [3] 일반 시설 마커
     } else {
         marker = L.marker([item.lat, item.lng], { 
             icon: typeof createFacilityCustomIcon === 'function' ? createFacilityCustomIcon(item.type, item.color, size, item.name) : new L.Icon.Default() 
@@ -2063,9 +2220,16 @@ function addMarkerToMap(item) {
         var targetGroupName = groupMap[item.type] || "normal";
         
         marker.subCategory = item.type;
-        marker.parentGroupLayer = catLayers[targetGroupName] || catLayers.normal;
-        marker.addTo(marker.parentGroupLayer);
-        if (item.type === 'cvs' && typeof cvsLayer !== 'undefined') marker.addTo(cvsLayer);
+
+        // ★ [수정된 4번 위치] 여기서부터 교체됨: 편의점(cvs)은 전용 레이어에만 넣고, 기타 일반 마커에는 절대 안 넣음!
+        if (item.type === 'cvs' && typeof cvsLayer !== 'undefined') {
+            marker.parentGroupLayer = cvsLayer;
+            marker.addTo(cvsLayer);
+        } else {
+            marker.parentGroupLayer = catLayers[targetGroupName] || catLayers.normal;
+            marker.addTo(marker.parentGroupLayer);
+        }
+        // ★ 여기까지 교체됨
         
         var typeName100 = categoryNames100[item.type] || "일반시설";
         marker.bindTooltip(`<b>${item.name || ""}</b> <span style="font-size:11px; color:#666;">(${typeName100})</span>`, { offset: [0, -20], direction: 'top' });
@@ -2097,6 +2261,7 @@ if (addrObj.gugun.includes("탄성군")) {
 } else if (addrObj.gugun.includes("안천구")) {
     areaCodeNum = "9" + String(10 + (Math.abs(Math.round(item.lat)) % 88));
 }
+
 // ★ 나들목(ic_jc) 및 교차로(intersect) 판별
             var isJunction = (item.type === 'ic_jc' || item.type === 'intersect');
 
@@ -2300,9 +2465,6 @@ var savedLayerState = [];
 map.on('overlayadd', function() { if(typeof isDistrictAreaMode !== 'undefined' && isDistrictAreaMode) updateDistrictAreaLabels(); });
 map.on('overlayremove', function() { if(typeof isDistrictAreaMode !== 'undefined' && isDistrictAreaMode) updateDistrictAreaLabels(); });
 
-// =========================================================
-// 💾 일반 마커 전용 영구 저장 버튼 (버스 정류장 완벽 배제)
-// =========================================================
 setTimeout(function() {
     var existingContainer = document.querySelector('.leaflet-control-layers');
     if (existingContainer && !document.getElementById('export-code-btn')) {
@@ -2315,30 +2477,25 @@ setTimeout(function() {
             e.stopPropagation(); e.preventDefault();
             var markers = JSON.parse(localStorage.getItem('hyobin_markers')) || [];
             var lines = JSON.parse(localStorage.getItem('hyobin_lines')) || [];
+            if (markers.length === 0 && lines.length === 0) { alert("새로 추가하거나 수정한 데이터가 없습니다."); return; }
             
-            // ★ 핵심: 버스 정류장은 제외하고 일반 마커만 추출
-            var normalMarkers = markers.filter(m => m.type !== 'busStop');
-
-            if (normalMarkers.length === 0 && lines.length === 0) { alert("새로 추가하거나 수정한 데이터가 없습니다."); return; }
-            
-            var shiftedMarkers = normalMarkers.map(function(m) {
+            // ★ 핵심: 선(lines)은 건드리지 않고, 마커(markers)만 추출할 때 lat에 자동으로 +19822를 더함!
+            var shiftedMarkers = markers.map(function(m) {
                 var copyM = Object.assign({}, m);
-                if (typeof copyM.lat === 'number') copyM.lat = Math.round(copyM.lat + 19822);
+                if (typeof copyM.lat === 'number') {
+                    copyM.lat = Math.round(copyM.lat + 19822);
+                }
                 return copyM;
             });
 
             var resultText = "/* 아래 코드를 복사해서 데이터 파일 가장 아래 빈 공간에 붙여넣으세요! */\n\n";
-            if (shiftedMarkers.length > 0) resultText += "// 📍 수동 저장/수정된 일반 마커 데이터 (lat +19822 자동 보정 완료)\nvar myExportedMarkers = " + JSON.stringify(shiftedMarkers, null, 4) + ";\n\n";
-            if (lines.length > 0) resultText += "// 🛤️ 수동 저장된 도로/선 데이터\nvar myExportedLines = " + JSON.stringify(lines, null, 4) + ";\n\n";
+            if (shiftedMarkers.length > 0) resultText += "// 📍 수동 저장/수정된 마커 데이터 (lat +19822 자동 보정 완료)\nvar myExportedMarkers = " + JSON.stringify(shiftedMarkers, null, 4) + ";\n\n";
+            if (lines.length > 0) resultText += "// 🛤️ 수동 저장된 도로/선 데이터 (원본 좌표 유지)\nvar myExportedLines = " + JSON.stringify(lines, null, 4) + ";\n\n";
             
-            var oldModal = document.getElementById('export-modal-patch');
-            if (oldModal) oldModal.remove();
-
             var modal = document.createElement('div');
-            modal.id = 'export-modal-patch';
-            modal.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; box-shadow:0 0 20px rgba(0,0,0,0.5); z-index:99999; width:600px; height:500px; display:flex; flex-direction:column; border-radius:8px;';
+            modal.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; box-shadow:0 0 20px rgba(0,0,0,0.5); z-index:9999; width:600px; height:500px; display:flex; flex-direction:column; border-radius:8px;';
             modal.innerHTML = `
-                <h3 style="margin-top:0; color:#0077DD; border-bottom:2px solid #0077DD; padding-bottom:10px;">💾 데이터 코드 추출기 (일반 시설 전용)</h3>
+                <h3 style="margin-top:0; color:#0077DD; border-bottom:2px solid #0077DD; padding-bottom:10px;">💾 데이터 코드 추출기 (마커 lat +19822 자동 적용)</h3>
                 <textarea id="code-textarea" style="flex:1; width:100%; font-family:monospace; font-size:12px; padding:10px; border:1px solid #ccc; resize:none;" readonly></textarea>
                 <div style="text-align:right; margin-top:15px;">
                     <button id="copy-export-btn" style="padding:10px 20px; background:#333; color:#fff; border:none; cursor:pointer; border-radius:4px; font-weight:bold; margin-right:5px;">전체 복사</button>
@@ -2473,9 +2630,9 @@ function openPlaceEditModal(name, lat, lng, cardId) {
             target.rating = newRating.trim();   
             target.reviews = newReviews.trim(); 
             target.color = markerColors[target.type] || '#333333';
-} else {
-            var newItem = Object.assign({}, existingItem || {}, {
-                origName: name,
+        } else {
+            myLandmarks.push({
+                origName: name, 
                 name: newName.trim(),
                 lat: lat,
                 lng: lng,
@@ -2483,12 +2640,11 @@ function openPlaceEditModal(name, lat, lng, cardId) {
                 hours: newHours.trim(),
                 phone: newPhone.trim(),
                 desc: newDesc.trim(),
-                rating: newRating.trim(),
-                reviews: newReviews.trim(),
+                rating: newRating.trim(),       
+                reviews: newReviews.trim(),     
                 color: markerColors[newType.trim()] || '#333333',
                 image: newImg.trim() || getSmartFacilityImage(newName.trim())
             });
-            myLandmarks.push(newItem);
         }
         localStorage.setItem('hyobin_markers', JSON.stringify(myLandmarks));
         alert("✨ 자동 리뷰와 함께 수정 내용이 저장되었습니다! 새로고침 후 즉시 반영됩니다.");

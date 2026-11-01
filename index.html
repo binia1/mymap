@@ -11,7 +11,17 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
     <script src="hyobin_data.js"></script>
+
     <script src="sexy.js"></script>
+        <script>
+        if (typeof subwayData !== 'undefined' && subwayData.markers && !Array.isArray(subwayData.markers)) {
+            let combinedMarkers = [];
+            for (let group in subwayData.markers) {
+                combinedMarkers = combinedMarkers.concat(subwayData.markers[group]);
+            }
+            subwayData.markers = combinedMarkers;
+        }
+    </script>
     <script src="hyobin_markers.js"></script> 
     <script src="hyobin_roads.js"></script>
     <script src="hyobin_bus.js"></script>
@@ -487,6 +497,22 @@
         document.getElementById(tabId).classList.add('active');
         btnElement.classList.add('active');
     }
+    // 새로고침 시 마커 누락 방지를 위한 안전 장치 적용
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (typeof initMapData === 'function') {
+            initMapData(); // 데이터 초기화 함수
+        }
+        if (typeof renderAllStationMarkers === 'function') {
+            renderAllStationMarkers(); // 전체 역 마커 강제 재렌더링 함수 호출
+        }
+    }, 200); // 0.2초 지연으로 DOM 렌더링 충돌 방지
+});
+// 새로고침 시 노선 필터 및 마커 표시 상태가 증발하지 않고 전체 켜지도록 강제 설정
+if (localStorage.getItem('hyobin_map_initialized') !== 'true') {
+    localStorage.clear(); // 최초 진입이나 꼬였을 때 초기화
+    localStorage.setItem('hyobin_map_initialized', 'true');
+}
 </script>
 <!-- index.html 하단 스크립트 로드 순서 (경로 수정 완료) -->
  <script src="map_01_setup.js"></script>

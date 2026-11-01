@@ -19,6 +19,9 @@ if (typeof cvsLayer === 'undefined') {
 // =========================================================
 // 2. 우측 상단 레이어 컨트롤 메뉴 (처음엔 체크 해제 상태 -> 선택 시 즉시 마커 뜸!)
 // =========================================================
+// =========================================================
+// 2. 우측 상단 레이어 컨트롤 메뉴
+// =========================================================
 var overlays = { 
     "🏙️ 구/군 (상위)": guGunLayer,
     "🏢 행정 읍/면/동": adminLayer,
@@ -32,16 +35,23 @@ var overlays = {
     "🚉 도시/일반철도 역": subwayStationLayer,
     "🏪 편의점 (전용로고)": cvsLayer,
     
-    // ★ 10대 카테고리별 일반 마커 레이어 (클릭해서 체크할 때만 지도에 나타남)
-    "🏫 교육/학교": catLayers.education,
-    "🏢 주거/아파트": catLayers.residence,
-    "🏛️ 공공/관공서": catLayers.public,
-    "🛒 상업/마트/은행": catLayers.commercial,
+    // ★ 여기서 catLayers.이름 들이 위 map_02_layers.js와 무조건 똑같아야 에러가 안 납니다!
+    "🏫 교육/학교/대학": catLayers.education,
+    "🏢 주거/아파트/오피스텔": catLayers.residence,
+    "🏛️ 공공/행정/사법": catLayers.public,
+    "🚨 경찰/소방/해경": catLayers.safety,
+    "🤝 사회복지/보훈/수양원": catLayers.welfare,
+    "🏦 금융/은행/신협": catLayers.finance,
+    "🛒 백화점/마트/전통시장": catLayers.commercial,
     "🍽️ 식당/카페/패스트푸드": catLayers.food,
-    "🍿 문화/서브컬처/숙박": catLayers.culture,
-    "🏥 의료/병원/약국": catLayers.medical,
-    "✈️ 교통/산업/공단": catLayers.infra,
-    "🌲 자연/공원/해변": catLayers.nature,
+    "🎸 서브컬처/애니성지": catLayers.subculture,
+    "🎭 문화/박물관/체육/관광": catLayers.culture,
+    "🏨 호텔/리조트/연수원": catLayers.lodging,
+    "⛪ 종교 (교회/성당/사찰)": catLayers.religion,
+    "🏥 의료/병원/보건/약국": catLayers.medical,
+    "✈️ 교통/공항/항만/터미널": catLayers.traffic,
+    "🏭 산업/공단/반도체/공장": catLayers.industry,
+    "🌲 자연/공원/산/해변": catLayers.nature,
     "📍 기타 일반 시설": catLayers.normal
 };
 
