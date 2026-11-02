@@ -1,5 +1,5 @@
 // =========================================================
-// 🚌 1. 버스 정류장 일괄 생성 (간격 최적화 + 동서남북/입구 접미사 자동 분기 + 중복 리포트 버전)
+// 🚌 1. 버스 정류장 일괄 생성 (마을버스 도심/시골 간격 분기 완벽 적용 버전)
 // =========================================================
 function autoGenerateBusStops() {
     var sourceBuses = (typeof processedBusData !== 'undefined' && processedBusData.length > 0) ? processedBusData : (typeof busData !== 'undefined' ? busData : []);
@@ -28,7 +28,7 @@ function autoGenerateBusStops() {
     activeMarkers = activeMarkers.filter(m => !(m.options && m.options.icon && m.options.icon.options.className === 'custom-bus-stop' && !m.isManualMarker));
 
     var allBusPoints = [];
-    // ★ 서버 부담 완화 및 현실 도시 밸런스 적용 (기존보다 여유 있게 간격 상향!)
+    // 일반 노선 기본 간격 맵
     var intervalMap = { "마을": 115, "지선": 265, "간선": 360 };
 
     sourceBuses.forEach(bus => {
@@ -38,28 +38,54 @@ function autoGenerateBusStops() {
         if (!pts || pts.length < 2) return;
         var bColor = (typeof busColors !== 'undefined' && busColors[bus.type]) ? busColors[bus.type] : '#333';
         var formattedName = `<span style="color:${bColor}; font-weight:bold;">[${bus.type}]</span> ${bus.name}`;
-        var interval = intervalMap[bus.type];
         var isVillage = (bus.type === "마을");
         
-        if (interval) {
-            var currentDist = 0;
-            for (var i = 0; i < pts.length - 1; i++) {
-                var p1 = pts[i]; var p2 = pts[i+1];
-                if (i === 0) allBusPoints.push({ lat: p1[0], lng: p1[1], busName: formattedName, isVillage: isVillage });
-                var segDist = map.distance(p1, p2);
-                var distLeft = segDist; var currPt = p1;
-                while (distLeft > 0 && currentDist + distLeft >= interval) {
-                    var walk = interval - currentDist;
-                    var ratio = walk / segDist;
-                    var newLat = currPt[0] + (p2[0] - currPt[0]) * ratio;
-                    var newLng = currPt[1] + (p2[1] - currPt[1]) * ratio;
-                    allBusPoints.push({ lat: newLat, lng: newLng, busName: formattedName, isVillage: isVillage });
-                    currPt = [newLat, newLng]; distLeft -= walk; segDist -= walk; currentDist = 0;
+        var currentDist = 0;
+        for (var i = 0; i < pts.length - 1; i++) {
+            var p1 = pts[i]; var p2 = pts[i+1];
+            
+            // 기본 간격 가져오기
+            var interval = intervalMap[bus.type] || 300;
+
+            // 🔥 [핵심 추가] 마을버스일 경우 위치 주소를 체크하여 도심/시골 간격 동적 분기!
+            if (isVillage) {
+                interval = 600; // 기본은 외곽(시골) 600m 간격
+                try {
+                    var addrStr = "미지정";
+                    if (typeof getFullAddress === 'function') {
+                        addrStr = getFullAddress(p1[0], p1[1]);
+                    }
+                    if (addrStr && addrStr !== "미지정") {
+                        // 도심 지역 판별 조건 (동, 읍, 구 이름 등)
+                        if (addrStr.match(/(동$|동\s|도변읍|탄성읍|중구|남구|북구|창전구)/)) {
+                            interval = 170; // 도심 지역은 170m 촘촘하게 간격 조정
+                        }
+                    }
+                } catch (e) {
+                    // 에러 발생 시 외곽 기본값 유지
                 }
-                currentDist += distLeft;
             }
-            allBusPoints.push({ lat: pts[pts.length-1][0], lng: pts[pts.length-1][1], busName: formattedName, isVillage: isVillage });
+
+            if (i === 0) allBusPoints.push({ lat: p1[0], lng: p1[1], busName: formattedName, isVillage: isVillage, interval: interval });
+            
+            var segDist = map.distance(p1, p2);
+            var distLeft = segDist; var currPt = p1;
+            
+            while (distLeft > 0 && currentDist + distLeft >= interval) {
+                var walk = interval - currentDist;
+                
+                // 외곽(600)->도심(170) 진입 시 마이너스 역행 및 튕김 방지
+                if (walk <= 0) walk = 1; 
+
+                var ratio = (segDist === 0) ? 0 : (walk / segDist);
+                var newLat = currPt[0] + (p2[0] - currPt[0]) * ratio;
+                var newLng = currPt[1] + (p2[1] - currPt[1]) * ratio;
+                allBusPoints.push({ lat: newLat, lng: newLng, busName: formattedName, isVillage: isVillage, interval: interval });
+                currPt = [newLat, newLng]; distLeft -= walk; segDist -= walk; currentDist = 0;
+            }
+            currentDist += distLeft;
         }
+        allBusPoints.push({ lat: pts[pts.length-1][0], lng: pts[pts.length-1][1], busName: formattedName, isVillage: isVillage, interval: interval });
     });
 
     // ★ 클러스터 병합 반경 상향 (마을 75m, 간선/지선 165m) -> 6000개 과밀 현상 방지!
@@ -160,7 +186,6 @@ function autoGenerateBusStops() {
         var isAptOrSchool = false;
 
         if (nearby.length > 0) {
-            // 1순위 시설의 이름이 이미 사용 중이라면, 가까이 있는(350m 이내) 2순위·3순위 다른 시설 이름을 먼저 탐색!
             var pickedLm = nearby[0];
             for (var k = 0; k < Math.min(nearby.length, 4); k++) {
                 var cand = nearby[k];
@@ -183,7 +208,7 @@ function autoGenerateBusStops() {
             if (!chosenBaseName) chosenBaseName = "효빈";
         }
 
-        // ★ 3. 중복 이름 검사 및 방위/접미사 자동 분기 처리! (청덕세라스아파트 중복 원천 차단!)
+        // ★ 3. 중복 이름 검사 및 방위/접미사 자동 분기 처리!
         var finalCleanName = chosenBaseName;
         if (usedNameTracker[chosenBaseName]) {
             var dupCnt = usedNameTracker[chosenBaseName];
@@ -197,7 +222,6 @@ function autoGenerateBusStops() {
         var finalStopName = finalCleanName + " 정류장";
 
         var sLat = Math.round(c.lat), sLng = Math.round(c.lng);
-        // 일반 시설 마커와 8m 이내로 겹치면 14m 띄워서 일반 마커 변이 차단
         if (baseList.find(b => Math.abs(b.lat - sLat) <= 8 && Math.abs(b.lng - sLng) <= 8)) {
             sLat += 14; sLng += 14;
         }
@@ -220,7 +244,7 @@ function autoGenerateBusStops() {
     
     console.log("📋 [중복 정류장 이름 자동 분기 전체 목록]", duplicateReportList);
     alert(
-        `🎉 정류장 최적 간격 생성 및 중복 이름 분기 완료!\n\n` +
+        `🎉 마을버스 도심/시골 간격 분기 및 정류장 생성 완료!\n\n` +
         `• 새로 생성된 정류장: ${addedCount}개 (전체 총 ${totalStopsNow}개)\n` +
         `• 기존 정류장에 노선 통합: ${mergedCount}건\n` +
         `• 이름 중복 감지 및 방위/접미사 자동 분기: ${duplicateReportList.length}건\n\n` +
@@ -1379,23 +1403,35 @@ function highlightBusRoute(targetBusName, originalColor) {
             };
         });
 
-        var standaloneJsCode = `// =========================================================\n` +
+var standaloneJsCode = `// =========================================================\n` +
             `// 🚏 효빈광역시 버스 정류장 영구 하드코딩 데이터 (총 ${stops.length}개)\n` +
             `// - 사용법: 이 코드를 hb_map_config_2.js 맨 위나 별도 js 파일로 연결하면,\n` +
             `//   브라우저 캐시(localStorage)를 지워도 정류장이 100% 영구 유지됩니다!\n` +
             `// =========================================================\n` +
             `var hardcodedBusStops = ${JSON.stringify(cleanStopsDirect, null, 4)};\n\n` +
             `(function() {\n` +
-            `    if (typeof window.myLandmarks !== 'undefined') {\n` +
-            `        var existingStops = window.myLandmarks.filter(m => m.type === 'busStop');\n` +
-            `        if (existingStops.length === 0) {\n` +
-            `            window.myLandmarks = window.myLandmarks.concat(hardcodedBusStops);\n` +
-            `            localStorage.setItem('hyobin_markers', JSON.stringify(window.myLandmarks));\n` +
-            `            if (typeof addMarkerToMap === 'function') hardcodedBusStops.forEach(s => addMarkerToMap(s));\n` +
+            `    var savedData = localStorage.getItem('hyobin_markers');\n` +
+            `    if (savedData) {\n` +
+            `        try {\n` +
+            `            var parsed = JSON.parse(savedData);\n` +
+            `            if (Array.isArray(parsed) && parsed.length > 0) {\n` +
+            `                window.myLandmarks = parsed;\n` +
+            `            }\n` +
+            `        } catch(e) { console.error("데이터 파싱 에러:", e); }\n` +
+            `    }\n` +
+            `    if (!window.myLandmarks) window.myLandmarks = [];\n\n` +
+            `    if (typeof hardcodedBusStops !== 'undefined' && typeof addMarkerToMap === 'function') {\n` +
+            `        var hasBusStop = window.myLandmarks.some(function(m) { return m.type === 'busStop'; });\n` +
+            `        if (!hasBusStop) {\n` +
+            `            hardcodedBusStops.forEach(function(s) {\n` +
+            `                addMarkerToMap(s);\n` +
+            `                if (typeof window.allLandmarks !== 'undefined') {\n` +
+            `                    window.allLandmarks.push(s);\n` +
+            `                }\n` +
+            `            });\n` +
             `        }\n` +
             `    }\n` +
             `})();\n`;
-
         var defaultDataCode = `// [defaultLandmarksData 배열 맨 아래에 추가할 경우 사용 (lat +19822 적용본)]\n` +
             JSON.stringify(cleanStopsShifted, null, 4);
 

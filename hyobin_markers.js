@@ -122070,5 +122070,33 @@ var defaultLandmarksData = [
         "lng": 12464,
         "color": "#FF5252",
         "type": "fastfood"
+    },
+        {
+        "name": "이십기농협",
+        "lat": -9523,
+        "lng": 36261,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "고해지구",
+        "lat": -8013,
+        "lng": 45093,
+        "color": "#333333",
+        "type": "normal"
+    },
+    {
+        "name": "당선4동우체국",
+        "lat": -8220,
+        "lng": 16654,
+        "color": "#E65100",
+        "type": "post_office"
+    },
+    {
+        "name": "당선신협",
+        "lat": -8057,
+        "lng": 16499,
+        "color": "#039BE5",
+        "type": "credit_union"
     }
 ];
