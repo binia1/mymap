@@ -5452,25 +5452,7 @@ var defaultLandmarksData = [
         "eupMyeon": "도변읍",
         "roadAddress": "효빈광역시 탄성군 도변읍 도변여고길45"
     },
-    {
-        "name": "치고대학교",
-        "lat": -11489,
-        "lng": 34665,
-        "type": "university",
-        "hours": "행정실 09:00 ~ 18:00 (캠퍼스 상시개방)",
-        "phone": "079-181-8668",
-        "desc": "대중교통으로 찾아오기도 편하고 내부 관리가 정말 잘 되어 있습니다. 강추합니다!",
-        "rating": "4.6",
-        "reviews": "50",
-        "color": "#E65100",
-        "image": "이미지/치고대학교.webp",
-        "province": "효빈광역시",
-        "gugun": "탄성군",
-        "adminDong": "도변읍",
-        "legalDong": "잠재리",
-        "eupMyeon": "도변읍",
-        "roadAddress": "효빈광역시 탄성군 도변읍 도변여고길82"
-    },
+
     {
         "name": "도변여자중학교",
         "lat": -11597,
@@ -90584,25 +90566,32 @@ var defaultLandmarksData = [
         "roadAddress": "효빈광역시 청엽구 가궁길12"
     },
     {
-        "name": "GS25 산군초중앙점",
+        "name": "GS25 산군앙점",
         "lat": -10202,
         "lng": 23505,
         "type": "cvs",
         "hours": "24시간 영업 (연중무휴)",
         "phone": "079-226-6507",
-        "desc": "기대 이상이었어요. 주변 지인들에게도 적극 추천하고 싶은 곳입니다!",
-        "rating": "5.0",
+        "desc": "기본적인 매너와 서비스 마인드부터 다시 갖추셔야 할 것 같습니다. 최악의 경험이었습니다. 겪어본 사람만 이 고통을 압니다.",
+        "rating": "1.8",
         "reviews": "25",
         "color": "#00C853",
-        "image": "이미지/svg/GS25_로고.svg",
-        "province": "효빈광역시",
-        "gugun": "동구",
-        "adminDong": "덕현5동",
-        "legalDong": "덕현동",
-        "eupMyeon": "",
-        "roadAddress": "효빈광역시 동구 뇌전로55"
+        "image": "이미지/svg/GS25_로고.svg"
     },
     {
+        "name": "치고대학교",
+        "lat": -11489,
+        "lng": 34665,
+        "type": "university",
+        "hours": "행정실 09:00 ~ 18:00 (캠퍼스 상시개방)",
+        "phone": "079-181-8668",
+        "desc": "별점 1점도 아깝습니다. 제발 여기보다 정상적인 대학 많으니 다른 곳 가세요. 동네 주민으로서 사학비리가 하루빨리 해결되었으면 좋겠습니다.",
+        "rating": "1.4",
+        "reviews": "22",
+        "color": "#E65100",
+        "image": "이미지/치고대학교.webp"
+    },
+        {
         "name": "CU 월삼초삼거리점",
         "lat": -14502,
         "lng": 23542,
@@ -123072,4 +123061,11829 @@ var defaultLandmarksData = [
         "color": "#FF5252",
         "type": "variety_store"
     },
+        {
+        "name": "효빈대학교새마을금고",
+        "lat": -7044,
+        "lng": 18344,
+        "color": "#FFA000",
+        "type": "high_school",
+        "hours": "평일 09:00 ~ 16:00 (주말·공휴일 휴무)",
+        "phone": "",
+        "image": "이미지/효빈대학교새마을금고4.webp",
+        "desc": "출자금 통장 배당률도 괜찮고 지역 환원 사업이나 문화센터 프로그램도 알차게 운영되네요.",
+        "rating": "4.3",
+        "reviews": "104"
+    },
+        {
+        "name": "동효빈농협 효빈역지점",
+        "lat": -9937,
+        "lng": 20771,
+        "type": "credit_union",
+        "hours": "평일 09:00 ~ 16:00 (주말·공휴일 휴무)",
+        "phone": "",
+        "desc": "시중은행처럼 번호표 뽑고 한 세월 기다릴 필요 없이 바로 창구에서 빠르고 친절하게 업무를 봤습니다.",
+        "rating": "4.1",
+        "reviews": "24",
+        "color": "#039BE5",
+        "image": "이미지/동효빈농협 사가당동지점.webp"
+    },
+        {
+        "name": "안월대학교",
+        "lat": -6631,
+        "lng": 53536,
+        "color": "#E65100",
+        "type": "university"
+    },
+        {
+        "name": "효빈항동3가우체국",
+        "lat": -11414,
+        "lng": 9386,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "33"
+    },
+    {
+        "name": "효빈평당동우체국",
+        "lat": -15265,
+        "lng": 9426,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "39"
+    },
+    {
+        "name": "효빈평당5동우체국",
+        "lat": -15596,
+        "lng": 10241,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈어간동우체국",
+        "lat": -12433,
+        "lng": 7376,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "15"
+    },
+    {
+        "name": "효빈항동1가우체국",
+        "lat": -11313,
+        "lng": 10547,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈항동2가우체국",
+        "lat": -8484,
+        "lng": 1616,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "58"
+    },
+    {
+        "name": "효빈항2동우체국",
+        "lat": -8808,
+        "lng": 2725,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "31"
+    },
+    {
+        "name": "효빈항동중교우체국",
+        "lat": -8886,
+        "lng": 2356,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈곽산동우체국",
+        "lat": -16791,
+        "lng": 8902,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈곽산2동우체국",
+        "lat": -17094,
+        "lng": 8237,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "38"
+    },
+    {
+        "name": "효빈종로서적평당센트럴점우체국",
+        "lat": -15288,
+        "lng": 9789,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "64"
+    },
+    {
+        "name": "중소기업은행 항동2가지점",
+        "lat": -8944,
+        "lng": 2886,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "72"
+    },
+    {
+        "name": "중소기업은행 어간동지점",
+        "lat": -10278,
+        "lng": 5349,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "49"
+    },
+    {
+        "name": "중소기업은행 항동1가지점",
+        "lat": -10341,
+        "lng": 6631,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "26"
+    },
+    {
+        "name": "중소기업은행 월천동지점",
+        "lat": -11908,
+        "lng": 13848,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "41"
+    },
+    {
+        "name": "중소기업은행 신흥동지점",
+        "lat": -12366,
+        "lng": 14454,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "35"
+    },
+    {
+        "name": "중소기업은행 항4동지점",
+        "lat": -11970,
+        "lng": 8935,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "61"
+    },
+    {
+        "name": "중소기업은행 곽산동지점",
+        "lat": -18692,
+        "lng": 7414,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "65"
+    },
+    {
+        "name": "한국산업은행 평당동지점",
+        "lat": -15519,
+        "lng": 9968,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "39"
+    },
+    {
+        "name": "한국산업은행 포장동지점",
+        "lat": -14955,
+        "lng": 14020,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "56"
+    },
+    {
+        "name": "농협은행 월천동지점",
+        "lat": -11964,
+        "lng": 13765,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "77"
+    },
+    {
+        "name": "농협은행 평당동지점",
+        "lat": -16255,
+        "lng": 8946,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "42"
+    },
+    {
+        "name": "농협은행 어간동지점",
+        "lat": -10341,
+        "lng": 4849,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "45"
+    },
+    {
+        "name": "농협은행 항동2가지점",
+        "lat": -8855,
+        "lng": 2329,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "59"
+    },
+    {
+        "name": "농협은행 항동3가지점",
+        "lat": -10713,
+        "lng": 8128,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "55"
+    },
+    {
+        "name": "농협은행 평당2동지점",
+        "lat": -13752,
+        "lng": 9766,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "41"
+    },
+    {
+        "name": "수협은행 평당동지점",
+        "lat": -17685,
+        "lng": 10038,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "53"
+    },
+    {
+        "name": "수협은행 평당2동지점",
+        "lat": -13217,
+        "lng": 10341,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "32"
+    },
+    {
+        "name": "수협은행 고간동지점",
+        "lat": -13799,
+        "lng": 11960,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "73"
+    },
+    {
+        "name": "국민은행 평당동지점",
+        "lat": -14968,
+        "lng": 9809,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "51"
+    },
+    {
+        "name": "국민은행 평당5동지점",
+        "lat": -14940,
+        "lng": 9156,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "25"
+    },
+    {
+        "name": "국민은행 평당7동지점",
+        "lat": -16131,
+        "lng": 9734,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "62"
+    },
+    {
+        "name": "국민은행 곽산동지점",
+        "lat": -18978,
+        "lng": 6670,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "48"
+    },
+    {
+        "name": "국민은행 곽산2동지점",
+        "lat": -17388,
+        "lng": 8557,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "29"
+    },
+    {
+        "name": "국민은행 능남아파트지점",
+        "lat": -16019,
+        "lng": 10957,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "29"
+    },
+    {
+        "name": "국민은행 어간동지점",
+        "lat": -11963,
+        "lng": 6841,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "67"
+    },
+    {
+        "name": "국민은행 항동2가지점",
+        "lat": -9141,
+        "lng": 2758,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "31"
+    },
+    {
+        "name": "신한은행 항동1가지점",
+        "lat": -10004,
+        "lng": 6181,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "68"
+    },
+    {
+        "name": "신한은행 곽산동지점",
+        "lat": -19433,
+        "lng": 7267,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "21"
+    },
+    {
+        "name": "신한은행 포장동지점",
+        "lat": -13625,
+        "lng": 13088,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "58"
+    },
+    {
+        "name": "신한은행 월천동지점",
+        "lat": -11540,
+        "lng": 15207,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "71"
+    },
+    {
+        "name": "신한은행 월천초교지점",
+        "lat": -12167,
+        "lng": 13255,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "51"
+    },
+    {
+        "name": "신한은행 고간동지점",
+        "lat": -13718,
+        "lng": 11580,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "60"
+    },
+    {
+        "name": "신한은행 평당동지점",
+        "lat": -15472,
+        "lng": 8653,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "41"
+    },
+    {
+        "name": "하나은행 어간동지점",
+        "lat": -10940,
+        "lng": 4749,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "30"
+    },
+    {
+        "name": "하나은행 고간동지점",
+        "lat": -13971,
+        "lng": 10837,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "25"
+    },
+    {
+        "name": "하나은행 어간1동지점",
+        "lat": -11290,
+        "lng": 5523,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "30"
+    },
+    {
+        "name": "하나은행 평당동지점",
+        "lat": -15471,
+        "lng": 9097,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "70"
+    },
+    {
+        "name": "하나은행 어간3동지점",
+        "lat": -13358,
+        "lng": 8510,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "66"
+    },
+    {
+        "name": "하나은행 해안초교지점",
+        "lat": -12495,
+        "lng": 7270,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "16"
+    },
+    {
+        "name": "우리은행 평당동지점",
+        "lat": -15332,
+        "lng": 9347,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "22"
+    },
+    {
+        "name": "우리은행 항동3가지점",
+        "lat": -10333,
+        "lng": 7888,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "65"
+    },
+    {
+        "name": "우리은행 월천동지점",
+        "lat": -12283,
+        "lng": 13475,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "69"
+    },
+    {
+        "name": "우리은행 평당4동지점",
+        "lat": -15393,
+        "lng": 8349,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "36"
+    },
+    {
+        "name": "우리은행 어간동지점",
+        "lat": -10387,
+        "lng": 4863,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "77"
+    },
+    {
+        "name": "SC제일은행 신흥동지점",
+        "lat": -12400,
+        "lng": 14281,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "19"
+    },
+    {
+        "name": "SC제일은행 항동1가지점",
+        "lat": -11399,
+        "lng": 10632,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "47"
+    },
+    {
+        "name": "효빈은행 평당동지점",
+        "lat": -15598,
+        "lng": 9188,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈은행 항동1가지점",
+        "lat": -12294,
+        "lng": 9990,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "68"
+    },
+    {
+        "name": "효빈은행 평당6동지점",
+        "lat": -15676,
+        "lng": 11579,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈은행 신흥동지점",
+        "lat": -13302,
+        "lng": 13924,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "59"
+    },
+    {
+        "name": "효빈은행 평당7동지점",
+        "lat": -16495,
+        "lng": 9120,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "67"
+    },
+    {
+        "name": "효빈은행 평당5동지점",
+        "lat": -15336,
+        "lng": 9386,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "41"
+    },
+    {
+        "name": "효빈은행 항동2가지점",
+        "lat": -9408,
+        "lng": 5172,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈은행 다이소롯데마트평당점지점",
+        "lat": -15582,
+        "lng": 8959,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "45"
+    },
+    {
+        "name": "효빈은행 어간동지점",
+        "lat": -12648,
+        "lng": 8362,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "19"
+    },
+    {
+        "name": "효빈은행 평당초교지점",
+        "lat": -16043,
+        "lng": 10189,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "49"
+    },
+    {
+        "name": "효빈은행 항1동지점",
+        "lat": -11600,
+        "lng": 10398,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "68"
+    },
+    {
+        "name": "효빈은행 롯데백화점평당점지점",
+        "lat": -15433,
+        "lng": 9339,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "39"
+    },
+    {
+        "name": "효빈은행 평당3동지점",
+        "lat": -14395,
+        "lng": 8914,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈은행 남효빈운동장지점",
+        "lat": -13981,
+        "lng": 8400,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈은행 포장동지점",
+        "lat": -13531,
+        "lng": 13860,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈은행 운양동지점",
+        "lat": -12643,
+        "lng": 9903,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "54"
+    },
+    {
+        "name": "효빈은행 곽산동지점",
+        "lat": -17712,
+        "lng": 8010,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "60"
+    },
+    {
+        "name": "효빈은행 박산동지점",
+        "lat": -13572,
+        "lng": 12842,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "17"
+    },
+    {
+        "name": "iM뱅크 평당동지점",
+        "lat": -16636,
+        "lng": 10740,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "33"
+    },
+    {
+        "name": "iM뱅크 평당5동지점",
+        "lat": -14648,
+        "lng": 8670,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "23"
+    },
+    {
+        "name": "iM뱅크 고간동지점",
+        "lat": -14104,
+        "lng": 12053,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "66"
+    },
+    {
+        "name": "야마구치은행 효빈항출장소",
+        "lat": -8564,
+        "lng": 2514,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "31"
+    },
+    {
+        "name": "남효빈농협 본점",
+        "lat": -13906,
+        "lng": 13845,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "69"
+    },
+    {
+        "name": "남효빈농협 운양동지점",
+        "lat": -12487,
+        "lng": 11809,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "28"
+    },
+    {
+        "name": "남효빈농협 곽산동지점",
+        "lat": -17119,
+        "lng": 7768,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "30"
+    },
+    {
+        "name": "남효빈농협 어간3동지점",
+        "lat": -12637,
+        "lng": 11874,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "61"
+    },
+    {
+        "name": "남효빈농협 평당동지점",
+        "lat": -17326,
+        "lng": 10318,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "28"
+    },
+    {
+        "name": "남효빈농협 평당5동지점",
+        "lat": -15175,
+        "lng": 9598,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "51"
+    },
+    {
+        "name": "남효빈농협 이부역지점",
+        "lat": -14710,
+        "lng": 8541,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "54"
+    },
+    {
+        "name": "어간농협 본점",
+        "lat": -12044,
+        "lng": 8384,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "71"
+    },
+    {
+        "name": "어간농협 어간동지점",
+        "lat": -10745,
+        "lng": 4788,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "21"
+    },
+    {
+        "name": "어간농협 어간2동지점",
+        "lat": -11561,
+        "lng": 7072,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "18"
+    },
+    {
+        "name": "어간농협 어간1동지점",
+        "lat": -11116,
+        "lng": 5005,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "34"
+    },
+    {
+        "name": "효빈원예농협 남구지점",
+        "lat": -15567,
+        "lng": 10984,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "54"
+    },
+    {
+        "name": "어간수협 본점",
+        "lat": -12095,
+        "lng": 8011,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "26"
+    },
+    {
+        "name": "어간수협 어간동지점",
+        "lat": -13416,
+        "lng": 8097,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "72"
+    },
+    {
+        "name": "어간수협 어간3동지점",
+        "lat": -12621,
+        "lng": 7024,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈시수협 남구지점",
+        "lat": -11939,
+        "lng": 10965,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "26"
+    },
+    {
+        "name": "효빈시수협 항동1가지점",
+        "lat": -10800,
+        "lng": 7946,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "24"
+    },
+    {
+        "name": "대형기선저인망수협 효빈항지점",
+        "lat": -11581,
+        "lng": 9979,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "68"
+    },
+    {
+        "name": "평당새마을금고 본점",
+        "lat": -14514,
+        "lng": 8817,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "64"
+    },
+    {
+        "name": "평당새마을금고 평당동지점",
+        "lat": -13144,
+        "lng": 9180,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "22"
+    },
+    {
+        "name": "평당새마을금고 평당2동지점",
+        "lat": -13161,
+        "lng": 9995,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "28"
+    },
+    {
+        "name": "평당새마을금고 평당4동지점",
+        "lat": -16048,
+        "lng": 7392,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "76"
+    },
+    {
+        "name": "평당새마을금고 평당3동지점",
+        "lat": -14188,
+        "lng": 8778,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "47"
+    },
+    {
+        "name": "어간새마을금고 본점",
+        "lat": -10875,
+        "lng": 6833,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "36"
+    },
+    {
+        "name": "어간새마을금고 어간동지점",
+        "lat": -10950,
+        "lng": 6729,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "47"
+    },
+    {
+        "name": "어간새마을금고 어간3동지점",
+        "lat": -12660,
+        "lng": 7358,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "18"
+    },
+    {
+        "name": "항동새마을금고 본점",
+        "lat": -9373,
+        "lng": 5650,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "49"
+    },
+    {
+        "name": "항동새마을금고 항동1가지점",
+        "lat": -11605,
+        "lng": 10754,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "73"
+    },
+    {
+        "name": "항동새마을금고 항동2가지점",
+        "lat": -8119,
+        "lng": 2397,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "22"
+    },
+    {
+        "name": "곽산새마을금고 본점",
+        "lat": -17238,
+        "lng": 7857,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "59"
+    },
+    {
+        "name": "곽산새마을금고 평당동지점",
+        "lat": -17328,
+        "lng": 9113,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "71"
+    },
+    {
+        "name": "빙천새마을금고 본점",
+        "lat": -16339,
+        "lng": 9882,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "66"
+    },
+    {
+        "name": "빙천새마을금고 평당동지점",
+        "lat": -16063,
+        "lng": 8944,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "63"
+    },
+    {
+        "name": "포장새마을금고 본점",
+        "lat": -16027,
+        "lng": 11633,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "46"
+    },
+    {
+        "name": "포장새마을금고 포장동지점",
+        "lat": -13817,
+        "lng": 14042,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "54"
+    },
+    {
+        "name": "해운산업새마을금고 본점",
+        "lat": -15830,
+        "lng": 7640,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "27"
+    },
+    {
+        "name": "남효빈신용협동조합 본점",
+        "lat": -12344,
+        "lng": 8952,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "15"
+    },
+    {
+        "name": "남효빈신용협동조합 곽산동지점",
+        "lat": -17308,
+        "lng": 7762,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "60"
+    },
+    {
+        "name": "남효빈신용협동조합 항동2가지점",
+        "lat": -8945,
+        "lng": 2706,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "26"
+    },
+    {
+        "name": "남효빈신용협동조합 평당동지점",
+        "lat": -15449,
+        "lng": 9168,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "75"
+    },
+    {
+        "name": "평당중앙신용협동조합 본점",
+        "lat": -16061,
+        "lng": 9156,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "56"
+    },
+    {
+        "name": "평당중앙신용협동조합 평당동지점",
+        "lat": -14342,
+        "lng": 10364,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "17"
+    },
+    {
+        "name": "평당중앙신용협동조합 고간동지점",
+        "lat": -14139,
+        "lng": 10711,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "19"
+    },
+    {
+        "name": "어간신용협동조합 본점",
+        "lat": -10959,
+        "lng": 6780,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "33"
+    },
+    {
+        "name": "어간신용협동조합 항동1가지점",
+        "lat": -10353,
+        "lng": 6973,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "19"
+    },
+    {
+        "name": "사야신용협동조합 본점",
+        "lat": -12721,
+        "lng": 12877,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "62"
+    },
+    {
+        "name": "사야신용협동조합 박산동지점",
+        "lat": -13026,
+        "lng": 12317,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "37"
+    },
+    {
+        "name": "포장공단신용협동조합 본점",
+        "lat": -13687,
+        "lng": 14064,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "29"
+    },
+    {
+        "name": "포장공단신용협동조합 평당동지점",
+        "lat": -15920,
+        "lng": 11693,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "15"
+    },
+    {
+        "name": "효빈항운노조신용협동조합",
+        "lat": -8675,
+        "lng": 2279,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈해양대교직원신용협동조합",
+        "lat": -11932,
+        "lng": 7082,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "34"
+    },
+    {
+        "name": "효빈저축은행 남구본부",
+        "lat": -13946,
+        "lng": 9967,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "78"
+    },
+    {
+        "name": "모아저축은행 효빈지점",
+        "lat": -15933,
+        "lng": 10149,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "77"
+    },
+    {
+        "name": "OK저축은행 평당지점",
+        "lat": -12963,
+        "lng": 10838,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.4",
+        "reviews": "54"
+    },
+    {
+        "name": "예가람저축은행 남구지점",
+        "lat": -11835,
+        "lng": 13549,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.7",
+        "reviews": "36"
+    },
+    {
+        "name": "애큐온저축은행 효빈남구센터",
+        "lat": -13186,
+        "lng": 9077,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "77"
+    },
+    {
+        "name": "효빈진희동우체국",
+        "lat": -4282,
+        "lng": 21997,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈소조동우체국",
+        "lat": -7772,
+        "lng": 18475,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "62"
+    },
+    {
+        "name": "효빈중수동우체국",
+        "lat": -5795,
+        "lng": 24768,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈고송동우체국",
+        "lat": -4752,
+        "lng": 18379,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈평전동우체국",
+        "lat": -7029,
+        "lng": 27785,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "44"
+    },
+    {
+        "name": "효빈곡진동우체국",
+        "lat": -5681,
+        "lng": 28983,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "18"
+    },
+    {
+        "name": "효빈이지움진희아파트우체국",
+        "lat": -3962,
+        "lng": 21708,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "59"
+    },
+    {
+        "name": "효빈사능동2가우체국",
+        "lat": -8213,
+        "lng": 18928,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "77"
+    },
+    {
+        "name": "효빈만초중교우체국",
+        "lat": -4237,
+        "lng": 22216,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "45"
+    },
+    {
+        "name": "효빈생곡동우체국",
+        "lat": -8679,
+        "lng": 20391,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈고송1동우체국",
+        "lat": -2880,
+        "lng": 16115,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈고송4동우체국",
+        "lat": -4614,
+        "lng": 16952,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "23"
+    },
+    {
+        "name": "효빈중수1동우체국",
+        "lat": -5781,
+        "lng": 24628,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "53"
+    },
+    {
+        "name": "효빈고송5동우체국",
+        "lat": -4861,
+        "lng": 17931,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "47"
+    },
+    {
+        "name": "효빈사능동3가우체국",
+        "lat": -8617,
+        "lng": 19838,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "60"
+    },
+    {
+        "name": "효빈고송3동우체국",
+        "lat": -3894,
+        "lng": 16755,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "56"
+    },
+    {
+        "name": "효빈사능동1가우체국",
+        "lat": -8839,
+        "lng": 18779,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "41"
+    },
+    {
+        "name": "한국산업은행 고송동지점",
+        "lat": -4562,
+        "lng": 17827,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "44"
+    },
+    {
+        "name": "중소기업은행 고송동지점",
+        "lat": -4001,
+        "lng": 17972,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "45"
+    },
+    {
+        "name": "중소기업은행 중수동지점",
+        "lat": -5429,
+        "lng": 25276,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "16"
+    },
+    {
+        "name": "중소기업은행 고송7동지점",
+        "lat": -4340,
+        "lng": 19835,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "70"
+    },
+    {
+        "name": "중소기업은행 치남동지점",
+        "lat": -9270,
+        "lng": 19658,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "37"
+    },
+    {
+        "name": "중소기업은행 중수3동지점",
+        "lat": -6216,
+        "lng": 26367,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "18"
+    },
+    {
+        "name": "중소기업은행 평전동지점",
+        "lat": -6911,
+        "lng": 29364,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "31"
+    },
+    {
+        "name": "중소기업은행 사능동3가지점",
+        "lat": -8901,
+        "lng": 19889,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "69"
+    },
+    {
+        "name": "중소기업은행 곡진동지점",
+        "lat": -5796,
+        "lng": 28550,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "43"
+    },
+    {
+        "name": "한국수출입은행 고송동지점",
+        "lat": -4927,
+        "lng": 18670,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "29"
+    },
+    {
+        "name": "농협은행 소조동지점",
+        "lat": -7713,
+        "lng": 18687,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "74"
+    },
+    {
+        "name": "농협은행 치남동지점",
+        "lat": -9280,
+        "lng": 19747,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "35"
+    },
+    {
+        "name": "농협은행 중수동지점",
+        "lat": -6373,
+        "lng": 24667,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "25"
+    },
+    {
+        "name": "농협은행 고송동지점",
+        "lat": -5117,
+        "lng": 18838,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "65"
+    },
+    {
+        "name": "농협은행 오내동지점",
+        "lat": -8351,
+        "lng": 24066,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "18"
+    },
+    {
+        "name": "농협은행 사연동지점",
+        "lat": -6806,
+        "lng": 22860,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "76"
+    },
+    {
+        "name": "농협은행 소조역지점",
+        "lat": -6954,
+        "lng": 19091,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "17"
+    },
+    {
+        "name": "신한은행 신영동지점",
+        "lat": -7718,
+        "lng": 27377,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "61"
+    },
+    {
+        "name": "신한은행 고송동지점",
+        "lat": -3816,
+        "lng": 17564,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "70"
+    },
+    {
+        "name": "신한은행 입선동지점",
+        "lat": -5762,
+        "lng": 20637,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "18"
+    },
+    {
+        "name": "신한은행 채산동지점",
+        "lat": -8307,
+        "lng": 26209,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "61"
+    },
+    {
+        "name": "신한은행 효빈지방교정청지점",
+        "lat": -7308,
+        "lng": 26058,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "24"
+    },
+    {
+        "name": "신한은행 오내동지점",
+        "lat": -7500,
+        "lng": 22956,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "58"
+    },
+    {
+        "name": "우리은행 사능동2가지점",
+        "lat": -9623,
+        "lng": 19924,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "73"
+    },
+    {
+        "name": "우리은행 중수동지점",
+        "lat": -5148,
+        "lng": 25101,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "40"
+    },
+    {
+        "name": "우리은행 생곡동지점",
+        "lat": -8538,
+        "lng": 20617,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "26"
+    },
+    {
+        "name": "우리은행 남전동지점",
+        "lat": -7347,
+        "lng": 24245,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "22"
+    },
+    {
+        "name": "SC제일은행 청능동지점",
+        "lat": -5766,
+        "lng": 19828,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "65"
+    },
+    {
+        "name": "하나은행 신영동지점",
+        "lat": -7556,
+        "lng": 27977,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "25"
+    },
+    {
+        "name": "하나은행 고송동지점",
+        "lat": -5205,
+        "lng": 17705,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "27"
+    },
+    {
+        "name": "하나은행 채산동지점",
+        "lat": -7526,
+        "lng": 27684,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "27"
+    },
+    {
+        "name": "하나은행 청능동지점",
+        "lat": -5595,
+        "lng": 19581,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "38"
+    },
+    {
+        "name": "하나은행 천왕사동지점",
+        "lat": -6968,
+        "lng": 21540,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "24"
+    },
+    {
+        "name": "하나은행 오내동지점",
+        "lat": -7872,
+        "lng": 22637,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "43"
+    },
+    {
+        "name": "하나은행 고송6동지점",
+        "lat": -3877,
+        "lng": 17556,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "44"
+    },
+    {
+        "name": "하나은행 실본동지점",
+        "lat": -7126,
+        "lng": 26837,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "67"
+    },
+    {
+        "name": "국민은행 고송동지점",
+        "lat": -4743,
+        "lng": 20136,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "35"
+    },
+    {
+        "name": "국민은행 신영동지점",
+        "lat": -7316,
+        "lng": 27561,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "39"
+    },
+    {
+        "name": "국민은행 고송4동지점",
+        "lat": -4765,
+        "lng": 17085,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "49"
+    },
+    {
+        "name": "국민은행 소조동지점",
+        "lat": -7924,
+        "lng": 19002,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "73"
+    },
+    {
+        "name": "국민은행 소조2아파트지점",
+        "lat": -6564,
+        "lng": 19125,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "53"
+    },
+    {
+        "name": "국민은행 창상관지점",
+        "lat": -7328,
+        "lng": 18630,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "26"
+    },
+    {
+        "name": "국민은행 오내동지점",
+        "lat": -7306,
+        "lng": 23899,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "22"
+    },
+    {
+        "name": "국민은행 채산동지점",
+        "lat": -7676,
+        "lng": 27680,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "63"
+    },
+    {
+        "name": "iM뱅크 중수동지점",
+        "lat": -6858,
+        "lng": 24548,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "32"
+    },
+    {
+        "name": "한국씨티은행 고송동지점",
+        "lat": -4045,
+        "lng": 17961,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "15"
+    },
+    {
+        "name": "효빈은행 해서동지점",
+        "lat": -7841,
+        "lng": 19983,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "63"
+    },
+    {
+        "name": "효빈은행 고송동지점",
+        "lat": -3009,
+        "lng": 16920,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈은행 진희동지점",
+        "lat": -4001,
+        "lng": 21864,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈은행 사능동2가지점",
+        "lat": -7679,
+        "lng": 19295,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "15"
+    },
+    {
+        "name": "효빈은행 천왕사동지점",
+        "lat": -7996,
+        "lng": 20388,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "62"
+    },
+    {
+        "name": "효빈은행 서도동지점",
+        "lat": -6169,
+        "lng": 23567,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈은행 소조동지점",
+        "lat": -7989,
+        "lng": 18571,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "49"
+    },
+    {
+        "name": "효빈은행 롯데리아효빈터미널점지점",
+        "lat": -7830,
+        "lng": 20270,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "70"
+    },
+    {
+        "name": "효빈은행 중수동지점",
+        "lat": -6563,
+        "lng": 24438,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "55"
+    },
+    {
+        "name": "효빈은행 고송1동지점",
+        "lat": -2473,
+        "lng": 16455,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈은행 중수1동지점",
+        "lat": -5688,
+        "lng": 24545,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈은행 고송5동지점",
+        "lat": -4992,
+        "lng": 18219,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "26"
+    },
+    {
+        "name": "효빈은행 진희공원지점",
+        "lat": -4533,
+        "lng": 22134,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "51"
+    },
+    {
+        "name": "효빈은행 남전동지점",
+        "lat": -7141,
+        "lng": 25629,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "70"
+    },
+    {
+        "name": "효빈은행 고송8동지점",
+        "lat": -5499,
+        "lng": 18911,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈은행 중수3동지점",
+        "lat": -6343,
+        "lng": 26341,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈은행 롯데마트진희점지점",
+        "lat": -5091,
+        "lng": 21036,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "39"
+    },
+    {
+        "name": "효빈은행 수포동지점",
+        "lat": -8161,
+        "lng": 27195,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "19"
+    },
+    {
+        "name": "효빈은행 다이소북구청점지점",
+        "lat": -5656,
+        "lng": 25300,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "35"
+    },
+    {
+        "name": "효빈은행 생곡동지점",
+        "lat": -8630,
+        "lng": 20498,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈은행 곡진동지점",
+        "lat": -5739,
+        "lng": 28186,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "49"
+    },
+    {
+        "name": "효빈은행 평전동지점",
+        "lat": -7249,
+        "lng": 27806,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "27"
+    },
+    {
+        "name": "효빈은행 빈스마트고송본점지점",
+        "lat": -4695,
+        "lng": 18264,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "68"
+    },
+    {
+        "name": "효빈은행 청능동지점",
+        "lat": -5793,
+        "lng": 18972,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "53"
+    },
+    {
+        "name": "효빈은행 중수1단지아파트지점",
+        "lat": -5186,
+        "lng": 25251,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈은행 입희동지점",
+        "lat": -6230,
+        "lng": 21864,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "17"
+    },
+    {
+        "name": "효빈은행 천왕사지점",
+        "lat": -7066,
+        "lng": 20230,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "39"
+    },
+    {
+        "name": "효빈은행 오내동지점",
+        "lat": -8208,
+        "lng": 23328,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈은행 선부아파트지점",
+        "lat": -5615,
+        "lng": 20352,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "52"
+    },
+    {
+        "name": "효빈은행 고송4동지점",
+        "lat": -4232,
+        "lng": 16477,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "15"
+    },
+    {
+        "name": "효빈은행 중수4동지점",
+        "lat": -6561,
+        "lng": 24760,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "63"
+    },
+    {
+        "name": "덕북은행 고송동지점",
+        "lat": -3447,
+        "lng": 15900,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "42"
+    },
+    {
+        "name": "미즈호은행 효빈지점",
+        "lat": -4045,
+        "lng": 15810,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "26"
+    },
+    {
+        "name": "필리핀메트로은행 효빈지점",
+        "lat": -6442,
+        "lng": 28534,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "32"
+    },
+    {
+        "name": "북효빈농협 본점",
+        "lat": -5437,
+        "lng": 29446,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "56"
+    },
+    {
+        "name": "북효빈농협 진희동지점",
+        "lat": -3868,
+        "lng": 22525,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "71"
+    },
+    {
+        "name": "북효빈농협 고송동지점",
+        "lat": -4708,
+        "lng": 17003,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "14"
+    },
+    {
+        "name": "북효빈농협 채산동지점",
+        "lat": -8041,
+        "lng": 25743,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "23"
+    },
+    {
+        "name": "북효빈농협 남전동지점",
+        "lat": -7372,
+        "lng": 24931,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "53"
+    },
+    {
+        "name": "북효빈농협 신영동지점",
+        "lat": -7817,
+        "lng": 28428,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "60"
+    },
+    {
+        "name": "효빈덕북우유농협",
+        "lat": -3684,
+        "lng": 17472,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "71"
+    },
+    {
+        "name": "효빈축산농협 본점",
+        "lat": -7501,
+        "lng": 27464,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "78"
+    },
+    {
+        "name": "효빈축산농협 평전동지점",
+        "lat": -6070,
+        "lng": 28476,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "44"
+    },
+    {
+        "name": "효빈원예농협 북구지점",
+        "lat": -8090,
+        "lng": 18611,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "62"
+    },
+    {
+        "name": "서효빈농협 북구지점",
+        "lat": -8413,
+        "lng": 19327,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "43"
+    },
+    {
+        "name": "서효빈농협 사능동3가지점",
+        "lat": -8811,
+        "lng": 19810,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "52"
+    },
+    {
+        "name": "서효빈농협 치남동지점",
+        "lat": -9066,
+        "lng": 20567,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈덕북양돈농협",
+        "lat": -5944,
+        "lng": 19153,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "60"
+    },
+    {
+        "name": "대형기선저인망수협 북구지점",
+        "lat": -4890,
+        "lng": 19352,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "18"
+    },
+    {
+        "name": "효빈시수협 북구지점",
+        "lat": -7093,
+        "lng": 24733,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "41"
+    },
+    {
+        "name": "기도군수협 고송지점",
+        "lat": -2948,
+        "lng": 16671,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "76"
+    },
+    {
+        "name": "덕북정치망수협 효빈지점",
+        "lat": -5382,
+        "lng": 23975,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "29"
+    },
+    {
+        "name": "고송새마을금고 본점",
+        "lat": -4840,
+        "lng": 17419,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "32"
+    },
+    {
+        "name": "고송새마을금고 고송동지점",
+        "lat": -3958,
+        "lng": 16149,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "68"
+    },
+    {
+        "name": "고송새마을금고 고송4동지점",
+        "lat": -4241,
+        "lng": 16941,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "48"
+    },
+    {
+        "name": "고송새마을금고 고송6동지점",
+        "lat": -3903,
+        "lng": 18101,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "26"
+    },
+    {
+        "name": "고송새마을금고 고송강변역지점",
+        "lat": -4247,
+        "lng": 18962,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "17"
+    },
+    {
+        "name": "고송새마을금고 고송3동지점",
+        "lat": -4214,
+        "lng": 16098,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "48"
+    },
+    {
+        "name": "중수새마을금고 본점",
+        "lat": -4995,
+        "lng": 25276,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "63"
+    },
+    {
+        "name": "중수새마을금고 중수동지점",
+        "lat": -4990,
+        "lng": 25240,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "25"
+    },
+    {
+        "name": "중수새마을금고 중수3동지점",
+        "lat": -6450,
+        "lng": 25509,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "62"
+    },
+    {
+        "name": "중수새마을금고 중수4동지점",
+        "lat": -6447,
+        "lng": 24406,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "70"
+    },
+    {
+        "name": "중수새마을금고 중수2동지점",
+        "lat": -5701,
+        "lng": 26172,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "45"
+    },
+    {
+        "name": "사능새마을금고 본점",
+        "lat": -8381,
+        "lng": 19426,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "31"
+    },
+    {
+        "name": "사능새마을금고 사능동2가지점",
+        "lat": -8559,
+        "lng": 19251,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "22"
+    },
+    {
+        "name": "사능새마을금고 사능2동지점",
+        "lat": -8298,
+        "lng": 19275,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "50"
+    },
+    {
+        "name": "오내새마을금고 본점",
+        "lat": -7595,
+        "lng": 22607,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "33"
+    },
+    {
+        "name": "오내새마을금고 사연동지점",
+        "lat": -6993,
+        "lng": 23655,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "76"
+    },
+    {
+        "name": "오내새마을금고 오내동지점",
+        "lat": -7894,
+        "lng": 23867,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "62"
+    },
+    {
+        "name": "진희·입희새마을금고 본점",
+        "lat": -4557,
+        "lng": 21303,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "48"
+    },
+    {
+        "name": "진희·입희새마을금고 진희동지점",
+        "lat": -5204,
+        "lng": 20875,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "55"
+    },
+    {
+        "name": "진희·입희새마을금고 이지움진희아파트지점",
+        "lat": -4075,
+        "lng": 21745,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "20"
+    },
+    {
+        "name": "청능새마을금고 본점",
+        "lat": -5554,
+        "lng": 19859,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "26"
+    },
+    {
+        "name": "청능새마을금고 청능동지점",
+        "lat": -5445,
+        "lng": 19522,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "49"
+    },
+    {
+        "name": "남전새마을금고 본점",
+        "lat": -7268,
+        "lng": 25461,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "58"
+    },
+    {
+        "name": "남전새마을금고 남전동지점",
+        "lat": -7019,
+        "lng": 25338,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "72"
+    },
+    {
+        "name": "천왕사새마을금고 본점",
+        "lat": -7030,
+        "lng": 20965,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "39"
+    },
+    {
+        "name": "천왕사새마을금고 천왕사동지점",
+        "lat": -7444,
+        "lng": 21729,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "46"
+    },
+    {
+        "name": "천왕사새마을금고 천왕사시장지점",
+        "lat": -7340,
+        "lng": 21106,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "55"
+    },
+    {
+        "name": "평전·채산새마을금고 본점",
+        "lat": -6956,
+        "lng": 26482,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "64"
+    },
+    {
+        "name": "평전·채산새마을금고 실본동지점",
+        "lat": -7563,
+        "lng": 26662,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "25"
+    },
+    {
+        "name": "평전·채산새마을금고 채산동지점",
+        "lat": -8031,
+        "lng": 25924,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "60"
+    },
+    {
+        "name": "평전·채산새마을금고 채산중교지점",
+        "lat": -7763,
+        "lng": 26379,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "46"
+    },
+    {
+        "name": "효빈광역시청새마을금고",
+        "lat": -5090,
+        "lng": 18784,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "60"
+    },
+    {
+        "name": "삼선대병원새마을금고",
+        "lat": -6088,
+        "lng": 21328,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "58"
+    },
+    {
+        "name": "고송신용협동조합 본점",
+        "lat": -5346,
+        "lng": 19505,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "43"
+    },
+    {
+        "name": "고송신용협동조합 고송동지점",
+        "lat": -4833,
+        "lng": 17462,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "33"
+    },
+    {
+        "name": "고송신용협동조합 고송1동지점",
+        "lat": -2550,
+        "lng": 16335,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "47"
+    },
+    {
+        "name": "고송신용협동조합 고송6동지점",
+        "lat": -4128,
+        "lng": 18250,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "24"
+    },
+    {
+        "name": "중수삼익신용협동조합 본점",
+        "lat": -5444,
+        "lng": 26194,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "52"
+    },
+    {
+        "name": "중수삼익신용협동조합 고송동지점",
+        "lat": -3151,
+        "lng": 17107,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "27"
+    },
+    {
+        "name": "중수삼익신용협동조합 중수동지점",
+        "lat": -5353,
+        "lng": 24854,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "62"
+    },
+    {
+        "name": "중수삼익신용협동조합 중수4동지점",
+        "lat": -6801,
+        "lng": 24824,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "49"
+    },
+    {
+        "name": "효빈대건신용협동조합 본점",
+        "lat": -7136,
+        "lng": 19170,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "33"
+    },
+    {
+        "name": "효빈대건신용협동조합 소조동지점",
+        "lat": -7265,
+        "lng": 19016,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "29"
+    },
+    {
+        "name": "효빈대건신용협동조합 청능동지점",
+        "lat": -6166,
+        "lng": 18883,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "52"
+    },
+    {
+        "name": "사능신용협동조합 본점",
+        "lat": -8713,
+        "lng": 19253,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "58"
+    },
+    {
+        "name": "사능신용협동조합 치남동지점",
+        "lat": -9060,
+        "lng": 20015,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "74"
+    },
+    {
+        "name": "평전공단신용협동조합 본점",
+        "lat": -6589,
+        "lng": 28634,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "38"
+    },
+    {
+        "name": "평전공단신용협동조합 평전동지점",
+        "lat": -6521,
+        "lng": 28970,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "72"
+    },
+    {
+        "name": "평전공단신용협동조합 채산동지점",
+        "lat": -6953,
+        "lng": 29188,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "17"
+    },
+    {
+        "name": "효빈북구의사신협",
+        "lat": -8216,
+        "lng": 18391,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "50"
+    },
+    {
+        "name": "효빈교직원신협",
+        "lat": -6765,
+        "lng": 19679,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈저축은행 북구본점",
+        "lat": -4149,
+        "lng": 17181,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.8",
+        "reviews": "63"
+    },
+    {
+        "name": "SBI저축은행 고송금융센터",
+        "lat": -4621,
+        "lng": 20142,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.7",
+        "reviews": "44"
+    },
+    {
+        "name": "OK저축은행 중수지점",
+        "lat": -5476,
+        "lng": 25505,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "75"
+    },
+    {
+        "name": "웰컴저축은행 효빈터미널지점",
+        "lat": -7951,
+        "lng": 20361,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.7",
+        "reviews": "68"
+    },
+    {
+        "name": "페퍼저축은행 고송교차로지점",
+        "lat": -7478,
+        "lng": 27379,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "15"
+    },
+    {
+        "name": "한국투자저축은행 효빈북구지점",
+        "lat": -4209,
+        "lng": 19131,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "57"
+    },
+    {
+        "name": "다올저축은행 중수법조타운지점",
+        "lat": -6759,
+        "lng": 24839,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.7",
+        "reviews": "20"
+    },
+    {
+        "name": "동효빈우체국",
+        "lat": -10128,
+        "lng": 24561,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "31"
+    },
+    {
+        "name": "효빈덕현동우체국",
+        "lat": -10139,
+        "lng": 21299,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "56"
+    },
+    {
+        "name": "효빈덕현2동우체국",
+        "lat": -10258,
+        "lng": 21903,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "26"
+    },
+    {
+        "name": "효빈동구정신건강복지센터우체국",
+        "lat": -9991,
+        "lng": 21657,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "17"
+    },
+    {
+        "name": "효빈전천동우체국",
+        "lat": -8998,
+        "lng": 23315,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "62"
+    },
+    {
+        "name": "효빈사가당동우체국",
+        "lat": -10637,
+        "lng": 22034,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "효빈사가당1동우체국",
+        "lat": -9900,
+        "lng": 20857,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "16"
+    },
+    {
+        "name": "중소기업은행 덕현동지점",
+        "lat": -9505,
+        "lng": 24960,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "55"
+    },
+    {
+        "name": "중소기업은행 덕현2동지점",
+        "lat": -9915,
+        "lng": 21980,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "25"
+    },
+    {
+        "name": "중소기업은행 덕현3동지점",
+        "lat": -9424,
+        "lng": 22349,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "21"
+    },
+    {
+        "name": "농협은행 사가당동지점",
+        "lat": -10956,
+        "lng": 20960,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "71"
+    },
+    {
+        "name": "농협은행 덕현동지점",
+        "lat": -9624,
+        "lng": 25212,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "57"
+    },
+    {
+        "name": "농협은행 사가당1동지점",
+        "lat": -10433,
+        "lng": 20086,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "47"
+    },
+    {
+        "name": "농협은행 덕현3동지점",
+        "lat": -9384,
+        "lng": 22149,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "65"
+    },
+    {
+        "name": "신한은행 덕현동지점",
+        "lat": -9800,
+        "lng": 20951,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "33"
+    },
+    {
+        "name": "신한은행 사가당동지점",
+        "lat": -10344,
+        "lng": 22261,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "26"
+    },
+    {
+        "name": "신한은행 전천동지점",
+        "lat": -8496,
+        "lng": 23300,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "29"
+    },
+    {
+        "name": "우리은행 덕현동지점",
+        "lat": -10405,
+        "lng": 23649,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "27"
+    },
+    {
+        "name": "우리은행 전천동지점",
+        "lat": -9035,
+        "lng": 22064,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "26"
+    },
+    {
+        "name": "하나은행 사가당동지점",
+        "lat": -9525,
+        "lng": 20418,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "29"
+    },
+    {
+        "name": "하나은행 사가당2동지점",
+        "lat": -10295,
+        "lng": 21196,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "19"
+    },
+    {
+        "name": "하나은행 덕현동지점",
+        "lat": -9892,
+        "lng": 23852,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "16"
+    },
+    {
+        "name": "국민은행 덕현동지점",
+        "lat": -10315,
+        "lng": 23981,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "34"
+    },
+    {
+        "name": "국민은행 사가당동지점",
+        "lat": -10493,
+        "lng": 21611,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "77"
+    },
+    {
+        "name": "국민은행 사가당1동지점",
+        "lat": -10242,
+        "lng": 21001,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "29"
+    },
+    {
+        "name": "효빈은행 사가당동지점",
+        "lat": -10346,
+        "lng": 20889,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "77"
+    },
+    {
+        "name": "효빈은행 사가당2동지점",
+        "lat": -10390,
+        "lng": 21292,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "74"
+    },
+    {
+        "name": "효빈은행 덕현동지점",
+        "lat": -9389,
+        "lng": 21173,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "21"
+    },
+    {
+        "name": "효빈은행 덕현5동지점",
+        "lat": -9744,
+        "lng": 22979,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "50"
+    },
+    {
+        "name": "효빈은행 사가당2동주민센터지점",
+        "lat": -10609,
+        "lng": 20830,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "76"
+    },
+    {
+        "name": "효빈은행 덕현3동지점",
+        "lat": -9044,
+        "lng": 21546,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "16"
+    },
+    {
+        "name": "효빈은행 사가당1동지점",
+        "lat": -10219,
+        "lng": 19972,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "58"
+    },
+    {
+        "name": "효빈은행 덕현1동지점",
+        "lat": -9319,
+        "lng": 21205,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈은행 롯데리아사가당점지점",
+        "lat": -10664,
+        "lng": 21020,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈은행 버거킹효빈역점지점",
+        "lat": -9849,
+        "lng": 20529,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "44"
+    },
+    {
+        "name": "효빈은행 덕현11동지점",
+        "lat": -9928,
+        "lng": 24326,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "40"
+    },
+    {
+        "name": "효빈은행 덕현4동지점",
+        "lat": -10798,
+        "lng": 23432,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "60"
+    },
+    {
+        "name": "효빈은행 덕현2동지점",
+        "lat": -10002,
+        "lng": 22208,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "76"
+    },
+    {
+        "name": "동효빈농협 본점",
+        "lat": -8386,
+        "lng": 21616,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "18"
+    },
+    {
+        "name": "동효빈농협 전천동지점",
+        "lat": -9297,
+        "lng": 22869,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "56"
+    },
+    {
+        "name": "동효빈농협 삼댁공원지점",
+        "lat": -9264,
+        "lng": 23214,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "66"
+    },
+    {
+        "name": "동효빈농협 전천동주민센터지점",
+        "lat": -8549,
+        "lng": 21317,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "56"
+    },
+    {
+        "name": "동효빈농협 덕현동지점",
+        "lat": -10031,
+        "lng": 23270,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "44"
+    },
+    {
+        "name": "동효빈농협 덕현1동지점",
+        "lat": -8961,
+        "lng": 20846,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "23"
+    },
+    {
+        "name": "효빈축산농협 동구지점",
+        "lat": -10844,
+        "lng": 20848,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈축산농협 사가당동지점",
+        "lat": -10527,
+        "lng": 22714,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "60"
+    },
+    {
+        "name": "효빈원예농협 동구지점",
+        "lat": -9514,
+        "lng": 23177,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "32"
+    },
+    {
+        "name": "덕현새마을금고 본점",
+        "lat": -10277,
+        "lng": 24783,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "22"
+    },
+    {
+        "name": "덕현새마을금고 덕현동지점",
+        "lat": -9532,
+        "lng": 21219,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "61"
+    },
+    {
+        "name": "덕현새마을금고 덕현2동지점",
+        "lat": -9894,
+        "lng": 21701,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "39"
+    },
+    {
+        "name": "신덕현새마을금고 본점",
+        "lat": -10467,
+        "lng": 23887,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "22"
+    },
+    {
+        "name": "신덕현새마을금고 덕현동지점",
+        "lat": -10165,
+        "lng": 22695,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "41"
+    },
+    {
+        "name": "사가당새마을금고 본점",
+        "lat": -10299,
+        "lng": 20229,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "51"
+    },
+    {
+        "name": "사가당새마을금고 덕현동지점",
+        "lat": -10259,
+        "lng": 22299,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "63"
+    },
+    {
+        "name": "사가당새마을금고 사가당동지점",
+        "lat": -10457,
+        "lng": 19962,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "19"
+    },
+    {
+        "name": "전천새마을금고 본점",
+        "lat": -8795,
+        "lng": 24385,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "75"
+    },
+    {
+        "name": "전천새마을금고 전천동지점",
+        "lat": -8651,
+        "lng": 22656,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "43"
+    },
+    {
+        "name": "보몽새마을금고 본점",
+        "lat": -8809,
+        "lng": 22919,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "56"
+    },
+    {
+        "name": "보몽새마을금고 전천동지점",
+        "lat": -8826,
+        "lng": 22973,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "26"
+    },
+    {
+        "name": "가동새마을금고",
+        "lat": -10289,
+        "lng": 22270,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "75"
+    },
+    {
+        "name": "효빈역전새마을금고 본점",
+        "lat": -8746,
+        "lng": 24063,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "23"
+    },
+    {
+        "name": "효빈역전새마을금고 전천동지점",
+        "lat": -8336,
+        "lng": 21381,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "61"
+    },
+    {
+        "name": "동효빈새마을금고 본점",
+        "lat": -9895,
+        "lng": 23961,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "42"
+    },
+    {
+        "name": "동효빈새마을금고 덕현동지점",
+        "lat": -9172,
+        "lng": 25111,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "35"
+    },
+    {
+        "name": "동구제일새마을금고",
+        "lat": -9912,
+        "lng": 21396,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "73"
+    },
+    {
+        "name": "미래새마을금고 본점",
+        "lat": -10125,
+        "lng": 23532,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "71"
+    },
+    {
+        "name": "미래새마을금고 덕현동지점",
+        "lat": -9676,
+        "lng": 23442,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "43"
+    },
+    {
+        "name": "덕현신용협동조합 본점",
+        "lat": -9981,
+        "lng": 23213,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "14"
+    },
+    {
+        "name": "덕현신용협동조합 덕현동지점",
+        "lat": -9051,
+        "lng": 21479,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "69"
+    },
+    {
+        "name": "덕현신용협동조합 덕현7동지점",
+        "lat": -9398,
+        "lng": 25002,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "48"
+    },
+    {
+        "name": "사가당신용협동조합 본점",
+        "lat": -10197,
+        "lng": 20583,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "39"
+    },
+    {
+        "name": "사가당신용협동조합 사가당동지점",
+        "lat": -10339,
+        "lng": 21100,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "41"
+    },
+    {
+        "name": "전천신용협동조합 본점",
+        "lat": -9077,
+        "lng": 22048,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "78"
+    },
+    {
+        "name": "전천신용협동조합 전천동지점",
+        "lat": -8786,
+        "lng": 22225,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈철도신용협동조합 본점",
+        "lat": -10269,
+        "lng": 20636,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "58"
+    },
+    {
+        "name": "효빈철도신용협동조합 사가당동지점",
+        "lat": -10055,
+        "lng": 20799,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "19"
+    },
+    {
+        "name": "효빈동부신용협동조합 본점",
+        "lat": -9692,
+        "lng": 24323,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "74"
+    },
+    {
+        "name": "효빈동부신용협동조합 덕현동지점",
+        "lat": -9986,
+        "lng": 22992,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "56"
+    },
+    {
+        "name": "효빈저축은행 동구지점",
+        "lat": -10559,
+        "lng": 19972,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "38"
+    },
+    {
+        "name": "OSB저축은행 효빈동구지점",
+        "lat": -9939,
+        "lng": 23986,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "26"
+    },
+    {
+        "name": "웰컴저축은행 효빈역지점",
+        "lat": -9971,
+        "lng": 21286,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "78"
+    },
+    {
+        "name": "효빈청덕동우체국",
+        "lat": -6054,
+        "lng": 12577,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "71"
+    },
+    {
+        "name": "효빈당선동우체국",
+        "lat": -7903,
+        "lng": 18184,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈당선4동우체국",
+        "lat": -7375,
+        "lng": 16522,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "26"
+    },
+    {
+        "name": "효빈북문동2가우체국",
+        "lat": -8659,
+        "lng": 17217,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "49"
+    },
+    {
+        "name": "효빈과진동우체국",
+        "lat": -5544,
+        "lng": 15553,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "44"
+    },
+    {
+        "name": "효빈사복동우체국",
+        "lat": -5460,
+        "lng": 17425,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈당선3동우체국",
+        "lat": -6657,
+        "lng": 15663,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "39"
+    },
+    {
+        "name": "효빈과진3동우체국",
+        "lat": -5395,
+        "lng": 16311,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "63"
+    },
+    {
+        "name": "중소기업은행 당선동지점",
+        "lat": -6650,
+        "lng": 18452,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "44"
+    },
+    {
+        "name": "중소기업은행 과진동지점",
+        "lat": -5590,
+        "lng": 15421,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "44"
+    },
+    {
+        "name": "중소기업은행 당선4동지점",
+        "lat": -7642,
+        "lng": 16381,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "48"
+    },
+    {
+        "name": "중소기업은행 사복동지점",
+        "lat": -6118,
+        "lng": 17502,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "18"
+    },
+    {
+        "name": "한국산업은행 당선동지점",
+        "lat": -7285,
+        "lng": 16619,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "25"
+    },
+    {
+        "name": "농협은행 청덕동지점",
+        "lat": -4651,
+        "lng": 15603,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "27"
+    },
+    {
+        "name": "농협은행 칠천동지점",
+        "lat": -8310,
+        "lng": 18252,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "31"
+    },
+    {
+        "name": "농협은행 당선동지점",
+        "lat": -6503,
+        "lng": 18321,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "14"
+    },
+    {
+        "name": "농협은행 당선2동지점",
+        "lat": -6787,
+        "lng": 17714,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "55"
+    },
+    {
+        "name": "농협은행 당선3동지점",
+        "lat": -6776,
+        "lng": 16921,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "70"
+    },
+    {
+        "name": "농협은행 청덕3동지점",
+        "lat": -4649,
+        "lng": 15549,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "60"
+    },
+    {
+        "name": "수협은행 사복동지점",
+        "lat": -5593,
+        "lng": 17967,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "70"
+    },
+    {
+        "name": "수협은행 청덕동지점",
+        "lat": -5415,
+        "lng": 12421,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "38"
+    },
+    {
+        "name": "국민은행 과진동지점",
+        "lat": -4785,
+        "lng": 16056,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "29"
+    },
+    {
+        "name": "국민은행 당선동지점",
+        "lat": -7607,
+        "lng": 16535,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "59"
+    },
+    {
+        "name": "국민은행 북문동2가지점",
+        "lat": -8496,
+        "lng": 17424,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "46"
+    },
+    {
+        "name": "국민은행 과진1동지점",
+        "lat": -4782,
+        "lng": 16444,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "36"
+    },
+    {
+        "name": "국민은행 과진6동지점",
+        "lat": -5773,
+        "lng": 15128,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "35"
+    },
+    {
+        "name": "신한은행 당선동지점",
+        "lat": -6486,
+        "lng": 17387,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "25"
+    },
+    {
+        "name": "신한은행 북문동2가지점",
+        "lat": -8346,
+        "lng": 17232,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "42"
+    },
+    {
+        "name": "신한은행 사복동지점",
+        "lat": -5428,
+        "lng": 17770,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "64"
+    },
+    {
+        "name": "신한은행 청덕동지점",
+        "lat": -4547,
+        "lng": 14897,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "18"
+    },
+    {
+        "name": "하나은행 과진동지점",
+        "lat": -5407,
+        "lng": 17308,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "35"
+    },
+    {
+        "name": "하나은행 당선동지점",
+        "lat": -7510,
+        "lng": 17857,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "18"
+    },
+    {
+        "name": "하나은행 과진1동지점",
+        "lat": -4799,
+        "lng": 16147,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "62"
+    },
+    {
+        "name": "하나은행 내성동1가지점",
+        "lat": -8433,
+        "lng": 17645,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "62"
+    },
+    {
+        "name": "우리은행 당선동지점",
+        "lat": -6728,
+        "lng": 17794,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "48"
+    },
+    {
+        "name": "우리은행 내성동2가지점",
+        "lat": -8441,
+        "lng": 17798,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "50"
+    },
+    {
+        "name": "우리은행 당선2동지점",
+        "lat": -6648,
+        "lng": 17297,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "41"
+    },
+    {
+        "name": "효빈은행 북문동2가지점",
+        "lat": -8395,
+        "lng": 17432,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "40"
+    },
+    {
+        "name": "효빈은행 당선동지점",
+        "lat": -7087,
+        "lng": 18505,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "47"
+    },
+    {
+        "name": "효빈은행 사복동지점",
+        "lat": -6032,
+        "lng": 18101,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "63"
+    },
+    {
+        "name": "효빈은행 청덕동지점",
+        "lat": -5440,
+        "lng": 15142,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "68"
+    },
+    {
+        "name": "효빈은행 과진동지점",
+        "lat": -6328,
+        "lng": 15025,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "61"
+    },
+    {
+        "name": "효빈은행 과진1동지점",
+        "lat": -4941,
+        "lng": 16570,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈은행 사복1동지점",
+        "lat": -5327,
+        "lng": 17509,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "50"
+    },
+    {
+        "name": "효빈은행 사복2동지점",
+        "lat": -6003,
+        "lng": 18280,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "39"
+    },
+    {
+        "name": "효빈은행 과진2동지점",
+        "lat": -5819,
+        "lng": 16932,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "22"
+    },
+    {
+        "name": "효빈은행 당선3동지점",
+        "lat": -6687,
+        "lng": 16427,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈은행 내성동3가지점",
+        "lat": -8807,
+        "lng": 17996,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "47"
+    },
+    {
+        "name": "효빈은행 청덕1동지점",
+        "lat": -5198,
+        "lng": 12554,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "25"
+    },
+    {
+        "name": "서효빈농협 본점",
+        "lat": -6703,
+        "lng": 16315,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "64"
+    },
+    {
+        "name": "서효빈농협 청덕동지점",
+        "lat": -5914,
+        "lng": 14215,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "76"
+    },
+    {
+        "name": "서효빈농협 청덕3동지점",
+        "lat": -4671,
+        "lng": 14607,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "47"
+    },
+    {
+        "name": "서효빈농협 당선동지점",
+        "lat": -6619,
+        "lng": 18409,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "30"
+    },
+    {
+        "name": "서효빈농협 청덕레인보우타운아파트지점",
+        "lat": -3988,
+        "lng": 14970,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "74"
+    },
+    {
+        "name": "서효빈농협 당선1동지점",
+        "lat": -7746,
+        "lng": 17506,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "65"
+    },
+    {
+        "name": "서효빈농협 당선2동지점",
+        "lat": -6732,
+        "lng": 18071,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "68"
+    },
+    {
+        "name": "효빈양봉농협",
+        "lat": -4651,
+        "lng": 16091,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈덕북우유농협 서구지점",
+        "lat": -8548,
+        "lng": 17491,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "55"
+    },
+    {
+        "name": "효빈덕북우유농협 당선동지점",
+        "lat": -6505,
+        "lng": 18230,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "36"
+    },
+    {
+        "name": "효빈원예농협 서구지점",
+        "lat": -7345,
+        "lng": 18429,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "26"
+    },
+    {
+        "name": "효빈시수협 서구지점",
+        "lat": -5714,
+        "lng": 13875,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "41"
+    },
+    {
+        "name": "효빈시수협 청덕동지점",
+        "lat": -5532,
+        "lng": 13880,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "62"
+    },
+    {
+        "name": "대형기선저인망수협 서구지점",
+        "lat": -5387,
+        "lng": 16812,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "37"
+    },
+    {
+        "name": "제1·2구잠수기수협 서구지점",
+        "lat": -4839,
+        "lng": 15211,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "75"
+    },
+    {
+        "name": "당선새마을금고 본점",
+        "lat": -6374,
+        "lng": 18151,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "61"
+    },
+    {
+        "name": "당선새마을금고 당선동지점",
+        "lat": -6474,
+        "lng": 17991,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "17"
+    },
+    {
+        "name": "당선새마을금고 당선4동지점",
+        "lat": -7283,
+        "lng": 16064,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "18"
+    },
+    {
+        "name": "당선새마을금고 당선3동지점",
+        "lat": -6804,
+        "lng": 16600,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "52"
+    },
+    {
+        "name": "과진새마을금고 본점",
+        "lat": -5256,
+        "lng": 15478,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "40"
+    },
+    {
+        "name": "과진새마을금고 과진동지점",
+        "lat": -5750,
+        "lng": 16682,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "61"
+    },
+    {
+        "name": "과진새마을금고 과진3동지점",
+        "lat": -5357,
+        "lng": 16671,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "72"
+    },
+    {
+        "name": "과진새마을금고 과진1동지점",
+        "lat": -4904,
+        "lng": 16405,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "과진새마을금고 과진아이아파트지점",
+        "lat": -5721,
+        "lng": 16402,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "75"
+    },
+    {
+        "name": "청덕새마을금고 본점",
+        "lat": -4282,
+        "lng": 15268,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "19"
+    },
+    {
+        "name": "청덕새마을금고 청덕동지점",
+        "lat": -5010,
+        "lng": 13508,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "32"
+    },
+    {
+        "name": "청덕새마을금고 청덕1동지점",
+        "lat": -6389,
+        "lng": 14459,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "38"
+    },
+    {
+        "name": "사복새마을금고 본점",
+        "lat": -5938,
+        "lng": 17415,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "68"
+    },
+    {
+        "name": "사복새마을금고 사복동지점",
+        "lat": -5886,
+        "lng": 17222,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "65"
+    },
+    {
+        "name": "사복새마을금고 사복2동지점",
+        "lat": -6095,
+        "lng": 17981,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "52"
+    },
+    {
+        "name": "북성새마을금고 본점",
+        "lat": -8624,
+        "lng": 17698,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "15"
+    },
+    {
+        "name": "북성새마을금고 내성동2가지점",
+        "lat": -8643,
+        "lng": 17858,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "52"
+    },
+    {
+        "name": "효빈대학교새마을금고",
+        "lat": -6991,
+        "lng": 18419,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "33"
+    },
+    {
+        "name": "서구청새마을금고",
+        "lat": -7559,
+        "lng": 16875,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈항운새마을금고",
+        "lat": -4459,
+        "lng": 15050,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "64"
+    },
+    {
+        "name": "당선중앙신용협동조합 본점",
+        "lat": -7640,
+        "lng": 16873,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "74"
+    },
+    {
+        "name": "당선중앙신용협동조합 당선동지점",
+        "lat": -7303,
+        "lng": 17477,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "50"
+    },
+    {
+        "name": "당선중앙신용협동조합 당선3동지점",
+        "lat": -6762,
+        "lng": 16340,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "28"
+    },
+    {
+        "name": "서효빈신용협동조합 본점",
+        "lat": -5590,
+        "lng": 17527,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "14"
+    },
+    {
+        "name": "서효빈신용협동조합 청덕동지점",
+        "lat": -4446,
+        "lng": 15384,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "70"
+    },
+    {
+        "name": "서효빈신용협동조합 사복동지점",
+        "lat": -6416,
+        "lng": 16878,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "29"
+    },
+    {
+        "name": "과진신용협동조합 본점",
+        "lat": -5641,
+        "lng": 16091,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "25"
+    },
+    {
+        "name": "과진신용협동조합 과진동지점",
+        "lat": -5411,
+        "lng": 16346,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "27"
+    },
+    {
+        "name": "과진신용협동조합 과진7동지점",
+        "lat": -4958,
+        "lng": 15401,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "39"
+    },
+    {
+        "name": "청덕제일신용협동조합 본점",
+        "lat": -5753,
+        "lng": 13312,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "55"
+    },
+    {
+        "name": "청덕제일신용협동조합 청덕동지점",
+        "lat": -5523,
+        "lng": 14223,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "48"
+    },
+    {
+        "name": "사복신용협동조합 본점",
+        "lat": -5821,
+        "lng": 17269,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "45"
+    },
+    {
+        "name": "사복신용협동조합 사복동지점",
+        "lat": -5884,
+        "lng": 17957,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "52"
+    },
+    {
+        "name": "북성신용협동조합",
+        "lat": -8369,
+        "lng": 17628,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "48"
+    },
+    {
+        "name": "해항신용협동조합 본점",
+        "lat": -5760,
+        "lng": 15442,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "70"
+    },
+    {
+        "name": "해항신용협동조합 과진동지점",
+        "lat": -6422,
+        "lng": 15767,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "57"
+    },
+    {
+        "name": "과진스타트업신용협동조합",
+        "lat": -5766,
+        "lng": 15327,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "33"
+    },
+    {
+        "name": "효빈과기원신용협동조합",
+        "lat": -6179,
+        "lng": 15307,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "52"
+    },
+    {
+        "name": "효빈대교직원신용협동조합",
+        "lat": -7124,
+        "lng": 18428,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈서구의사신용협동조합",
+        "lat": -7845,
+        "lng": 18086,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "38"
+    },
+    {
+        "name": "효빈저축은행 서구지점",
+        "lat": -6819,
+        "lng": 17510,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "57"
+    },
+    {
+        "name": "페퍼저축은행 효빈서구지점",
+        "lat": -6543,
+        "lng": 18174,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.3",
+        "reviews": "66"
+    },
+    {
+        "name": "한국투자저축은행 서구지점",
+        "lat": -5399,
+        "lng": 16956,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "22"
+    },
+    {
+        "name": "스마트저축은행 효빈지점",
+        "lat": -6110,
+        "lng": 18424,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.4",
+        "reviews": "39"
+    },
+    {
+        "name": "JT친애저축은행 서구지점",
+        "lat": -4581,
+        "lng": 16218,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "49"
+    },
+    {
+        "name": "효빈완동2가우체국",
+        "lat": -10581,
+        "lng": 17163,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈원동2가우체국",
+        "lat": -10640,
+        "lng": 16719,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "46"
+    },
+    {
+        "name": "효빈목동우체국",
+        "lat": -11407,
+        "lng": 16450,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "75"
+    },
+    {
+        "name": "효빈리사동우체국",
+        "lat": -10617,
+        "lng": 18503,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈창선동1가우체국",
+        "lat": -10271,
+        "lng": 16301,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "55"
+    },
+    {
+        "name": "중소기업은행 시북동지점",
+        "lat": -10699,
+        "lng": 14242,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "41"
+    },
+    {
+        "name": "중소기업은행 조유동4가지점",
+        "lat": -9507,
+        "lng": 17695,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "73"
+    },
+    {
+        "name": "중소기업은행 고도동지점",
+        "lat": -10477,
+        "lng": 14038,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "15"
+    },
+    {
+        "name": "한국산업은행 창선동3가지점",
+        "lat": -10377,
+        "lng": 16207,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "62"
+    },
+    {
+        "name": "농협은행 심동2가지점",
+        "lat": -10276,
+        "lng": 15949,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "40"
+    },
+    {
+        "name": "농협은행 궁정동지점",
+        "lat": -10191,
+        "lng": 18752,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "51"
+    },
+    {
+        "name": "농협은행 중앙로5가지점",
+        "lat": -9991,
+        "lng": 16789,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "16"
+    },
+    {
+        "name": "농협은행 내조동지점",
+        "lat": -10030,
+        "lng": 19394,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "62"
+    },
+    {
+        "name": "수협은행 내항동지점",
+        "lat": -10481,
+        "lng": 13797,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "25"
+    },
+    {
+        "name": "수협은행 내항119안전센터지점",
+        "lat": -10231,
+        "lng": 13577,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "43"
+    },
+    {
+        "name": "신한은행 중동3가지점",
+        "lat": -10179,
+        "lng": 17521,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "37"
+    },
+    {
+        "name": "신한은행 내조동지점",
+        "lat": -9832,
+        "lng": 19600,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "신한은행 훈동지점",
+        "lat": -10062,
+        "lng": 16523,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "65"
+    },
+    {
+        "name": "신한은행 고도동지점",
+        "lat": -9975,
+        "lng": 14461,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "42"
+    },
+    {
+        "name": "우리은행 신덕동지점",
+        "lat": -10706,
+        "lng": 19214,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "44"
+    },
+    {
+        "name": "우리은행 리사동지점",
+        "lat": -10669,
+        "lng": 18288,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "19"
+    },
+    {
+        "name": "하나은행 중동3가지점",
+        "lat": -9975,
+        "lng": 17632,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "44"
+    },
+    {
+        "name": "하나은행 창선동3가지점",
+        "lat": -10456,
+        "lng": 16039,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "51"
+    },
+    {
+        "name": "하나은행 훈동지점",
+        "lat": -10085,
+        "lng": 16362,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "38"
+    },
+    {
+        "name": "국민은행 지유동1가지점",
+        "lat": -10110,
+        "lng": 16664,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "37"
+    },
+    {
+        "name": "국민은행 고도동지점",
+        "lat": -10198,
+        "lng": 14212,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "63"
+    },
+    {
+        "name": "국민은행 우이동지점",
+        "lat": -10477,
+        "lng": 15338,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "68"
+    },
+    {
+        "name": "SC제일은행 소장동2가지점",
+        "lat": -9706,
+        "lng": 16757,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "55"
+    },
+    {
+        "name": "효빈은행 본점영업부",
+        "lat": -10704,
+        "lng": 16438,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "74"
+    },
+    {
+        "name": "효빈은행 목동지점",
+        "lat": -11334,
+        "lng": 16258,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "52"
+    },
+    {
+        "name": "효빈은행 십덕동지점",
+        "lat": -11222,
+        "lng": 14199,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "35"
+    },
+    {
+        "name": "효빈은행 신덕동지점",
+        "lat": -10652,
+        "lng": 19257,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈은행 우이동지점",
+        "lat": -10418,
+        "lng": 15241,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈은행 중앙로1가지점",
+        "lat": -9987,
+        "lng": 16098,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "22"
+    },
+    {
+        "name": "효빈은행 창선동2가지점",
+        "lat": -10464,
+        "lng": 16359,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "27"
+    },
+    {
+        "name": "효빈은행 만실동지점",
+        "lat": -9955,
+        "lng": 18661,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "29"
+    },
+    {
+        "name": "효빈은행 고도동지점",
+        "lat": -10560,
+        "lng": 15343,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "70"
+    },
+    {
+        "name": "효빈은행 내항동지점",
+        "lat": -9909,
+        "lng": 13472,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "36"
+    },
+    {
+        "name": "효빈은행 오석동지점",
+        "lat": -11022,
+        "lng": 17532,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "58"
+    },
+    {
+        "name": "iM뱅크 명일동지점",
+        "lat": -11208,
+        "lng": 12751,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "24"
+    },
+    {
+        "name": "iM뱅크 삼각동지점",
+        "lat": -10537,
+        "lng": 15893,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "66"
+    },
+    {
+        "name": "야마구치은행 효빈지점",
+        "lat": -9643,
+        "lng": 16611,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "55"
+    },
+    {
+        "name": "효빈농협 본점",
+        "lat": -10646,
+        "lng": 17662,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "78"
+    },
+    {
+        "name": "효빈농협 소장동2가지점",
+        "lat": -9673,
+        "lng": 16874,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "69"
+    },
+    {
+        "name": "동효빈농협 중구지점",
+        "lat": -9807,
+        "lng": 18969,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "17"
+    },
+    {
+        "name": "효빈축산농협 중구지점",
+        "lat": -10349,
+        "lng": 17468,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "47"
+    },
+    {
+        "name": "효빈원예농협 중앙지점",
+        "lat": -9995,
+        "lng": 16200,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "70"
+    },
+    {
+        "name": "효빈낙농농협 중구지점",
+        "lat": -10274,
+        "lng": 13946,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "61"
+    },
+    {
+        "name": "한국양계농협 효빈지점",
+        "lat": -10852,
+        "lng": 15636,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "70"
+    },
+    {
+        "name": "효빈시수협 중구지점",
+        "lat": -10746,
+        "lng": 13982,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "58"
+    },
+    {
+        "name": "효빈시수협 내항동지점",
+        "lat": -10935,
+        "lng": 12429,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "36"
+    },
+    {
+        "name": "제1·2구잠수기수협 중구지점",
+        "lat": -10379,
+        "lng": 13507,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "30"
+    },
+    {
+        "name": "중앙로새마을금고 본점",
+        "lat": -10253,
+        "lng": 16748,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "63"
+    },
+    {
+        "name": "중앙로새마을금고 우이동지점",
+        "lat": -10492,
+        "lng": 15242,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "55"
+    },
+    {
+        "name": "조유새마을금고 본점",
+        "lat": -9761,
+        "lng": 17493,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "33"
+    },
+    {
+        "name": "조유새마을금고 조유동2가지점",
+        "lat": -9535,
+        "lng": 17951,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "58"
+    },
+    {
+        "name": "내조새마을금고 본점",
+        "lat": -9737,
+        "lng": 19010,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "76"
+    },
+    {
+        "name": "내조새마을금고 내조동지점",
+        "lat": -9866,
+        "lng": 19701,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "14"
+    },
+    {
+        "name": "유내리사새마을금고 본점",
+        "lat": -10263,
+        "lng": 18225,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "71"
+    },
+    {
+        "name": "유내리사새마을금고 리사동지점",
+        "lat": -10524,
+        "lng": 18240,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "69"
+    },
+    {
+        "name": "고도새마을금고",
+        "lat": -10390,
+        "lng": 14743,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "44"
+    },
+    {
+        "name": "약맥새마을금고",
+        "lat": -10870,
+        "lng": 15142,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "22"
+    },
+    {
+        "name": "중정새마을금고",
+        "lat": -10194,
+        "lng": 17794,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "49"
+    },
+    {
+        "name": "신덕새마을금고",
+        "lat": -10532,
+        "lng": 19136,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "32"
+    },
+    {
+        "name": "창선새마을금고",
+        "lat": -9861,
+        "lng": 16839,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "18"
+    },
+    {
+        "name": "내항신용협동조합",
+        "lat": -9934,
+        "lng": 12921,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "70"
+    },
+    {
+        "name": "효빈원광신용협동조합",
+        "lat": -10014,
+        "lng": 18364,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "69"
+    },
+    {
+        "name": "중앙로신용협동조합 본점",
+        "lat": -10426,
+        "lng": 15381,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "38"
+    },
+    {
+        "name": "중앙로신용협동조합 우이동지점",
+        "lat": -10365,
+        "lng": 15282,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "21"
+    },
+    {
+        "name": "리사동신용협동조합",
+        "lat": -10758,
+        "lng": 18059,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "54"
+    },
+    {
+        "name": "효빈항운노조신용협동조합 내항지점",
+        "lat": -10609,
+        "lng": 13657,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "74"
+    },
+    {
+        "name": "효빈의사신용협동조합",
+        "lat": -9638,
+        "lng": 16551,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "50"
+    },
+    {
+        "name": "성가신용협동조합",
+        "lat": -9504,
+        "lng": 19159,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "36"
+    },
+    {
+        "name": "중보로신용협동조합",
+        "lat": -10224,
+        "lng": 17759,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "48"
+    },
+    {
+        "name": "전통시장상인신용협동조합 본점",
+        "lat": -9342,
+        "lng": 17850,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "35"
+    },
+    {
+        "name": "전통시장상인신용협동조합 조유동4가지점",
+        "lat": -9309,
+        "lng": 17765,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "64"
+    },
+    {
+        "name": "효빈저축은행 중앙본점",
+        "lat": -10362,
+        "lng": 15315,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "50"
+    },
+    {
+        "name": "구도심저축은행",
+        "lat": -10448,
+        "lng": 16997,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.3",
+        "reviews": "55"
+    },
+    {
+        "name": "IBK저축은행 효빈지점",
+        "lat": -9811,
+        "lng": 16727,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.4",
+        "reviews": "78"
+    },
+    {
+        "name": "대신저축은행 효빈지점",
+        "lat": -9726,
+        "lng": 16280,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.4",
+        "reviews": "58"
+    },
+    {
+        "name": "MS저축은행 효빈지점",
+        "lat": -9332,
+        "lng": 17484,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.5",
+        "reviews": "54"
+    },
+    {
+        "name": "고려저축은행 효빈지점",
+        "lat": -10587,
+        "lng": 17999,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.4",
+        "reviews": "44"
+    },
+    {
+        "name": "SBI저축은행 효빈중앙지점",
+        "lat": -9759,
+        "lng": 17056,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "33"
+    },
+    {
+        "name": "효빈우전동우체국",
+        "lat": -12649,
+        "lng": 23722,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "45"
+    },
+    {
+        "name": "효빈동리동우체국",
+        "lat": -12583,
+        "lng": 19360,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "53"
+    },
+    {
+        "name": "효빈등동우체국",
+        "lat": -13580,
+        "lng": 16833,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "22"
+    },
+    {
+        "name": "효빈엽월대우체국",
+        "lat": -13653,
+        "lng": 16887,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "60"
+    },
+    {
+        "name": "효빈입동3가우체국",
+        "lat": -11699,
+        "lng": 15877,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "59"
+    },
+    {
+        "name": "효빈청엽동우체국",
+        "lat": -11576,
+        "lng": 22771,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "62"
+    },
+    {
+        "name": "효빈청엽4동우체국",
+        "lat": -11423,
+        "lng": 24242,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "43"
+    },
+    {
+        "name": "효빈효빈슈퍼아레나우체국",
+        "lat": -12924,
+        "lng": 17489,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "52"
+    },
+    {
+        "name": "효빈청엽1동우체국",
+        "lat": -12500,
+        "lng": 22054,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈청엽2동우체국",
+        "lat": -11816,
+        "lng": 23156,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "71"
+    },
+    {
+        "name": "효빈서증동우체국",
+        "lat": -12913,
+        "lng": 21382,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "67"
+    },
+    {
+        "name": "효빈효빈동2가우체국",
+        "lat": -12156,
+        "lng": 18203,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "45"
+    },
+    {
+        "name": "효빈효빈오션드림씨어터우체국",
+        "lat": -13353,
+        "lng": 16410,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "55"
+    },
+    {
+        "name": "중소기업은행 우택동지점",
+        "lat": -11102,
+        "lng": 24800,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "31"
+    },
+    {
+        "name": "중소기업은행 우택중교지점",
+        "lat": -11695,
+        "lng": 24971,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "44"
+    },
+    {
+        "name": "중소기업은행 등동지점",
+        "lat": -13048,
+        "lng": 15865,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "43"
+    },
+    {
+        "name": "중소기업은행 비마동지점",
+        "lat": -12733,
+        "lng": 19990,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "74"
+    },
+    {
+        "name": "중소기업은행 헌이송동지점",
+        "lat": -14425,
+        "lng": 18535,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "62"
+    },
+    {
+        "name": "중소기업은행 청엽동지점",
+        "lat": -11041,
+        "lng": 23562,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "55"
+    },
+    {
+        "name": "중소기업은행 효빈동1가지점",
+        "lat": -11771,
+        "lng": 17234,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "26"
+    },
+    {
+        "name": "중소기업은행 청엽2동지점",
+        "lat": -11304,
+        "lng": 23510,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "56"
+    },
+    {
+        "name": "중소기업은행 청엽1동지점",
+        "lat": -12295,
+        "lng": 21776,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "47"
+    },
+    {
+        "name": "농협은행 비마동지점",
+        "lat": -12327,
+        "lng": 20823,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "68"
+    },
+    {
+        "name": "농협은행 우전동지점",
+        "lat": -13018,
+        "lng": 23380,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "19"
+    },
+    {
+        "name": "농협은행 청엽동지점",
+        "lat": -11541,
+        "lng": 21834,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "21"
+    },
+    {
+        "name": "농협은행 청엽1동지점",
+        "lat": -12007,
+        "lng": 23576,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "20"
+    },
+    {
+        "name": "농협은행 입동1가지점",
+        "lat": -12511,
+        "lng": 15603,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "60"
+    },
+    {
+        "name": "농협은행 사노동지점",
+        "lat": -12061,
+        "lng": 21012,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "41"
+    },
+    {
+        "name": "농협은행 비마리동지점",
+        "lat": -12774,
+        "lng": 21074,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "52"
+    },
+    {
+        "name": "수협은행 헌이송동지점",
+        "lat": -13653,
+        "lng": 18066,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "30"
+    },
+    {
+        "name": "수협은행 청엽동지점",
+        "lat": -11882,
+        "lng": 23267,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "46"
+    },
+    {
+        "name": "수협은행 등동지점",
+        "lat": -12941,
+        "lng": 15881,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "53"
+    },
+    {
+        "name": "수협은행 입동3가지점",
+        "lat": -11899,
+        "lng": 16317,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "69"
+    },
+    {
+        "name": "신한은행 헌이송동지점",
+        "lat": -14138,
+        "lng": 18482,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "17"
+    },
+    {
+        "name": "신한은행 동리동지점",
+        "lat": -11873,
+        "lng": 18812,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "73"
+    },
+    {
+        "name": "신한은행 마잡2동지점",
+        "lat": -13594,
+        "lng": 18088,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "46"
+    },
+    {
+        "name": "신한은행 청엽동지점",
+        "lat": -11666,
+        "lng": 22986,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "23"
+    },
+    {
+        "name": "신한은행 비마동지점",
+        "lat": -12619,
+        "lng": 20361,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "70"
+    },
+    {
+        "name": "신한은행 청엽6동지점",
+        "lat": -11955,
+        "lng": 21894,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "63"
+    },
+    {
+        "name": "신한은행 우전동지점",
+        "lat": -12367,
+        "lng": 24854,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "69"
+    },
+    {
+        "name": "신한은행 사노동지점",
+        "lat": -11267,
+        "lng": 19750,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "24"
+    },
+    {
+        "name": "신한은행 동리동주민센터지점",
+        "lat": -11719,
+        "lng": 18585,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "51"
+    },
+    {
+        "name": "국민은행 청엽동지점",
+        "lat": -12349,
+        "lng": 22492,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "15"
+    },
+    {
+        "name": "국민은행 입동3가지점",
+        "lat": -12110,
+        "lng": 16291,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "65"
+    },
+    {
+        "name": "국민은행 입빈동지점",
+        "lat": -11650,
+        "lng": 16689,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "36"
+    },
+    {
+        "name": "국민은행 등동지점",
+        "lat": -13302,
+        "lng": 16903,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "28"
+    },
+    {
+        "name": "국민은행 동리동지점",
+        "lat": -12476,
+        "lng": 19095,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "46"
+    },
+    {
+        "name": "국민은행 마잡동지점",
+        "lat": -12804,
+        "lng": 19058,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "49"
+    },
+    {
+        "name": "국민은행 청엽4동지점",
+        "lat": -10904,
+        "lng": 24404,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "40"
+    },
+    {
+        "name": "국민은행 청엽6동지점",
+        "lat": -11962,
+        "lng": 21970,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "62"
+    },
+    {
+        "name": "우리은행 청엽동지점",
+        "lat": -11831,
+        "lng": 22870,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "44"
+    },
+    {
+        "name": "우리은행 사노동지점",
+        "lat": -12341,
+        "lng": 21503,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "47"
+    },
+    {
+        "name": "우리은행 동리동지점",
+        "lat": -11657,
+        "lng": 18987,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "76"
+    },
+    {
+        "name": "우리은행 우전동지점",
+        "lat": -12471,
+        "lng": 24510,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "63"
+    },
+    {
+        "name": "우리은행 청엽6동지점",
+        "lat": -11680,
+        "lng": 22493,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "70"
+    },
+    {
+        "name": "하나은행 사노동지점",
+        "lat": -12468,
+        "lng": 21191,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "37"
+    },
+    {
+        "name": "하나은행 등동지점",
+        "lat": -13464,
+        "lng": 15549,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "31"
+    },
+    {
+        "name": "하나은행 동리동지점",
+        "lat": -11671,
+        "lng": 18597,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "32"
+    },
+    {
+        "name": "하나은행 청엽동지점",
+        "lat": -11614,
+        "lng": 23270,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "14"
+    },
+    {
+        "name": "하나은행 헌이송동지점",
+        "lat": -14358,
+        "lng": 18514,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈은행 헌이송동지점",
+        "lat": -14162,
+        "lng": 18480,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "21"
+    },
+    {
+        "name": "효빈은행 우전동지점",
+        "lat": -12598,
+        "lng": 23755,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "29"
+    },
+    {
+        "name": "효빈은행 등동지점",
+        "lat": -13149,
+        "lng": 15615,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "효빈은행 비마동지점",
+        "lat": -12727,
+        "lng": 20496,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "23"
+    },
+    {
+        "name": "효빈은행 청엽동지점",
+        "lat": -10914,
+        "lng": 21823,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "18"
+    },
+    {
+        "name": "효빈은행 청엽6동지점",
+        "lat": -11740,
+        "lng": 21459,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "21"
+    },
+    {
+        "name": "효빈은행 청엽1동지점",
+        "lat": -12016,
+        "lng": 23105,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "67"
+    },
+    {
+        "name": "효빈은행 효빈동1가지점",
+        "lat": -12214,
+        "lng": 17176,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "22"
+    },
+    {
+        "name": "효빈은행 청엽4동지점",
+        "lat": -11375,
+        "lng": 24245,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "40"
+    },
+    {
+        "name": "효빈은행 등동역지점",
+        "lat": -12701,
+        "lng": 16893,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "31"
+    },
+    {
+        "name": "효빈은행 청엽5동지점",
+        "lat": -11286,
+        "lng": 22847,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "27"
+    },
+    {
+        "name": "효빈은행 입빈동지점",
+        "lat": -11650,
+        "lng": 17269,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "47"
+    },
+    {
+        "name": "효빈은행 비마리동지점",
+        "lat": -11989,
+        "lng": 20817,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈은행 마잡동지점",
+        "lat": -13459,
+        "lng": 18494,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "22"
+    },
+    {
+        "name": "효빈은행 공무원연금공단효빈덕북지부지점",
+        "lat": -11445,
+        "lng": 16863,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "24"
+    },
+    {
+        "name": "효빈은행 입동1가지점",
+        "lat": -12523,
+        "lng": 15185,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "67"
+    },
+    {
+        "name": "효빈은행 슈퍼스타아파트지점",
+        "lat": -12426,
+        "lng": 17364,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "67"
+    },
+    {
+        "name": "효빈은행 비마쓰리와이아파트2단지지점",
+        "lat": -12481,
+        "lng": 20035,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "68"
+    },
+    {
+        "name": "효빈은행 마잡2동지점",
+        "lat": -13543,
+        "lng": 17171,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "25"
+    },
+    {
+        "name": "효빈은행 효빈청엽경찰서비마리지구대지점",
+        "lat": -11741,
+        "lng": 20338,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈은행 청엽3동지점",
+        "lat": -12029,
+        "lng": 23828,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "64"
+    },
+    {
+        "name": "효빈은행 우전2동지점",
+        "lat": -13009,
+        "lng": 23604,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈은행 마잡1동지점",
+        "lat": -12682,
+        "lng": 18981,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈은행 청엽구청지점",
+        "lat": -12534,
+        "lng": 20186,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "51"
+    },
+    {
+        "name": "효빈은행 애포초지점",
+        "lat": -11428,
+        "lng": 21611,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "47"
+    },
+    {
+        "name": "효빈은행 입동2가역지점",
+        "lat": -12112,
+        "lng": 16824,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "72"
+    },
+    {
+        "name": "효빈은행 헌이송공업단지지점",
+        "lat": -13623,
+        "lng": 17882,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈은행 청엽아데나아파트지점",
+        "lat": -11674,
+        "lng": 24435,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "47"
+    },
+    {
+        "name": "청엽농협 본점",
+        "lat": -10687,
+        "lng": 25541,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "청엽농협 청엽동지점",
+        "lat": -12609,
+        "lng": 21825,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "20"
+    },
+    {
+        "name": "청엽농협 우전동지점",
+        "lat": -13384,
+        "lng": 21963,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "21"
+    },
+    {
+        "name": "청엽농협 청엽4동지점",
+        "lat": -10971,
+        "lng": 23482,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "61"
+    },
+    {
+        "name": "청엽농협 청엽1동지점",
+        "lat": -12135,
+        "lng": 23222,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "50"
+    },
+    {
+        "name": "청엽농협 헌이송동지점",
+        "lat": -13848,
+        "lng": 18044,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈원예농협 청엽지점",
+        "lat": -12808,
+        "lng": 22862,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "71"
+    },
+    {
+        "name": "효빈원예농협 우전동지점",
+        "lat": -12608,
+        "lng": 23841,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈축산농협 청엽지점",
+        "lat": -11416,
+        "lng": 21093,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "65"
+    },
+    {
+        "name": "청엽새마을금고 본점",
+        "lat": -12097,
+        "lng": 22433,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "78"
+    },
+    {
+        "name": "청엽새마을금고 청엽동지점",
+        "lat": -11094,
+        "lng": 22319,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "28"
+    },
+    {
+        "name": "청엽새마을금고 청엽6동지점",
+        "lat": -11818,
+        "lng": 22629,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "78"
+    },
+    {
+        "name": "청엽새마을금고 청엽3동지점",
+        "lat": -12161,
+        "lng": 24557,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "71"
+    },
+    {
+        "name": "청엽제일새마을금고 본점",
+        "lat": -10946,
+        "lng": 22610,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "40"
+    },
+    {
+        "name": "청엽제일새마을금고 청엽동지점",
+        "lat": -11748,
+        "lng": 22716,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "37"
+    },
+    {
+        "name": "우전새마을금고 본점",
+        "lat": -13788,
+        "lng": 20143,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "57"
+    },
+    {
+        "name": "우전새마을금고 우전동지점",
+        "lat": -12606,
+        "lng": 23130,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "59"
+    },
+    {
+        "name": "우전새마을금고 우전1동지점",
+        "lat": -13332,
+        "lng": 21883,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "61"
+    },
+    {
+        "name": "마잡새마을금고 본점",
+        "lat": -12757,
+        "lng": 19146,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "20"
+    },
+    {
+        "name": "마잡새마을금고 마잡동지점",
+        "lat": -13748,
+        "lng": 19630,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "41"
+    },
+    {
+        "name": "헌이송새마을금고 본점",
+        "lat": -13448,
+        "lng": 20240,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "50"
+    },
+    {
+        "name": "헌이송새마을금고 헌이송동지점",
+        "lat": -13773,
+        "lng": 17969,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "55"
+    },
+    {
+        "name": "헌이송새마을금고 마잡동지점",
+        "lat": -13210,
+        "lng": 18342,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "16"
+    },
+    {
+        "name": "비마새마을금고 본점",
+        "lat": -12155,
+        "lng": 20230,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "69"
+    },
+    {
+        "name": "비마새마을금고 비마동지점",
+        "lat": -12557,
+        "lng": 20793,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "36"
+    },
+    {
+        "name": "우택새마을금고 본점",
+        "lat": -10820,
+        "lng": 24928,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "72"
+    },
+    {
+        "name": "우택새마을금고 우택동지점",
+        "lat": -10373,
+        "lng": 25476,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "43"
+    },
+    {
+        "name": "우택새마을금고 롯데리아우택점지점",
+        "lat": -10831,
+        "lng": 25137,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "76"
+    },
+    {
+        "name": "입빈새마을금고 본점",
+        "lat": -11938,
+        "lng": 16459,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "20"
+    },
+    {
+        "name": "입빈새마을금고 효빈동1가지점",
+        "lat": -11750,
+        "lng": 17590,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "74"
+    },
+    {
+        "name": "등동새마을금고",
+        "lat": -13100,
+        "lng": 16832,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "67"
+    },
+    {
+        "name": "청엽중앙신용협동조합 본점",
+        "lat": -12708,
+        "lng": 23856,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "50"
+    },
+    {
+        "name": "청엽중앙신용협동조합 청엽동지점",
+        "lat": -11362,
+        "lng": 22728,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "72"
+    },
+    {
+        "name": "청엽중앙신용협동조합 우택동지점",
+        "lat": -11130,
+        "lng": 24597,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "57"
+    },
+    {
+        "name": "청엽제일신용협동조합 본점",
+        "lat": -11709,
+        "lng": 22705,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "49"
+    },
+    {
+        "name": "청엽제일신용협동조합 우전동지점",
+        "lat": -12762,
+        "lng": 22112,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "41"
+    },
+    {
+        "name": "청엽베이커리상인신용협동조합 본점",
+        "lat": -12213,
+        "lng": 22872,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "78"
+    },
+    {
+        "name": "청엽베이커리상인신용협동조합 청엽동지점",
+        "lat": -12126,
+        "lng": 23664,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "19"
+    },
+    {
+        "name": "헌이송공단신용협동조합 본점",
+        "lat": -13493,
+        "lng": 20243,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "14"
+    },
+    {
+        "name": "헌이송공단신용협동조합 마잡동지점",
+        "lat": -13672,
+        "lng": 19887,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "22"
+    },
+    {
+        "name": "헌이송공단신용협동조합 마잡2동지점",
+        "lat": -13422,
+        "lng": 19770,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "22"
+    },
+    {
+        "name": "청엽여객직장신용협동조합",
+        "lat": -13051,
+        "lng": 23239,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "19"
+    },
+    {
+        "name": "청엽대건신용협동조합",
+        "lat": -11561,
+        "lng": 19297,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "75"
+    },
+    {
+        "name": "청엽국제학교교직원신용협동조합",
+        "lat": -11088,
+        "lng": 24738,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "덕북대효빈캠퍼스신용협동조합",
+        "lat": -13520,
+        "lng": 16896,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈저축은행 청엽금융센터",
+        "lat": -11510,
+        "lng": 22589,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.7",
+        "reviews": "74"
+    },
+    {
+        "name": "OK저축은행 청엽지점",
+        "lat": -12435,
+        "lng": 23172,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.1",
+        "reviews": "46"
+    },
+    {
+        "name": "웰컴저축은행 청엽역지점",
+        "lat": -11601,
+        "lng": 22831,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.3",
+        "reviews": "61"
+    },
+    {
+        "name": "KB저축은행 효빈청엽지점",
+        "lat": -12086,
+        "lng": 23347,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.8",
+        "reviews": "23"
+    },
+    {
+        "name": "한국투자저축은행 청엽지점",
+        "lat": -12761,
+        "lng": 23800,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.3",
+        "reviews": "28"
+    },
+    {
+        "name": "OSB저축은행 청엽지점",
+        "lat": -10071,
+        "lng": 25117,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.8",
+        "reviews": "39"
+    },
+    {
+        "name": "효빈안천우체국",
+        "lat": -7566,
+        "lng": 30024,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "41"
+    },
+    {
+        "name": "효빈안천동우체국",
+        "lat": -8972,
+        "lng": 31360,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "72"
+    },
+    {
+        "name": "효빈이자동우체국",
+        "lat": -9219,
+        "lng": 39128,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "56"
+    },
+    {
+        "name": "효빈영색무동우체국",
+        "lat": -8643,
+        "lng": 40466,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "44"
+    },
+    {
+        "name": "효빈창건동우체국",
+        "lat": -10692,
+        "lng": 35860,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "25"
+    },
+    {
+        "name": "효빈추자동우체국",
+        "lat": -8927,
+        "lng": 34441,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "46"
+    },
+    {
+        "name": "효빈상점동우체국",
+        "lat": -10582,
+        "lng": 32836,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈하가동우체국",
+        "lat": -9786,
+        "lng": 29853,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈무로동우체국",
+        "lat": -8175,
+        "lng": 31365,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈악부동우체국",
+        "lat": -8117,
+        "lng": 31334,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈팔망성동우체국",
+        "lat": -9352,
+        "lng": 33271,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "51"
+    },
+    {
+        "name": "효빈당가동우체국",
+        "lat": -7999,
+        "lng": 29659,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "40"
+    },
+    {
+        "name": "중소기업은행 상점동지점",
+        "lat": -10722,
+        "lng": 32636,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "63"
+    },
+    {
+        "name": "중소기업은행 이십기동지점",
+        "lat": -10135,
+        "lng": 36423,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "57"
+    },
+    {
+        "name": "중소기업은행 안천동지점",
+        "lat": -9618,
+        "lng": 30921,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "20"
+    },
+    {
+        "name": "수협은행 하가동지점",
+        "lat": -10016,
+        "lng": 29743,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "51"
+    },
+    {
+        "name": "농협은행 이자동지점",
+        "lat": -8142,
+        "lng": 39025,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "34"
+    },
+    {
+        "name": "농협은행 백합동지점",
+        "lat": -10558,
+        "lng": 31705,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "50"
+    },
+    {
+        "name": "농협은행 당가동지점",
+        "lat": -7624,
+        "lng": 31316,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "54"
+    },
+    {
+        "name": "농협은행 이십기동지점",
+        "lat": -9137,
+        "lng": 35891,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "41"
+    },
+    {
+        "name": "농협은행 북택동지점",
+        "lat": -9426,
+        "lng": 26665,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "56"
+    },
+    {
+        "name": "농협은행 이자2동지점",
+        "lat": -8000,
+        "lng": 37818,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "46"
+    },
+    {
+        "name": "농협은행 정치동지점",
+        "lat": -9659,
+        "lng": 38800,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "71"
+    },
+    {
+        "name": "농협은행 이자3동지점",
+        "lat": -8928,
+        "lng": 36816,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "43"
+    },
+    {
+        "name": "신한은행 당가동지점",
+        "lat": -7977,
+        "lng": 31250,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "75"
+    },
+    {
+        "name": "신한은행 정치동지점",
+        "lat": -9700,
+        "lng": 38928,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "42"
+    },
+    {
+        "name": "신한은행 이자동지점",
+        "lat": -7799,
+        "lng": 37333,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "37"
+    },
+    {
+        "name": "우리은행 안천동지점",
+        "lat": -8433,
+        "lng": 31206,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "46"
+    },
+    {
+        "name": "우리은행 탄자동지점",
+        "lat": -9861,
+        "lng": 37105,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "37"
+    },
+    {
+        "name": "하나은행 탄자동지점",
+        "lat": -9847,
+        "lng": 37928,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "75"
+    },
+    {
+        "name": "국민은행 서수동지점",
+        "lat": -6868,
+        "lng": 39594,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "74"
+    },
+    {
+        "name": "국민은행 세익동지점",
+        "lat": -8871,
+        "lng": 28402,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "34"
+    },
+    {
+        "name": "국민은행 이자동지점",
+        "lat": -8004,
+        "lng": 36694,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "35"
+    },
+    {
+        "name": "국민은행 리의동지점",
+        "lat": -8179,
+        "lng": 36250,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "46"
+    },
+    {
+        "name": "효빈은행 상점동지점",
+        "lat": -10416,
+        "lng": 32482,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "17"
+    },
+    {
+        "name": "효빈은행 안천동지점",
+        "lat": -9389,
+        "lng": 31093,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "29"
+    },
+    {
+        "name": "효빈은행 리의동지점",
+        "lat": -8165,
+        "lng": 35601,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "55"
+    },
+    {
+        "name": "효빈은행 백합동지점",
+        "lat": -10795,
+        "lng": 33031,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "15"
+    },
+    {
+        "name": "효빈은행 안천3동지점",
+        "lat": -9242,
+        "lng": 31322,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "43"
+    },
+    {
+        "name": "효빈은행 신동지점",
+        "lat": -7345,
+        "lng": 36636,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "41"
+    },
+    {
+        "name": "효빈은행 서수동지점",
+        "lat": -7096,
+        "lng": 38574,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "19"
+    },
+    {
+        "name": "효빈은행 창건동지점",
+        "lat": -10261,
+        "lng": 35288,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "76"
+    },
+    {
+        "name": "효빈은행 당가동지점",
+        "lat": -8325,
+        "lng": 30392,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "53"
+    },
+    {
+        "name": "효빈은행 당가1동지점",
+        "lat": -8179,
+        "lng": 30023,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈은행 맘스터치창건점지점",
+        "lat": -10498,
+        "lng": 36621,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "76"
+    },
+    {
+        "name": "효빈은행 안천5동지점",
+        "lat": -9525,
+        "lng": 30721,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈은행 안천3동주민센터지점",
+        "lat": -9003,
+        "lng": 32054,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "24"
+    },
+    {
+        "name": "효빈은행 하가동지점",
+        "lat": -10142,
+        "lng": 28865,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "17"
+    },
+    {
+        "name": "효빈은행 이자동지점",
+        "lat": -8197,
+        "lng": 38753,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "41"
+    },
+    {
+        "name": "효빈은행 타천동지점",
+        "lat": -7893,
+        "lng": 33499,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈은행 북택동지점",
+        "lat": -9319,
+        "lng": 27199,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "34"
+    },
+    {
+        "name": "안천농협 본점",
+        "lat": -8800,
+        "lng": 34342,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "28"
+    },
+    {
+        "name": "안천농협 탄자동지점",
+        "lat": -9487,
+        "lng": 36939,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "46"
+    },
+    {
+        "name": "안천농협 당가동지점",
+        "lat": -9020,
+        "lng": 29575,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "45"
+    },
+    {
+        "name": "안천농협 안천동지점",
+        "lat": -9525,
+        "lng": 30526,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "21"
+    },
+    {
+        "name": "안천농협 안천4동지점",
+        "lat": -9776,
+        "lng": 31742,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "68"
+    },
+    {
+        "name": "안천농협 이십기동지점",
+        "lat": -9033,
+        "lng": 35671,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "40"
+    },
+    {
+        "name": "안천농협 안천3동지점",
+        "lat": -9197,
+        "lng": 31325,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "58"
+    },
+    {
+        "name": "안천농협 효빈시안천구가족센터이자분소지점",
+        "lat": -9162,
+        "lng": 35875,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "59"
+    },
+    {
+        "name": "안천농협 안천1동지점",
+        "lat": -8548,
+        "lng": 30884,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "46"
+    },
+    {
+        "name": "안천농협 안천6동지점",
+        "lat": -9134,
+        "lng": 30775,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "44"
+    },
+    {
+        "name": "이자농협 본점",
+        "lat": -7735,
+        "lng": 37913,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "58"
+    },
+    {
+        "name": "이자농협 이자동지점",
+        "lat": -7827,
+        "lng": 37496,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "52"
+    },
+    {
+        "name": "이자농협 이자3동지점",
+        "lat": -8894,
+        "lng": 37240,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "17"
+    },
+    {
+        "name": "이자농협 이자4동지점",
+        "lat": -8655,
+        "lng": 38410,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "18"
+    },
+    {
+        "name": "이자농협 이자1동지점",
+        "lat": -7733,
+        "lng": 37227,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "43"
+    },
+    {
+        "name": "이자농협 이자경남아너스빌아파트지점",
+        "lat": -8010,
+        "lng": 36544,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "37"
+    },
+    {
+        "name": "이자농협 하이마트이자점지점",
+        "lat": -9423,
+        "lng": 37694,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "57"
+    },
+    {
+        "name": "당가농협 본점",
+        "lat": -7987,
+        "lng": 31298,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "33"
+    },
+    {
+        "name": "당가농협 당가동지점",
+        "lat": -8699,
+        "lng": 30216,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "72"
+    },
+    {
+        "name": "당가농협 당가2동지점",
+        "lat": -8419,
+        "lng": 30787,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "71"
+    },
+    {
+        "name": "당가농협 당가종합복지관지점",
+        "lat": -8248,
+        "lng": 30419,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "41"
+    },
+    {
+        "name": "당가농협 당가레인보우아파트지점",
+        "lat": -7993,
+        "lng": 31043,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "75"
+    },
+    {
+        "name": "당가농협 당가1동지점",
+        "lat": -8686,
+        "lng": 29785,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "24"
+    },
+    {
+        "name": "당가농협 당가패션아파트지점",
+        "lat": -8324,
+        "lng": 30752,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "25"
+    },
+    {
+        "name": "효빈축산농협 안천지점",
+        "lat": -9902,
+        "lng": 29780,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "68"
+    },
+    {
+        "name": "효빈축산농협 천본동지점",
+        "lat": -6358,
+        "lng": 34612,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈원예농협 안천지점",
+        "lat": -10711,
+        "lng": 30717,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈덕북우유농협 안천지점",
+        "lat": -8386,
+        "lng": 41383,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "17"
+    },
+    {
+        "name": "효빈낙농농협 안천지점",
+        "lat": -9436,
+        "lng": 36627,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "59"
+    },
+    {
+        "name": "안천중앙새마을금고 본점",
+        "lat": -8751,
+        "lng": 33467,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "61"
+    },
+    {
+        "name": "안천중앙새마을금고 안천동지점",
+        "lat": -8789,
+        "lng": 30637,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "72"
+    },
+    {
+        "name": "이자새마을금고 본점",
+        "lat": -8793,
+        "lng": 37792,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "18"
+    },
+    {
+        "name": "이자새마을금고 이자동지점",
+        "lat": -8925,
+        "lng": 37623,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "68"
+    },
+    {
+        "name": "이자새마을금고 이자3동지점",
+        "lat": -9010,
+        "lng": 39249,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "18"
+    },
+    {
+        "name": "안천북부새마을금고 본점",
+        "lat": -9288,
+        "lng": 32131,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "34"
+    },
+    {
+        "name": "안천북부새마을금고 안천동지점",
+        "lat": -8324,
+        "lng": 31178,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "30"
+    },
+    {
+        "name": "당가새마을금고 본점",
+        "lat": -8855,
+        "lng": 29954,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "18"
+    },
+    {
+        "name": "당가새마을금고 당가동지점",
+        "lat": -7758,
+        "lng": 30556,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "17"
+    },
+    {
+        "name": "당가새마을금고 당가1동지점",
+        "lat": -8513,
+        "lng": 29893,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "45"
+    },
+    {
+        "name": "뇌전새마을금고",
+        "lat": -9306,
+        "lng": 28694,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "55"
+    },
+    {
+        "name": "창건새마을금고",
+        "lat": -10996,
+        "lng": 35935,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "32"
+    },
+    {
+        "name": "찡긋새마을금고 본점",
+        "lat": -8731,
+        "lng": 37739,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "75"
+    },
+    {
+        "name": "찡긋새마을금고 신동지점",
+        "lat": -7649,
+        "lng": 36462,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "45"
+    },
+    {
+        "name": "효빈새마을금고 안천지점",
+        "lat": -10059,
+        "lng": 31652,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "50"
+    },
+    {
+        "name": "백합새마을금고 본점",
+        "lat": -10697,
+        "lng": 31433,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "15"
+    },
+    {
+        "name": "백합새마을금고 백합동지점",
+        "lat": -10693,
+        "lng": 31499,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "40"
+    },
+    {
+        "name": "백합새마을금고 백합동주민센터지점",
+        "lat": -10658,
+        "lng": 31433,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "23"
+    },
+    {
+        "name": "이자공원새마을금고 본점",
+        "lat": -8770,
+        "lng": 36512,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "56"
+    },
+    {
+        "name": "이자공원새마을금고 이자동지점",
+        "lat": -8294,
+        "lng": 38272,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "28"
+    },
+    {
+        "name": "이자공원새마을금고 이자3동지점",
+        "lat": -8633,
+        "lng": 36496,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "62"
+    },
+    {
+        "name": "이자공원새마을금고 이십기동지점",
+        "lat": -9062,
+        "lng": 35852,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "75"
+    },
+    {
+        "name": "이자공원새마을금고 이자2동지점",
+        "lat": -8566,
+        "lng": 37860,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "53"
+    },
+    {
+        "name": "제일새마을금고 안천지점",
+        "lat": -8586,
+        "lng": 31030,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "75"
+    },
+    {
+        "name": "성저새마을금고 본점",
+        "lat": -10708,
+        "lng": 38280,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "60"
+    },
+    {
+        "name": "성저새마을금고 성저동지점",
+        "lat": -10469,
+        "lng": 39718,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "46"
+    },
+    {
+        "name": "악부새마을금고 본점",
+        "lat": -10095,
+        "lng": 33253,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "30"
+    },
+    {
+        "name": "악부새마을금고 제택동지점",
+        "lat": -8582,
+        "lng": 33277,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "15"
+    },
+    {
+        "name": "악부새마을금고 악부동지점",
+        "lat": -9674,
+        "lng": 32299,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "47"
+    },
+    {
+        "name": "월삼새마을금고 본점",
+        "lat": -7886,
+        "lng": 41229,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "53"
+    },
+    {
+        "name": "월삼새마을금고 능릉동지점",
+        "lat": -7930,
+        "lng": 41424,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "26"
+    },
+    {
+        "name": "성택대학교새마을금고",
+        "lat": -8021,
+        "lng": 33563,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "48"
+    },
+    {
+        "name": "안천중앙신용협동조합 본점",
+        "lat": -8954,
+        "lng": 31239,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "65"
+    },
+    {
+        "name": "안천중앙신용협동조합 안천동지점",
+        "lat": -10021,
+        "lng": 32190,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "18"
+    },
+    {
+        "name": "이자미래신용협동조합",
+        "lat": -7874,
+        "lng": 37154,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "47"
+    },
+    {
+        "name": "이자신용협동조합 본점",
+        "lat": -7958,
+        "lng": 37849,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "60"
+    },
+    {
+        "name": "이자신용협동조합 이자동지점",
+        "lat": -8398,
+        "lng": 39072,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "17"
+    },
+    {
+        "name": "영색무신용협동조합 본점",
+        "lat": -7986,
+        "lng": 41299,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "66"
+    },
+    {
+        "name": "영색무신용협동조합 칠채동지점",
+        "lat": -7225,
+        "lng": 41462,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "62"
+    },
+    {
+        "name": "영색무신용협동조합 능릉동지점",
+        "lat": -8049,
+        "lng": 41364,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "17"
+    },
+    {
+        "name": "영색무신용협동조합 칠채동주민센터지점",
+        "lat": -7955,
+        "lng": 41313,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "37"
+    },
+    {
+        "name": "영색무신용협동조합 효빈이자경찰서칠채치안센터지점",
+        "lat": -7483,
+        "lng": 41359,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "16"
+    },
+    {
+        "name": "타천신용협동조합 본점",
+        "lat": -9574,
+        "lng": 33245,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "18"
+    },
+    {
+        "name": "타천신용협동조합 악부동지점",
+        "lat": -9889,
+        "lng": 33095,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "45"
+    },
+    {
+        "name": "타천신용협동조합 팔망성동지점",
+        "lat": -8613,
+        "lng": 33464,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "60"
+    },
+    {
+        "name": "타천신용협동조합 제택동지점",
+        "lat": -8553,
+        "lng": 33255,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "31"
+    },
+    {
+        "name": "타천신용협동조합 다이소성택대악부점지점",
+        "lat": -8456,
+        "lng": 33231,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "28"
+    },
+    {
+        "name": "당가신용협동조합",
+        "lat": -8779,
+        "lng": 29991,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "21"
+    },
+    {
+        "name": "서수신용협동조합",
+        "lat": -7250,
+        "lng": 41461,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "27"
+    },
+    {
+        "name": "하가신용협동조합 본점",
+        "lat": -10053,
+        "lng": 28704,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "70"
+    },
+    {
+        "name": "하가신용협동조합 뇌전동지점",
+        "lat": -9206,
+        "lng": 28668,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "20"
+    },
+    {
+        "name": "북택신용협동조합",
+        "lat": -9871,
+        "lng": 26596,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "38"
+    },
+    {
+        "name": "삼애신용협동조합",
+        "lat": -9506,
+        "lng": 35561,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "74"
+    },
+    {
+        "name": "초음신용협동조합 본점",
+        "lat": -9733,
+        "lng": 32303,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "17"
+    },
+    {
+        "name": "초음신용협동조합 악부동지점",
+        "lat": -9949,
+        "lng": 33351,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈대교직원신용협동조합 이자지점",
+        "lat": -7578,
+        "lng": 36868,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "19"
+    },
+    {
+        "name": "안천교회신용협동조합",
+        "lat": -9242,
+        "lng": 31931,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "38"
+    },
+    {
+        "name": "안천YWCA신용협동조합",
+        "lat": -9347,
+        "lng": 30603,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "33"
+    },
+    {
+        "name": "안천건축사신용협동조합",
+        "lat": -9164,
+        "lng": 31734,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "34"
+    },
+    {
+        "name": "효빈안천의사신용협동조합",
+        "lat": -8469,
+        "lng": 32734,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "60"
+    },
+    {
+        "name": "효빈개인택시신용협동조합",
+        "lat": -9438,
+        "lng": 26379,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "70"
+    },
+    {
+        "name": "창전우체국",
+        "lat": -15147,
+        "lng": 25340,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈진백동우체국",
+        "lat": -11913,
+        "lng": 26897,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "22"
+    },
+    {
+        "name": "효빈광정동우체국",
+        "lat": -14031,
+        "lng": 27354,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "32"
+    },
+    {
+        "name": "효빈팔조동우체국",
+        "lat": -15649,
+        "lng": 23197,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈창전동우체국",
+        "lat": -14849,
+        "lng": 25322,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "77"
+    },
+    {
+        "name": "효빈시로동우체국",
+        "lat": -11990,
+        "lng": 28072,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "49"
+    },
+    {
+        "name": "효빈오아중교우체국",
+        "lat": -15333,
+        "lng": 22328,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "35"
+    },
+    {
+        "name": "효빈유류동우체국",
+        "lat": -13170,
+        "lng": 24737,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "54"
+    },
+    {
+        "name": "효빈쌍엽동우체국",
+        "lat": -13769,
+        "lng": 23030,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "32"
+    },
+    {
+        "name": "효빈쌍엽2동우체국",
+        "lat": -14155,
+        "lng": 22784,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈칠심동우체국",
+        "lat": -13657,
+        "lng": 24725,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "21"
+    },
+    {
+        "name": "한국산업은행 창전동지점",
+        "lat": -14257,
+        "lng": 25280,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "26"
+    },
+    {
+        "name": "중소기업은행 마시동지점",
+        "lat": -15149,
+        "lng": 28017,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "45"
+    },
+    {
+        "name": "중소기업은행 광정동지점",
+        "lat": -15054,
+        "lng": 27830,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "51"
+    },
+    {
+        "name": "중소기업은행 마시시장지점",
+        "lat": -14854,
+        "lng": 28055,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "14"
+    },
+    {
+        "name": "중소기업은행 투자동지점",
+        "lat": -14692,
+        "lng": 21771,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "33"
+    },
+    {
+        "name": "농협은행 창전동지점",
+        "lat": -14162,
+        "lng": 24871,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "53"
+    },
+    {
+        "name": "농협은행 창전2동지점",
+        "lat": -14465,
+        "lng": 24910,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "47"
+    },
+    {
+        "name": "농협은행 창전2동주민센터지점",
+        "lat": -14416,
+        "lng": 25023,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "14"
+    },
+    {
+        "name": "농협은행 유류동지점",
+        "lat": -13421,
+        "lng": 23485,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "35"
+    },
+    {
+        "name": "농협은행 한국교육안전공제회효빈덕북지부지점",
+        "lat": -13333,
+        "lng": 24212,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "76"
+    },
+    {
+        "name": "농협은행 팔조동지점",
+        "lat": -15846,
+        "lng": 22005,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "45"
+    },
+    {
+        "name": "수협은행 칠심동지점",
+        "lat": -13926,
+        "lng": 24966,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "24"
+    },
+    {
+        "name": "수협은행 창전동지점",
+        "lat": -14601,
+        "lng": 24737,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "61"
+    },
+    {
+        "name": "수협은행 창전3동지점",
+        "lat": -14694,
+        "lng": 25582,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "78"
+    },
+    {
+        "name": "신한은행 투자동지점",
+        "lat": -15580,
+        "lng": 21208,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "18"
+    },
+    {
+        "name": "신한은행 보통동지점",
+        "lat": -14622,
+        "lng": 27441,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "14"
+    },
+    {
+        "name": "신한은행 진백동지점",
+        "lat": -11709,
+        "lng": 27290,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "33"
+    },
+    {
+        "name": "신한은행 생덕동지점",
+        "lat": -15055,
+        "lng": 26502,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "57"
+    },
+    {
+        "name": "신한은행 광정동지점",
+        "lat": -14326,
+        "lng": 26339,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "41"
+    },
+    {
+        "name": "신한은행 시로동지점",
+        "lat": -12375,
+        "lng": 27405,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "15"
+    },
+    {
+        "name": "신한은행 팔조동지점",
+        "lat": -15811,
+        "lng": 21639,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "66"
+    },
+    {
+        "name": "신한은행 효빈외국어고교지점",
+        "lat": -15538,
+        "lng": 26425,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "39"
+    },
+    {
+        "name": "국민은행 보통동지점",
+        "lat": -14204,
+        "lng": 26777,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "35"
+    },
+    {
+        "name": "국민은행 칠심동지점",
+        "lat": -12984,
+        "lng": 25732,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "24"
+    },
+    {
+        "name": "국민은행 창전동지점",
+        "lat": -15052,
+        "lng": 26148,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "48"
+    },
+    {
+        "name": "국민은행 광정동지점",
+        "lat": -14030,
+        "lng": 27286,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "75"
+    },
+    {
+        "name": "국민은행 팔조동지점",
+        "lat": -15711,
+        "lng": 21994,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "49"
+    },
+    {
+        "name": "국민은행 쌍엽동지점",
+        "lat": -14511,
+        "lng": 22008,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "53"
+    },
+    {
+        "name": "국민은행 칠심1동지점",
+        "lat": -14220,
+        "lng": 25304,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "54"
+    },
+    {
+        "name": "하나은행 창전동지점",
+        "lat": -15049,
+        "lng": 24093,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "하나은행 팔조동지점",
+        "lat": -15445,
+        "lng": 22703,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "75"
+    },
+    {
+        "name": "하나은행 칠심동지점",
+        "lat": -13695,
+        "lng": 25937,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "26"
+    },
+    {
+        "name": "하나은행 쌍엽동지점",
+        "lat": -13952,
+        "lng": 22749,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "43"
+    },
+    {
+        "name": "하나은행 유류동지점",
+        "lat": -13543,
+        "lng": 24689,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "25"
+    },
+    {
+        "name": "하나은행 창전5동지점",
+        "lat": -15178,
+        "lng": 26226,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "24"
+    },
+    {
+        "name": "우리은행 생덕동지점",
+        "lat": -15027,
+        "lng": 26644,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "47"
+    },
+    {
+        "name": "우리은행 창전동지점",
+        "lat": -14603,
+        "lng": 25387,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "24"
+    },
+    {
+        "name": "우리은행 쌍엽동지점",
+        "lat": -13636,
+        "lng": 23054,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "42"
+    },
+    {
+        "name": "우리은행 팔조동지점",
+        "lat": -15169,
+        "lng": 22355,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "21"
+    },
+    {
+        "name": "우리은행 모포아파트지점",
+        "lat": -15778,
+        "lng": 22046,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "63"
+    },
+    {
+        "name": "SC제일은행 시로동지점",
+        "lat": -12855,
+        "lng": 27176,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "59"
+    },
+    {
+        "name": "SC제일은행 쌍엽동지점",
+        "lat": -14705,
+        "lng": 22631,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "39"
+    },
+    {
+        "name": "SC제일은행 팔조동지점",
+        "lat": -15529,
+        "lng": 22243,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "35"
+    },
+    {
+        "name": "한국씨티은행 창전동지점",
+        "lat": -14803,
+        "lng": 25726,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "43"
+    },
+    {
+        "name": "효빈은행 쌍엽동지점",
+        "lat": -14868,
+        "lng": 22868,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈은행 투자동지점",
+        "lat": -15081,
+        "lng": 21190,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "74"
+    },
+    {
+        "name": "효빈은행 창전동지점",
+        "lat": -14740,
+        "lng": 25769,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "75"
+    },
+    {
+        "name": "효빈은행 칠심동지점",
+        "lat": -12741,
+        "lng": 25540,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈은행 유류동지점",
+        "lat": -13665,
+        "lng": 23763,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "70"
+    },
+    {
+        "name": "효빈은행 창전3동지점",
+        "lat": -14490,
+        "lng": 25466,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈은행 쌍엽1동지점",
+        "lat": -14923,
+        "lng": 22323,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "34"
+    },
+    {
+        "name": "효빈은행 창전5동지점",
+        "lat": -14765,
+        "lng": 26435,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "44"
+    },
+    {
+        "name": "효빈은행 칠심3동지점",
+        "lat": -13027,
+        "lng": 26148,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "18"
+    },
+    {
+        "name": "효빈은행 쌍엽중앙로터리지점",
+        "lat": -14683,
+        "lng": 22990,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈은행 창전1동지점",
+        "lat": -13821,
+        "lng": 24374,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "78"
+    },
+    {
+        "name": "효빈은행 빈스마트창전구청점지점",
+        "lat": -14335,
+        "lng": 25339,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈은행 칠심2동지점",
+        "lat": -13439,
+        "lng": 25697,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈은행 칠심역지점",
+        "lat": -13081,
+        "lng": 25900,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "55"
+    },
+    {
+        "name": "효빈은행 마시동지점",
+        "lat": -14397,
+        "lng": 28720,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "72"
+    },
+    {
+        "name": "iM뱅크 투자동지점",
+        "lat": -15086,
+        "lng": 20776,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "47"
+    },
+    {
+        "name": "iM뱅크 쌍엽동지점",
+        "lat": -13898,
+        "lng": 22891,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "41"
+    },
+    {
+        "name": "iM뱅크 창전동지점",
+        "lat": -14109,
+        "lng": 24829,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "74"
+    },
+    {
+        "name": "창전농협 본점",
+        "lat": -14039,
+        "lng": 24372,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "31"
+    },
+    {
+        "name": "창전농협 진백동지점",
+        "lat": -11223,
+        "lng": 26522,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "63"
+    },
+    {
+        "name": "창전농협 칠심동지점",
+        "lat": -13827,
+        "lng": 24807,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "19"
+    },
+    {
+        "name": "창전농협 효빈아트센터지점",
+        "lat": -11890,
+        "lng": 26420,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "29"
+    },
+    {
+        "name": "창전농협 투자동지점",
+        "lat": -15101,
+        "lng": 20929,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "46"
+    },
+    {
+        "name": "창전농협 쌍엽동지점",
+        "lat": -13670,
+        "lng": 22772,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "44"
+    },
+    {
+        "name": "효빈원예농협 창전지점",
+        "lat": -12613,
+        "lng": 27043,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "49"
+    },
+    {
+        "name": "어간수협 창전지점",
+        "lat": -14279,
+        "lng": 25379,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "36"
+    },
+    {
+        "name": "어간수협 창전동지점",
+        "lat": -14983,
+        "lng": 26002,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "19"
+    },
+    {
+        "name": "창전시수협",
+        "lat": -15533,
+        "lng": 22503,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "76"
+    },
+    {
+        "name": "창전새마을금고 본점",
+        "lat": -14604,
+        "lng": 24890,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "70"
+    },
+    {
+        "name": "창전새마을금고 창전동지점",
+        "lat": -13813,
+        "lng": 24493,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "35"
+    },
+    {
+        "name": "창전새마을금고 창전4동지점",
+        "lat": -14993,
+        "lng": 25132,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "46"
+    },
+    {
+        "name": "창전새마을금고 창전5동지점",
+        "lat": -14811,
+        "lng": 26287,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "24"
+    },
+    {
+        "name": "창전새마을금고 유류동지점",
+        "lat": -14244,
+        "lng": 23831,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "53"
+    },
+    {
+        "name": "창전새마을금고 창전2동지점",
+        "lat": -14828,
+        "lng": 24672,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "69"
+    },
+    {
+        "name": "칠심새마을금고 본점",
+        "lat": -12791,
+        "lng": 25203,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "56"
+    },
+    {
+        "name": "칠심새마을금고 칠심동지점",
+        "lat": -13277,
+        "lng": 25962,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "78"
+    },
+    {
+        "name": "칠심새마을금고 칠심3동지점",
+        "lat": -12695,
+        "lng": 25934,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "17"
+    },
+    {
+        "name": "칠심새마을금고 칠심119안전센터지점",
+        "lat": -12845,
+        "lng": 25745,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "64"
+    },
+    {
+        "name": "칠심새마을금고 칠심1동지점",
+        "lat": -13634,
+        "lng": 24978,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "54"
+    },
+    {
+        "name": "쌍엽새마을금고 본점",
+        "lat": -14366,
+        "lng": 23417,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "24"
+    },
+    {
+        "name": "쌍엽새마을금고 쌍엽동지점",
+        "lat": -14816,
+        "lng": 23075,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "쌍엽새마을금고 유류동지점",
+        "lat": -13638,
+        "lng": 23499,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "60"
+    },
+    {
+        "name": "쌍엽새마을금고 쌍엽2동지점",
+        "lat": -14173,
+        "lng": 23126,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "31"
+    },
+    {
+        "name": "동곡새마을금고 본점",
+        "lat": -14165,
+        "lng": 21373,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "64"
+    },
+    {
+        "name": "동곡새마을금고 동곡동지점",
+        "lat": -14595,
+        "lng": 21202,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "66"
+    },
+    {
+        "name": "동곡새마을금고 다이소동곡점지점",
+        "lat": -14175,
+        "lng": 21157,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "68"
+    },
+    {
+        "name": "동곡새마을금고 동곡동주민센터지점",
+        "lat": -14071,
+        "lng": 21094,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "45"
+    },
+    {
+        "name": "동곡새마을금고 동곡아파트지점",
+        "lat": -14624,
+        "lng": 20072,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "48"
+    },
+    {
+        "name": "진백·시로새마을금고 본점",
+        "lat": -12066,
+        "lng": 26101,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "72"
+    },
+    {
+        "name": "진백·시로새마을금고 진백동지점",
+        "lat": -12069,
+        "lng": 26339,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "75"
+    },
+    {
+        "name": "진백·시로새마을금고 마루마트즈라스토어진백점지점",
+        "lat": -12139,
+        "lng": 26153,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "73"
+    },
+    {
+        "name": "광정·보통새마을금고 본점",
+        "lat": -14206,
+        "lng": 27264,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "53"
+    },
+    {
+        "name": "광정·보통새마을금고 광정동지점",
+        "lat": -13769,
+        "lng": 27001,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "70"
+    },
+    {
+        "name": "광정·보통새마을금고 광정동주민센터지점",
+        "lat": -13881,
+        "lng": 26938,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "42"
+    },
+    {
+        "name": "팔조새마을금고 본점",
+        "lat": -15598,
+        "lng": 21957,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "60"
+    },
+    {
+        "name": "팔조새마을금고 팔조동지점",
+        "lat": -15585,
+        "lng": 21907,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "77"
+    },
+    {
+        "name": "팔조법조신용협동조합 본점",
+        "lat": -15680,
+        "lng": 22314,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "48"
+    },
+    {
+        "name": "팔조법조신용협동조합 팔조동지점",
+        "lat": -15426,
+        "lng": 22658,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "59"
+    },
+    {
+        "name": "팔조법조신용협동조합 팔조차량사업소지점",
+        "lat": -16194,
+        "lng": 22219,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "49"
+    },
+    {
+        "name": "창전문화예술인신용협동조합 본점",
+        "lat": -14724,
+        "lng": 26416,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "19"
+    },
+    {
+        "name": "창전문화예술인신용협동조합 창전동지점",
+        "lat": -15220,
+        "lng": 25956,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "45"
+    },
+    {
+        "name": "창전문화예술인신용협동조합 창전1동지점",
+        "lat": -13898,
+        "lng": 24293,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "62"
+    },
+    {
+        "name": "동곡패션디자이너신용협동조합 본점",
+        "lat": -14288,
+        "lng": 21355,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "78"
+    },
+    {
+        "name": "동곡패션디자이너신용협동조합 동곡동지점",
+        "lat": -13916,
+        "lng": 21370,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "14"
+    },
+    {
+        "name": "칠심수산상인신용협동조합 본점",
+        "lat": -12846,
+        "lng": 25833,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "27"
+    },
+    {
+        "name": "칠심수산상인신용협동조합 시로동지점",
+        "lat": -12800,
+        "lng": 26157,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "37"
+    },
+    {
+        "name": "월삼여고학부모신용협동조합 본점",
+        "lat": -15141,
+        "lng": 25703,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "57"
+    },
+    {
+        "name": "월삼여고학부모신용협동조합 창전동지점",
+        "lat": -15017,
+        "lng": 25636,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈평천대교직원신용협동조합 본점",
+        "lat": -15638,
+        "lng": 26316,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "50"
+    },
+    {
+        "name": "효빈평천대교직원신용협동조합 생덕동지점",
+        "lat": -15660,
+        "lng": 26397,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "44"
+    },
+    {
+        "name": "유류프라이빗신용협동조합 본점",
+        "lat": -13610,
+        "lng": 23356,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "31"
+    },
+    {
+        "name": "유류프라이빗신용협동조합 칠심동지점",
+        "lat": -12815,
+        "lng": 25130,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "51"
+    },
+    {
+        "name": "효빈저축은행 창전본부",
+        "lat": -14411,
+        "lng": 25623,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "43"
+    },
+    {
+        "name": "SBI저축은행 창전지점",
+        "lat": -12565,
+        "lng": 25576,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.3",
+        "reviews": "55"
+    },
+    {
+        "name": "OK저축은행 팔조지점",
+        "lat": -15856,
+        "lng": 22341,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.6",
+        "reviews": "24"
+    },
+    {
+        "name": "페퍼저축은행 동곡지점",
+        "lat": -14660,
+        "lng": 21220,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "64"
+    },
+    {
+        "name": "효빈공리우체국",
+        "lat": -16496,
+        "lng": 33632,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "21"
+    },
+    {
+        "name": "효빈탄성리우체국",
+        "lat": -16525,
+        "lng": 30395,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "47"
+    },
+    {
+        "name": "효빈고해리우체국",
+        "lat": -6631,
+        "lng": 45321,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "58"
+    },
+    {
+        "name": "효빈이와리우체국",
+        "lat": -8507,
+        "lng": 44677,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "15"
+    },
+    {
+        "name": "효빈앵내리우체국",
+        "lat": -11459,
+        "lng": 38166,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "53"
+    },
+    {
+        "name": "효빈입리우체국",
+        "lat": -22136,
+        "lng": 31824,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈루비리우체국",
+        "lat": -13115,
+        "lng": 31256,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈분음리우체국",
+        "lat": -8842,
+        "lng": 50159,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "78"
+    },
+    {
+        "name": "효빈요우리우체국",
+        "lat": -11897,
+        "lng": 33021,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "34"
+    },
+    {
+        "name": "효빈고해읍우체국",
+        "lat": -7619,
+        "lng": 44457,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "15"
+    },
+    {
+        "name": "중소기업은행 미우리지점",
+        "lat": -17117,
+        "lng": 36693,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "26"
+    },
+    {
+        "name": "중소기업은행 소춘리지점",
+        "lat": -21349,
+        "lng": 34368,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "51"
+    },
+    {
+        "name": "중소기업은행 소원리지점",
+        "lat": -6660,
+        "lng": 39837,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "15"
+    },
+    {
+        "name": "농협은행 공리지점",
+        "lat": -16873,
+        "lng": 32797,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "29"
+    },
+    {
+        "name": "국민은행 흑택리지점",
+        "lat": -12714,
+        "lng": 29428,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "75"
+    },
+    {
+        "name": "국민은행 도변리지점",
+        "lat": -13280,
+        "lng": 33897,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "44"
+    },
+    {
+        "name": "국민은행 처구리지점",
+        "lat": -7383,
+        "lng": 51588,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "38"
+    },
+    {
+        "name": "국민은행 요우리지점",
+        "lat": -11265,
+        "lng": 32928,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "69"
+    },
+    {
+        "name": "국민은행 이와리지점",
+        "lat": -8626,
+        "lng": 43429,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "54"
+    },
+    {
+        "name": "신한은행 도변리지점",
+        "lat": -13362,
+        "lng": 34128,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "48"
+    },
+    {
+        "name": "우리은행 요우리지점",
+        "lat": -11570,
+        "lng": 33858,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "47"
+    },
+    {
+        "name": "하나은행 고해리지점",
+        "lat": -7392,
+        "lng": 44477,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "23"
+    },
+    {
+        "name": "효빈은행 일하리지점",
+        "lat": -9051,
+        "lng": 46981,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "14"
+    },
+    {
+        "name": "효빈은행 승남리지점",
+        "lat": -21363,
+        "lng": 30159,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "59"
+    },
+    {
+        "name": "효빈은행 보습리지점",
+        "lat": -15819,
+        "lng": 30391,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "42"
+    },
+    {
+        "name": "효빈은행 서목리지점",
+        "lat": -19848,
+        "lng": 33426,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "33"
+    },
+    {
+        "name": "효빈은행 앵내리지점",
+        "lat": -11930,
+        "lng": 39069,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "74"
+    },
+    {
+        "name": "효빈은행 흑택면지점",
+        "lat": -15609,
+        "lng": 32055,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "59"
+    },
+    {
+        "name": "효빈은행 미성리지점",
+        "lat": -17441,
+        "lng": 32814,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈은행 소원리지점",
+        "lat": -5800,
+        "lng": 41124,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "21"
+    },
+    {
+        "name": "효빈은행 요우리지점",
+        "lat": -12115,
+        "lng": 32927,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "18"
+    },
+    {
+        "name": "효빈은행 무성리지점",
+        "lat": -17658,
+        "lng": 28567,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "25"
+    },
+    {
+        "name": "효빈은행 익목리지점",
+        "lat": -7291,
+        "lng": 48896,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "62"
+    },
+    {
+        "name": "효빈은행 고해리지점",
+        "lat": -7296,
+        "lng": 44428,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "19"
+    },
+    {
+        "name": "효빈은행 고해읍지점",
+        "lat": -8048,
+        "lng": 45074,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈은행 도변읍지점",
+        "lat": -11900,
+        "lng": 37967,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "29"
+    },
+    {
+        "name": "효빈은행 계층리지점",
+        "lat": -14517,
+        "lng": 32553,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "37"
+    },
+    {
+        "name": "효빈은행 윤부리지점",
+        "lat": -5820,
+        "lng": 38196,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "31"
+    },
+    {
+        "name": "효빈은행 이와리지점",
+        "lat": -8673,
+        "lng": 44405,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈은행 흑택리지점",
+        "lat": -12898,
+        "lng": 30132,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "29"
+    },
+    {
+        "name": "효빈은행 고해주공아파트지점",
+        "lat": -6697,
+        "lng": 44462,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "43"
+    },
+    {
+        "name": "효빈은행 이와빛여울채아파트지점",
+        "lat": -8050,
+        "lng": 44340,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "48"
+    },
+    {
+        "name": "효빈은행 성규리지점",
+        "lat": -19126,
+        "lng": 31679,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "58"
+    },
+    {
+        "name": "효빈은행 앵내이편한세상아파트지점",
+        "lat": -12000,
+        "lng": 38030,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "61"
+    },
+    {
+        "name": "효빈은행 공리지점",
+        "lat": -17084,
+        "lng": 33707,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "33"
+    },
+    {
+        "name": "효빈은행 맘스터치앵내중앙로점지점",
+        "lat": -11842,
+        "lng": 38712,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "35"
+    },
+    {
+        "name": "효빈은행 조일리지점",
+        "lat": -14821,
+        "lng": 36031,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈은행 흑택주공아파트1단지지점",
+        "lat": -12891,
+        "lng": 29309,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "65"
+    },
+    {
+        "name": "효빈은행 탄성읍지점",
+        "lat": -17015,
+        "lng": 32362,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "46"
+    },
+    {
+        "name": "효빈은행 잠재리지점",
+        "lat": -12818,
+        "lng": 35648,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "46"
+    },
+    {
+        "name": "효빈은행 은진원리지점",
+        "lat": -7469,
+        "lng": 46771,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈은행 분음리지점",
+        "lat": -9024,
+        "lng": 50687,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "56"
+    },
+    {
+        "name": "덕북은행 이와리지점",
+        "lat": -8415,
+        "lng": 44656,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "18"
+    },
+    {
+        "name": "도변농협 본점",
+        "lat": -13752,
+        "lng": 32855,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "48"
+    },
+    {
+        "name": "도변농협 도변리지점",
+        "lat": -13819,
+        "lng": 33814,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "25"
+    },
+    {
+        "name": "도변농협 도변읍지점",
+        "lat": -13622,
+        "lng": 33188,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "66"
+    },
+    {
+        "name": "도변농협 버거킹도변점지점",
+        "lat": -13218,
+        "lng": 34114,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "54"
+    },
+    {
+        "name": "도변농협 도변아파트지점",
+        "lat": -13356,
+        "lng": 33217,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "36"
+    },
+    {
+        "name": "탄성농협 본점",
+        "lat": -12874,
+        "lng": 33428,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "32"
+    },
+    {
+        "name": "탄성농협 앵내리지점",
+        "lat": -11504,
+        "lng": 37655,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "35"
+    },
+    {
+        "name": "탄성농협 야진리지점",
+        "lat": -18755,
+        "lng": 34535,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "37"
+    },
+    {
+        "name": "탄성농협 탄성리지점",
+        "lat": -16921,
+        "lng": 31600,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "18"
+    },
+    {
+        "name": "탄성농협 미성리지점",
+        "lat": -17137,
+        "lng": 32207,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "72"
+    },
+    {
+        "name": "서목농협 본점",
+        "lat": -23135,
+        "lng": 27809,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "46"
+    },
+    {
+        "name": "서목농협 서목리지점",
+        "lat": -20446,
+        "lng": 33218,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "68"
+    },
+    {
+        "name": "서목농협 서목읍지점",
+        "lat": -19115,
+        "lng": 33246,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "65"
+    },
+    {
+        "name": "서목농협 서목고교지점",
+        "lat": -19727,
+        "lng": 31585,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "70"
+    },
+    {
+        "name": "고해농협 본점",
+        "lat": -7677,
+        "lng": 45149,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "42"
+    },
+    {
+        "name": "고해농협 고해리지점",
+        "lat": -7740,
+        "lng": 44986,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "27"
+    },
+    {
+        "name": "고해농협 고해읍지점",
+        "lat": -6633,
+        "lng": 44738,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "60"
+    },
+    {
+        "name": "소원농협 본점",
+        "lat": -6784,
+        "lng": 39727,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "28"
+    },
+    {
+        "name": "소원농협 소원리지점",
+        "lat": -5502,
+        "lng": 40687,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "31"
+    },
+    {
+        "name": "소원농협 소원면지점",
+        "lat": -6396,
+        "lng": 40096,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "44"
+    },
+    {
+        "name": "흑택농협 본점",
+        "lat": -11906,
+        "lng": 29788,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "56"
+    },
+    {
+        "name": "흑택농협 루비리지점",
+        "lat": -12443,
+        "lng": 30452,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "78"
+    },
+    {
+        "name": "흑택농협 흑택리지점",
+        "lat": -12050,
+        "lng": 29795,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "27"
+    },
+    {
+        "name": "도향농협 본점",
+        "lat": -8591,
+        "lng": 50297,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "26"
+    },
+    {
+        "name": "도향농협 일하리지점",
+        "lat": -8764,
+        "lng": 47925,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "23"
+    },
+    {
+        "name": "정근농협",
+        "lat": -6989,
+        "lng": 54428,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "37"
+    },
+    {
+        "name": "야진농협",
+        "lat": -18178,
+        "lng": 33860,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "78"
+    },
+    {
+        "name": "탄성축산농협 본점",
+        "lat": -5350,
+        "lng": 43344,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "40"
+    },
+    {
+        "name": "탄성축산농협 계층리지점",
+        "lat": -14655,
+        "lng": 32044,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "40"
+    },
+    {
+        "name": "탄성축산농협 탄성리지점",
+        "lat": -16717,
+        "lng": 31538,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "51"
+    },
+    {
+        "name": "탄성축산농협 장심리지점",
+        "lat": -9489,
+        "lng": 44913,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "55"
+    },
+    {
+        "name": "탄성축산농협 앵내리지점",
+        "lat": -11632,
+        "lng": 38951,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "18"
+    },
+    {
+        "name": "도변새마을금고 본점",
+        "lat": -11641,
+        "lng": 33826,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "22"
+    },
+    {
+        "name": "도변새마을금고 도변리지점",
+        "lat": -13041,
+        "lng": 33843,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "38"
+    },
+    {
+        "name": "도변새마을금고 도변읍지점",
+        "lat": -12956,
+        "lng": 33233,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "57"
+    },
+    {
+        "name": "서목새마을금고 본점",
+        "lat": -20070,
+        "lng": 33003,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "34"
+    },
+    {
+        "name": "서목새마을금고 서목리지점",
+        "lat": -20511,
+        "lng": 31603,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "51"
+    },
+    {
+        "name": "서목새마을금고 서목읍지점",
+        "lat": -20441,
+        "lng": 31486,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "32"
+    },
+    {
+        "name": "탄성새마을금고 본점",
+        "lat": -5685,
+        "lng": 40586,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "37"
+    },
+    {
+        "name": "탄성새마을금고 소춘리지점",
+        "lat": -21400,
+        "lng": 34205,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "22"
+    },
+    {
+        "name": "고해새마을금고 본점",
+        "lat": -8184,
+        "lng": 44573,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "21"
+    },
+    {
+        "name": "고해새마을금고 이와리지점",
+        "lat": -8065,
+        "lng": 44905,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "36"
+    },
+    {
+        "name": "흑택새마을금고",
+        "lat": -11743,
+        "lng": 29577,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "69"
+    },
+    {
+        "name": "소원새마을금고",
+        "lat": -5966,
+        "lng": 41256,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "33"
+    },
+    {
+        "name": "부시로드코리아 직장새마을금고",
+        "lat": -12919,
+        "lng": 33440,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "39"
+    },
+    {
+        "name": "도변신용협동조합 본점",
+        "lat": -12830,
+        "lng": 33269,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "15"
+    },
+    {
+        "name": "도변신용협동조합 도변리지점",
+        "lat": -13152,
+        "lng": 34181,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "73"
+    },
+    {
+        "name": "도변신용협동조합 도변읍지점",
+        "lat": -13993,
+        "lng": 33665,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "57"
+    },
+    {
+        "name": "안천성택신용협동조합 도변지점",
+        "lat": -14040,
+        "lng": 33500,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "44"
+    },
+    {
+        "name": "안천성택신용협동조합 도변리지점",
+        "lat": -12558,
+        "lng": 34080,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "55"
+    },
+    {
+        "name": "탄성대건신용협동조합",
+        "lat": -17080,
+        "lng": 30862,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "44"
+    },
+    {
+        "name": "고해신용협동조합",
+        "lat": -6616,
+        "lng": 44599,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "27"
+    },
+    {
+        "name": "서목신용협동조합",
+        "lat": -20364,
+        "lng": 31608,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "72"
+    },
+    {
+        "name": "효빈탄성산림조합",
+        "lat": -16331,
+        "lng": 29916,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "34"
+    },
+    {
+        "name": "약산우체국",
+        "lat": -9096,
+        "lng": 60582,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "58"
+    },
+    {
+        "name": "효빈고곡동우체국",
+        "lat": -9504,
+        "lng": 58811,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "39"
+    },
+    {
+        "name": "효빈상수구동우체국",
+        "lat": -7974,
+        "lng": 59977,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈니지리우체국",
+        "lat": -4396,
+        "lng": 63630,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "36"
+    },
+    {
+        "name": "효빈북천동우체국",
+        "lat": -10576,
+        "lng": 60911,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "27"
+    },
+    {
+        "name": "효빈약산동우체국",
+        "lat": -7937,
+        "lng": 57975,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "26"
+    },
+    {
+        "name": "효빈약산2동우체국",
+        "lat": -9586,
+        "lng": 58915,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "54"
+    },
+    {
+        "name": "효빈무기리우체국",
+        "lat": -4624,
+        "lng": 76675,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "59"
+    },
+    {
+        "name": "효빈대염동우체국",
+        "lat": -8897,
+        "lng": 56767,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈지전리우체국",
+        "lat": -4562,
+        "lng": 73280,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "16"
+    },
+    {
+        "name": "효빈마현리우체국",
+        "lat": -6098,
+        "lng": 74424,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "76"
+    },
+    {
+        "name": "한국산업은행 약산동지점",
+        "lat": -8623,
+        "lng": 58890,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "중소기업은행 지전리지점",
+        "lat": -4202,
+        "lng": 72347,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "28"
+    },
+    {
+        "name": "중소기업은행 보녕동지점",
+        "lat": -7366,
+        "lng": 59036,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "63"
+    },
+    {
+        "name": "중소기업은행 마현리지점",
+        "lat": -4933,
+        "lng": 73937,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "17"
+    },
+    {
+        "name": "농협은행 산형동지점",
+        "lat": -9364,
+        "lng": 53662,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "57"
+    },
+    {
+        "name": "농협은행 대염동지점",
+        "lat": -9592,
+        "lng": 55882,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "24"
+    },
+    {
+        "name": "농협은행 장곡리지점",
+        "lat": -5910,
+        "lng": 71649,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "14"
+    },
+    {
+        "name": "농협은행 하내장리지점",
+        "lat": -4846,
+        "lng": 59757,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "45"
+    },
+    {
+        "name": "농협은행 약산동지점",
+        "lat": -9067,
+        "lng": 59103,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "20"
+    },
+    {
+        "name": "국민은행 우부동지점",
+        "lat": -6457,
+        "lng": 60874,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "71"
+    },
+    {
+        "name": "국민은행 하수구동지점",
+        "lat": -9508,
+        "lng": 60623,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "72"
+    },
+    {
+        "name": "국민은행 하내장리지점",
+        "lat": -4722,
+        "lng": 61967,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "15"
+    },
+    {
+        "name": "국민은행 화소읍지점",
+        "lat": -4792,
+        "lng": 62002,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "41"
+    },
+    {
+        "name": "신한은행 후작동지점",
+        "lat": -8215,
+        "lng": 55698,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "38"
+    },
+    {
+        "name": "신한은행 체신동지점",
+        "lat": -8719,
+        "lng": 55966,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "51"
+    },
+    {
+        "name": "우리은행 상수구동지점",
+        "lat": -7578,
+        "lng": 60047,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "25"
+    },
+    {
+        "name": "우리은행 우부동지점",
+        "lat": -7050,
+        "lng": 59963,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "60"
+    },
+    {
+        "name": "하나은행 후작동지점",
+        "lat": -7983,
+        "lng": 56163,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "65"
+    },
+    {
+        "name": "하나은행 고곡동지점",
+        "lat": -9540,
+        "lng": 57183,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈은행 고곡동지점",
+        "lat": -9642,
+        "lng": 57214,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "29"
+    },
+    {
+        "name": "효빈은행 무기리지점",
+        "lat": -5989,
+        "lng": 79585,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "50"
+    },
+    {
+        "name": "효빈은행 요곡리지점",
+        "lat": -3679,
+        "lng": 63016,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "72"
+    },
+    {
+        "name": "효빈은행 서판리지점",
+        "lat": -5196,
+        "lng": 59106,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "56"
+    },
+    {
+        "name": "효빈은행 보녕동지점",
+        "lat": -7803,
+        "lng": 59036,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "40"
+    },
+    {
+        "name": "효빈은행 역석동지점",
+        "lat": -6936,
+        "lng": 57016,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "49"
+    },
+    {
+        "name": "효빈은행 염원동지점",
+        "lat": -10769,
+        "lng": 59700,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "26"
+    },
+    {
+        "name": "덕북은행 마현리지점",
+        "lat": -5111,
+        "lng": 73634,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "25"
+    },
+    {
+        "name": "덕북은행 하내장리지점",
+        "lat": -6098,
+        "lng": 60008,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "20"
+    },
+    {
+        "name": "덕북은행 황천리지점",
+        "lat": -6900,
+        "lng": 69366,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "16"
+    },
+    {
+        "name": "덕북은행 장곡읍지점",
+        "lat": -5755,
+        "lng": 74990,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "43"
+    },
+    {
+        "name": "덕북은행 장곡리지점",
+        "lat": -5632,
+        "lng": 72127,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "39"
+    },
+    {
+        "name": "덕북은행 니지리지점",
+        "lat": -6085,
+        "lng": 62634,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "16"
+    },
+    {
+        "name": "약산농협 본점",
+        "lat": -6947,
+        "lng": 58336,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "47"
+    },
+    {
+        "name": "약산농협 보녕동지점",
+        "lat": -7568,
+        "lng": 59049,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "32"
+    },
+    {
+        "name": "약산농협 약산1동지점",
+        "lat": -7515,
+        "lng": 58949,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "30"
+    },
+    {
+        "name": "약산농협 약산동지점",
+        "lat": -8918,
+        "lng": 59012,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "32"
+    },
+    {
+        "name": "약산농협 하내장리지점",
+        "lat": -5541,
+        "lng": 59857,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "30"
+    },
+    {
+        "name": "약산농협 약산2동지점",
+        "lat": -8945,
+        "lng": 59002,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "28"
+    },
+    {
+        "name": "장곡농협 본점",
+        "lat": -6440,
+        "lng": 73495,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "67"
+    },
+    {
+        "name": "장곡농협 마현리지점",
+        "lat": -5436,
+        "lng": 73876,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "16"
+    },
+    {
+        "name": "장곡농협 입주리지점",
+        "lat": -4489,
+        "lng": 74651,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "38"
+    },
+    {
+        "name": "장곡농협 장곡읍지점",
+        "lat": -4726,
+        "lng": 74571,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "63"
+    },
+    {
+        "name": "화소농협 본점",
+        "lat": -3157,
+        "lng": 66515,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "70"
+    },
+    {
+        "name": "화소농협 하내장리지점",
+        "lat": -5281,
+        "lng": 60423,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "76"
+    },
+    {
+        "name": "화소농협 상내리지점",
+        "lat": -3315,
+        "lng": 66704,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "25"
+    },
+    {
+        "name": "광정농협 본점",
+        "lat": -6555,
+        "lng": 63567,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "33"
+    },
+    {
+        "name": "광정농협 광정리지점",
+        "lat": -7185,
+        "lng": 62289,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "63"
+    },
+    {
+        "name": "홍하농협",
+        "lat": -5078,
+        "lng": 63773,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "18"
+    },
+    {
+        "name": "성가농협",
+        "lat": -2822,
+        "lng": 60972,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "35"
+    },
+    {
+        "name": "근강농협",
+        "lat": -2504,
+        "lng": 70794,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "55"
+    },
+    {
+        "name": "약산축산농협 본점",
+        "lat": -4409,
+        "lng": 63799,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "25"
+    },
+    {
+        "name": "약산축산농협 장곡리지점",
+        "lat": -6459,
+        "lng": 73521,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "73"
+    },
+    {
+        "name": "약산축산농협 보녕동지점",
+        "lat": -6846,
+        "lng": 59078,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "19"
+    },
+    {
+        "name": "약산원예농협",
+        "lat": -4602,
+        "lng": 63522,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "75"
+    },
+    {
+        "name": "역석새마을금고 본점",
+        "lat": -6773,
+        "lng": 57668,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "34"
+    },
+    {
+        "name": "역석새마을금고 역석동지점",
+        "lat": -6721,
+        "lng": 57757,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "35"
+    },
+    {
+        "name": "역석새마을금고 역성동지점",
+        "lat": -6683,
+        "lng": 57777,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "32"
+    },
+    {
+        "name": "역석새마을금고 역성지구지점",
+        "lat": -6732,
+        "lng": 57550,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "67"
+    },
+    {
+        "name": "역석새마을금고 중앙지점",
+        "lat": -6641,
+        "lng": 57540,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "47"
+    },
+    {
+        "name": "장곡새마을금고 본점",
+        "lat": -4432,
+        "lng": 74653,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "43"
+    },
+    {
+        "name": "장곡새마을금고 마현리지점",
+        "lat": -5270,
+        "lng": 74884,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "15"
+    },
+    {
+        "name": "장곡새마을금고 장곡리지점",
+        "lat": -5566,
+        "lng": 72074,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "73"
+    },
+    {
+        "name": "장곡새마을금고 장곡읍지점",
+        "lat": -5458,
+        "lng": 73857,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "28"
+    },
+    {
+        "name": "장곡새마을금고 입주리지점",
+        "lat": -3428,
+        "lng": 75291,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "54"
+    },
+    {
+        "name": "약산새마을금고 본점",
+        "lat": -6563,
+        "lng": 59269,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "21"
+    },
+    {
+        "name": "약산새마을금고 보녕동지점",
+        "lat": -6671,
+        "lng": 59143,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "27"
+    },
+    {
+        "name": "약산새마을금고 요곡리지점",
+        "lat": -3583,
+        "lng": 62846,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "61"
+    },
+    {
+        "name": "약산새마을금고 서판리지점",
+        "lat": -5143,
+        "lng": 59123,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "19"
+    },
+    {
+        "name": "화소새마을금고 본점",
+        "lat": -3164,
+        "lng": 66607,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "24"
+    },
+    {
+        "name": "화소새마을금고 상내리지점",
+        "lat": -3544,
+        "lng": 66850,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "67"
+    },
+    {
+        "name": "화소새마을금고 하내장리지점",
+        "lat": -4744,
+        "lng": 62111,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "45"
+    },
+    {
+        "name": "산형새마을금고 본점",
+        "lat": -8799,
+        "lng": 54529,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "69"
+    },
+    {
+        "name": "산형새마을금고 체신동지점",
+        "lat": -8312,
+        "lng": 55735,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "17"
+    },
+    {
+        "name": "우부새마을금고",
+        "lat": -9589,
+        "lng": 60732,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "15"
+    },
+    {
+        "name": "약산시청새마을금고",
+        "lat": -8886,
+        "lng": 58812,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "74"
+    },
+    {
+        "name": "약산대학교병원새마을금고",
+        "lat": -5436,
+        "lng": 59809,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "62"
+    },
+    {
+        "name": "역석신용협동조합 본점",
+        "lat": -6820,
+        "lng": 57541,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "30"
+    },
+    {
+        "name": "역석신용협동조합 역석동지점",
+        "lat": -6644,
+        "lng": 57682,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "48"
+    },
+    {
+        "name": "약산신용협동조합",
+        "lat": -8901,
+        "lng": 59183,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "26"
+    },
+    {
+        "name": "무기신용협동조합",
+        "lat": -5384,
+        "lng": 77160,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "78"
+    },
+    {
+        "name": "약산시산림조합",
+        "lat": -6973,
+        "lng": 57401,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "69"
+    },
+    {
+        "name": "덕북제일저축은행 약산지점",
+        "lat": -8543,
+        "lng": 58817,
+        "type": "savings_bank",
+        "color": "#00838F",
+        "rating": "4.2",
+        "reviews": "46"
+    },
+    {
+        "name": "천주우체국",
+        "lat": 15876,
+        "lng": 73275,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "31"
+    },
+    {
+        "name": "효빈대수리우체국",
+        "lat": 1982,
+        "lng": 73923,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈청선리우체국",
+        "lat": 10496,
+        "lng": 75789,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "36"
+    },
+    {
+        "name": "효빈과림리우체국",
+        "lat": 4238,
+        "lng": 75271,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "54"
+    },
+    {
+        "name": "효빈하좌동우체국",
+        "lat": 15521,
+        "lng": 74329,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.1",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈빈전동우체국",
+        "lat": 11866,
+        "lng": 76273,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "59"
+    },
+    {
+        "name": "효빈견고동우체국",
+        "lat": 1039,
+        "lng": 76234,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "67"
+    },
+    {
+        "name": "효빈조향리우체국",
+        "lat": 5736,
+        "lng": 75440,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "57"
+    },
+    {
+        "name": "효빈당뢰리우체국",
+        "lat": 16720,
+        "lng": 71265,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "32"
+    },
+    {
+        "name": "효빈지굴동우체국",
+        "lat": 15511,
+        "lng": 76249,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.3",
+        "reviews": "72"
+    },
+    {
+        "name": "효빈유원동우체국",
+        "lat": 13326,
+        "lng": 76156,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "71"
+    },
+    {
+        "name": "효빈평온동우체국",
+        "lat": 14300,
+        "lng": 75240,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.6",
+        "reviews": "44"
+    },
+    {
+        "name": "효빈과림읍우체국",
+        "lat": 4598,
+        "lng": 75430,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.8",
+        "reviews": "69"
+    },
+    {
+        "name": "효빈아이동우체국",
+        "lat": 381,
+        "lng": 75860,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "66"
+    },
+    {
+        "name": "한국산업은행 평온동지점",
+        "lat": 14198,
+        "lng": 75115,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "71"
+    },
+    {
+        "name": "중소기업은행 서팔동지점",
+        "lat": 1654,
+        "lng": 75529,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "59"
+    },
+    {
+        "name": "중소기업은행 평온동지점",
+        "lat": 14120,
+        "lng": 75251,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "39"
+    },
+    {
+        "name": "중소기업은행 관아동2가지점",
+        "lat": 12877,
+        "lng": 76064,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "65"
+    },
+    {
+        "name": "중소기업은행 대뢰동지점",
+        "lat": 11425,
+        "lng": 75877,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "15"
+    },
+    {
+        "name": "중소기업은행 궁하동지점",
+        "lat": -612,
+        "lng": 74820,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "68"
+    },
+    {
+        "name": "중소기업은행 조향리지점",
+        "lat": 4653,
+        "lng": 75211,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "29"
+    },
+    {
+        "name": "농협은행 빈전동지점",
+        "lat": 11754,
+        "lng": 75545,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "15"
+    },
+    {
+        "name": "농협은행 대뢰동지점",
+        "lat": 11520,
+        "lng": 74758,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "44"
+    },
+    {
+        "name": "농협은행 아이동지점",
+        "lat": 343,
+        "lng": 75978,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "67"
+    },
+    {
+        "name": "농협은행 궁하동지점",
+        "lat": -1636,
+        "lng": 74360,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "69"
+    },
+    {
+        "name": "농협은행 궁하2동지점",
+        "lat": -1503,
+        "lng": 75974,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "39"
+    },
+    {
+        "name": "농협은행 관아동2가지점",
+        "lat": 12949,
+        "lng": 76009,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "22"
+    },
+    {
+        "name": "농협은행 궁하1동지점",
+        "lat": -810,
+        "lng": 74220,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "27"
+    },
+    {
+        "name": "국민은행 서팔동지점",
+        "lat": 1676,
+        "lng": 75816,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "14"
+    },
+    {
+        "name": "국민은행 빈전동지점",
+        "lat": 11955,
+        "lng": 75615,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "56"
+    },
+    {
+        "name": "국민은행 서팔2동지점",
+        "lat": 1617,
+        "lng": 74232,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "24"
+    },
+    {
+        "name": "국민은행 궁하동지점",
+        "lat": -2104,
+        "lng": 73892,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "26"
+    },
+    {
+        "name": "하나은행 궁하동지점",
+        "lat": -2078,
+        "lng": 76158,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "70"
+    },
+    {
+        "name": "하나은행 궁하1동지점",
+        "lat": -1433,
+        "lng": 74574,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "15"
+    },
+    {
+        "name": "하나은행 아이동지점",
+        "lat": 347,
+        "lng": 75841,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "20"
+    },
+    {
+        "name": "신한은행 대뢰동지점",
+        "lat": 11093,
+        "lng": 74803,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "60"
+    },
+    {
+        "name": "신한은행 시곡리지점",
+        "lat": 8008,
+        "lng": 74898,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "49"
+    },
+    {
+        "name": "우리은행 녹하동지점",
+        "lat": 16261,
+        "lng": 73397,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.6",
+        "reviews": "50"
+    },
+    {
+        "name": "우리은행 관아동2가지점",
+        "lat": 12811,
+        "lng": 75596,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "48"
+    },
+    {
+        "name": "SC제일은행 관아동2가지점",
+        "lat": 12912,
+        "lng": 75970,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "67"
+    },
+    {
+        "name": "iM뱅크 궁하동지점",
+        "lat": -807,
+        "lng": 74777,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "61"
+    },
+    {
+        "name": "덕북은행 아이동지점",
+        "lat": 170,
+        "lng": 75059,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "52"
+    },
+    {
+        "name": "덕북은행 중앙동1가지점",
+        "lat": 13725,
+        "lng": 74612,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "78"
+    },
+    {
+        "name": "덕북은행 대뢰동지점",
+        "lat": 11257,
+        "lng": 74884,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "59"
+    },
+    {
+        "name": "덕북은행 평온동지점",
+        "lat": 14308,
+        "lng": 75116,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "26"
+    },
+    {
+        "name": "덕북은행 장방동지점",
+        "lat": 13340,
+        "lng": 75484,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.3",
+        "reviews": "54"
+    },
+    {
+        "name": "덕북은행 산취리지점",
+        "lat": 11065,
+        "lng": 73696,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.5",
+        "reviews": "26"
+    },
+    {
+        "name": "덕북은행 유소리지점",
+        "lat": 6981,
+        "lng": 74719,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "42"
+    },
+    {
+        "name": "덕북은행 서팔동지점",
+        "lat": 1342,
+        "lng": 74142,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.7",
+        "reviews": "78"
+    },
+    {
+        "name": "덕북은행 천성동지점",
+        "lat": 14229,
+        "lng": 75279,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "33"
+    },
+    {
+        "name": "효빈은행 유소리지점",
+        "lat": 8682,
+        "lng": 75513,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "23"
+    },
+    {
+        "name": "효빈은행 빈전동지점",
+        "lat": 12633,
+        "lng": 76426,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "41"
+    },
+    {
+        "name": "효빈은행 아이동지점",
+        "lat": 341,
+        "lng": 75880,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.1",
+        "reviews": "31"
+    },
+    {
+        "name": "효빈은행 궁하동지점",
+        "lat": -2021,
+        "lng": 75899,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "58"
+    },
+    {
+        "name": "천성농협 본점",
+        "lat": 12963,
+        "lng": 75770,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "57"
+    },
+    {
+        "name": "천성농협 관아동2가지점",
+        "lat": 13119,
+        "lng": 75926,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "64"
+    },
+    {
+        "name": "천성농협 관아동지점",
+        "lat": 12946,
+        "lng": 75860,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "56"
+    },
+    {
+        "name": "천성농협 천성구청지점",
+        "lat": 12903,
+        "lng": 75857,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "78"
+    },
+    {
+        "name": "천성농협 중앙지점",
+        "lat": 12832,
+        "lng": 75941,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "73"
+    },
+    {
+        "name": "천성농협 역세권지점",
+        "lat": 12957,
+        "lng": 75905,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "64"
+    },
+    {
+        "name": "궁하농협 본점",
+        "lat": -1073,
+        "lng": 76135,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "51"
+    },
+    {
+        "name": "궁하농협 궁하동지점",
+        "lat": -1539,
+        "lng": 75403,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "63"
+    },
+    {
+        "name": "궁하농협 궁하2동지점",
+        "lat": -1861,
+        "lng": 76160,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "38"
+    },
+    {
+        "name": "궁하농협 궁하1동지점",
+        "lat": -787,
+        "lng": 74841,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "78"
+    },
+    {
+        "name": "궁하농협 궁하초교지점",
+        "lat": -2151,
+        "lng": 75967,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "37"
+    },
+    {
+        "name": "천주축산농협 본점",
+        "lat": 13847,
+        "lng": 75687,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "36"
+    },
+    {
+        "name": "천주축산농협 관아동1가지점",
+        "lat": 14027,
+        "lng": 75358,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "58"
+    },
+    {
+        "name": "천주축산농협 궁하동지점",
+        "lat": -1162,
+        "lng": 75858,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "25"
+    },
+    {
+        "name": "천주축산농협 천성동지점",
+        "lat": 14325,
+        "lng": 75959,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "77"
+    },
+    {
+        "name": "덕북양돈농협 본점",
+        "lat": 302,
+        "lng": 74174,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "24"
+    },
+    {
+        "name": "덕북양돈농협 아이동지점",
+        "lat": -159,
+        "lng": 75072,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "67"
+    },
+    {
+        "name": "덕북양돈농협 아이1동지점",
+        "lat": 491,
+        "lng": 75897,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "62"
+    },
+    {
+        "name": "청선농협 본점",
+        "lat": 10540,
+        "lng": 75611,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "18"
+    },
+    {
+        "name": "청선농협 청선리지점",
+        "lat": 10549,
+        "lng": 75768,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "78"
+    },
+    {
+        "name": "청선농협 청선읍지점",
+        "lat": 10664,
+        "lng": 75562,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "47"
+    },
+    {
+        "name": "산취농협 본점",
+        "lat": 10278,
+        "lng": 75083,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "34"
+    },
+    {
+        "name": "산취농협 사야리지점",
+        "lat": 9963,
+        "lng": 74633,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "50"
+    },
+    {
+        "name": "덕북단감원예농협 본점",
+        "lat": 13759,
+        "lng": 75713,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "44"
+    },
+    {
+        "name": "덕북단감원예농협 아이동지점",
+        "lat": -337,
+        "lng": 75119,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "64"
+    },
+    {
+        "name": "효빈화훼농협 천주지점",
+        "lat": 69,
+        "lng": 75189,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "28"
+    },
+    {
+        "name": "효빈화훼농협 아이동지점",
+        "lat": 351,
+        "lng": 76119,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "78"
+    },
+    {
+        "name": "천주원예농협 본점",
+        "lat": 15393,
+        "lng": 74551,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "46"
+    },
+    {
+        "name": "천주원예농협 청선리지점",
+        "lat": 10781,
+        "lng": 76310,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "51"
+    },
+    {
+        "name": "아이농협 본점",
+        "lat": 424,
+        "lng": 75964,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "54"
+    },
+    {
+        "name": "아이농협 아이동지점",
+        "lat": -341,
+        "lng": 75994,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "70"
+    },
+    {
+        "name": "서팔농협 본점",
+        "lat": 1479,
+        "lng": 75026,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "28"
+    },
+    {
+        "name": "서팔농협 서팔동지점",
+        "lat": 1709,
+        "lng": 75930,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "62"
+    },
+    {
+        "name": "과림농협 본점",
+        "lat": 5679,
+        "lng": 75486,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "66"
+    },
+    {
+        "name": "과림농협 조향리지점",
+        "lat": 4521,
+        "lng": 75224,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "31"
+    },
+    {
+        "name": "시곡농협",
+        "lat": 8142,
+        "lng": 74970,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "54"
+    },
+    {
+        "name": "궁하항수협",
+        "lat": -1670,
+        "lng": 75453,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "26"
+    },
+    {
+        "name": "남천주새마을금고",
+        "lat": -1537,
+        "lng": 74417,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "17"
+    },
+    {
+        "name": "새천주새마을금고",
+        "lat": 255,
+        "lng": 75884,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "34"
+    },
+    {
+        "name": "동천주새마을금고",
+        "lat": 12978,
+        "lng": 76080,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "17"
+    },
+    {
+        "name": "서천주새마을금고",
+        "lat": 11592,
+        "lng": 74677,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "29"
+    },
+    {
+        "name": "서팔새마을금고",
+        "lat": 1896,
+        "lng": 75949,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.7",
+        "reviews": "52"
+    },
+    {
+        "name": "관아새마을금고",
+        "lat": 13745,
+        "lng": 75826,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.5",
+        "reviews": "17"
+    },
+    {
+        "name": "대뢰새마을금고",
+        "lat": 11511,
+        "lng": 75466,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "15"
+    },
+    {
+        "name": "덕북제일신용협동조합",
+        "lat": 12920,
+        "lng": 75899,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "66"
+    },
+    {
+        "name": "효빈약사신용협동조합 천주지점",
+        "lat": -820,
+        "lng": 74286,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.8",
+        "reviews": "28"
+    },
+    {
+        "name": "천주시산림조합",
+        "lat": 12992,
+        "lng": 76004,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "23"
+    },
+    {
+        "name": "기도염곡우체국",
+        "lat": 2745,
+        "lng": 15116,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.5",
+        "reviews": "24"
+    },
+    {
+        "name": "효빈염곡리우체국",
+        "lat": 3706,
+        "lng": 15752,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.2",
+        "reviews": "20"
+    },
+    {
+        "name": "효빈염곡읍우체국",
+        "lat": 2611,
+        "lng": 17165,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.7",
+        "reviews": "18"
+    },
+    {
+        "name": "효빈국제공항우체국",
+        "lat": 6788,
+        "lng": 12593,
+        "type": "post_office",
+        "color": "#E65100",
+        "rating": "4.4",
+        "reviews": "40"
+    },
+    {
+        "name": "농협은행 염곡지점",
+        "lat": 3031,
+        "lng": 18058,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.2",
+        "reviews": "55"
+    },
+    {
+        "name": "국민은행 염곡신도시지점",
+        "lat": 1539,
+        "lng": 16178,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "61"
+    },
+    {
+        "name": "덕북은행 염곡지점",
+        "lat": 2845,
+        "lng": 16388,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.4",
+        "reviews": "30"
+    },
+    {
+        "name": "효빈은행 염곡지점",
+        "lat": 1686,
+        "lng": 15406,
+        "type": "bank",
+        "color": "#0288D1",
+        "rating": "4.8",
+        "reviews": "50"
+    },
+    {
+        "name": "염곡농협 본점",
+        "lat": 3901,
+        "lng": 15779,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.3",
+        "reviews": "29"
+    },
+    {
+        "name": "염곡농협 염곡리지점",
+        "lat": 2714,
+        "lng": 17350,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "20"
+    },
+    {
+        "name": "염곡농협 염곡읍지점",
+        "lat": 2629,
+        "lng": 17249,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "52"
+    },
+    {
+        "name": "기도축산농협 염곡지점",
+        "lat": 3753,
+        "lng": 15609,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.6",
+        "reviews": "22"
+    },
+    {
+        "name": "덕북서해수협 염곡지점",
+        "lat": -129,
+        "lng": 15299,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "61"
+    },
+    {
+        "name": "염곡새마을금고 본점",
+        "lat": 3749,
+        "lng": 19139,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "45"
+    },
+    {
+        "name": "염곡새마을금고 주양리지점",
+        "lat": 2777,
+        "lng": 15017,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.1",
+        "reviews": "73"
+    },
+    {
+        "name": "효빈공항새마을금고",
+        "lat": 6938,
+        "lng": 12493,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.4",
+        "reviews": "43"
+    },
+    {
+        "name": "염곡신용협동조합",
+        "lat": 2532,
+        "lng": 17320,
+        "type": "credit_union",
+        "color": "#039BE5",
+        "rating": "4.2",
+        "reviews": "76"
+    }
+,
+
 ];

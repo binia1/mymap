@@ -1459,7 +1459,7 @@ if (catKey === "mental_hospital" || catKey === "toilet" || catKey === "villa" ||
         var popPerStoreConfig = {
             cafe: 2050,          // ☕ 카페
             korean_food: 3600,   // 🍲 한식집
-            chicken: 5200,       // 🍗 치킨전문점
+            chicken: 5000,       // 🍗 치킨전문점
             hospital: 5900,      // 🩺 의원급 병원 (13개 진료과)
             pharmacy: 6800,      // 💊 약국
             japanese_food: 7500, // 🍣 일식·돈카츠·라멘
@@ -1484,8 +1484,8 @@ if (catKey === "mental_hospital" || catKey === "toilet" || catKey === "villa" ||
             catholic: 48000,     // ⛪ 천주교 성당
             temple: 55000,       // ☸️ 불교 사찰
             buffet: 85000,        // 🍣 프리미엄 뷔페 (쿠우쿠우·애슐리퀸즈)
-            villa: 2800,            // 🏘️ 빌라·연립주택 (전체 약 1,450개 - 구도심·주거지 곳곳에 배치)
-            toilet: 9500,           // 🚻 공중화장실 (전체 약 430개 - 역세권·공원·상권 주변 배치)
+            villa: 4000,            // 🏘️ 빌라·연립주택 (전체 약 1,450개 - 구도심·주거지 곳곳에 배치)
+            toilet: 8000,           // 🚻 공중화장실 (전체 약 430개 - 역세권·공원·상권 주변 배치)
             parking: 18000,         // 🅿️ 공영·환승주차장 (전체 약 230개)
             mental_hospital: 26000  // 🧠 정신건강의학과·마음클리닉 의원 (전체 약 160개)
         };
@@ -1728,5 +1728,311 @@ if (catKey === "mental_hospital" || catKey === "toilet" || catKey === "villa" ||
                 tabData.appendChild(box);
             }
         }, 750);
+    });
+})();
+// =========================================================================
+// 🚨 [완벽 패치] 저평점(1.0~2.4점) 문제 시설 전용 '매운맛 부정 리뷰 & 상세페이지 전수 출력' 엔진
+// - 750ms/900ms 타이밍 덮어쓰기 버그 원천 차단 (영구 고정 훅 적용)
+// - 상세페이지(openDetailWindow) 클릭 시 등록된 리뷰 개수(예: 59개)만큼 100% 실제 생성!
+// - 별점 1.0점이면 2.0점짜리 섞이지 않고 전원 ★☆☆☆☆ (1.0점)으로 칼같이 통일!
+// =========================================================================
+(function() {
+    var angryReviewers = [
+        { nick: "약맥동주민대표", badge: "인근 거주자", avatarBg: "#c62828" },
+        { nick: "중구소음피해자", badge: "지역 주민", avatarBg: "#b71c1c" },
+        { nick: "효빈시청민원인", badge: "실방문자", avatarBg: "#d32f2f" },
+        { nick: "고도동토박이", badge: "동네 이웃", avatarBg: "#455a64" },
+        { nick: "암신길거주자", badge: "피해 주민", avatarBg: "#37474f" },
+        { nick: "상식이통하는사회", badge: "효빈시민 인증", avatarBg: "#1a237e" },
+        { nick: "불법주차신고맨", badge: "안전신문고단골", avatarBg: "#e65100" },
+        { nick: "잠좀자자제발", badge: "인근 주민", avatarBg: "#6a1b9a" },
+        { nick: "팩트폭격기", badge: "프로리뷰어", avatarBg: "#263238" },
+        { nick: "중앙동직장인", badge: "실방문자", avatarBg: "#00695c" },
+        { nick: "탈출은지능순", badge: "경험자 인증", avatarBg: "#ad1457" },
+        { nick: "정의봉마렵다", badge: "동네 주민", avatarBg: "#4e342e" },
+        { nick: "내조동학부모", badge: "지역 주민", avatarBg: "#283593" },
+        { nick: "유내동자취생", badge: "실거주자", avatarBg: "#0277bd" },
+        { nick: "층간소음보다심함", badge: "이웃 주민", avatarBg: "#bf360c" },
+        { nick: "구청단속요청", badge: "효빈시민", avatarBg: "#33691e" },
+        { nick: "사이비아웃", badge: "클린효빈", avatarBg: "#880e4f" },
+        { nick: "중정동상인", badge: "주변 상인", avatarBg: "#5d4037" },
+        { nick: "조유동지킴이", badge: "로컬가이드", avatarBg: "#00838f" },
+        { nick: "별반개도아까움", badge: "실방문자", avatarBg: "#424242" }
+    ];
+
+    var detailDates = [
+        "방금 전", "18분 전", "1시간 전", "3시간 전", "5시간 전", "어제", "2일 전", "3일 전", "5일 전", "6일 전",
+        "2026.10.28.", "2026.10.25.", "2026.10.21.", "2026.10.19.", "2026.10.15.", "2026.10.12.",
+        "2026.10.08.", "2026.10.04.", "2026.09.29.", "2026.09.23.", "2026.09.18.", "2026.09.11.",
+        "2026.09.05.", "2026.08.28.", "2026.08.20.", "2026.08.14.", "2026.08.02.", "2026.07.25."
+    ];
+
+    function getHash(str) {
+        var h = 2166136261;
+        for (var i = 0; i < str.length; i++) {
+            h ^= str.charCodeAt(i);
+            h = Math.imul(h, 16777619);
+        }
+        return Math.abs(h);
+    }
+
+    function buildNegativeReviewPool(mType, name, customDesc) {
+        var n = (name || "").trim();
+        var desc = (customDesc || "").trim();
+
+        // 1. 교회·종교시설 (type이 normal이어도 이름에 '교회', '성전', '선교', '성당', '절', '암'이 들어가면 무조건 캐치!)
+        if (mType === "church" || mType === "catholic" || mType === "temple" || n.match(/(교회|성전|선교|기도원|성당|사찰)/)) {
+            var churchPool = [
+                "밤낮 가리지 않고 앰프 틀어놓고 고래고래 소리를 질러대서 동네 주민들 노이로제 걸리기 직전입니다. 소음 공해가 도를 넘었어요!",
+                "별 1개 주기도 아깝습니다. 주말마다 골목길 양옆으로 불법 주정차로 길을 다 막아놔서 소방차도 못 들어올 지경입니다.",
+                "정상적인 종교 시설이 아니라 완전히 광신도 집단 아지트 수준입니다. 가족 가혹행위 논란까지 터진 곳인데 아직도 버젓이 영업하네요.",
+                "지나가는 주민들 붙잡고 무례하게 포교하고 위압감 조성하지 마세요. 중구청에 소음 및 도로 무단점유로 민원 넣었습니다.",
+                "목사라는 작자의 언행과 인성이 바닥을 치는 곳입니다. 종교의 탈을 쓰고 동네 분위기 흐리지 말고 제발 타 지역으로 떠나주세요.",
+                "새벽이고 밤이고 마이크로 괴성을 질러대서 창문을 열어놓을 수가 없습니다. 주변 집값 떨어뜨리는 주범 1순위입니다.",
+                "아이들 통학로 근처인데 분위기가 너무 험악하고 기괴해서 애들한테 이 골목으로는 절대 다니지 말라고 교육하고 있습니다.",
+                "신도들끼리 모여서 담배 피우고 길바닥에 침 뱉고 쓰레기 무단투기하는 게 일상입니다. 시민의식이 제로예요.",
+                "헌금 강요와 가스라이팅, 폭언 논란으로 효빈시 전체에서 악명 자자한 곳입니다. 절대 발 들이지 마세요.",
+                "예배를 보는 건지 소음 테러를 하는 건지 구분이 안 갑니다. 방음 공사라도 하든가 경찰 출동이 몇 번째인지 모릅니다.",
+                "자기 가족한테도 가혹행위 일삼는 인간이 무슨 설교를 한다고 모여서 난리인지 이해가 안 갑니다. 사이비나 다름없어요.",
+                "주변 상인들이랑 주민들한테 민폐만 끼치는 최악의 민원 유발 시설입니다. 별 0점 기능이 시급합니다.",
+                "집회 때마다 확성기 데시벨 측정해서 과태료 물려야 합니다. 귀가 따가워서 집에서 쉴 수가 없어요.",
+                "비상식적인 극단주의 선동과 고성방가로 동네 평화를 완전히 망쳐놓은 곳입니다. 하루빨리 폐쇄되길 바랍니다.",
+                "불법 현수막이랑 전단지 좀 그만 붙이세요! 치워도 치워도 전봇대마다 덕지덕지 붙여놔서 미관을 다 해칩니다.",
+                "안에서 무슨 일이 벌어지는지 소름 끼치는 소리가 자주 들립니다. 피해자 더 안 나오게 철저한 조사가 필요합니다.",
+                "주말 아침마다 이중주차 해놓고 연락도 안 받는 신도들 때문에 출근길에 차 못 빼서 지각할 뻔한 게 한두 번이 아닙니다.",
+                "이웃 사랑은커녕 동네 이웃들 피 말리는 민폐 집단입니다. 리뷰 평점 1.0점인 데는 다 명확한 이유가 있습니다.",
+                "효빈광역시 중구의 대표적인 흉물이자 흑역사 같은 공간입니다. 근처 지날 때마다 불쾌지수 폭발합니다.",
+                "소문 듣고 설마 했는데 실제로 근처 지나가 보니 확성기 소리에 욕설 섞인 고함까지 들려서 기겁하고 돌아왔습니다."
+            ];
+
+            if (desc.includes("조광훈") || desc.includes("가혹행위") || desc.includes("목사") || n.includes("부활제일")) {
+                churchPool.unshift(
+                    "자기 친딸한테까지 가혹행위 저지른 목사가 운영하는 곳이라니 소름이 돋습니다. 당장 문 닫아야 마땅합니다!",
+                    "조광훈 목사와 추종자들이 모여서 매일같이 고성방가와 광기 어린 집회를 벌이는 통에 동네가 쑥대밭입니다.",
+                    "가족 학대 및 가혹행위 전력으로 뉴스에 오르내린 인물의 아지트입니다. 절대 현혹되지 마세요!"
+                );
+            }
+            return churchPool;
+        }
+
+        // 2. 저평점 아파트 / 빌라 / 오피스텔
+        if (mType === "apartment" || mType === "public_apt" || mType === "officetel" || mType === "villa" || n.match(/(아파트|빌라|오피스텔|아르티엠)/)) {
+            return [
+                "외지인한테 바가지 씌우고 텃세 부리는 걸로 악명 높은 단지입니다. 계약 전에 무조건 걸러야 해요.",
+                "주차 전쟁에 층간소음도 심각한데 입주자 대표회의 텃세까지 장난 아닙니다. 절대 비추합니다. 👎",
+                "집값 담합이랑 허위 매물 장난질이 너무 심해요. 부동산 사기 안 당하게 진짜 조심하세요!",
+                "단지 분위기 자체가 너무 폐쇄적이고 배타적입니다. 별 1개 주기도 아까운 수준이에요.",
+                "관리비 내역도 불투명하고 시설 노후화도 방치되어 있습니다. 이사 오실 분들 다시 생각해보세요.",
+                "이중주차 밀다가 남의 차 긁어놓고 적반하장으로 화내는 주민들 때문에 스트레스받아서 이사 갑니다.",
+                "배관 노후화로 녹물 나오고 겨울엔 외풍이 심한데 하자 보수 요청해도 감감무소식입니다.",
+                "복도랑 계단에서 담배 피우는 몰상식한 사람들 때문에 환기도 못 시킵니다. 관리가 전혀 안 돼요.",
+                "외부 차량 단속한다면서 정작 입주민 지인 차량은 봐주고 기준이 고무줄입니다. 최악의 관리실!",
+                "주변 시세보다 터무니없이 부풀려놓고 호가 담합하는 현수막 보면 기가 찹니다."
+            ];
+        }
+
+        // 3. 기타 저평점 시설
+        return [
+            "솔직히 너무 실망했습니다. 돈과 시간이 아깝다는 생각밖에 안 들어요. 절대 추천하지 않습니다. 👎",
+            "불친절의 끝판왕입니다. 손님이 들어와도 본체만체하고 응대 태도가 정말 불쾌했어요.",
+            "위생 상태와 시설 관리가 엉망진창입니다. 왜 평점이 1점대인지 직접 겪어보니 단번에 이해되네요.",
+            "가격 대비 퀄리티가 최악이고 소비자 기만하는 영업 방식 때문에 다시는 방문할 일이 없을 것 같습니다.",
+            "민원이 이렇게 많이 쌓이는데도 개선할 의지가 전혀 없어 보입니다. 방문 전 리뷰 꼭 확인하세요.",
+            "환불이나 컴플레인 응대 과정에서 고압적인 태도를 보여서 기분만 상하고 나왔습니다.",
+            "별점 1점도 아깝습니다. 근처에 훨씬 정상적이고 친절한 곳들 많으니 다른 곳 가세요.",
+            "과장 광고에 속아서 갔다가 큰코다쳤습니다. 지역 주민들은 다 알고 거르는 곳입니다.",
+            "주변 도로 무단 점유와 소음으로 인근 주민들에게도 원성이 자자한 곳입니다.",
+            "기본적인 매너와 서비스 마인드부터 다시 갖추셔야 할 것 같습니다. 최악의 경험이었습니다."
+        ];
+    }
+
+    // 실제 부정 리뷰 리스트(최대 60개) 생성 핵심 함수
+    function createNegativeReviewList(score, type, name, customDesc, targetCount) {
+        var mType = type || (typeof classify100Category === 'function' ? classify100Category(name) : 'normal');
+        var pool = buildNegativeReviewPool(mType, name, customDesc);
+        var h = getHash(name || "bad_place");
+
+        // allLandmarks나 myLandmarks에서 실제 등록된 리뷰 개수 조회
+        var foundItem = (typeof myLandmarks !== 'undefined' && myLandmarks.find(m => m.name === name)) ||
+                        (typeof allLandmarks !== 'undefined' && allLandmarks.find(m => m.name === name));
+        var actualReviews = targetCount || (foundItem && foundItem.reviews ? parseInt(foundItem.reviews, 10) : 0) || ((name ? name.length : 5) * 9 + 5);
+        var renderLimit = Math.min(Math.max(actualReviews, 10), 65);
+
+        var resultList = [];
+        var exactScore = Math.max(1.0, Math.min(5.0, parseFloat(score) || 1.0));
+
+        // 1번 베스트 경고 리뷰: 사용자가 직접 적은 desc가 있으면 최상단 박제!
+        if (customDesc && customDesc.trim() !== "") {
+            var firstStar = Math.max(1, Math.min(5, Math.round(exactScore)));
+            resultList.push({
+                nick: "효빈광역시 시민",
+                badge: "🚨 베스트 경고 리뷰",
+                avatarBg: "#d32f2f",
+                star: firstStar,
+                scoreTxt: exactScore.toFixed(1),
+                date: "최근 작성",
+                text: customDesc.trim(),
+                likes: (h % 80) + 95
+            });
+        }
+
+        var suffixes = [
+            "",
+            " 진짜 별 1개도 아깝습니다.",
+            " 동네 주민으로서 하루빨리 해결되었으면 좋겠습니다.",
+            " 구청과 경찰서에 지속적으로 민원 넣는 중입니다.",
+            " 평점 1점대인 곳은 거르는 게 답입니다.",
+            " 제발 남들에게 피해 주지 말고 사세요.",
+            " 겪어본 사람만 이 고통을 압니다.",
+            " 왜 아직도 버젓이 운영하는지 이해할 수가 없네요."
+        ];
+
+        var needed = renderLimit - resultList.length;
+        for (var i = 0; i < needed; i++) {
+            var rObj = angryReviewers[(h + i * 3) % angryReviewers.length];
+            var baseTxt = pool[(h + i) % pool.length];
+            var sfx = (i >= pool.length) ? suffixes[(h + Math.floor(i / pool.length) + i) % suffixes.length] : "";
+
+            // ★ 핵심: 평균 별점(exactScore)이 1.0이면 100% 전원 1점(★☆☆☆☆)!
+            // 1.2점이면 80%는 1점, 20%는 2점으로 수학적으로 정확히 배분!
+            var floorStar = Math.max(1, Math.floor(exactScore));
+            var ceilStar = Math.min(5, Math.ceil(exactScore));
+            var frac = exactScore - floorStar;
+            var indivStar = (frac > 0.01 && ((i * 3) % 10) / 10 < frac) ? ceilStar : floorStar;
+
+            var dateStr = (i < detailDates.length)
+                ? detailDates[i]
+                : `2026.0${Math.max(1, 7 - Math.floor(i / 8))}.${String(28 - (i % 20)).padStart(2, '0')}.`;
+
+            resultList.push({
+                nick: rObj.nick + (i >= angryReviewers.length ? String(Math.floor(i / angryReviewers.length) + 1) : ""),
+                badge: rObj.badge,
+                avatarBg: rObj.avatarBg,
+                star: indivStar,
+                scoreTxt: indivStar.toFixed(1),
+                date: dateStr,
+                text: baseTxt + sfx,
+                likes: Math.max(3, 78 - i + ((h + i) % 12))
+            });
+        }
+
+        return resultList;
+    }
+
+    // ★ 어떤 스크립트가 나중에 로드되든 절대 덮어쓰이지 않도록 훅(Hook) 설치 함수!
+    function lockNegativeReviewEngine() {
+        var currentGenMulti = window.generateMultipleReviews;
+        if (currentGenMulti && currentGenMulti._isNegHooked) return;
+
+        var wrappedFn = function(ratingScore, type, name, customDesc, targetReviewCount) {
+            var score = parseFloat(ratingScore);
+            if (!isNaN(score) && score < 2.5) {
+                return createNegativeReviewList(score, type, name, customDesc, targetReviewCount);
+            }
+            if (typeof currentGenMulti === 'function') {
+                return currentGenMulti(ratingScore, type, name, customDesc);
+            }
+            return [];
+        };
+        wrappedFn._isNegHooked = true;
+        window.generateMultipleReviews = wrappedFn;
+
+        // 상세페이지(openDetailWindow) 클릭 시에도 무조건 실제 리뷰 개수(data.reviews)가 전달되도록 래핑!
+        if (typeof window.openDetailWindow === 'function' && !window.openDetailWindow._isNegHooked) {
+            var origOpenDetail = window.openDetailWindow;
+            var wrappedDetail = function(encodedData) {
+                try {
+                    var data = JSON.parse(decodeURIComponent(encodedData));
+                    // 만약 myLandmarks나 allLandmarks에 최신 수정본이 있으면 그 별점·리뷰수·설명을 최우선 반영!
+                    var latestItem = (typeof myLandmarks !== 'undefined' && myLandmarks.find(m => m.name === data.name)) ||
+                                     (typeof allLandmarks !== 'undefined' && allLandmarks.find(m => m.name === data.name));
+                    if (latestItem) {
+                        if (latestItem.rating !== undefined) data.rating = latestItem.rating;
+                        if (latestItem.reviews !== undefined) data.reviews = latestItem.reviews;
+                        if (latestItem.desc !== undefined) data.desc = latestItem.desc;
+                        if (latestItem.type !== undefined) data.type = latestItem.type;
+                        encodedData = encodeURIComponent(JSON.stringify(data));
+                    }
+                } catch (e) {}
+                origOpenDetail(encodedData);
+            };
+            wrappedDetail._isNegHooked = true;
+            window.openDetailWindow = wrappedDetail;
+        }
+    }
+
+    // 즉시 1회 실행 + 500ms, 1000ms, 1600ms에 재실행하여 다른 스크립트의 덮어쓰기를 완벽 제압!
+    lockNegativeReviewEngine();
+    setTimeout(lockNegativeReviewEngine, 500);
+    setTimeout(lockNegativeReviewEngine, 1000);
+    setTimeout(lockNegativeReviewEngine, 1600);
+
+    // 팝업이 열릴 때마다 실시간으로 부정 리뷰 프리뷰 박스 및 상세페이지 링크 데이터 동기화!
+    map.on('popupopen', function(e) {
+        lockNegativeReviewEngine();
+        var popup = e.popup;
+        if (!popup || !popup.getElement()) return;
+        var el = popup.getElement();
+
+        var contentHtml = popup.getContent() || "";
+        if (typeof contentHtml !== 'string') return;
+
+        var editMatch = contentHtml.match(/openPlaceEditModal\('([^']+)',\s*([-\d.]+),\s*([-\d.]+)/);
+        if (!editMatch) return;
+
+        var targetName = editMatch[1];
+        var tLat = parseFloat(editMatch[2]);
+        var tLng = parseFloat(editMatch[3]);
+
+        var item = (typeof myLandmarks !== 'undefined' && myLandmarks.find(m => m.name === targetName && Math.abs(m.lat - tLat) <= 5)) ||
+                   (typeof allLandmarks !== 'undefined' && allLandmarks.find(m => m.name === targetName && Math.abs(m.lat - tLat) <= 5));
+        if (!item) return;
+
+        var score = parseFloat(item.rating);
+        var revCnt = parseInt(item.reviews, 10) || ((targetName.length * 9) + 5);
+
+        // 1) 팝업 내 '(XX건)'을 실제 리뷰 수(revCnt)로 통일
+        el.querySelectorAll('span').forEach(function(sp) {
+            if (sp.textContent && sp.textContent.match(/^\(\d+건\)$/)) {
+                sp.textContent = `(${revCnt}건)`;
+            }
+        });
+
+        // 2) 평점 2.5 미만이면 팝업 내 리뷰 박스를 교회/시설 맞춤 매운맛 성토 리뷰로 즉시 교체!
+        if (!isNaN(score) && score < 2.5) {
+            var reviewDivs = Array.from(el.querySelectorAll('div')).filter(function(d) {
+                return d.innerHTML && (d.innerHTML.includes('💬 <b>방문자 리뷰:</b>') || d.classList.contains('hb-neg-review-upgraded')) && d.children.length <= 8;
+            });
+
+            if (reviewDivs.length > 0) {
+                var targetBox = reviewDivs[reviewDivs.length - 1];
+                targetBox.classList.add('hb-neg-review-upgraded');
+                var negList = createNegativeReviewList(score, item.type, item.name, item.desc, revCnt);
+                var previewItems = negList.slice(0, 6).map(function(rv, idx) {
+                    var stars = "★".repeat(rv.star) + "☆".repeat(5 - rv.star);
+                    return `
+                        <div style="padding:5px 0; ${idx > 0 ? 'border-top:1px dashed #ffcdd2;' : ''}">
+                            <div style="display:flex; justify-content:space-between; font-size:10.5px; color:#b71c1c; font-weight:bold; margin-bottom:2px;">
+                                <span>👤 ${rv.nick} <span style="color:#ff1744;">${stars} (${rv.scoreTxt})</span></span>
+                                <span>👍 ${rv.likes} · ${rv.date}</span>
+                            </div>
+                            <div style="font-size:11.5px; color:#222; line-height:1.4;">${rv.text}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                targetBox.style.cssText = 'margin-top:6px; background:#ffebee; border:1.5px solid #ef5350; padding:7px 9px; border-radius:6px; color:#222; max-height:140px; overflow-y:auto;';
+                targetBox.innerHTML = `
+                    <div style="font-size:11.5px; font-weight:900; color:#c62828; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                        <span>🚨 시민 주의/성토 리뷰 (${revCnt}건 전체 평균 ★${score.toFixed(1)})</span>
+                        <span style="font-size:10px; background:#c62828; color:#fff; padding:1px 5px; border-radius:3px;">스크롤 ▼</span>
+                    </div>
+                    ${previewItems}
+                    <div style="text-align:center; font-size:10.5px; color:#d32f2f; font-weight:bold; padding-top:4px; border-top:1px solid #ffcdd2;">
+                        ※ 아래 [상세페이지 &gt;] 클릭 시 ${revCnt}개의 부정 리뷰 전체를 볼 수 있습니다.
+                    </div>
+                `;
+            }
+        }
     });
 })();
