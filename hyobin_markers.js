@@ -122098,5 +122098,978 @@ var defaultLandmarksData = [
         "lng": 16499,
         "color": "#039BE5",
         "type": "credit_union"
-    }
+    },
+        {
+        "name": "중수시장",
+        "lat": -5285,
+        "lng": 25409,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "사능시장",
+        "lat": -8323,
+        "lng": 19695,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "사능중앙시장",
+        "lat": -8610,
+        "lng": 18521,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "천왕사시장",
+        "lat": -7332,
+        "lng": 21007,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "고송시장",
+        "lat": -3394,
+        "lng": 16390,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "오내시장",
+        "lat": -7665,
+        "lng": 22836,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "해서시장(신)",
+        "lat": -7759,
+        "lng": 21262,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "중앙시장",
+        "lat": -9797,
+        "lng": 16778,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "조유시장",
+        "lat": -9243,
+        "lng": 17782,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "중구시장",
+        "lat": -9683,
+        "lng": 18833,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "내조시장",
+        "lat": -10058,
+        "lng": 19443,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "덕현시장",
+        "lat": -9987,
+        "lng": 23077,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "효빈역전시장",
+        "lat": -10204,
+        "lng": 20569,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "제왕시장",
+        "lat": -10420,
+        "lng": 22112,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "사가당시장",
+        "lat": -10520,
+        "lng": 22539,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "약맥시장",
+        "lat": -10921,
+        "lng": 15461,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "홍소시장",
+        "lat": -8610,
+        "lng": 21258,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "포제시장",
+        "lat": -9200,
+        "lng": 24532,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "효빈서부시장",
+        "lat": -9988,
+        "lng": 14047,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "고당시장",
+        "lat": -13472,
+        "lng": 11879,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "항동시장",
+        "lat": -9134,
+        "lng": 2978,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "어간시장",
+        "lat": -11060,
+        "lng": 5342,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "월천시장",
+        "lat": -11706,
+        "lng": 12607,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "칠천시장",
+        "lat": -8084,
+        "lng": 17492,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "당선시장",
+        "lat": -7074,
+        "lng": 17336,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "사복시장",
+        "lat": -5905,
+        "lng": 18291,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "과진시장",
+        "lat": -5155,
+        "lng": 16251,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "청덕시장",
+        "lat": -4643,
+        "lng": 15050,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "북성시장",
+        "lat": -8669,
+        "lng": 17751,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "청엽시장",
+        "lat": -11765,
+        "lng": 22878,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "우전시장",
+        "lat": -13064,
+        "lng": 23661,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "마잡시장",
+        "lat": -13248,
+        "lng": 19262,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "비마리시장",
+        "lat": -11955,
+        "lng": 20039,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "와산시장",
+        "lat": -13122,
+        "lng": 22818,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "남부시장",
+        "lat": -12747,
+        "lng": 22503,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "등동시장",
+        "lat": -13120,
+        "lng": 15966,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "입동시장",
+        "lat": -12364,
+        "lng": 16642,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "창전시장",
+        "lat": -13930,
+        "lng": 24393,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "보통시장",
+        "lat": -14353,
+        "lng": 26867,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "칠심시장",
+        "lat": -13324,
+        "lng": 26049,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "칠심서민시장",
+        "lat": -12798,
+        "lng": 25762,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "진백시장",
+        "lat": -11955,
+        "lng": 26823,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "동곡중앙시장",
+        "lat": -14449,
+        "lng": 21270,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "마시시장",
+        "lat": -15014,
+        "lng": 27983,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "안천시장",
+        "lat": -9027,
+        "lng": 31068,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "당가시장",
+        "lat": -8352,
+        "lng": 30673,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "하가시장",
+        "lat": -9569,
+        "lng": 29497,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "안천주공시장",
+        "lat": -9112,
+        "lng": 31263,
+        "color": "#6D4C41",
+        "type": "public_apt"
+    },
+    {
+        "name": "팔망성시장",
+        "lat": -9353,
+        "lng": 32779,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "악부시장",
+        "lat": -9959,
+        "lng": 33317,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "이자시장",
+        "lat": -8322,
+        "lng": 38700,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "도변시장",
+        "lat": -13563,
+        "lng": 33287,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "탄성시장",
+        "lat": -16633,
+        "lng": 33075,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "고해시장",
+        "lat": -7151,
+        "lng": 45099,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "탄성야진시장",
+        "lat": -18604,
+        "lng": 35494,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+    {
+        "name": "도향시장",
+        "lat": -8407,
+        "lng": 50543,
+        "color": "#8D6E63",
+        "type": "trad_market"
+    },
+        {
+        "name": "다이소 평당본점",
+        "lat": -15073,
+        "lng": 8924,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 롯데마트평당점",
+        "lat": -15518,
+        "lng": 9081,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 평당7동점",
+        "lat": -16178,
+        "lng": 8840,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 평당사거리점",
+        "lat": -12873,
+        "lng": 9889,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 남구청점",
+        "lat": -13785,
+        "lng": 9912,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 항동1가점",
+        "lat": -10011,
+        "lng": 4034,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 어간역점",
+        "lat": -10602,
+        "lng": 5317,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 곽산동점",
+        "lat": -17111,
+        "lng": 7644,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 신흥역점",
+        "lat": -12905,
+        "lng": 13691,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효빈역점",
+        "lat": -9826,
+        "lng": 20801,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 동효빈점",
+        "lat": -9524,
+        "lng": 22884,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 덕현본점",
+        "lat": -9998,
+        "lng": 21977,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 동덕현점",
+        "lat": -9887,
+        "lng": 23719,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 덕현7동점",
+        "lat": -9287,
+        "lng": 25035,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 사가당역점",
+        "lat": -10381,
+        "lng": 22292,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효빈고송본점",
+        "lat": -4746,
+        "lng": 18036,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효빈시청점",
+        "lat": -5347,
+        "lng": 18773,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "아트박스 고송점",
+        "lat": -4499,
+        "lng": 17126,
+        "color": "#FF5252",
+        "type": "variety_store",
+        "origName": "다이소 고송점",
+        "hours": "10:00 ~ 23:00 (매월 2·4주 일요일 휴무)",
+        "phone": "",
+        "image": "이미지/다이소 고송점.webp",
+        "desc": "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요.",
+        "rating": "4.8",
+        "reviews": "68"
+    },
+    {
+        "name": "다이소 중수역점",
+        "lat": -6474,
+        "lng": 24788,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 북구청점",
+        "lat": -5740,
+        "lng": 25288,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 남전전자상가점",
+        "lat": -6964,
+        "lng": 25509,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 평안명대점",
+        "lat": -6286,
+        "lng": 23426,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 입희운동장점",
+        "lat": -5789,
+        "lng": 22335,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 천왕사역점",
+        "lat": -7253,
+        "lng": 21236,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 소조점",
+        "lat": -6903,
+        "lng": 19072,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 롯데마트 진희점",
+        "lat": -5198,
+        "lng": 21051,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 오내점",
+        "lat": -8276,
+        "lng": 23465,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 평전점",
+        "lat": -6555,
+        "lng": 28947,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 홈플러스 고송점",
+        "lat": -3489,
+        "lng": 17415,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효빈대점",
+        "lat": -6958,
+        "lng": 17977,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효대병원앞점",
+        "lat": -7997,
+        "lng": 17958,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효빈과기원점",
+        "lat": -6198,
+        "lng": 15511,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 청덕점",
+        "lat": -4710,
+        "lng": 14640,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 당선역점",
+        "lat": -6562,
+        "lng": 18019,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 사복점",
+        "lat": -5828,
+        "lng": 17938,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 롯데마트 과진점",
+        "lat": -5353,
+        "lng": 17051,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 이자본점",
+        "lat": -9131,
+        "lng": 38137,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 이자캠퍼스점",
+        "lat": -7646,
+        "lng": 36493,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 이자역점",
+        "lat": -8173,
+        "lng": 38293,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 당가역점",
+        "lat": -8332,
+        "lng": 29844,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 안천구청점",
+        "lat": -9202,
+        "lng": 31791,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 창건점",
+        "lat": -10206,
+        "lng": 35560,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 성택대악부점",
+        "lat": -8484,
+        "lng": 33347,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 하가점",
+        "lat": -9423,
+        "lng": 29708,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 북택점",
+        "lat": -9384,
+        "lng": 26494,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 청엽구청점",
+        "lat": -11719,
+        "lng": 22370,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 롯데몰 청엽점",
+        "lat": -12385,
+        "lng": 21997,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 안천점",
+        "lat": -8504,
+        "lng": 31053,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 롯데마트 이자점",
+        "lat": -8043,
+        "lng": 37874,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 중앙로본점",
+        "lat": -9907,
+        "lng": 16905,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 조유점",
+        "lat": -9572,
+        "lng": 17909,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효빈성점",
+        "lat": -10141,
+        "lng": 18546,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 신덕점",
+        "lat": -10384,
+        "lng": 19345,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 내조점",
+        "lat": -9764,
+        "lng": 18893,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 이마트 효빈점",
+        "lat": -10677,
+        "lng": 18581,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 창전역점",
+        "lat": -13858,
+        "lng": 24361,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 칠심점",
+        "lat": -12650,
+        "lng": 25935,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 쌍엽중앙점",
+        "lat": -13833,
+        "lng": 22761,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 광정점",
+        "lat": -12789,
+        "lng": 27032,
+        "color": "#FF5252",
+        "type": "variety_store",
+        "origName": "다이소 광점점",
+        "hours": "10:00 ~ 23:00 (매월 2·4주 일요일 휴무)",
+        "phone": "",
+        "image": "이미지/다이소 광점점.webp",
+        "desc": "별 5개가 전혀 아깝지 않은 곳입니다. 아주 만족스러운 경험이었어요.",
+        "rating": "4.8",
+        "reviews": "68"
+    },
+    {
+        "name": "다이소 진백역점",
+        "lat": -11980,
+        "lng": 26570,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 동곡점",
+        "lat": -14160,
+        "lng": 21258,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 팔조점",
+        "lat": -15650,
+        "lng": 21883,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 이마트 창전점",
+        "lat": -14149,
+        "lng": 26195,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효빈청엽본점",
+        "lat": -11978,
+        "lng": 23386,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 우전역점",
+        "lat": -12854,
+        "lng": 23776,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 마잡점",
+        "lat": -13847,
+        "lng": 19822,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 우택점",
+        "lat": -10153,
+        "lng": 25604,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 비마사거리점",
+        "lat": -12557,
+        "lng": 20933,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 동리점",
+        "lat": -11451,
+        "lng": 19077,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 효빈동신도시점",
+        "lat": -11527,
+        "lng": 17063,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 등동점",
+        "lat": -12667,
+        "lng": 16964,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 홈플러스 사노점",
+        "lat": -11061,
+        "lng": 21488,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 흑택점",
+        "lat": -11864,
+        "lng": 29708,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 탄성점",
+        "lat": -16535,
+        "lng": 30885,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 탄성군청점",
+        "lat": -16849,
+        "lng": 32874,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 서목점",
+        "lat": -20202,
+        "lng": 31711,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 도변점",
+        "lat": -13385,
+        "lng": 33683,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 요우점",
+        "lat": -11963,
+        "lng": 32970,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 앵내점",
+        "lat": -11793,
+        "lng": 37835,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 소원점",
+        "lat": -6130,
+        "lng": 40407,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
+    {
+        "name": "다이소 고해점",
+        "lat": -7999,
+        "lng": 45012,
+        "color": "#FF5252",
+        "type": "variety_store"
+    },
 ];

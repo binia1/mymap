@@ -474,6 +474,7 @@ function classify100Category(name) {
     if (n.match(/(CU|GS25|세븐일레븐|이마트24|이마트 24|미니스톱|스토리웨이)/i) && !n.includes("물류")) {
         return "cvs";
     }
+    if (n.includes("다이소") || n.includes("아트박스") || n.includes("올리브영")) return "variety_store";
 
     // [1순위] 공장·산업시설 선제 방어 ('회주공업'이 '주공'아파트로, '삼성전자 캠퍼스'가 대학교로 오분류되는 현상 원천 차단!)
     if (n.match(/(삼성전자|삼성반도체|LG이노텍|lg 이노텍|SK하이닉스|세미콘|반도체|디스플레이|ASML|램리서치|KLA|칩스|파두|세미파이브)/i) && !n.includes("연수원") && !n.includes("병원") && !n.includes("베스트샵")) {
@@ -619,7 +620,6 @@ function classify100Category(name) {
     if (n.match(/(베스트샵|전자상가|전자랜드|하이마트|일렉트로마트)/)) return "electronics_shop";
     if (n.match(/(SSM|에브리데이|더프레시|롯데슈퍼|노브랜드)/) && !n.includes("버거")) return "ssm";
     if (n.match(/(이마트|홈플러스|롯데마트|하나로마트|빈스마트|마루마트|천조마트|CY마트|즈라스토어|이케아)/)) return "hypermarket";
-    if (n.includes("다이소") || n.includes("아트박스") || n.includes("올리브영")) return "variety_store";
     if (n.match(/(교보문고|교보문교|영풍문고|종로서적|알라딘|아크앤북|예스24|서점)/)) return "bookstore";
     if (n.match(/(수산시장|어시장|회센터)/)) return "fish_market";
     if (n.match(/(도매시장|청과시장|농수산|공판장)/)) return "wholesale_market";
