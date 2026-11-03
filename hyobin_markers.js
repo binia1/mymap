@@ -1178,25 +1178,20 @@ var defaultLandmarksData = [
         "roadAddress": "효빈광역시 북구 법원로41"
     },
     {
+        "origName": "HJ몰 중수점",
         "name": "HJ몰 중수점",
         "lat": -6600,
         "lng": 24348,
         "type": "shopping_mall",
-        "hours": "주말 10:30 ~ 20:30",
+        "hours": "평일 10:30 ~ 22:30 (주말 9:30~22:00)",
         "phone": "079-332-7350",
-        "desc": "대중교통으로 찾아오기도 편하고 내부 관리가 정말 잘 되어 있습니다. 강추합니다!",
-        "rating": "4.8",
-        "reviews": "68",
+        "desc": "카스밍의 성지!, 다양한 볼거리가 있고 쇼핑거리가 있어요!",
+        "rating": "5.0",
+        "reviews": "24",
         "color": "#D81B60",
-        "image": "이미지/HJ몰_중수점.webp",
-        "province": "효빈광역시",
-        "gugun": "북구",
-        "adminDong": "중수4동",
-        "legalDong": "중수동",
-        "eupMyeon": "",
-        "roadAddress": "효빈광역시 북구 효빈로53"
+        "image": "이미지/HJ몰_중수점.webp"
     },
-    {
+        {
         "name": "평안명대학교",
         "lat": -6502,
         "lng": 23196,
